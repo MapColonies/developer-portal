@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapcolonies : Raster Catalog Information (v1.0)</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Mapcolonies</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Cook-Book_1687289909.html">Map Colonies - Cook Book</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Catalog-Information_1687290314.html">Map Colonies - Catalog Information</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Mapcolonies : Raster Catalog Information (v1.0)
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Alex Lebinson</span>, last modified on Feb 24, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <ol><li><p><strong>typename</strong> = '<code>mc:MCRasterRecord</code>'</p></li><li><p><strong>main_namespace </strong>= '<code>http://schema.mapcolonies.com/raster</code>'</p></li><li><p>The <strong>Raster </strong>sub-system Catalog profile fields with information of each of them.</p></li></ol><div class="table-wrap"><table data-layout="default" data-local-id="d7953906-4731-4393-b5e8-4b021690e1c2" class="confluenceTable"><colgroup><col style="width: 178.0px;"/><col style="width: 101.0px;"/><col style="width: 370.0px;"/></colgroup><tbody><tr><td class="confluenceTd"><p style="text-align: center;"><strong>PYCSW Quarriable/XML Element Name</strong></p></td><td class="confluenceTd"><p style="text-align: center;"><strong>Type</strong></p></td><td class="confluenceTd"><p style="text-align: center;"><strong>Description</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productId</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>unique external product id</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productName</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>the product name</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productVersion</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>the product version</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productType</p></td><td class="confluenceTd"><p>enum </p></td><td class="confluenceTd"><p><strong>Valid Values:</strong></p><p>OrthophotoBest / Orthophoto / OrthophotoHistory / RasterMapBest / RasterMap / RasterAidBest / RasterAid / RasterVector / RasterVectorBest</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productSubType</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>Based on values from product_sub_type tab</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:description</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>The blocking rectangle of the product</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:creationDateUTC</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>date of the creation row in catalog.</p><p> supported format: <strong>dd/mm/yyyy</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:updateDateUTC</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>last date the record got and update in catalog.</p><p>supported format: <strong>dd/mm/yyyy</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:imagingTimeBeginUTC</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>old photo date</p><p>supported format: </p><p><strong>dd/mm/yyyy (not later than &quot;End date&quot;)</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:imagingTimeEndUTC</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>newest photo date</p><p>supported format:</p><p><strong>dd/mm/yyyy (not earlier than &quot;Start date&quot;)</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:maxResolutionDeg</p></td><td class="confluenceTd"><p>double</p></td><td class="confluenceTd"><p>record resolution</p><p>double unsigned valid: 0.00000009 to 0.072</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:maxResolutionMeter</p></td><td class="confluenceTd"><p>double</p></td><td class="confluenceTd"><p>double unsigned (not less than min res.) valid: 0.01 to 8000</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:minHorizontalAccuracyCE90</p></td><td class="confluenceTd"><p>double</p></td><td class="confluenceTd"><p>EP90 / CE90 Maximum absolute plane accuracy range in meters</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:sensors</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>List of sensors used as a source for the product</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:layerPolygonParts</p></td><td class="confluenceTd"><p>geojson</p></td><td class="confluenceTd"><p>Polygons of the discrete parts (versions) and the list of layers in the best converted to Geojson</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:footprint</p></td><td class="confluenceTd"><p>geojson</p></td><td class="confluenceTd"><p>Geographical delineation of the product / model trace</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:SRS</p></td><td class="confluenceTd"><p>int</p></td><td class="confluenceTd"><p>Reference System ID (EPSG), ex: 4326 / 3857</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:SRSName</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>Name of reference system</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:region</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>Sector / countries</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:classification</p></td><td class="confluenceTd"><p>enum </p></td><td class="confluenceTd"><p>Product classification / confidentiality</p><p>Valid Values: <a href="Classification_1687879930.html" data-linked-resource-id="1687879930" data-linked-resource-version="1" data-linked-resource-type="page">Classification</a> </p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:producerName</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>Manufacturer / organization that produced / supplied the product</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:RMS</p></td><td class="confluenceTd"><p>double</p></td><td class="confluenceTd"><p>Tollerance, standard deviation in %</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:scale</p></td><td class="confluenceTd"><p>integer</p></td><td class="confluenceTd"><p>valid: 0 to 100000000</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:productBBox</p></td><td class="confluenceTd"><p>text</p></td><td class="confluenceTd"><p>The blocking rectangle of the product</p><p><strong>minX,minY,maxX,maxY</strong></p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:ingestionDate</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>Catalog internal. Default: Now.</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:links</p></td><td class="confluenceTd"><p>text(comma separated)</p></td><td class="confluenceTd"><p>Consume URLS for the product</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:type</p></td><td class="confluenceTd"><p>enum </p></td><td class="confluenceTd"><p>Type of the product</p><p><strong>Valid Values:</strong></p><p> RECORD_RASTER / RECORD_3D / RECORD_DEM</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:insertDate</p></td><td class="confluenceTd"><p>date</p></td><td class="confluenceTd"><p>Catalog internal</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:boundingBox</p></td><td class="confluenceTd"><p>wkt</p></td><td class="confluenceTd"><p>pycsw internal, currently stored footprint in wkt format</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:keywords</p></td><td class="confluenceTd"><p>string</p></td><td class="confluenceTd"><p>free key words text</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:includedInBests</p></td><td class="confluenceTd"><p>text(comma separated)</p></td><td class="confluenceTd"><p>Raster internal, list of best where discrete used</p></td></tr><tr><td data-highlight-colour="#f4f5f7" class="confluenceTd"><p>mc:discretes</p></td><td class="confluenceTd"><p>text(JSON)</p></td><td class="confluenceTd"><p>List of discretes with their order included in BEST</p></td></tr></tbody></table></div><p style="text-align: right;"><a href="Query-Examples_1687290406.html" data-linked-resource-id="1687290406" data-linked-resource-version="22" data-linked-resource-type="page">Go to query examples</a></p>
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Mar 16, 2022 12:17</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

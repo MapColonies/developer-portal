@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapcolonies : WMTS Usage Examples</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Mapcolonies</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Cook-Book_1687289909.html">Map Colonies - Cook Book</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="MapProxy_1687191825.html">MapProxy</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Mapcolonies : WMTS Usage Examples
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Shlomi Koncha</span>, last modified on Feb 16, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <h3 id="WMTSUsageExamples-HowtoconsumeWMTS?"><em><strong>How to consume WMTS ?</strong></em></h3><p>http://localhost:8080/wmts/Ortho_25cm/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png</p><p><strong>TileMatrixSet </strong>- define the grid name of the layer,</p><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p>How to get Grid name? Grid name (<code>TileMatrixSet</code>) can be reached by <strong>GetCapabilities</strong> response:</p></div></div><p>below response shows:</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="680" loading="lazy" src="attachments/1687290094/1688698915.png?width=680" data-image-src="attachments/1687290094/1688698915.png" data-height="329" data-width="1265" data-unresolved-comment-count="0" data-linked-resource-id="1688698915" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="layerExm.png" data-base-url="wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="1687290094" data-linked-resource-container-version="22" data-media-id="95c84565-c72d-4f72-a7ff-32faad3a1477" data-media-type="file"></span><p>we can see from above response the “TileMatrixSet” element that define the supported Grid names of the layer.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;TileMatrixSetLink&gt;
+&lt;TileMatrixSet&gt;MyGridName&lt;/TileMatrixSet&gt;
+&lt;/TileMatrixSetLink&gt;</pre>
+</div></div><p /><p><strong>TileMatrix</strong> - define the zoom level. (Z)</p><p><strong>TileCol</strong> - define the column (X)</p><p><strong>TileRow</strong> - define the row (Y)</p><p><strong>Ortho_25cm </strong>- the name of the layer</p><p><em>request example:</em></p><blockquote><p>http://localhost:8080/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png</p></blockquote><p><em>response:</em></p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image image-center" width="204" loading="lazy" src="attachments/1687290094/1687847029.png?width=204" data-image-src="attachments/1687290094/1687847029.png" data-height="256" data-width="256" data-unresolved-comment-count="0" data-linked-resource-id="1687847029" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="wmts.png" data-base-url="wiki" data-linked-resource-content-type="image/png" data-linked-resource-container-id="1687290094" data-linked-resource-container-version="22" data-media-id="1794a3cc-4013-45db-b350-01de47f3d0a1" data-media-type="file"></span><p /><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><strong>Do not change the “/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png” with custom values while consuming in applications - see examples below.</strong></p><p><strong>MapProxy  automatically relates to those keys and parse the values “on the fly”.</strong></p></div></div><hr/><p />
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687290094/1687847029.png">wmts.png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687290094/1688305798.png">image (2).png</a> (image/png)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687290094/1688698915.png">layerExm.png</a> (image/png)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Mar 16, 2022 12:17</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapcolonies : CSW Examples</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Mapcolonies</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Cook-Book_1687289909.html">Map Colonies - Cook Book</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="1687191952.html">Catalog Service for the Web (CSW)</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Mapcolonies : CSW Examples
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Shlomi Koncha</span>, last modified on Feb 09, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The following examples will help you understand how to interface with CSW based catalog</p><hr/><h2 id="CSWExamples-GetCapabilities">GetCapabilities</h2><p><a href="https://geonetwork-opensource.org/manuals/2.10.4/eng/developer/xml_services/csw_services.html#getcapabilities" class="external-link" rel="nofollow"><em><strong>see source</strong></em></a></p><p>GetCapabilities operation allows CSW clients to retrieve service metadata from a server. The response to GetCapabilities request is an XML document containing service metadata about the server.</p><p /><p><em><strong>Requests example:</strong></em></p><p>GET request </p><h3 id="CSWExamples-http://localhost:8080/csw?request=GetCapabilities&amp;service=CSW"> <code>http://localhost:8080/csw?request=GetCapabilities&amp;service=CSW</code> </h3><p> download example of XML response file:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/1687879843/1687879878.xml" data-nice-type="XML File" data-file-src="/wiki/download/attachments/1687879843/GetCapabilitiesResponse.xml?version=1&amp;modificationDate=1644412875717&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="1687879878" data-linked-resource-type="attachment" data-linked-resource-container-id="1687879843" data-linked-resource-default-alias="GetCapabilitiesResponse.xml" data-mime-type="text/xml" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="311031ac-6611-40fa-9d1d-ec6ad12d8cfe" data-media-type="file"><img src="attachments/thumbnails/1687879843/1687879878" height="250"/></a></span></p><hr/><h2 id="CSWExamples-DescribeRecord">DescribeRecord</h2><p><a href="https://geonetwork-opensource.org/manuals/2.10.4/eng/developer/xml_services/csw_services.html#describerecord" class="external-link" rel="nofollow"><em><strong>see source</strong></em></a></p><p>DescribeRecord operation allows a client to discover elements of the information model supported by the target catalogue service. The operation allows some or all of the information model to be described.</p><p /><p><em><strong>Requests example:</strong></em></p><p>GET request </p><h3 id="CSWExamples-http://localhost:8080/csw?request=DescribeRecord&amp;service=CSW&amp;version=2.0.2&amp;outputFormat=application/xml&amp;schemaLanguage=http://www.w3.org/XML/Schema"><code>http://localhost:8080/csw?request=DescribeRecord&amp;service=CSW&amp;version=2.0.2&amp;outputFormat=application/xml&amp;schemaLanguage=http://www.w3.org/XML/Schema</code></h3><p>download example of XML response file:</p><p class="media-group"><span class="confluence-embedded-file-wrapper"><a class="confluence-embedded-file" href="attachments/1687879843/1687290283.xml" data-nice-type="XML File" data-file-src="/wiki/download/attachments/1687879843/DescribeRecordResponse.xml?version=1&amp;modificationDate=1644413728629&amp;cacheVersion=1&amp;api=v2" data-linked-resource-id="1687290283" data-linked-resource-type="attachment" data-linked-resource-container-id="1687879843" data-linked-resource-default-alias="DescribeRecordResponse.xml" data-mime-type="text/xml" data-has-thumbnail="true" data-linked-resource-version="1" data-media-id="a06a2421-4f1c-42fb-bc15-16bbdf63aa00" data-media-type="file"><img src="attachments/thumbnails/1687879843/1687290283" height="250"/></a></span></p><hr/><h2 id="CSWExamples-GetRecords">GetRecords</h2><p><a href="https://geonetwork-opensource.org/manuals/2.10.4/eng/developer/xml_services/csw_services.html#getrecords" class="external-link" rel="nofollow"><em><strong>see source</strong></em></a></p><p>GetRecords request allows to query the catalogue metadata records specifying a query in OCG Filter or CQL languages.</p><p /><p><em><strong>Requests example:</strong></em></p><p>GET request </p><h3 id="CSWExamples-http://localhost:8080/csw?request=GetRecordById&amp;service=CSW&amp;version=2.0.2&amp;elementSetName=full&amp;id=413d8ff2-ef27-4a5f-8cf6-964a807745d1"><code>http://localhost:8080/csw?request=GetRecordById&amp;service=CSW&amp;version=2.0.2&amp;elementSetName=full&amp;id=413d8ff2-ef27-4a5f-8cf6-964a807745d1</code></h3><p>POST request</p><p><strong>url:</strong></p><p><code>http://localhost:8080/csw</code></p><p><strong>body:</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; version=&quot;2.0.2&quot;&gt;
+  &lt;csw:Query typeNames=&quot;csw:Record&quot;&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot; xmlns:gml=&quot;http://www.opengis.net/gml&quot;&gt;
+        &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escape=&quot;\\&quot;&gt;
+          &lt;PropertyName&gt;AnyText&lt;/PropertyName&gt;
+          &lt;Literal&gt;%africa%&lt;/Literal&gt;
+        &lt;/PropertyIsLike&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><hr/><p>See more API’s for additional Operations - <a href="https://geonetwork-opensource.org/manuals/2.10.4/eng/developer/xml_services/csw_services.html#getrecords" data-card-appearance="inline" class="external-link" rel="nofollow">https://geonetwork-opensource.org/manuals/2.10.4/eng/developer/xml_services/csw_services.html#getrecords</a> </p>
+                    </div>
+
+                                        <div class="pageSection group">
+                        <div class="pageSectionHeader">
+                            <h2 id="attachments" class="pageSectionTitle">Attachments:</h2>
+                        </div>
+
+                        <div class="greybox" align="left">
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687879843/1687879878.xml">GetCapabilitiesResponse.xml</a> (text/xml)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687879843/1687879890.xml">DescribeRecord.xml</a> (text/xml)
+                                <br/>
+                                                            <img src="images/icons/bullet_blue.gif" height="8" width="8" alt=""/>
+                                <a href="attachments/1687879843/1687290283.xml">DescribeRecordResponse.xml</a> (text/xml)
+                                <br/>
+                                                    </div>
+                    </div>
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Mar 16, 2022 12:17</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
