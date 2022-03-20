@@ -17,7 +17,7 @@
     "url": "git+https://github.com/MapColonies/cookbook.git"
   },
   "author": "MapColonies",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/MapColonies/cookbook/issues"
   },
