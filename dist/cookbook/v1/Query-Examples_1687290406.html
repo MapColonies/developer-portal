@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mapcolonies : Query Examples</title>
+        <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+
+    <body class="theme-default aui-theme-default">
+        <div id="page">
+            <div id="main" class="aui-page-panel">
+                <div id="main-header">
+                    <div id="breadcrumb-section">
+                        <ol id="breadcrumbs">
+                            <li class="first">
+                                <span><a href="index.html">Mapcolonies</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Cook-Book_1687289909.html">Map Colonies - Cook Book</a></span>
+                            </li>
+                                                    <li>
+                                <span><a href="Map-Colonies---Catalog-Information_1687290314.html">Map Colonies - Catalog Information</a></span>
+                            </li>
+                                                </ol>
+                    </div>
+                    <h1 id="title-heading" class="pagetitle">
+                                                <span id="title-text">
+                            Mapcolonies : Query Examples
+                        </span>
+                    </h1>
+                </div>
+
+                <div id="content" class="view">
+                    <div class="page-metadata">
+                        
+        
+    
+        
+    
+        
+        
+            Created by <span class='author'> Shlomi Koncha</span>, last modified by <span class='editor'> shimonc1</span> on Mar 08, 2022
+                        </div>
+                    <div id="main-content" class="wiki-content group">
+                    <p>The following section will help you understand how to interface with our Catalog.</p><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><strong>Below examples will be includes</strong><span style="color: rgb(7,71,166);"><strong> “http://localhost:8080”</strong></span><span style="color: rgb(76,154,255);"><strong> </strong></span><strong>as host url </strong></p><p><strong>Do not forget to change the url to our real host url</strong></p><p><strong>[SUB-SYSTEM-TYPENAME]</strong>:</p><ul><li><p><code>mc:MCRasterRecord</code></p></li><li><p><code>mc:MC3DRecord</code></p></li><li><p><code>mc:MCDMERecord</code></p></li></ul><p><strong>[SUB-SYSTEM-MAIN-NAMESPACE]</strong>:</p><ul><li><p><code>http://schema.mapcolonies.com/raster</code></p></li><li><p><code>http://schema.mapcolonies.com/3d</code></p></li><li><p><code>http://schema.mapcolonies.com/dem</code><br/></p></li></ul></div></div><hr/><h3 id="QueryExamples-HowtoGetservermetadatawith“GetCapabilities”request"><code>How to Get server metadata with “GetCapabilities” request</code></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">GET request
+http://localhost:8080/csw?request=GetCapabilities&amp;service=CSW</pre>
+</div></div><hr/><h3 id="QueryExamples-Howtoquerythecatalogwiththedesiredpropertynamewithanabsolutevalue"> <code>How to query the catalog with the desired property name with an absolute value</code></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">POST request
+
+Url:
+http://localhost:8080/csw
+
+Content-type:
+application/xml
+
+data (body):
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;1&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt;
+        &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escapeChar=&quot;\\&quot;&gt;
+          
+          &lt;!-- ****** INSERT PROFILE FIELD NAME START ********************** --&gt;
+          &lt;PropertyName&gt;mc:productId&lt;/PropertyName&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD NAME END ********************** --&gt;
+          
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE START ********************** --&gt;
+          &lt;Literal&gt;MAS_6_ORT&lt;/Literal&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE END ********************** --&gt;
+          
+        &lt;/PropertyIsLike&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>above example declare a query for <code>mc:productId</code> field in catalog and response with the full metadata of <code>MAS_6_ORT</code> match result.</p><p><code>maxRecords</code> attribute in <code>&lt;csw:GetRecords&gt;&lt;/csw:GetRecords&gt;</code>element is equals to “1” means response will contain only 1 result.</p><p><code>startPosition</code>  will display records from all result start from the first one to the <code>maxRecords</code> value</p><p> (1 to 1 in example).</p><hr/><h3 id="QueryExamples-Howtoquerythecatalogforspecificpropertytobelikesuppliedwild-cardvalue"> <code>How to query the catalog for specific property to be like supplied wild-card value</code></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">POST request
+
+Url:
+http://localhost:8080/csw
+
+Content-type:
+application/xml
+
+data (body):
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;5&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt;
+        &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escapeChar=&quot;\\&quot;&gt;
+   
+          &lt;!-- ****** INSERT PROFILE FIELD NAME START ********************** --&gt;
+          &lt;PropertyName&gt;mc:productId&lt;/PropertyName&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD NAME END ********************** --&gt;
+          
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE START ********************** --&gt;
+          &lt;Literal&gt;%MAS_6_ORT%&lt;/Literal&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE END ********************** --&gt;
+          
+        &lt;/PropertyIsLike&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>pay attention for the <code>%MAS_6_ORT%</code> in <code> &lt;Literal&gt;&lt;/Literal&gt;</code> element, <strong>now contains “%” after and before the value</strong>,</p><p>means pycsw will look for every record that contains <code>MAS_6_ORT</code> value  in <code>mc:productId</code> profile field</p><p><code>maxRecords</code> equals to “5” means response will contain up to 5 results.</p><hr/><h3 id="QueryExamples-Getupto5recordscontainsdesiredproductversion"><code>Get upto 5 records contains desired product version</code></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;5&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt; 
+        &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escapeChar=&quot;\\&quot;&gt;
+   
+          &lt;!-- ****** INSERT PROFILE FIELD NAME START ********************** --&gt;
+          &lt;PropertyName&gt;mc:productVersion&lt;/PropertyName&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD NAME END ********************** --&gt;
+          
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE START ********************** --&gt;
+          &lt;Literal&gt;4.0&lt;/Literal&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE END ********************** --&gt;
+
+        &lt;/PropertyIsLike&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>another familiar example based on previous examples, just in that case we can see</p><p> <code>&lt;PropertyName&gt;&lt;/PropertyName&gt;</code> element contains <code>mc:productVersion</code> means we query catalog records by their product version.</p><p>in this specific example we will get up to 5 records that includes <strong>“productVersion” </strong>of<strong> “4.0” .</strong></p><hr/><h3 id="QueryExamples-Getallrecordsbyingestiondate"><code>Get all records by ingestion date</code></h3><div class="confluence-information-macro confluence-information-macro-information"><span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span><div class="confluence-information-macro-body"><p><strong>ingestion date</strong> = the date that record inserted into the catalog.</p></div></div><p>example with “<strong>Greater Or Equal”</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt; 
+        &lt;PropertyIsGreaterThanOrEqualTo&gt;
+
+          &lt;!-- ****** INSERT PROFILE FIELD NAME START ********************** --&gt;
+          &lt;PropertyName&gt;mc:ingestionDate&lt;/PropertyName&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD NAME END ********************** --&gt;
+          
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE START ********************** --&gt;
+          &lt;Literal&gt;2020-09-03T00:00:01Z&lt;/Literal&gt;
+          &lt;!-- ****** INSERT PROFILE FIELD VALUE END ********************** --&gt;
+     
+        &lt;/PropertyIsGreaterThanOrEqualTo&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>response will display up to 10 records (<code>maxRecords=&quot;10&quot;</code>) that thier ingestion date is Greater or Equal (<code>&lt;PropertyIsGreaterThanOrEqualTo&gt;&lt;/&lt;PropertyIsGreaterThanOrEqualTo&gt;</code>) to the record ingestion date in catalog.</p><p>another example with <strong>“Less or Equal”</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;10&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt; 
+        &lt;PropertyIsLessThanOrEqualTo&gt;
+          &lt;PropertyName&gt;mc:ingestionDate&lt;/PropertyName&gt;
+          &lt;Literal&gt;2022-09-03T00:00:01Z&lt;/Literal&gt;
+        &lt;/PropertyIsLessThanOrEqualTo&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><hr/><h3 id="QueryExamples-HowtoquerywithMultiParameters"><code>How to query with Multi Parameters</code></h3><p>we can use &lt;And&gt;&lt;/And&gt; element to includes 2 or more conditions for Query catalog by multi fields:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;10&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt;
+      &lt;And&gt;        
+        &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escapeChar=&quot;\\&quot;&gt;
+          &lt;PropertyName&gt;mc:productVersion&lt;/PropertyName&gt;
+          &lt;Literal&gt;4.0&lt;/Literal&gt;
+        &lt;/PropertyIsLike&gt;
+        &lt;PropertyIsLessThanOrEqualTo&gt;
+          &lt;PropertyName&gt;mc:ingestionDate&lt;/PropertyName&gt;
+          &lt;Literal&gt;2022-09-03T00:00:01Z&lt;/Literal&gt;
+        &lt;/PropertyIsLessThanOrEqualTo&gt;
+      &lt;/And&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>response will display up to 10 records (<code>maxRecords=&quot;10&quot;</code>) that includes product version “4.0” <strong>and </strong>thier ingestion date is Less than the desired date.</p><hr/><h3 id="QueryExamples-HowtoquerybyBBOX"><code>How to query by BBOX</code></h3><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;10&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt;       
+        &lt;BBOX&gt;
+          &lt;PropertyName&gt;ows:BoundingBox&lt;/PropertyName&gt;
+            &lt;gml:Envelope xmlns:gml=&quot;http://www.opengis.net/gml&quot;&gt;
+                &lt;gml:lowerCorner&gt;-180 -90&lt;/gml:lowerCorner&gt;
+                &lt;gml:upperCorner&gt;180 90&lt;/gml:upperCorner&gt;
+            &lt;/gml:Envelope&gt;
+          &lt;/BBOX&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>response will display up to 10 records (<code>maxRecords=&quot;10&quot;</code>)  that thier <strong>BBOX</strong> includes in the desired extent (in example:  -180, -190, 180, 90</p><p /><p>another example that query catalog records by<strong> extent (bbox) and region:</strong></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;csw:GetRecords xmlns:csw=&quot;http://www.opengis.net/cat/csw/2.0.2&quot; service=&quot;CSW&quot; maxRecords=&quot;10&quot;  startPosition=&quot;1&quot;  outputSchema=&quot;http://schema.mapcolonies.com/raster&quot; version=&quot;2.0.2&quot; xmlns:mc=&quot;[SUB-SYSTEM-MAIN-NAMESPACE]&quot; &gt;
+  &lt;csw:Query typeNames=&quot;[SUB-SYSTEM-TYPENAME]&quot;&gt;
+   &lt;csw:ElementSetName&gt;full&lt;/csw:ElementSetName&gt;
+    &lt;csw:Constraint version=&quot;1.1.0&quot;&gt;
+      &lt;Filter xmlns=&quot;http://www.opengis.net/ogc&quot;&gt;
+      &lt;And&gt;       
+          &lt;PropertyIsLike wildCard=&quot;%&quot; singleChar=&quot;_&quot; escapeChar=&quot;\\&quot;&gt;
+            &lt;PropertyName&gt;mc:region&lt;/PropertyName&gt;
+            &lt;Literal&gt;%ירדן%&lt;/Literal&gt;
+          &lt;/PropertyIsLike&gt;
+        &lt;BBOX&gt;
+          &lt;PropertyName&gt;ows:BoundingBox&lt;/PropertyName&gt;
+            &lt;gml:Envelope xmlns:gml=&quot;http://www.opengis.net/gml&quot;&gt;
+                &lt;gml:lowerCorner&gt;-180 -90&lt;/gml:lowerCorner&gt;
+                &lt;gml:upperCorner&gt;180 90&lt;/gml:upperCorner&gt;
+            &lt;/gml:Envelope&gt;
+          &lt;/BBOX&gt;
+      &lt;/And&gt;
+      &lt;/Filter&gt;
+    &lt;/csw:Constraint&gt;
+  &lt;/csw:Query&gt;
+&lt;/csw:GetRecords&gt;</pre>
+</div></div><p>response will display up to 10 records (<code>maxRecords=&quot;10&quot;</code>)   that thier<strong> bbox includes  includes in the desired extent and thier region is contains the word “ירדן”</strong>  (<code>&lt;Literal&gt;%ירדן%&lt;/Literal&gt;</code>)</p><p />
+                    </div>
+
+                    
+                 
+                </div>             </div> 
+            <div id="footer" role="contentinfo">
+                <section class="footer-body">
+                    <p>Document generated by Confluence on Mar 16, 2022 12:17</p>
+                    <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                </section>
+            </div>
+        </div>     </body>
+</html>
