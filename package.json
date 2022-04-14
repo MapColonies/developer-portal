@@ -5,6 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "npm run copyassets:all",
+    "start": "docsify serve docs --port 4000",
     "release": "standard-version",
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
@@ -39,5 +40,8 @@
     "husky": "^4.3.5",
     "standard-version": "^9.3.0",
     "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "docsify-cli": "^4.4.4"
   }
 }
