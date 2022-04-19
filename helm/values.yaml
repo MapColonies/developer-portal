@@ -1,0 +1,64 @@
+global:
+  cloudProvider: {}
+  tracing: {}
+  metrics: {}
+  environment: {}
+enabled: true
+environment: development
+replicaCount: 1
+initialDelaySeconds: 60
+nodePort: 30030
+resetOnConfigChange: true
+cloudProvider:
+  dockerRegistryUrl: ''
+  imagePullSecretName: my-registry-secret
+  flavor: openshift
+caSecretName: ''
+caPath: /usr/local/share/ca-certificates
+caKey: ca.crt
+image:
+  repository: mc-cookbook
+  tag: v1.1.4
+  imagePullPolicy: Never
+env:
+  port: 80
+  targetPort: 8080
+  protocol: TCP
+  logLevel: info
+  logPrettyPrintEnabled: false
+  responseCompressionEnabled: true
+  requestPayloadLimit: 1mb
+  tracing:
+    enabled: false
+    url: 'http://localhost:55681/v1/trace'
+  metrics:
+    enabled: false
+    url: 'http://localhost:55681/v1/metrics'
+  PYCSW_RASTER_SERVICE_URL: "https://pycsw_raster.com"
+  PYCSW_3D_SERVICE_URL: "https://pycsw_3d.com"
+  PYCSW_DEM_SERVICE_URL: "https://pycsw_dem.com"
+  MAP_SERVER_RASTER_SERVICE_URL: "https://mapproxy_raster.com"
+  MAP_SERVER_DEM_SERVICE_URL: "https://geoserver_dem.com"
+  CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
+resources:
+  enabled: false
+  value:
+    limits:
+      cpu: 500m
+      memory: 900Mi
+    requests:
+      cpu: 500m
+      memory: 900Mi
+route:
+  enabled: false
+  path: /
+  timeout:
+    enabled: false
+    duration: 60s
+ingress:
+  enabled: false
+  path: /
+  host: localhost
+  cors:
+    enabled: true
+    origin: '*'
