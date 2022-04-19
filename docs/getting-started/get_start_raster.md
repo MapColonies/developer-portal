@@ -14,7 +14,7 @@ Query the catalog by the ‘mc:productId’ field to get the product metadata:
 POST Request
 
 url:
-'<PYCSW_SERVICE_URL>/csw'
+'<PYCSW-RASTER-SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
