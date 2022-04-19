@@ -16,6 +16,10 @@
   * [Raster: Get Started](/getting-started/get_start_raster.md)
 - [Catalog Information](/catalog-information/README.md)
   * [Query Examples](/catalog-information/query-examples.md)
+- [Classified](/classified/README.md)
+  * [Classification values](/classified/raster/classification_table.md)
+    * [Raster](/classified/raster/classification_table.md)
+    * [DEM](/classified/dem/classification_table.md)
 
     <!-- * [Installation Guide](/microcOSM/InstallationGuide/README.md)
     * [Aws](/microcOSM/InstallationGuide/aws/README.md)
