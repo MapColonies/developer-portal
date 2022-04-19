@@ -1,13 +1,21 @@
 #!/bin/sh
 
-echo 'cloning from private repo'
-# TODO: Figure out how to correctly access the private repo from the running container.
-# here im using github private access token with the correct scopes to authenticate, but it will not hold up on diff environments.
-# Should we use k8s secrets to store SSH keys for the git authentication?
-# - We should also replace templates inside the .md files with real data (from env?, should we use helm? or just a k8s configMap?)
+echo cloning from repo $CLASSIFIED_REPO_URL
 
-git clone https://{private_access_token}:@github.com/MapColonies/docs-test.git
-cp -a /docs-test/docs/. /docs/
+git clone $CLASSIFIED_REPO_URL
+\cp -r /docs-test/docs/. /docs/
+\cp -r /docs-test/assets/images/. /docs/assets/images
+
+ENV_SERVICES_NAMES=$(printenv | grep SERVICE_URL= | cut -d'=' -f1)
+
+for f in $(find /docs/ -name "*.md"); 
+    do
+        for serviceName in $ENV_SERVICES_NAMES;
+            do 
+                sed -i "s|<$serviceName>|$(printenv $serviceName)|" "$f";
+        done
+ done
+
 rm -r /docs-test
 
 exec "$@"

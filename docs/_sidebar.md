@@ -20,6 +20,7 @@
   * [Classification values](/classified/raster/classification_table.md)
     * [Raster](/classified/raster/classification_table.md)
     * [DEM](/classified/dem/classification_table.md)
+    * [3D](/classified/3d/classification_table.md)
 
     <!-- * [Installation Guide](/microcOSM/InstallationGuide/README.md)
     * [Aws](/microcOSM/InstallationGuide/aws/README.md)
