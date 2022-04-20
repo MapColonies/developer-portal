@@ -10,7 +10,7 @@ initialDelaySeconds: 60
 nodePort: 30030
 resetOnConfigChange: true
 cloudProvider:
-  dockerRegistryUrl: ''
+  dockerRegistryUrl: localhost:5001
   imagePullSecretName: my-registry-secret
   flavor: openshift
 caSecretName: ''
@@ -18,8 +18,8 @@ caPath: /usr/local/share/ca-certificates
 caKey: ca.crt
 image:
   repository: mc-cookbook
-  tag: v1.1.4
-  imagePullPolicy: Never
+  tag: v1.0.2
+  imagePullPolicy: IfNotPresent
 env:
   port: 80
   targetPort: 8080
