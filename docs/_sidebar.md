@@ -22,7 +22,8 @@
     * [DEM](/classified/dem/classification_table.md)
     * [3D](/classified/3d/classification_table.md)
 - [Examples]()
-  * [Raster Example](/.//assets/examples/raster/index.html)
+  * [Raster Example](.//assets/examples/raster/index.html)
+  * [3D Example](.//assets/examples/3d/index.html)
 
     <!-- * [Installation Guide](/microcOSM/InstallationGuide/README.md)
     * [Aws](/microcOSM/InstallationGuide/aws/README.md)
