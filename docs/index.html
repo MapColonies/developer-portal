@@ -6,64 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
-  <style>
-    .dark-mode-wrapper {
-      display: flex;
-      padding: 10px 0;
-
-    }
-    .dark-mode-wrapper b { 
-      margin-right: 10px;
-    }
-    .onoffswitch {
-        position: relative; width: 90px;
-        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-    }
-    .onoffswitch-checkbox {
-        position: absolute;
-        opacity: 0;
-        pointer-events: none;
-    }
-    .onoffswitch-label {
-        display: block; overflow: hidden; cursor: pointer;
-        border: 2px solid #999999; border-radius: 20px;
-    }
-    .onoffswitch-inner {
-        display: block; width: 200%; margin-left: -100%;
-        transition: margin 0.3s ease-in 0s;
-    }
-    .onoffswitch-inner:before, .onoffswitch-inner:after {
-        display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
-        font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-        box-sizing: border-box;
-    }
-    .onoffswitch-inner:before {
-        content: "ON";
-        padding-left: 10px;
-        background-color: #34A7C1; color: #FFFFFF;
-    }
-    .onoffswitch-inner:after {
-        content: "OFF";
-        padding-right: 10px;
-        background-color: #EEEEEE; color: #999999;
-        text-align: right;
-    }
-    .onoffswitch-switch {
-        display: block; width: 18px; margin: 6px;
-        background: #FFFFFF;
-        position: absolute; top: 0; bottom: 0;
-        right: 56px;
-        border: 2px solid #999999; border-radius: 20px;
-        transition: all 0.3s ease-in 0s; 
-    }
-    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-        margin-left: 0;
-    }
-    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-        right: 0px;
-    }
-</style>
+  <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"> -->
+  <!-- <link rel="stylesheet" title="light" href="./assets/outter_scripts/vue.css"> -->
+  <link rel="stylesheet" title="light" href="./assets/outter_scripts/theme-simple.css">
+  <link rel="stylesheet" title="dark" href="./assets/outter_scripts/theme-simple-dark.css">
+  
+  <link rel="stylesheet" href="./assets/css/theme-switch.css">
+  <link rel="stylesheet" href="./assets/css/theme-customization.css">
 </head>
 <body>
   <div id="app"></div>
@@ -80,24 +29,59 @@
     }
   </script>
   <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <!-- <script>
-    var title = "dark";
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
+  <script src="./assets/outter_scripts/docsify@4.js"></script>
+  <script src="./assets/outter_scripts/search.min.js"></script>
+  <script>
+    let title = "dark";
     function toggle() {
       if (title === "dark") {
         title = "light";
       } else {
         title = "dark";
       }
-      var themes = Docsify.dom.findAll('[rel="stylesheet"]');
+      const themes = Docsify.dom.findAll('[rel="stylesheet"]');
       themes.forEach(function(theme) {
+        if(theme.title){
           theme.disabled = theme.title !== title;
+        }
       });
     }
     window.addEventListener('load', function() {
       toggle();
     });
-  </script> -->
+
+    // Inspired by https://github.com/NCUTEA/tutorials/tree/master/_media/js
+    (function () {
+      function install(hook, vm) {
+          hook.beforeEach(function (html) {
+              let fullPath = vm.route.path;
+              let sp = fullPath.split('/');
+              let endWithSlash = fullPath.endsWith("/");
+
+              let curPath = '';
+              let headerHtml = `[Index](/README.md)`;
+
+              for (let i = 0, len = sp.length; i < len; i++) {
+                  let path = sp[i];
+                  curPath += path;
+                  if (i < len - 1 || endWithSlash){
+                    curPath += '/';
+                  }
+
+                  headerHtml += `[${path}](${curPath})`;
+
+                  if (i < len - 2 || (i === len - 2 && !endWithSlash)){
+                    headerHtml += ' / ';
+                  }
+              }
+              headerHtml += '\n\n----\n\n';
+              return headerHtml + html;
+          })
+      }
+      $docsify.plugins = [].concat(install, $docsify.plugins);
+    }());
+  </script>
 </body>
 </html>
