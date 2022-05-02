@@ -10,8 +10,9 @@
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
     "prepack": "npm run build",
-    "copyassets:all": "npm run copyassets:mc-cookbook",
-    "copyassets:mc-cookbook": "copyfiles -u 2 \"./src/cookbook/**/*\" \"./dist/cookbook\""
+    "copyassets:all": "npm run copyassets:mc-cookbook && npm run copyassets:cesium",
+    "copyassets:mc-cookbook": "copyfiles -u 2 \"./src/cookbook/**/*\" \"./dist/cookbook\"",
+    "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/public\""
   },
   "repository": {
     "type": "git",
@@ -38,10 +39,11 @@
     "copyfiles": "^2.4.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.3.5",
-    "standard-version": "^9.3.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "standard-version": "^9.3.0"
   },
   "dependencies": {
+    "cesium": "^1.92.0",
     "docsify-cli": "^4.4.4"
   }
 }

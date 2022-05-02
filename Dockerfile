@@ -15,6 +15,9 @@ run npm install -g docsify-cli@latest
 WORKDIR ./
 
 COPY . .
+RUN npm install
+RUN npm run copyassets:all
+
 RUN chmod +x ./entrypoint.sh
 
 ## Container dnvironment variables
