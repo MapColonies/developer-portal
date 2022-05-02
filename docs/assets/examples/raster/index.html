@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raster Example</title>
+    <script src="../../../public/Cesium/Cesium.js"></script>
+    <link rel="stylesheet" href="../../../public/Cesium/Widgets/widgets.css" />
+    <script src="../../outer-scripts/turf.js"></script>
+    <script src="./script.js" defer></script>
+    <style>
+        body {
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+        #productIdInputContainer {
+            position: absolute;
+            z-index: 999;
+            display: flex;
+            margin-left:50%;
+            margin-top:30px;
+            transform: translate(-50%,-50%);
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+    
+
+        #cesiumContainer {
+            width:100vw;
+            height:100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="productIdInputContainer">
+        <input type="text" name="productId" id="productIdInput" placeholder="Product id from catalog"/>
+        <button id="applyLayerBtn">Apply!</button>
+    </div>
+    <div id="cesiumContainer"></div>
+ 
+</body>
+</html>
