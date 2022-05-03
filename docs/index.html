@@ -10,7 +10,8 @@
   <!-- <link rel="stylesheet" title="light" href="./assets/outer-scripts/vue.css"> -->
   <link rel="stylesheet" title="light" href="./assets/outer-scripts/theme-simple.css">
   <link rel="stylesheet" title="dark" href="./assets/outer-scripts/theme-simple-dark.css">
-  
+  <link rel="stylesheet" href="./assets/outer-scripts/mermaid.css">
+
   <link rel="stylesheet" href="./assets/css/theme-switch.css">
   <link rel="stylesheet" href="./assets/css/theme-customization.css">
 </head>
@@ -33,6 +34,7 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
   <script src="./assets/outer-scripts/docsify@4.js"></script>
   <script src="./assets/outer-scripts/search.min.js"></script>
+  <script src="./assets/outer-scripts/mermaid.min.js"></script>
   <script>
     let title = "dark";
     function toggle() {
@@ -47,6 +49,9 @@
           theme.disabled = theme.title !== title;
         }
       });
+
+      document.body.setAttribute("theme", title);
+      
     }
     window.addEventListener('load', function() {
       toggle();
@@ -54,7 +59,7 @@
 
     // Inspired by https://github.com/NCUTEA/tutorials/tree/master/_media/js
     (function () {
-      function install(hook, vm) {
+      function installBreadCrumb(hook, vm) {
           hook.beforeEach(function (html) {
               let fullPath = vm.route.path;
               let sp = fullPath.split('/');
@@ -80,7 +85,27 @@
               return headerHtml + html;
           })
       }
-      $docsify.plugins = [].concat(install, $docsify.plugins);
+      $docsify.plugins = [].concat(installBreadCrumb, $docsify.plugins);
+    }());
+
+    (function () {
+      mermaid.initialize({ startOnLoad: false});
+
+      window.$docsify = {
+        ...window.$docsify,
+        markdown: {
+          renderer: {
+            code: function(code, lang) {
+              if (lang === "mermaid") {
+                return (
+                  '<div class="mermaid">' + mermaid.render(lang, code) + "</div>"
+                );
+              }
+              return this.origin.code.apply(this, arguments);
+            }
+          }
+        }
+      }
     }());
   </script>
 </body>

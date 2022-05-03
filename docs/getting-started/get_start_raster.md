@@ -4,10 +4,25 @@ The following guide will help you understand, ***Step-by-step*** the best practi
 
 > :satisfied: You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)
 
-Lets get started…
+
+## Lets get started…
+```mermaid
+flowchart LR
+    subgraph CSW
+      direction LR
+      b1[STEP 1 <br/> Query CSW catalog] --> b2[STEP 2<br/> Extract BBOX]
+      b1 --> b3[STEP 3<br/>Get layer URI]
+    end
+
+    A[Get Product_ID] -- product_id --> b1
+    b3  -- layer_identifier --> C[STEP 4<br/> Get Layer Capabilities]
+    b2 -- BBOX --> D[STEP 5<br/> Cesium/OL]
+    C -- layer_params --> D
+```
+
 
 ## Step 1 (Query CSW catalog):
-Query **RASTER CSW catalog** service to find item(s) according to desired filter (example are here).
+Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md).
 
 Assuming you enquire the desired mapping ***productId*** from our catalog.
 

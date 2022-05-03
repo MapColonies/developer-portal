@@ -15,6 +15,7 @@
 - [Getting Started](/getting-started/README.md)
   * [Raster: Get Started](/getting-started/get_start_raster.md)
   * [DEM: Get Started](/getting-started/get_start_dem.md)
+  * [3D: Get Started](/getting-started/get_start_3d.md)
 - [OGC Standard Protocols](/ogc-protocols/README.md)
   * [CSW - Catalog Service for the Web](/ogc-protocols/ogc-csw.md)
     * [CSW - examples](/ogc-protocols/ogc-csw-examples.md)
