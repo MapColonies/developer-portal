@@ -1,10 +1,23 @@
 const productIdInput = document.querySelector('#productIdInput');
 const applyProductId = document.querySelector('#applyLayerBtn');
 
-const RASTER_CSW_SERVICE_URL = '';
-const RASTER_TOKEN = '';
+const RASTER_CSW_SERVICE_URL = 'https://pycsw-qa-pycsw-route-raster.apps.v0h0bdx6.eastus.aroapp.io/csw';
+const RASTER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicmVzb3VyY2VUeXBlcyI6WyJyYXN0ZXIiLCJkZW0iLCJ2ZWN0b3IiLCIzZCJdLCJpYXQiOjE1MTYyMzkwMjJ9.kidhXiB3ihor7FfkaduJxpJQXFMJGVH9fH7WI6GLGM0';
 const tokenHeader = { 'X-API-KEY': RASTER_TOKEN };
-const mapProxyBaseUrl = '';
+const mapProxyBaseUrl = 'https://mapproxy-qa-mapproxy-route-raster.apps.v0h0bdx6.eastus.aroapp.io';
+
+const showLoaderContainer = (show) => {
+  document.getElementById('loader').style.display = !show ? 'none' : '';
+}
+
+const showLoader = (show) => {
+  showLoaderContainer(true);
+  document.getElementById('loader_img').style.display = !show ? 'none' : '';
+}
+
+const showPointer = (show) => {
+  document.getElementById('pointer').style.display = !show ? 'none' : '';
+}
 
 
 // Setup Cesium viewer first.
@@ -33,6 +46,9 @@ const fetchAndParseXML = (url, options) => {
 
 const constructAndApplyLayer = () => {
 
+  showPointer(false);
+  showLoader(true);
+
   const getRecordsXML = `<?xml version="1.0" encoding="UTF-8"?>
   <csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1000"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
     <csw:Query typeNames="mc:MCRasterRecord">
@@ -48,28 +64,35 @@ const constructAndApplyLayer = () => {
     </csw:Query>
   </csw:GetRecords>`;
 
-  
-  // STEP 1: Fetch raster csw using getRecords XML.
+  /**********************************************************************/
+  /* STEP 1: Fetch RASTER CSW record XML using GetRecords CSW operation */
+  /**********************************************************************/
   fetchAndParseXML(RASTER_CSW_SERVICE_URL,{
     method: 'POST',
     body: getRecordsXML,
     headers: new Headers(tokenHeader)
   }).then(xmlDoc => {
 
-    // STEP 2: Extract BBOX from response.
+    /**********************************************************************/
+    /* STEP 2: Extract BBOX from catalog record XML.                      */
+    /* Here used hardcoded/indexed extract values principles              */
+    /* You can use any XML traverse tools/parsers                         */
+    /**********************************************************************/
     const footprint = xmlDoc.children[0].children[1].getElementsByTagName('mc:footprint')[0].textContent;
     const rectangle = generateRectangle(footprint);
     
-    // Extract layer's map proxy template url, Identifier and capabilities url from XML (document) response, for later use.
+    /*********************************************************************************/
+    /* STEP 3: Extract layer's "WMTS_LAYER" template url from <mc:links> collection, */
+    /* Identifier and capabilities url from XML (document) response, for later use.  */
+    /*********************************************************************************/
     const layerUrl = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS_LAYER"]').textContent;
     const layerIdentifier = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS_LAYER"]').attributes.name.textContent;
-    const getCapabilitiesUrl = xmlDoc.children[0].children[1].querySelector('[scheme="WMS"]').textContent;
+    const getCapabilitiesUrl = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS"]').textContent;
 
     const getLayerMetadataFromGetCapabilities = getCapabilitiesDoc => {
       const arr = [...getCapabilitiesDoc.children[0].children[2].querySelectorAll("Layer")];
     
       // Traversing through the layers from GetCapabilities, to find the one we're looking for by productId
-    
       const desiredLayer = arr.find(layer => {
           const layerIdentifierValue = getChildNodeByTagName(layer, 'ows:Identifier').textContent;
     
@@ -92,8 +115,11 @@ const constructAndApplyLayer = () => {
       const {tileMatrixSet: tileMatrixSetID, layerFormat: format, layerStyle: style} = layerAdditionalParams;
     
       const provider = new Cesium.WebMapTileServiceImageryProvider({
-        url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
-        headers: tokenHeader,
+        url:new Cesium.Resource({
+          // TODO: should be used 'layerUrl'
+          url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
+          headers: tokenHeader,
+        }),
         style,
         format,
         tilingScheme: new Cesium.GeographicTilingScheme(),
@@ -101,24 +127,39 @@ const constructAndApplyLayer = () => {
       })
     
       viewer.imageryLayers.addImageryProvider(provider);
+
+      showLoaderContainer(false);
     }
 
-    // STEP 3: GetCapabilities request.
+    /*********************************************************************************/
+    /* STEP 4: GetCapabilities request                                               */
+    /* TODO: should be used 'getCapabilitiesUrl'                                     */
+    /*********************************************************************************/
     fetchAndParseXML(`${mapProxyBaseUrl}/service?REQUEST=GetCapabilities&SERVICE=WMTS`, {
       method: 'GET',
       headers: new Headers(tokenHeader)
     })
-    // STEP 3.1: Get the desired layer from getCapabilities
+    /*********************************************************************************/
+    /* STEP 4.1: Get the desired layer from MAP_SERVER GetCapabilities               */
+    /*********************************************************************************/
     .then(getLayerMetadataFromGetCapabilities)
-    // STEP 3.2: Extract layer's metadata from getCapabilities
+    /*********************************************************************************/
+    /* STEP 4.2: Extract layer's definition from MAP_SERVER GetCapabilities          */
+    /*********************************************************************************/    
     .then(extractRequiredMetadataFromGetCapabilities) 
-     // STEP 4 + 5: Finally, build the provider with the retrieved metadata.
+    /*********************************************************************************/
+    /* STEP 5: Finally, build the CESIUM imageryProvider with the retrieved data.    */
+    /*********************************************************************************/    
     .then(setupImageryProviderAndApplyToViewer)
     .catch((e) => {
         alert('Oops.. Something went wrong...');
         console.error("There was an error building the imagery provider. Error: ", e);
      })
-  });
+  })
+  .catch((e) => {
+    alert('Oops.. No such layer...');
+    console.error("There is no such catalog item. Error: ", e);
+ });
 }
 
 applyProductId.addEventListener('click', constructAndApplyLayer);

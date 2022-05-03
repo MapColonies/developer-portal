@@ -2,9 +2,11 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies Catalog and how to consume mapping products in ***dynamic way*** (materials might be changed or added)
 
+> :satisfied: You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)
+
 Lets get started…
 
-## Step 1:
+## Step 1 (Query CSW catalog):
 Query **RASTER CSW catalog** service to find item(s) according to desired filter (example are here).
 
 Assuming you enquire the desired mapping ***productId*** from our catalog.
@@ -85,7 +87,7 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
-## Step 2:
+## Step 2 (Extract product BBOX):
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
 In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
  
@@ -110,7 +112,7 @@ export const generateLayerRectangle = (layer: LayerRasterRecord): Rectangle => {
 ```
 After you’ve got your product BBOX lets move to the next step…
 
-## Step 3:
+## Step 3 (Get layer URI):
 In the Response, look for 
 
 `<mc:links scheme="`<strong>WMTS_LAYER</strong>`" name="[desired_layer_identifier]">`
@@ -121,7 +123,7 @@ You need to save `[desired_layer_identifier]` value for later use.
 > #### :information_source: You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.
 
 
-## Step 4:
+## Step 4 (Get Layer Capabilities):
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilties** request.
 You can go to the next URL below with your browser or just send GET request to:
 ```
@@ -143,7 +145,7 @@ You need to **save** the following values in order to consume the layer later on
 > `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well 
 
 
-## Step 5:
+## Step 5 (Construct Client side LAYER):
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > #### :warning: Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.
 
@@ -215,10 +217,12 @@ Replace all `<>` place holders with the real values that we got from all previou
 - style - should be replaced with the value that you got from [Step 4](#step-4).
 - format - should be replaced with the value that you got from [Step 4](#step-4).
 
-## Step 6:
+## Step 6 (Enrich Layer data):
 In order to present catalog items in your system you can use following fields:
 
 - **mc:productName**
 - **mc:description**
 - **...** 
 - **rest** [Raster profile definition](./catalog-information/v1_0/raster_profile.md)
+
+> :satisfied: You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)
