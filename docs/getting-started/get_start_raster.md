@@ -14,7 +14,14 @@ flowchart LR
       b1 --> b3[STEP 3<br/>Get layer URI]
     end
 
-    A[Get Product_ID] -- product_id --> b1
+    subgraph  Prerequisite
+      direction LR
+      a1[Get Product_ID]
+      a2[Get Auth Token]
+    end
+
+    a1 -- product_id --> b1
+    a2 -- token --> D
     b3  -- layer_identifier --> C[STEP 4<br/> Get Layer Capabilities]
     b2 -- BBOX --> D[STEP 5<br/> Cesium/OL]
     C -- layer_params --> D
@@ -102,6 +109,9 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
+> :no_entry: Authentication might be required in order to communicate with CSW server.
+> See the principles [here](/ogc-protocols/ogc-csw-auth.md)
+
 ## Step 2 (Extract product BBOX):
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
 In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
@@ -172,6 +182,13 @@ Now, after you got all product metadata that you need by querying our Catalog an
 
 const libotLayer = new Cesium.WebMapTileServiceImageryProvider({
       url : '<LAYER_WMTS_URL>',                         // from Step_3 or Step_4
+      /*********************************************************************************/
+      /********     WHEN AUTH IS REQUIRED                                       ********/
+      /*********************************************************************************/
+      // url:new Cesium.Resource({
+      //  url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
+      //  headers: { 'X-API-KEY': RASTER_TOKEN },       // recieved RASTER auth token
+      //}),
       layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4

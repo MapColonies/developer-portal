@@ -1,6 +1,9 @@
 # CSW Examples
 The following examples will help you understand how to interface with CSW based catalog.
 
+> :no_entry: Authentication might be required in order to communicate with CSW server.
+> See the principles [here](/ogc-protocols/ogc-csw-auth.md)
+
 ## GetCapabilities
 **GetCapabilities** operation allows CSW clients to retrieve service metadata from a server. The response to GetCapabilities request is an XML document containing service metadata about the server.
 
