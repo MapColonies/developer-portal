@@ -32,14 +32,37 @@
             width:100vw;
             height:100vh;
         }
+        #loader {
+            position: absolute;
+            top: 0;
+            opacity: 0.8;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: darkslategrey;
+        }
+        #loader_img {
+            display: flex;
+            height: 30%;
+        }
+        #pointer {
+            margin-top: -20%;
+            transform: rotate(-90deg);
+        }
     </style>
 </head>
 <body>
     <div id="productIdInputContainer">
         <input type="text" name="productId" id="productIdInput" placeholder="Product id from catalog"/>
-        <button id="applyLayerBtn">Apply!</button>
+        <button id="applyLayerBtn">Show layer</button>
     </div>
     <div id="cesiumContainer"></div>
+    <div id="loader">
+        <img id="loader_img" src="images/loader.gif" style="display:none">
+        <img id="pointer" src="images/jumping_arrow.gif">
+    </div>
  
 </body>
 </html>

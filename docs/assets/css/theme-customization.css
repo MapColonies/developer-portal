@@ -1,0 +1,21 @@
+summary {
+  background-color: lightblue;
+}
+
+body[theme=dark] summary {
+  background-color: lightslategray;
+}
+
+body[theme=dark] #mermaid .flowchart-link {
+  stroke: lightgrey;
+}
+
+body[theme=dark] #mermaid .marker {
+  fill: lightgrey;
+  stroke: lightgrey;
+}
+
+body[theme=dark] #mermaid .cluster rect {
+  fill: darkgrey !important;
+  stroke: darkgrey !important;
+}
