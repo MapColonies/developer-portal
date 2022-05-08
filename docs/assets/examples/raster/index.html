@@ -26,8 +26,20 @@
             align-items: center;
             justify-content: center;
         }
-    
+        
+        #productIdInput:invalid, #productIdInput:invalid:focus {
+            outline-color: red;
+            border: 1px solid red;
+            animation: inputError 300ms;
+        }
 
+        @keyframes inputError {
+            0% {transform: translateX(-10px)}
+            50% {transform: translateX(10px)}
+            75% {transform: translateX(-10px)}
+            100% {transform: translateX(0)}
+        }
+        
         #cesiumContainer {
             width:100vw;
             height:100vh;
@@ -55,8 +67,10 @@
 </head>
 <body>
     <div id="productIdInputContainer">
-        <input type="text" name="productId" id="productIdInput" placeholder="Product id from catalog"/>
-        <button id="applyLayerBtn">Show layer</button>
+        <form>
+            <input type="text" name="productId" id="productIdInput" placeholder="Product id from catalog"/>
+            <button type="submit" id="applyLayerBtn">Show layer</button>
+        </form>
     </div>
     <div id="cesiumContainer"></div>
     <div id="loader">

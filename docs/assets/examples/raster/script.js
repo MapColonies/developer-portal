@@ -1,3 +1,4 @@
+const productIdForm = document.querySelector('form');
 const productIdInput = document.querySelector('#productIdInput');
 const applyProductId = document.querySelector('#applyLayerBtn');
 
@@ -44,7 +45,8 @@ const fetchAndParseXML = (url, options) => {
         .then(str => new DOMParser().parseFromString(str, 'text/xml'));
 }
 
-const constructAndApplyLayer = () => {
+const constructAndApplyLayer = (e) => {
+  e.preventDefault();
 
   showPointer(false);
   showLoader(true);
@@ -152,16 +154,20 @@ const constructAndApplyLayer = () => {
     /*********************************************************************************/    
     .then(setupImageryProviderAndApplyToViewer)
     .catch((e) => {
+      showLoader(false);
         alert('Oops.. Something went wrong...');
         console.error("There was an error building the imagery provider. Error: ", e);
      })
   })
   .catch((e) => {
-    alert('Oops.. No such layer...');
+    showLoader(false);
+    productIdInput.setCustomValidity('No such layer.')
+    productIdInput.reportValidity();
     console.error("There is no such catalog item. Error: ", e);
  });
 }
 
-applyProductId.addEventListener('click', constructAndApplyLayer);
+productIdForm.addEventListener('submit', constructAndApplyLayer);
+productIdInput.addEventListener('input', (e) => { e.target.setCustomValidity('') })
 
 

@@ -7,6 +7,7 @@
     <title>3D Example</title>
     <script src="../../../public/Cesium/Cesium.js"></script>
     <link rel="stylesheet" href="../../../public/Cesium/Widgets/widgets.css" />
+    <script src="../../outer-scripts/turf.js"></script>
     <script src="./script.js" defer></script>
     <style>
         body {
@@ -14,15 +15,50 @@
             margin:0;
             box-sizing: border-box;
         }
-
+        #show3DContainer {
+            position: absolute;
+            z-index: 999;
+            display: flex;
+            margin-left:50%;
+            margin-top:30px;
+            transform: translate(-50%,-50%);
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
         #cesiumContainer {
             width:100vw;
             height:100vh;
         }
+        #loader {
+            position: absolute;
+            top: 0;
+            opacity: 0.8;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: darkslategrey;
+        }
+        #loader_img {
+            display: flex;
+            height: 30%;
+        }
+        #pointer {
+            margin-top: -20%;
+            transform: rotate(-90deg);
+        }
     </style>
 </head>
 <body>
+    <div id="show3DContainer">
+        <button id="show3DModelBtn" disabled="true">Show 3D Model</button>
+    </div>
     <div id="cesiumContainer"></div>
- 
+    <div id="loader">
+        <img id="loader_img" src="images/loader.gif">
+        <img id="pointer" src="images/jumping_arrow.gif" style="display:none">
+    </div>
 </body>
 </html>
