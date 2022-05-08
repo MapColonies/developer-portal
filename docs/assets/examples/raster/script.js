@@ -72,6 +72,7 @@ const constructAndApplyLayer = (e) => {
   fetchAndParseXML(RASTER_CSW_SERVICE_URL,{
     method: 'POST',
     body: getRecordsXML,
+    /* Don't forget to include the authentication header */
     headers: new Headers(tokenHeader)
   }).then(xmlDoc => {
 
@@ -120,7 +121,8 @@ const constructAndApplyLayer = (e) => {
         url:new Cesium.Resource({
           // TODO: should be used 'layerUrl'
           url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
-          headers: tokenHeader,
+          /* Don't forget to include the authentication header */
+          headers: new Headers(tokenHeader),
         }),
         style,
         format,
@@ -139,6 +141,7 @@ const constructAndApplyLayer = (e) => {
     /*********************************************************************************/
     fetchAndParseXML(`${mapProxyBaseUrl}/service?REQUEST=GetCapabilities&SERVICE=WMTS`, {
       method: 'GET',
+      /* Don't forget to include the authentication header */
       headers: new Headers(tokenHeader)
     })
     /*********************************************************************************/
