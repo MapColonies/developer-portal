@@ -122,7 +122,7 @@ const constructAndApplyLayer = (e) => {
           // TODO: should be used 'layerUrl'
           url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
           /* Don't forget to include the authentication header */
-          headers: new Headers(tokenHeader),
+          headers: tokenHeader,
         }),
         style,
         format,
