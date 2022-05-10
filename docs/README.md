@@ -9,10 +9,10 @@
 
 ## Table Of Contents {docsify-ignore}
 * [Getting Started](getting-started/README.md#introduction)
-* OGC Standard Protocols
-* Catalog Service for the Web (CSW)
-* MapProxy
-* Map Colonies - Catalog Information
-* Authentication
-* Usage Tips
-* TODO: Contact us section with @Gal Rozov details in InNet
+* [Authentication](/authentication/README.md)
+* [OGC Standard Protocols](/ogc-protocols/README.md)
+* [Map servers](/map-servers/README.md)
+* [Catalog Information](/catalog-information/README.md)
+* [Usage Tips](/usage-tips/README.md)
+* [Examples](/examples/README.md)
+* [Contact us](/classified/contact_us.md)
