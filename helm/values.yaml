@@ -18,7 +18,7 @@ caPath: /usr/local/share/ca-certificates
 caKey: ca.crt
 image:
   repository: mc-cookbook
-  tag: v1.0.0
+  tag: v1.0.2
   imagePullPolicy: IfNotPresent
 env:
   port: 80
@@ -34,13 +34,13 @@ env:
   metrics:
     enabled: false
     url: 'http://localhost:55681/v1/metrics'
-  PYCSW_RASTER_SERVICE_URL: "https://pycsw-qa-pycsw-route-raster.apps.v0h0bdx6.eastus.aroapp.io"
-  PYCSW_3D_SERVICE_URL: "https://pycsw-3d-3d-catalog-pycsw-route-3d-dev.apps.v0h0bdx6.eastus.aroapp.io"
+  PYCSW_RASTER_SERVICE_URL: "https://pycsw_raster.com"
+  PYCSW_3D_SERVICE_URL: "https://pycsw_3d.com"
   PYCSW_DEM_SERVICE_URL: "https://pycsw_dem.com"
-  MAP_SERVER_RASTER_SERVICE_URL: "https://mapproxy-qa-mapproxy-route-raster.apps.v0h0bdx6.eastus.aroapp.io"
+  MAP_SERVER_RASTER_SERVICE_URL: "https://mapproxy_raster.com"
   MAP_SERVER_DEM_SERVICE_URL: "https://geoserver_dem.com"
   CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
-  API_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicmVzb3VyY2VUeXBlcyI6WyJyYXN0ZXIiLCJkZW0iLCJ2ZWN0b3IiLCIzZCJdLCJpYXQiOjE1MTYyMzkwMjJ9.kidhXiB3ihor7FfkaduJxpJQXFMJGVH9fH7WI6GLGM0"
+  API_KEY: "API_KEY"
   EMOJI_CODE: "false"
 resources:
   enabled: false
@@ -52,7 +52,7 @@ resources:
       cpu: 500m
       memory: 900Mi
 route:
-  enabled: false
+  enabled: true
   path: /
   timeout:
     enabled: false

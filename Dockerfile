@@ -20,13 +20,17 @@ RUN npm run copyassets:all
 
 RUN chmod +x ./entrypoint.sh
 
-## Container dnvironment variables
+## Container environment variables
 env PORT 4000
 env DOCSIFY_VERSION latest
 env NODE_VERSION alpine
 
 ## Container runtime configuration
 expose 4000
+
+# create new user 
+RUN adduser -S user -G root  
+USER user
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["docsify", "serve", "docs", "--port" ,"4000"]
