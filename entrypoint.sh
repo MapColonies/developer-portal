@@ -8,13 +8,13 @@ git clone $CLASSIFIED_REPO_URL $REPO_NAME
 \cp -r /$REPO_NAME/docs/. /docs/
 \cp -r /$REPO_NAME/docs/assets/images/. /docs/assets/images
 
-ENV_SERVICES_NAMES=$(printenv | grep SERVICE_URL= | cut -d'=' -f1)
+ENV_TEMPLATE_VALUES=$(printenv | grep 'SERVICE_URL=\|API_KEY=\|EMOJI_CODE=' | cut -d'=' -f1)
 
-for f in $(find /docs/ -name "*.md"); 
+for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md" \)); 
     do
-        for serviceName in $ENV_SERVICES_NAMES;
+        for value in $ENV_TEMPLATE_VALUES;
             do 
-                sed -i "s|<$serviceName>|$(printenv $serviceName)|" "$f";
+                sed -i "s|<$value>|$(printenv $value)|" "$f";
         done
  done
 

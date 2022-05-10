@@ -2,10 +2,10 @@ const productIdForm = document.querySelector('form');
 const productIdInput = document.querySelector('#productIdInput');
 const applyProductId = document.querySelector('#applyLayerBtn');
 
-const RASTER_CSW_SERVICE_URL = 'https://pycsw-qa-pycsw-route-raster.apps.v0h0bdx6.eastus.aroapp.io/csw';
-const RASTER_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicmVzb3VyY2VUeXBlcyI6WyJyYXN0ZXIiLCJkZW0iLCJ2ZWN0b3IiLCIzZCJdLCJpYXQiOjE1MTYyMzkwMjJ9.kidhXiB3ihor7FfkaduJxpJQXFMJGVH9fH7WI6GLGM0';
+const RASTER_CSW_SERVICE_URL = '<PYCSW-RASTER-SERVICE_URL>/csw';
+const RASTER_TOKEN = '<API_KEY>';
 const tokenHeader = { 'X-API-KEY': RASTER_TOKEN };
-const mapProxyBaseUrl = 'https://mapproxy-qa-mapproxy-route-raster.apps.v0h0bdx6.eastus.aroapp.io';
+const mapProxyBaseUrl = '<MAP_SERVER-RASTER-SERVICE_URL>';
 
 const showLoaderContainer = (show) => {
   document.getElementById('loader').style.display = !show ? 'none' : '';
@@ -118,7 +118,7 @@ const constructAndApplyLayer = (e) => {
       const {tileMatrixSet: tileMatrixSetID, layerFormat: format, layerStyle: style} = layerAdditionalParams;
     
       const provider = new Cesium.WebMapTileServiceImageryProvider({
-        url:new Cesium.Resource({
+        url: new Cesium.Resource({
           // TODO: should be used 'layerUrl'
           url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
           /* Don't forget to include the authentication header */

@@ -1,7 +1,7 @@
 const show3DModelBtn = document.querySelector('#show3DModelBtn');
 
-const CSW_3D_SERVICE_URL = 'https://pycsw-3d-3d-catalog-pycsw-route-3d-dev.apps.v0h0bdx6.eastus.aroapp.io/csw';
-const TOKEN_3D = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwicmVzb3VyY2VUeXBlcyI6WyJyYXN0ZXIiLCJkZW0iLCJ2ZWN0b3IiLCIzZCJdLCJpYXQiOjE1MTYyMzkwMjJ9.kidhXiB3ihor7FfkaduJxpJQXFMJGVH9fH7WI6GLGM0';
+const CSW_3D_SERVICE_URL = '<PYCSW-3D-SERVICE_URL>/csw';
+const TOKEN_3D = '<API_KEY>';
 const tokenHeader = { 'X-API-KEY': TOKEN_3D };
 
 const showLoaderContainer = (show) => {
@@ -84,15 +84,20 @@ const constructAndApply3DModel = () => {
   /*********************************************************************************/
     const tileset = viewer.scene.primitives.add(
       new Cesium.Cesium3DTileset({
-        url: layerUri,    
-      })  
+        url:new Cesium.Resource({
+          url: layerUri,     
+          headers: tokenHeader
+        })
+      })
     );
 
-    viewer.flyTo(tileset).then(function(result){
+    viewer.flyTo(tileset)
+    .then(function(result){
       if(result) {
         viewer.selectedEntity = tileset;
       }
-    });
+    })
+    .catch(e => console.log(e));
     
   })
   .catch(e => {

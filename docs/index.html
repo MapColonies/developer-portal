@@ -121,14 +121,13 @@
           hook.beforeEach(function(markdown, next) {
               let reg = new RegExp(' :(.*): ', 'ig');
               const emojisToReplace = markdown.match(reg);
-              debugger;
-              // html = html.replace(reg, vm.config.basePath + "imagesKUKU");
-              emojisToReplace.forEach((emoji)=>{
-                let emojiKey = emoji.trim(' ');
-                emojiKey  = emojiKey.replaceAll(':','');
-                markdown = markdown.replaceAll(emoji, ` ${EMOJIS[emojiKey]} `);
-              });
-              console.log(emojisToReplace);
+              if(emojisToReplace){
+                emojisToReplace.forEach((emoji)=>{
+                  let emojiKey = emoji.trim(' ');
+                  emojiKey  = emojiKey.replaceAll(':','');
+                  markdown = markdown.replaceAll(emoji, ` ${EMOJIS[emojiKey]} `);
+                });
+              }
               next(markdown);
           });
         }
