@@ -2,7 +2,7 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies Catalog and how to consume mapping products in ***dynamic way*** (materials might be changed or added)
 
-> :satisfied: You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)
+> :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**
 
 
 ## Lets get started…
@@ -22,6 +22,7 @@ flowchart LR
 
     a1 -- product_id --> b1
     a2 -- token --> D
+    a2 -- token --> b1
     b3  -- layer_identifier --> C[STEP 4<br/> Get Layer Capabilities]
     b2 -- BBOX --> D[STEP 5<br/> Cesium/OL]
     C -- layer_params --> D
@@ -109,8 +110,8 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
-> :no_entry: Authentication might be required in order to communicate with CSW server.
-> See the principles [here](/ogc-protocols/ogc-csw-auth.md)
+> :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
+> **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
 
 ## Step 2 (Extract product BBOX):
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
@@ -145,7 +146,7 @@ In the Response, look for
 `</mc:links>`element.
 
 You need to save `[desired_layer_identifier]` value for later use.
-> #### :information_source: You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.
+> :information_source: **You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
 
 
 ## Step 4 (Get Layer Capabilities):
@@ -166,13 +167,13 @@ You can read more about ***GetCapabilities*** OGC format [here](http://docs.open
 
 You need to **save** the following values in order to consume the layer later on [Step 5](#step-5).
 
-> #### :information_source: Alternative to &nbsp; [Step 3](#step-3) way to get layer consumption URL
+> :information_source: **Alternative to &nbsp; [Step 3](#step-3) way to get layer consumption URL**
 > `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well 
 
 
 ## Step 5 (Construct Client side LAYER):
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
-> #### :warning: Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.
+> :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
 ### Cesium
 ```javascript
@@ -214,7 +215,8 @@ Replace all `<>` place holders with the real values that we got from all previou
 - style - should be replaced with the value that you got from [Step 4](#step-4).
 - format - should be replaced with the value that you got from [Step 4](#step-4)
 - tileMatrixSetID - how can you get it? from Response from [Step 4](#step-4).
-- rectangle - value should be the BBOX (extent) that you got from [Step 2](#step-2).
+- tilingScheme - see [Usage Tips](/usage-tips/README.md)
+- rectangle - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2](#step-2).
 
 ### OpenLayers
 ```javascript
@@ -257,4 +259,4 @@ In order to present catalog items in your system you can use following fields:
 - **...** 
 - **rest** [Raster profile definition](./catalog-information/v1_0/raster_profile.md)
 
-> :satisfied: You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)
+> :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**

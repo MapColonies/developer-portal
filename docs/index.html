@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>MapColonies cookbook</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -14,19 +14,44 @@
 
   <link rel="stylesheet" href="./assets/css/theme-switch.css">
   <link rel="stylesheet" href="./assets/css/theme-customization.css">
+  <style>
+    #loader {
+        position: absolute;
+        top: 0;
+        opacity: 0.8;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: darkslategrey;
+    }
+    #loader_img {
+        display: flex;
+        height: 30%;
+    }
+</style>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div id="loader">
+      <img id="loader_img" src="./assets/examples/raster/images/loader.gif">
+    </div>
+  </div>
   <script>
+    // EMOJI_CODE is managed on env vars stage 
+    const EMOJI_CODE = '<EMOJI_CODE>';
+
     window.$docsify = {
-      name: '',
-      repo: '',
+      name: 'MapColonies',
+      repo: 'https://github.com/MapColonies/cookbook',
       loadSidebar: true,
       subMaxLevel: 2,
       alias: {
         '/.*/_sidebar.md': '/_sidebar.md'
       },
-      nativeEmoji: true
+      nativeEmoji: true,
+      executeScript: true
     }
   </script>
   <!-- Docsify v4 -->
@@ -35,6 +60,7 @@
   <script src="./assets/outer-scripts/docsify@4.js"></script>
   <script src="./assets/outer-scripts/search.min.js"></script>
   <script src="./assets/outer-scripts/mermaid.min.js"></script>
+  <script src="./assets/outer-scripts/emojis_lookup.js"></script>
   <script>
     let title = "dark";
     function toggle() {
@@ -86,6 +112,28 @@
           })
       }
       $docsify.plugins = [].concat(installBreadCrumb, $docsify.plugins);
+    }());
+
+    // Process emojis as HEX codes (based on emojis_lookup.js)
+    (function () {
+      function HEXifyEmojis(hook, vm) {
+        if(EMOJI_CODE === 'true'){
+          hook.beforeEach(function(markdown, next) {
+              let reg = new RegExp(' :(.*): ', 'ig');
+              const emojisToReplace = markdown.match(reg);
+              debugger;
+              // html = html.replace(reg, vm.config.basePath + "imagesKUKU");
+              emojisToReplace.forEach((emoji)=>{
+                let emojiKey = emoji.trim(' ');
+                emojiKey  = emojiKey.replaceAll(':','');
+                markdown = markdown.replaceAll(emoji, ` ${EMOJIS[emojiKey]} `);
+              });
+              console.log(emojisToReplace);
+              next(markdown);
+          });
+        }
+      }
+      $docsify.plugins = [].concat(HEXifyEmojis, $docsify.plugins);
     }());
 
     (function () {
