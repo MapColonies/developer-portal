@@ -2,13 +2,20 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
-> :satisfied: You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)
+> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
 
 
 ## Lets get started…
 ```mermaid
 flowchart LR
-    A[Define filter] -- filter --> B[STEP 1<br/> Query CSW catalog]
+    subgraph  Prerequisite
+      direction LR
+      a1[Define filter]
+      a2[Get Auth Token]
+    end
+
+    a1 -- filter --> B[STEP 1<br/> Query CSW catalog]
+    a2 -- token --> B
     B -- xml --> C[STEP 2<br/>Get layer's URI]
     C -- layer_URI --> D[STEP 3<br/>Cesium]
 ```
@@ -101,6 +108,9 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
+> :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
+> **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
+
 ## Step 2 (Get layer URI):
 In the Response, look for 
 
@@ -108,11 +118,11 @@ In the Response, look for
   `http://3dtiles-server.com/3dtiles/332dd927-6ad9-4054-a0de-931f1f2e67f3/tileset.json`
 `</mc:links>`element.
 
-> #### :information_source: You need to save `<mc:links>` <u>element</u> value, which is a layer consumption URL.
+> :information_source: **You need to save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
 
 ## Step 3 (Construct Client side LAYER):
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
-> #### :warning: Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.
+> :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
 ### Cesium
 ```javascript
@@ -126,4 +136,4 @@ const tileset = viewer.scene.primitives.add(
 ```
 Replace `URL` with the URL link that you got from **Step 2**.
 
-> :satisfied: You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)
+> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
