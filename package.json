@@ -5,14 +5,13 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "npm run copyassets:all",
-    "start": "docsify serve docs --port 4000",
+    "start": "npm run copyassets:all && docsify serve docs --port 4000",   
     "start:prod": "http-server docs --port 4000",
     "release": "standard-version",
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
     "prepack": "npm run build",
-    "copyassets:all": "npm run copyassets:mc-cookbook && npm run copyassets:cesium",
-    "copyassets:mc-cookbook": "copyfiles -u 2 \"./src/cookbook/**/*\" \"./dist/cookbook\"",
+    "copyassets:all": "npm run copyassets:cesium",
     "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/public\""
   },
   "repository": {
