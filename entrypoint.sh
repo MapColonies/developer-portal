@@ -24,6 +24,8 @@ rm -r /$REPO_NAME
 
 # Create examples zip
 cd /docs/assets/examples
-zip -r examples ./*/**                                                   
+zip -r examples ./* 
+
+cd /
 
 exec "$@"

@@ -14,7 +14,7 @@
     "spellcheck": "cspell lint \"docs/**/*.md\"",
     "copyassets:all": "npm run copyassets:cesium && npm run copyassets:turf",
     "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/assets/examples/scripts\"",
-    "copyassets:turf": "copyfiles -u 1 \"./node_modules/turf/**/*\" \"./docs/assets/examples/scripts\""
+    "copyassets:turf": "copyfiles -u 1 \"./node_modules/turf/turf.js\" \"./docs/assets/examples/scripts\""
   },
   "repository": {
     "type": "git",
