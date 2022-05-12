@@ -7,7 +7,7 @@ The following section will help you understand how to interface with our Catalog
 > ***[SUB-SYSTEM-TYPENAME]:***
 > - `mc:MCRasterRecord`
 > - `mc:MC3DRecord`
-> - `mc:MCDMERecord`
+> - `mc:MCDEMRecord`
 > ***[SUB-SYSTEM-MAIN-NAMESPACE]:***
 > - `http://schema.mapcolonies.com/raster`
 > - `http://schema.mapcolonies.com/3d`
@@ -105,7 +105,7 @@ means CSW will look for every record that contains `MAS_6_ORT` value in `mc:prod
 `maxRecords` equals to "5" means response will contain up to 5 results.
 
 ## Number of records
-Get upto 5 records contains desired product version
+Get up to 5 records contains desired product version
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="5"  startPosition="1"  
@@ -135,7 +135,7 @@ another familiar example based on previous examples, just in that case we can se
 
 in this specific example we will get up to 5 records that includes **`productVersion`** of **`4.0`**.
 
-## Quert by ***Greater Or Equal***
+## Query by ***Greater Or Equal***
 > #### :information_source: ingestionDate = the date field that records will be filtered by.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -161,9 +161,9 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (`maxRecords="10"`) that thier ingestion date is Greater or Equal (**`<PropertyIsGreaterThanOrEqualTo></<PropertyIsGreaterThanOrEqualTo>`**) to the record ingestion date in catalog.
+Response will contain up to 10 records (`maxRecords="10"`) that their ingestion date is Greater or Equal (**`<PropertyIsGreaterThanOrEqualTo></<PropertyIsGreaterThanOrEqualTo>`**) to the record ingestion date in catalog.
 
-## Quert by ***Less or Equal***
+## Query by ***Less or Equal***
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="10"  startPosition="1" 
@@ -181,9 +181,9 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (maxRecords="10") that thier ingestion date is Less or Equal (<PropertyIsLessThanOrEqualTo></<PropertyIsLessThanOrEqualTo>) to the record ingestion date in catalog.
+Response will contain up to 10 records (maxRecords="10") that their ingestion date is Less or Equal (<PropertyIsLessThanOrEqualTo></<PropertyIsLessThanOrEqualTo>) to the record ingestion date in catalog.
 
-## Quert by ***multi*** fields
+## Query by ***multi*** fields
 Use *`<And></And>`* element to includes 2 or more conditions for Query catalog by multi fields:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -208,7 +208,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (maxRecords="10") that includes product version `"4.0"` and thier ingestion date is Less than the desired date.
+Response will contain up to 10 records (maxRecords="10") that includes product version `"4.0"` and their ingestion date is Less than the desired date.
 
 ## Query by ***BBOX***
 ```xml
@@ -231,7 +231,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records ('maxRecords="10"')  that thier **BBOX** includes in the desired extent (in example:  -180, -190, 180, 90
+Response will contain up to 10 records ('maxRecords="10"')  that their **BBOX** includes in the desired extent (in example:  -180, -190, 180, 90
 
 ## Query by ***BBOX*** and ***region***
 ```xml
@@ -260,6 +260,6 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records ('maxRecords="10"') that thier **bbox includes  includes in the desired extent and thier region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
+Response will contain up to 10 records ('maxRecords="10"') that their **BBOX includes  includes in the desired extent and their region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
 
 ## <!-- {docsify-ignore} -->

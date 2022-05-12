@@ -4,7 +4,7 @@
 2. **main_namespace** = `http://schema.mapcolonies.com/dem`
 3. The **DEM** sub-system Catalog profile fields with information of each of them:
 
-| **PYCSW Quarriable/XML <br/> Element Name** | **Type** | **Description** |
+| **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:id | text | unique internal catalog item id |
 | mc:productId | text | unique external product id |
@@ -13,7 +13,7 @@
 | mc:description | text | the product description |
 | mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
-| mc:resolutionDeg | double | the product resolution in deggrees <br/> double unsigned valid: **0.00000009 to 0.072** |
+| mc:resolutionDeg | double | the product resolution in degrees <br/> double unsigned valid: **0.00000009 to 0.072** |
 | mc:resolutionMeter | double | the product resolution in meters <br/> double unsigned valid: **0.01 to 8000** |
 | mc:absoluteAccuracyLEP90 | double | LEP90 maximum absolute vertical plane accuracy range in meters |
 | mc:relativeAccuracyLEP90 | double | LEP90 maximum relative vertical plane accuracy range in meters |

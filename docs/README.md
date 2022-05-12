@@ -1,7 +1,7 @@
-# Map Colonies - Cook Book
+# Map Colonies - Developer Portal
 
 <figure>
-    <img src="/assets/images/libot_logo.png" width=100>
+    <img src="./assets/images/libot_logo.png" width=100>
     <!-- <figcaption>
         A single track trail outside of Albuquerque, New Mexico.
     </figcaption> -->
