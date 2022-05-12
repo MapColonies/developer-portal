@@ -9,6 +9,7 @@ git clone $CLASSIFIED_REPO_URL .
 \cp -r /$REPO_NAME/docs/. /docs/
 \cp -r /$REPO_NAME/docs/assets/images/. /docs/assets/images
 
+
 ENV_TEMPLATE_VALUES=$(printenv | grep 'SERVICE_URL=\|API_KEY=\|EMOJI_CODE=' | cut -d'=' -f1)
 
 for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md" \)); 
@@ -20,5 +21,9 @@ for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md"
  done
 
 rm -r /$REPO_NAME
+
+# Create examples zip
+cd /docs/assets/examples
+zip -r examples ./*/**                                                   
 
 exec "$@"
