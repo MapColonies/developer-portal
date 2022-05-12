@@ -1,4 +1,4 @@
-# Map Colonies - Cook Book
+# Map Colonies - Developer Portal
 
 <figure>
     <img src="./assets/images/libot_logo.png" width=100>

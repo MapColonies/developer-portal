@@ -21,7 +21,7 @@ flowchart LR
     a2 -- token --> B
     B -- xml --> C[STEP 2<br/>Get layer's URI +<br/> coverage_id]
     C -- constructed URI with<br/> coverage_id --> D1[STEP 3.1<br/>GetCoverage]
-    C -- layer_WMTS_LAYER_URI --> D2[STEP 3.2 <br/>Optional<br/>Cesium visulization]
+    C -- layer_WMTS_LAYER_URI --> D2[STEP 3.2 <br/>Optional<br/>Cesium visualization]
 ```
 > :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
 > **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
@@ -30,7 +30,7 @@ flowchart LR
 2. From relevant catalog item extract **coverage_id**
 3. Use catalog item
     1. Query **DEM WCS** service for data according to [GetCoverage protocol operation](ogc-protocols/ogc-wcs.md)
-    2. _Optional_ - Visulize layer on map(**Cesium**)
+    2. _Optional_ - Visualize layer on map(**Cesium**)
 
 ## Superior-DEM service
 This service “plays” as WCS proxy which uses a CSW catalog to get different coverages based on different rules.

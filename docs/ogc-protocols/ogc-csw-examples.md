@@ -41,7 +41,7 @@ http://localhost:8080/csw?request=GetCapabilities&service=CSW
         <ows20:ProviderName>Organization Name</ows20:ProviderName>
         <ows20:ProviderSite xlink:type="simple" xlink:href="https://pycsw.org/" />
         <ows20:ServiceContact>
-          <ows20:IndividualName>Lastname, Firstname</ows20:IndividualName>
+          <ows20:IndividualName>Last_name, First_name</ows20:IndividualName>
           <ows20:PositionName>Position Title</ows20:PositionName>
           <ows20:ContactInfo>
               <ows20:Phone>

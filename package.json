@@ -11,6 +11,7 @@
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
     "prepack": "npm run build",
+    "spellcheck": "cspell lint \"docs/**/*.md\"",
     "copyassets:all": "npm run copyassets:cesium",
     "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/public\""
   },
@@ -37,6 +38,7 @@
     "@commitlint/config-conventional": "^11.0.0",
     "commitlint": "^11.0.0",
     "copyfiles": "^2.4.0",
+    "cspell": "^5.20.0",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^4.3.5",
     "rimraf": "^3.0.2",

@@ -4,7 +4,7 @@
 2. **main_namespace** = `http://schema.mapcolonies.com/3d`
 3. The **3D** sub-system Catalog profile fields with information of each of them:
 
-| **PYCSW Quarriable/XML <br/> Element Name** | **Type** | **Description** |
+| **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:id | text | unique internal catalog item id |
 | mc:productId | text | unique external product id |

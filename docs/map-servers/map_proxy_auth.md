@@ -2,7 +2,7 @@
 
 ## Map Component <!-- {docsify-ignore} -->
 
-> :information_desk_person: In order to enquire **auth token**, please [contuct us](/classified/contact_us.md).
+> :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
 
 On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a custom header `x-api-key` as such:
 
@@ -36,12 +36,12 @@ Following should be replaced:
 
 Result on Map Component when the token isn’t supplied (all requests get status code **403**):
 <figure>
-    <img src="/assets/images/mapproxy_cesium_no_token.png" width=700>
+    <img src="./assets/images/mapproxy_cesium_no_token.png" width=700>
 </figure>
 
 When the token is supplied:
 <figure>
-    <img src="/assets/images/mapproxy_cesium_with_token.png" width=700>
+    <img src="./assets/images/mapproxy_cesium_with_token.png" width=700>
 </figure>
 
 Related: <br/>

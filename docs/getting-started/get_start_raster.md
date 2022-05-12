@@ -74,7 +74,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:MCRasterRecord>
                 <mc:classification>4</mc:classification>
                 <mc:creationDateUTC>2022-02-13T13:04:23Z</mc:creationDateUTC>
-                <mc:description>תשתית אורתופוטו באיזור עולמית 2020</mc:description>
+                <mc:description>World Wide 2020</mc:description>
                 <mc:footprint>{"type":"Polygon","coordinates":[[[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]]]}</mc:footprint>
                 <mc:minHorizontalAccuracyCE90>3</mc:minHorizontalAccuracyCE90>
                 <mc:id>3b3164a7-280d-4392-a82f-d60a76e69092</mc:id>
@@ -91,7 +91,7 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:productName>bluemarble_5cm</mc:productName>
                 <mc:productType>OrthophotoHistory</mc:productType>
                 <mc:productVersion>4.0</mc:productVersion>
-                <mc:region>עולמי</mc:region>
+                <mc:region>World</mc:region>
                 <mc:maxResolutionDeg>0.000171661376953125</mc:maxResolutionDeg>
                 <mc:sensors>UNDEFINED</mc:sensors>
                 <mc:imagingTimeEndUTC>2020-05-21</mc:imagingTimeEndUTC>
@@ -123,7 +123,7 @@ In the Response, look for `<mc:footprint></mc:footprint>` element.
 In the example above - response XML file looks like this: 
 `<mc:footprint>{"type":"Polygon","coordinates":[[[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]]]}</mc:footprint>`)
 
-Use any ***tool(CESIUM, TURF, etc..)*** to convert the footprint(gojson) into a BBOX.
+Use any ***tool(CESIUM, TURF, etc..)*** to convert the footprint(geojson) into a BBOX.
 
 For example using CESIUM and TURF
 ``` typescript
@@ -150,7 +150,7 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 
 ## Step 4 (Get Layer Capabilities):
-Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilties** request.
+Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
 You can go to the next URL below with your browser or just send GET request to:
 ```
 <MAP_SERVER-RASTER-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
@@ -158,7 +158,7 @@ You can go to the next URL below with your browser or just send GET request to:
 
 Response will contain the details of **all** available layers in following format.
 <figure>
-    <img src="/assets/images/getcapabilities_response.png" style="display: block;margin-left: auto;margin-right: auto;">
+    <img src="./assets/images/getcapabilities_response.png" style="display: block;margin-left: auto;margin-right: auto;">
 </figure>
 
 In the Response, look for LAYER where `<ows:Identifier>` has saved [previously](#step-3) `[desired_layer_identifier]`
@@ -181,21 +181,21 @@ Now, after you got all product metadata that you need by querying our Catalog an
 ...
 ...
 
-const libotLayer = new Cesium.WebMapTileServiceImageryProvider({
+const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       url : '<LAYER_WMTS_URL>',                         // from Step_3 or Step_4
       /*********************************************************************************/
       /********     WHEN AUTH IS REQUIRED                                       ********/
       /*********************************************************************************/
       // url:new Cesium.Resource({
       //  url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
-      //  headers: { 'X-API-KEY': RASTER_TOKEN },       // recieved RASTER auth token
+      //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
       //}),
       layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4
       tileMatrixSetID : '<LAYER_TILE_MATRIX_SET_ID>',   // from Step_4
       /*********************************************************************************/
-      /********     TILING SHEME SHOULD BE 2 x 1                                ********/
+      /********     TILING SCHEME SHOULD BE 2 x 1                                ********/
       /*********************************************************************************/
       tilingScheme: new Cesium.GeographicTilingScheme(),
       /*********************************************************************************/
@@ -204,7 +204,7 @@ const libotLayer = new Cesium.WebMapTileServiceImageryProvider({
       rectangle : <LAYER_EXTENT>,                       // from Step_2
     });   
     
-map.addLayer(libotLayer);
+map.addLayer(catalogLayer);
 ...
 ...
 ...
@@ -224,7 +224,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
     
-    const libotLayer = new TileLayer({
+    const catalogLayer = new TileLayer({
           opacity: 1,
           extent: <LAYER_EXTENT>                          // from Step_2
           source: new WMTS({
@@ -239,7 +239,7 @@ Replace all `<>` place holders with the real values that we got from all previou
           }),
     }),
     
-    map.addLayer(libotLayer)
+    map.addLayer(catalogLayer)
 ...
 ...
 ...

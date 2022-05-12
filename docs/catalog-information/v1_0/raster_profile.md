@@ -4,7 +4,7 @@
 2. **main_namespace** = `http://schema.mapcolonies.com/raster`
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
-| **PYCSW Quarriable/XML <br/> Element Name** | **Type** | **Description** |
+| **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:id | text | unique internal catalog item id |
 | mc:productId | text | unique external product id |
@@ -18,7 +18,7 @@
 | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
-| mc:maxResolutionDeg | double | the product resolution in deggrees <br/> double unsigned valid: **0.00000009 to 0.072** |
+| mc:maxResolutionDeg | double | the product resolution in degrees <br/> double unsigned valid: **0.00000009 to 0.072** |
 | mc:maxResolutionMeter | double | the product resolution in meters <br/> double unsigned valid: **0.01 to 8000** |
 | mc:minHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters <br/> float unsigned valid: **0.01 to 4000 (x.xx)** |
 | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
@@ -29,7 +29,7 @@
 | mc:region | text | sector / countries <br/> comma separated list |
 | mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/raster/classification_table.md) |
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
-| mc:RMS | double | tollerance, standard deviation in % |
+| mc:RMS | double | tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | mc:ingestionDate | date | date when product was added to catalog |

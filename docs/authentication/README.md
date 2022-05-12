@@ -3,7 +3,7 @@
 ## Introduction
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 
-> :information_desk_person: In order to enquire **auth token**, please [contuct us](/classified/contact_us.md).
+> :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
 
 The token, should be used in **every** request to our services and will enable you to access our services in accordance to the permissions that were given to you. <br/>
 

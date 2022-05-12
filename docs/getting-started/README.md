@@ -1,6 +1,6 @@
 # Getting Started
 <figure>
-    <img src="/assets/images/libot_logo.png" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
+    <img src="./assets/images/libot_logo.png" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
 </figure>
 
 Welcome to the Map Colonies Wiki space. 
@@ -15,7 +15,7 @@ The catalog exposes an API, as well as a Web UI.
 Orthophoto images are generated from satellite imagery or aerial photography. In the case of aerial photography, the raw frames are matched and resolved into photo blocks. Then, they and geometrically corrected (using DTM), anchored to well-known points, visually improved, and assembled into a homogeneous orthophoto mosaic, which can be combined of multiple files. 
 A **discrete layer** represents a geographical region and is composed of multiple orthophoto mosaics with the same resolution, color scheme, and classification. A discrete layer can be included in the best **mosaic**, a universal map which is a fusion of multiple discrete layers.
 <figure>
-    <img src="/assets/images/raster_mosaic.jpg" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
+    <img src="./assets/images/raster_mosaic.jpg" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
 </figure>
 
 ## 3D
@@ -33,7 +33,7 @@ A **Digital Elevation Model** is a representation of elevation data that maps th
 * The **Digital Surface Model (DSM)** represents the elevation of the earth's surface that a remote sensing system will first meet (2.5D “blanket”). Thus, the resulting DSM includes the elevation of the bare earth terrain plus the natural (e.g. trees, shrubs) and artificial man-made features (e.g. buildings, bridges).
 
 <figure>
-    <img src="/assets/images/dtm_dsm.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;">
+    <img src="./assets/images/dtm_dsm.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;">
 </figure>
  
 DEM can be represented as raster or vector data:
