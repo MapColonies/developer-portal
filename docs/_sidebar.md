@@ -44,5 +44,4 @@
 - [Examples](/examples/README.md)
   * [Raster Example](.//assets/examples/raster/index.html)
   * [3D Example](.//assets/examples/3d/index.html)
-  * <a href="./assets/examples/examples.zip" download>Download</a> <!-- {docsify-ignore} -->
 - [Contact us](/classified/contact_us.md)
