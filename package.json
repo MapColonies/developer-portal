@@ -5,15 +5,16 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "npm run copyassets:all",
-    "start": "npm run copyassets:all && docsify serve docs --port 4000",   
+    "start": "npm run copyassets:all && docsify serve docs --port 4000",
     "start:prod": "http-server docs --port 4000",
     "release": "standard-version",
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
     "prepack": "npm run build",
     "spellcheck": "cspell lint \"docs/**/*.md\"",
-    "copyassets:all": "npm run copyassets:cesium",
-    "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/public\""
+    "copyassets:all": "npm run copyassets:cesium && npm run copyassets:turf",
+    "copyassets:cesium": "copyfiles -u 3 \"./node_modules/cesium/Build/Cesium/**/*\" \"./docs/assets/examples/scripts\"",
+    "copyassets:turf": "copyfiles -u 1 \"./node_modules/turf/**/*\" \"./docs/assets/examples/scripts\""
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
   "dependencies": {
     "cesium": "^1.92.0",
     "docsify-cli": "^4.4.4",
-    "http-server": "^14.1.0"
+    "http-server": "^14.1.0",
+    "turf": "^3.0.14"
   }
 }

@@ -1,6 +1,6 @@
 ## Container base
 from node:alpine
-RUN apk update && apk add git
+RUN apk update && apk add git zip
 
 ## Container labels
 label docker_docsify_version_major="4"
@@ -30,10 +30,7 @@ expose 4000
 
 # create new user 
 RUN mkdir -p /classified_repo
-RUN adduser -S newUser -G root  
-RUN chown newUser /classified_repo
-RUN chmod -R 777 /classified_repo
-USER newUser
+RUN chmod a+rwx /classified_repo
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["npm","run","start:prod"]
