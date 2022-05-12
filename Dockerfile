@@ -29,8 +29,11 @@ env NODE_VERSION alpine
 expose 4000
 
 # create new user 
-RUN adduser -S user -G root  
-USER user
+RUN mkdir -p /classified_repo
+RUN adduser -S newUser -G root  
+RUN chown newUser /classified_repo
+RUN chmod -R 777 /classified_repo
+USER newUser
 
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["docsify", "serve", "docs", "--port" ,"4000"]
+CMD ["npm","run","start:prod"]

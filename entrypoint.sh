@@ -3,8 +3,9 @@
 echo cloning from repo $CLASSIFIED_REPO_URL
 
 REPO_NAME=classified_repo
+cd $REPO_NAME
 
-git clone $CLASSIFIED_REPO_URL $REPO_NAME
+git clone $CLASSIFIED_REPO_URL .
 \cp -r /$REPO_NAME/docs/. /docs/
 \cp -r /$REPO_NAME/docs/assets/images/. /docs/assets/images
 
