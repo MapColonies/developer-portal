@@ -30,6 +30,22 @@
         display: flex;
         height: 30%;
     }
+    #resizeHandler {
+      width: 20px;
+      height: 20px;
+      background: url('./assets/images/resize.png');
+      background-size: contain;
+      position: fixed;
+      top:50vh;
+      left: calc(var(--sidebar-width) - 14px);
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .ready.sticky.close main aside ~ #resizeHandler {
+      display: none;
+    }
+
 </style>
 </head>
 <body>
@@ -61,28 +77,11 @@
   <script src="./assets/outer-scripts/search.min.js"></script>
   <script src="./assets/outer-scripts/mermaid.min.js"></script>
   <script src="./assets/outer-scripts/emojis_lookup.js"></script>
+  <script src="./assets/scripts/resizeHandler.js"></script>
+  <script src="./assets/scripts//darkModeToggle.js"></script>
+
+
   <script>
-    let title = "dark";
-    function toggle() {
-      if (title === "dark") {
-        title = "light";
-      } else {
-        title = "dark";
-      }
-      const themes = Docsify.dom.findAll('[rel="stylesheet"]');
-      themes.forEach(function(theme) {
-        if(theme.title){
-          theme.disabled = theme.title !== title;
-        }
-      });
-
-      document.body.setAttribute("theme", title);
-      
-    }
-    window.addEventListener('load', function() {
-      toggle();
-    });
-
     // Inspired by https://github.com/NCUTEA/tutorials/tree/master/_media/js
     (function () {
       function installBreadCrumb(hook, vm) {
