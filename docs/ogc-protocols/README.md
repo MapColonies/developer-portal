@@ -1,5 +1,5 @@
 # OGC Standard Protocols
-Below is a short list of our supported OGC Standard Protocols, based on [The Home of Location Technology Innovation and Collaboration | OGC ](https://www.ogc.org/)
+Below is a short list of our supported OGC Standard Protocols, based on [The Home of Location Technology Innovation and Collaboration | OGC ](https://www.ogc.org/) :globe_with_meridians:
 
 ## Catalog query <!-- {docsify-ignore} -->
 [Catalog Service for the Web (CSW)](/ogc-protocols/ogc-csw.md)

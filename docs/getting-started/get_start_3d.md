@@ -54,7 +54,7 @@ You will get GetRecords XML Response with product **metadata**.
 <details>
   <summary>Response example</summary>
 
-  ``` xml
+```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <!-- pycsw 2.7.dev0 -->
     <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:mc="http://schema.mapcolonies.com/3d" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
@@ -105,7 +105,7 @@ You will get GetRecords XML Response with product **metadata**.
         </mc:MC3DRecord>
     </csw:SearchResults>
     </csw:GetRecordsResponse>
-  ```
+```
 </details>
 
 > :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>

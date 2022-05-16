@@ -12,6 +12,7 @@ data:
   PYCSW-DEM-SERVICE_URL: {{ quote .Values.env.PYCSW_DEM_SERVICE_URL }}
   MAP_SERVER-RASTER-SERVICE_URL: {{ quote .Values.env.MAP_SERVER_RASTER_SERVICE_URL }}
   MAP_SERVER-DEM-SERVICE_URL: {{ quote .Values.env.MAP_SERVER_DEM_SERVICE_URL }}
+  WFS-VECTOR-SERVICE_URL: {{ quote .Values.env.WFS_VECTOR_SERVICE_URL }}
   CLASSIFIED_REPO_URL: {{ quote .Values.env.CLASSIFIED_REPO_URL }}
   API_KEY: {{ quote .Values.env.API_KEY }}
   EMOJI_CODE: {{ quote .Values.env.EMOJI_CODE }}

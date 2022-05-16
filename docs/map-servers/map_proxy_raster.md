@@ -5,7 +5,7 @@
  
 
 ## Source  
-[MapProxy —  The accelerating web map proxy](https://mapproxy.org/)
+[MapProxy —  The accelerating web map proxy](https://mapproxy.org/) :globe_with_meridians:
 
 ## Overview
 MapProxy is a tile server (WMS-C, TMS, WMTS, KML SuperOverlays). It reads data from:

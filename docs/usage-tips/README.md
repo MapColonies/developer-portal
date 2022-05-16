@@ -5,7 +5,7 @@ It is important to specify the extent/rectangle as BBOX derived from layer's foo
 This **rectangle** can limit the visible portion of the imagery provider.
 
 ## OpenLayers WMTS layer from Capabilities 
-There is an easy way to consume WMTS layer from GetCapabilities response with OpenLayers, and even create the configuration manually. See [WMTS Layer from Capabilities](https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html)
+There is an easy way to consume WMTS layer from GetCapabilities response with OpenLayers, and even create the configuration manually. See [WMTS Layer from Capabilities](https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html) :globe_with_meridians:
 
 ## Tiling scheme - Cesium
 Pay attention to define **2x1** tiling scheme (WGS84) and _not 1x1_ at client side (Cesium) in order to consume the layers properly
