@@ -31,6 +31,7 @@ expose 4000
 # create new user 
 RUN mkdir -p /classified_repo
 RUN chmod a+rwx /classified_repo
+RUN chmod a+rwx /docs
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["npm","run","start:prod"]
