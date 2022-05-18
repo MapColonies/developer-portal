@@ -21,15 +21,15 @@ body[theme=dark] #mermaid .cluster rect {
 }
 
 .sidebar-nav>ul>li>a[href^="#/"]:not([href*="?id="]):not(:only-child) {
-  background-image: unset;
+  background-image: radial-gradient(circle 20px at 8px 18px, var(--theme-color) 5px,transparent 0);
 }
 .sidebar-nav>ul>li.active>a[href^="#/"]:not([href*="?id="]):not(:only-child) {
-  background-image: unset;
+  background-image: radial-gradient(circle 20px at 5px 18px, var(--theme-color) 5px,transparent 0)
 }
 
 .sidebar-nav>ul>li>a[href^="#/"]:not([href*="?id="]):only-child {
-  background-image: unset;
+  background-image: radial-gradient(circle 20px at 5px 18px, var(--theme-color) 5px,transparent 0)
 }
 .sidebar-nav>ul>li.active>a[href^="#/"]:not([href*="?id="]):only-child {
-  background-image: unset;
+  background-image: radial-gradient(circle 20px at 5px 18px, var(--theme-color) 5px,transparent 0)
 }
