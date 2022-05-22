@@ -53,10 +53,13 @@
         "ERDAS",
         "NITF",
         "RPFTOC",
-        "producttype"
-
+        "producttype",
+        "featuretype",
+        "nillable",
+        "shapefile",
+        "describefeaturetype",
+        "getfeature"
     ],
     "flagWords": [
-        
     ]
 }

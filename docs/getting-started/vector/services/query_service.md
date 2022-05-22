@@ -1,10 +1,10 @@
-# WFS
+# Query Service
 
-The vector [WFS](/ogc-protocols/ogc-wfs.md) service is a READ-ONLY web feature service.
+The vector query service uses the [WFS](/ogc-protocols/ogc-wfs.md) protocol which is a READ-ONLY Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 For the full capabilities provided by the service see [GetCapabilities](#getcapabilities)
 
-WFS partitions the queriable data into feature types each feature type has its own attributes describing the structure of the data itself.
+WFS partitions the queryable data into feature types each feature type has its own attributes describing the structure of the data itself.
 For the description of a feature type see [DescribeFeatureType](#describefeaturetype)
 
 Finally, Features can be retrieved with the [GetFeature](#getfeature) operation. the request returns a collection of geographic feature instances filtered according to a criteria set by the requesting client.
@@ -46,7 +46,7 @@ The following GET request will return a list of all feature types, sorted by nam
     request=DescribeFeatureType
 ```
 
-The following GET request will list information about a specific feature type named namespace:featuretype, the response will be formated in application/json format
+The following GET request will list information about a specific feature type named `namespace:featuretype`, the response will be formatted in application/json format
 
 ```
 <WFS-VECTOR-SERVICE_URL>/wfs?
@@ -72,7 +72,7 @@ The GetFeature request queries the server with a set of parameters describing th
 | bbox | No | Search for features that are contained (or partially contained) inside a coordinates box. The format of the BBOX parameter is bbox=a1,b1,a2,b2,[crs] where a1, b1, a2, b2 represent the coordinate values. The optional crs parameter is used to name the CRS for the bbox coordinates. bottom corner coordinate (left or right) to be provided first | - |
 | srsName | No | The coordinate reference system for the returned features to be encoded in | - |
 
-The following GET request will get at most the top N features of feature type named namespace:featuretype sorted by attributeA, the response will be formated in application/json
+The following GET request will get at most the top N features of feature type named `namespace:featuretype` sorted by attributeA, the response will be formatted in application/json
 
 ```
 <WFS-VECTOR-SERVICE_URL>/wfs?
@@ -85,8 +85,8 @@ The following GET request will get at most the top N features of feature type na
     sortBy=attributeA
 ```
 
-The following GET request will search for all the features contained or partially contained by the specified bounding box in the specified coordinate reference system (EPSG 4326).
-The retrieved features will be encoded in ESPG 4326 as well as requested by the srsName parameter value.
+The following GET request will search for all the features contained or partially contained by the specified bounding box in the specified coordinate reference system (EPSG:4326).
+The retrieved features will be encoded in EPSG:4326 as well as requested by the srsName parameter value.
 
 ```
 <WFS-VECTOR-SERVICE_URL>/wfs?
