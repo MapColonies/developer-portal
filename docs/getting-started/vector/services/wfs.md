@@ -1,6 +1,6 @@
-# Vector: Getting Started
+# WFS
 
-The vector WFS service is a READ-ONLY web feature service.
+The vector [WFS](/ogc-protocols/ogc-wfs.md) service is a READ-ONLY web feature service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 For the full capabilities provided by the service see [GetCapabilities](#getcapabilities)
 
