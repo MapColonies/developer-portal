@@ -27,6 +27,6 @@ for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md"
         done
  done
 
-rm -r /$REPO_NAME
+# rm -r /$REPO_NAME
 
 exec "$@"
