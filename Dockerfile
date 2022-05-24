@@ -18,8 +18,6 @@ COPY . .
 RUN npm install
 RUN npm run copyassets:all
 
-RUN chmod +x ./entrypoint.sh
-
 ## Container environment variables
 env PORT 4000
 env DOCSIFY_VERSION latest
@@ -29,10 +27,12 @@ env NODE_VERSION alpine
 expose 4000
 
 # create new user 
+RUN chmod +x ./entrypoint.sh
 RUN mkdir -p /classified_repo
 RUN chmod g+rwx -R /docs /classified_repo
 RUN chgrp -R root /docs /classified_repo
 RUN addgroup node root
+RUN chmod g+w /
 USER node
 RUN whoami
 
