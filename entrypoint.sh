@@ -2,6 +2,8 @@
 
 echo cloning from repo $CLASSIFIED_REPO_URL
 
+whoami
+
 REPO_NAME=classified_repo
 cd $REPO_NAME
 
