@@ -19,7 +19,7 @@ RUN npm install
 RUN npm run copyassets:all
 
 RUN chmod +x ./entrypoint.sh
-RUN whoami
+
 ## Container environment variables
 env PORT 4000
 env DOCSIFY_VERSION latest
@@ -30,8 +30,11 @@ expose 4000
 
 # create new user 
 RUN mkdir -p /classified_repo
-RUN chmod a+rwx -R /classified_repo
-RUN chmod a+rwx -R /docs
+RUN chmod g+rwx -R /docs /classified_repo
+RUN chgrp -R root /docs /classified_repo
+RUN addgroup node root
+USER node
+RUN whoami
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["npm","run","start:prod"]
