@@ -19,7 +19,7 @@ RUN npm install
 RUN npm run copyassets:all
 
 RUN chmod +x ./entrypoint.sh
-
+RUN whoami
 ## Container environment variables
 env PORT 4000
 env DOCSIFY_VERSION latest
