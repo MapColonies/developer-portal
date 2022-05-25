@@ -29,5 +29,8 @@ for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md"
 
 # rm -r /$REPO_NAME
 
+# some terminal debug time
+sleep 10m
+
 echo "Running start command"
 exec "$@"
