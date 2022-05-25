@@ -29,7 +29,7 @@ expose 4000
 # create new user 
 RUN chmod +x ./entrypoint.sh
 RUN mkdir -p /classified_repo
-RUN chmod g+rwx -R /docs /classified_repo
+RUN chmod g+rwx -R /docs /classified_repo /node_modules
 RUN chgrp -R root /docs /classified_repo
 RUN addgroup node root
 RUN chmod g+w /
