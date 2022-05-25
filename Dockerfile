@@ -29,12 +29,12 @@ expose 4000
 # create new user 
 RUN chmod +x ./entrypoint.sh
 RUN mkdir -p /classified_repo
-RUN chmod g+rwx -R /docs /classified_repo /node_modules
+RUN chmod g+rwx -R /docs /classified_repo
 RUN chgrp -R root /docs /classified_repo
-RUN addgroup node root
-RUN chmod g+w /
-RUN /bin/su node
-RUN whoami
+# RUN addgroup node root
+# RUN chmod g+w /
+# RUN /bin/su node
+# RUN whoami
 
 ENTRYPOINT ["./entrypoint.sh"]
 CMD ["npm","run","start:prod"]
