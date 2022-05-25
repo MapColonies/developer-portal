@@ -1,5 +1,5 @@
 ## Container base
-from node:alpine
+from node:17.9.0-alpine
 RUN apk update && apk add git zip
 
 ## Container labels
