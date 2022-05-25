@@ -39,6 +39,8 @@ spec:
       imagePullSecrets:
         - name: {{ $cloudProviderImagePullSecretName | quote }}
     {{- end }}
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: {{ $releaseName }}-{{ $chartName }}-deployment
           {{- with .Values.image }}
