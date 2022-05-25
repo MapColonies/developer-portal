@@ -33,7 +33,7 @@ RUN chmod g+rwx -R /docs /classified_repo /node_modules
 RUN chgrp -R root /docs /classified_repo
 RUN addgroup node root
 RUN chmod g+w /
-USER node
+RUN /bin/su node
 RUN whoami
 
 ENTRYPOINT ["./entrypoint.sh"]
