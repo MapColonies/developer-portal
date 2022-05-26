@@ -1,5 +1,5 @@
 # WCS - Web Coverage Service
-[WCS OGC standard](https://www.ogc.org/standards/wcs)
+[WCS OGC standard](https://www.ogc.org/standards/wcs) :globe_with_meridians:
 
 | Operation | Description |
 | ------ | ------- |
@@ -433,7 +433,7 @@ This request shows an XML file containing the DescribeCoverage response of ***n3
 ## GetCoverage
 The **GetCoverage** operation requests the actual spatial data. It can retrieve subsets of coverages, and the result can be either the coverage itself or a reference to it. The most powerful thing about a GetCoverage request is its ability to subset domains (height and time) and ranges. It can also do resampling, encode in different data formats, and return the resulting file in different ways.
 
-Detailed explanation about params might be found [here](https://www.mapserver.org/ogc/wcs_server.html)
+Detailed explanation about params might be found [here](https://www.mapserver.org/ogc/wcs_server.html) :globe_with_meridians:
 
 ```
 <MAP_SERVER-DEM-SERVICE_URL>/geoserver/ows?

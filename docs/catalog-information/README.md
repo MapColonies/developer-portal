@@ -1,5 +1,5 @@
 # Catalog Information
-Map Colonies uses OGC CSW server implementation written in Python, named [PYCSW](https://docs.pycsw.org/en/latest/).
+Map Colonies uses OGC CSW server implementation written in Python, named [PYCSW](https://docs.pycsw.org/en/latest/) :globe_with_meridians:
 
 Each sub-system (Raster, 3D, DEM) has his own CSW service and deals with respective entities metadata(**pycsw profile**).
 

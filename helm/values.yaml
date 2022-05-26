@@ -39,6 +39,7 @@ env:
   PYCSW_DEM_SERVICE_URL: "https://pycsw_dem.com"
   MAP_SERVER_RASTER_SERVICE_URL: "https://mapproxy_raster.com"
   MAP_SERVER_DEM_SERVICE_URL: "https://geoserver_dem.com"
+  WFS_VECTOR_SERVICE_URL: "https://wfs.com"
   CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
   API_KEY: "API_KEY"
   EMOJI_CODE: "false"

@@ -35,7 +35,7 @@ flowchart LR
 ## Superior-DEM service
 This service “plays” as WCS proxy which uses a CSW catalog to get different coverages based on different rules.
 
-Basically this service “hides” a work against catalog but mimics original WCS protocol in terms of [GetCoverage operation](https://docs.geoserver.geo-solutions.it/edu/en/wcs/get.html)
+Basically this service “hides” a work against catalog but mimics original WCS protocol in terms of [GetCoverage operation](https://docs.geoserver.geo-solutions.it/edu/en/wcs/get.html) :globe_with_meridians:
 
 ### GetCoverage data from catalog materials with best resolution (coverageId=DTMBestResolution)
 
