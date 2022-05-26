@@ -45,8 +45,8 @@ When the token is supplied:
 </figure>
 
 Related: <br/>
-- CESIUM documentation regarding WMTS layer - [WebMapTileServiceImageryProvider](https://cesium.com/learn/cesiumjs/ref-doc/WebMapTileServiceImageryProvider.html?classFilter=We) 
+- CESIUM documentation regarding WMTS layer - [WebMapTileServiceImageryProvider](https://cesium.com/learn/cesiumjs/ref-doc/WebMapTileServiceImageryProvider.html?classFilter=We) :globe_with_meridians:
 
-- CESIUM documentation regarding WMTS layer URL (Resource | String) as [Resource](https://cesium.com/learn/cesiumjs/ref-doc/Resource.html) 
+- CESIUM documentation regarding WMTS layer URL (Resource | String) as [Resource](https://cesium.com/learn/cesiumjs/ref-doc/Resource.html) :globe_with_meridians:
 
 - Read more about [TODO: MapColonies authentication](LINK) 

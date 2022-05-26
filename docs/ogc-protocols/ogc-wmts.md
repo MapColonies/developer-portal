@@ -1,7 +1,7 @@
 # WMTS - Web Map Tile Service
-[WMTS OGC standard](https://www.ogc.org/standards/wmts)
+[WMTS OGC standard](https://www.ogc.org/standards/wmts) :globe_with_meridians:
 
-[OGC e-learning](http://opengeospatial.github.io/e-learning/wmts/text/operations.html)
+[OGC e-learning](http://opengeospatial.github.io/e-learning/wmts/text/operations.html) :globe_with_meridians:
 
 | Operation | Description |
 | ------ | ------- |

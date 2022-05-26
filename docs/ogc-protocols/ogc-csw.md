@@ -1,8 +1,8 @@
 # Catalog Service for the Web (CSW)
 Overview - source
-The CSW service exposes the metadata records in XML format using the [OGC CSW protocol](https://docs.pycsw.org/en/latest/introduction.html#csw-support). 
+The CSW service exposes the metadata records in XML format using the [OGC CSW protocol](https://docs.pycsw.org/en/latest/introduction.html#csw-support) :globe_with_meridians:
 
-Standard protocol supported [Operations](https://docs.pycsw.org/en/latest/introduction.html#supported-operations)
+Standard protocol supported [Operations](https://docs.pycsw.org/en/latest/introduction.html#supported-operations) :globe_with_meridians:
 
 MapColonies operations:
 

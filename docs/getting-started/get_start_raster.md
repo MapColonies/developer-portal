@@ -163,7 +163,7 @@ Response will contain the details of **all** available layers in following forma
 
 In the Response, look for LAYER where `<ows:Identifier>` has saved [previously](#step-3) `[desired_layer_identifier]`
 
-You can read more about ***GetCapabilities*** OGC format [here](http://docs.opengeospatial.org/is/13-082r2/13-082r2.html)
+You can read more about ***GetCapabilities*** OGC format [here](http://docs.opengeospatial.org/is/13-082r2/13-082r2.html) :globe_with_meridians:
 
 You need to **save** the following values in order to consume the layer later on [Step 5](#step-5).
 

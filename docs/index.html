@@ -55,7 +55,7 @@
     </div>
   </div>
   <script>
-    // EMOJI_CODE is managed on env vars stage 
+    // EMOJI_CODE is managed on env vars stage
     const EMOJI_CODE = '<EMOJI_CODE>';
 
     window.$docsify = {
@@ -69,6 +69,10 @@
       nativeEmoji: true,
       executeScript: true
     }
+    document.body.setAttribute("theme", title);
+    window.addEventListener('load', function () {
+      toggle();
+    });
   </script>
   <!-- Docsify v4 -->
   <!-- <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
@@ -79,8 +83,6 @@
   <script src="./assets/outer-scripts/emojis_lookup.js"></script>
   <script src="./assets/scripts/resizeHandler.js"></script>
   <script src="./assets/scripts//darkModeToggle.js"></script>
-
-
   <script>
     // Inspired by https://github.com/NCUTEA/tutorials/tree/master/_media/js
     (function () {
