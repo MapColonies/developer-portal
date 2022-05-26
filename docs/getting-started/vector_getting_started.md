@@ -35,6 +35,7 @@ Vector datasets are in use in many industries besides geospatial fields. For ins
 ## Services <!-- {docsify-ignore} -->
 | Service | Description |
 |-|-|
-| [Query Service 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data |
+| [Query 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data |
+| [Replication 📦](/getting-started/vector/services/replication_service.md) | Vector data replication service |
 
 ## <!-- {docsify-ignore} -->
