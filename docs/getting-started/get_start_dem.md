@@ -5,6 +5,9 @@ The following guide will help you understand how to work with the DEM sub-system
 There are two options:
 - CSW catalog service with conjunction WCS service.
 - Superior-DEM service
+<figure>
+<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E006V3"/>
+</figure>
 
 ## CSW catalog service with conjunction WCS service
 **Step-by-step** recipe:
