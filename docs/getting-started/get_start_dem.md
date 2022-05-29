@@ -8,8 +8,11 @@ There are two options:
 
 <figure>
 <img class="kuku" src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E006V3">
-<img class="kuku" src="https://github.githubassets.com/images/icons/emoji/adult.png" alt="no_entry">
 </figure>
+<figure>
+<img class="emoji" src="https://github.githubassets.com/images/icons/emoji/adult.png" alt="no_entry">
+</figure>
+
 
 ## CSW catalog service with conjunction WCS service
 **Step-by-step** recipe:
