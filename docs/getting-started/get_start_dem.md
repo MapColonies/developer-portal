@@ -10,7 +10,7 @@ There are two options:
 <img class="kuku" src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E006V3">
 </figure>
 <figure>
-<img class="emoji" src="https://github.githubassets.com/images/icons/emoji/adult.png" alt="no_entry">
+<img class="emoji" src="https://github.githubassets.com/images/icons/emoji/a.png" alt="no_entry">
 </figure>
 
 
