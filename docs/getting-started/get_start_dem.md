@@ -6,27 +6,6 @@ There are two options:
 - CSW catalog service with conjunction WCS service.
 - Superior-DEM service
 
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E006V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E009V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E010V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E011V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E012V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00E013V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W050V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W051V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W052V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W053V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W054V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W055V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W056V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W057V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W058V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W059V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W060V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W061V3" >
-<img src="https://earthexplorer.usgs.gov/download/5e83a3efe0103743/SRTM1N00W062V3" >
-
-
 ## CSW catalog service with conjunction WCS service
 **Step-by-step** recipe:
 
