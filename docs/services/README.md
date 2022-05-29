@@ -19,10 +19,10 @@
 
 ### Vector
 - Query Service VECTOR: <br/>
-  `<WFS-VECTOR-SERVICE_URL>`
+  `<QUERY-VECTOR-SERVICE-URL>`
 - Replication Service VECTOR: <br/>
   `<REPLICATION-VECTOR-SERVICE_URL>`
-
+גרןהק
 <script>
 var copy = function(target) {
     var textArea = document.createElement('textarea')
