@@ -15,6 +15,9 @@
 - Map server DEM: <br/>
   `<MAP_SERVER-DEM-SERVICE_URL>`
 
+- Superior DEM service: <br/>
+  `<SUPERIOR-DEM-SERVICE_URL>`
+
 - WFS service VECTOR: <br/>
   `<WFS-VECTOR-SERVICE_URL>`
 

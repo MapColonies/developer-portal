@@ -1,11 +1,10 @@
-# 3D: Get Started
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
 
 
-## Lets get started…
+## Flow diagram
 ```mermaid
 flowchart LR
     subgraph  Prerequisite
@@ -20,7 +19,7 @@ flowchart LR
     C -- layer_URI --> D[STEP 3<br/>Cesium]
 ```
 
-## Step 1 (Query CSW catalog):
+## Query CSW catalog (Step 1)
 Query **3D CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md)
 
 Filter should be based on [3D profile](/catalog-information/v1_0/3d_profile.md)
@@ -111,7 +110,7 @@ You will get GetRecords XML Response with product **metadata**.
 > :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
 > **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
 
-## Step 2 (Get layer URI):
+## Get layer URI (Step 2)
 In the Response, look for 
 
 `<mc:links scheme="`<strong>3DTiles</strong>`" name="">`
@@ -120,7 +119,7 @@ In the Response, look for
 
 > :information_source: **You need to save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
 
-## Step 3 (Construct Client side LAYER):
+## Construct Client side LAYER (Step 3)
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
@@ -137,3 +136,16 @@ const tileset = viewer.scene.primitives.add(
 Replace `URL` with the URL link that you got from **Step 2**.
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
+
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="#/catalog-information/v1_0/3d_profile">Previous (Catalog profile)</a>
+            </td>
+            <td align="right"></td>
+        </tr>
+    </tbody>
+</table>

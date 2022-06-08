@@ -1,4 +1,3 @@
-# DEM: Get Started
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand how to work with the DEM sub-system of Map Colonies  and how to consume DEM data.
 
@@ -41,7 +40,7 @@ Basically this service “hides” a work against catalog but mimics original WC
 
 ***Request example:*** 
 ```
-[SUPERIOR_SERVICE_URL]/wcs/?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
+[SUPERIOR-DEM-SERVICE_URL]/wcs/?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
 ```
 
 ***Response:***
@@ -51,8 +50,21 @@ Tiff will be received
 
 ***Request example:*** 
 ```
-[SUPERIOR_SERVICE_URL]/wcs/?service=WCS&version=2.0.1&coverageId=DTMMinResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
+[SUPERIOR-DEM-SERVICE_URL]/wcs/?service=WCS&version=2.0.1&coverageId=DTMMinResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
 ```
 
 ***Response:***
 Tiff will be received
+
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="#/catalog-information/v1_0/dem_profile">Previous (Catalog profile)</a>
+            </td>
+            <td align="right"></td>
+        </tr>
+    </tbody>
+</table>
