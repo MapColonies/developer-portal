@@ -1,5 +1,6 @@
 # MapColonies available services
 
+### Raster
 - (py)CSW Raster: <br/>
   `<PYCSW-RASTER-SERVICE_URL>`
 
@@ -12,14 +13,18 @@
 - Map server Raster: <br/>
   `<MAP_SERVER-RASTER-SERVICE_URL>`
 
+### DEM
 - Map server DEM: <br/>
   `<MAP_SERVER-DEM-SERVICE_URL>`
 
 - Superior DEM service: <br/>
   `<SUPERIOR-DEM-SERVICE_URL>`
 
-- WFS service VECTOR: <br/>
-  `<WFS-VECTOR-SERVICE_URL>`
+### Vector
+- Query Service VECTOR: <br/>
+  `<QUERY-VECTOR-SERVICE-URL>`
+- Replication Service VECTOR: <br/>
+  `<REPLICATION-VECTOR-SERVICE_URL>`
 
 <script>
 var copy = function(target) {

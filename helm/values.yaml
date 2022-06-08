@@ -41,6 +41,7 @@ env:
   MAP_SERVER_DEM_SERVICE_URL: "https://geoserver_dem.com"
   WFS_VECTOR_SERVICE_URL: "https://wfs.com"
   CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
+  REPLICATION_VECTOR_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
   API_KEY: "API_KEY"
   EMOJI_CODE: "false"
 resources:

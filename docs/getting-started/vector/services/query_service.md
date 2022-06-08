@@ -1,4 +1,4 @@
-# Query Service
+# Query Service 🔎
 
 The vector query service uses the [WFS](/ogc-protocols/ogc-wfs.md) protocol which is a READ-ONLY Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
@@ -21,7 +21,7 @@ The following parameters are common query parameters for all of the provided ope
 The GetCapabilities operation is a GET request to a WFS server for a list of the operations, services or capabilities supported by that service
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetCapabilities
@@ -40,7 +40,7 @@ Specifically, the operation will request a list of features and attributes for t
 The following GET request will return a list of all feature types, sorted by namespace
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType
@@ -49,7 +49,7 @@ The following GET request will return a list of all feature types, sorted by nam
 The following GET request will list information about a specific feature type named `namespace:featuretype`, the response will be formatted in application/json format
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType&
@@ -75,7 +75,7 @@ The GetFeature request queries the server with a set of parameters describing th
 The following GET request will get at most the top N features of feature type named `namespace:featuretype` sorted by attributeA, the response will be formatted in application/json
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -89,7 +89,7 @@ The following GET request will search for all the features contained or partiall
 The retrieved features will be encoded in EPSG:4326 as well as requested by the srsName parameter value.
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -101,7 +101,7 @@ The retrieved features will be encoded in EPSG:4326 as well as requested by the 
 The following GET request will retrieve a specific feature by provided featureId FID
 
 ```
-<WFS-VECTOR-SERVICE_URL>/wfs?
+<QUERY-VECTOR-SERVICE-URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&

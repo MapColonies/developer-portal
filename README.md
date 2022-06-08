@@ -1,3 +1,3 @@
 # MapColonies Developer Portal
 
-Live demo is [here](https://mapcolonies.github.io/cookbook/#/)
+Live demo is [here](https://mapcolonies.github.io/developer-portal/#/)

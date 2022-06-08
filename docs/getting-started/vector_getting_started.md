@@ -32,9 +32,10 @@ potential bias in datasets - what didn’t get recorded?
 Calculations involving multiple vector layers need to do math on the geometry as well as the attributes, so can be slow compared to raster math.
 Vector datasets are in use in many industries besides geospatial fields. For instance, computer graphics are largely vector-based, although the data structures in use tend to join points using arcs and complex curves rather than straight lines. Computer-aided design (CAD) is also vector- based. The difference is that geospatial datasets are accompanied by information tying their features to real-world locations.
 
-## Services
+## Services <!-- {docsify-ignore} -->
 | Service | Description |
 |-|-|
-| [Query Service](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data |
+| [Query 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data |
+| [Replication 📦](/getting-started/vector/services/replication_service.md) | Vector data replication service |
 
 ## <!-- {docsify-ignore} -->
