@@ -132,6 +132,23 @@
               next(markdown);
           });
         }
+        else {
+          /*************************************************************************************************/
+          /* TODO: Use this hook to give an alternative image source of github emoji                       */
+          /* <img src="imagenotfound.gif" onerror="this.src='imagefound.gif';" />                          */
+          /* <img                                                                                          */
+          /*    src="https://github.githubassets.com/images/icons/emoji/world_map.png"                     */
+          /*    onerror="this.src='https://github.githubassets.com/images/icons/emoji/unicode/1f5fa.png';" */
+          /*  />                                                                                           */
+          /*************************************************************************************************/
+          // hook.afterEach(function(html, next) {
+          //   // Invoked each time after the Markdown file is parsed.
+          //   // beforeEach and afterEach support asynchronous。
+          //   // ...
+          //   // call `next(html)` when task is done.
+          //   next(html);
+          // });
+        }
       }
       $docsify.plugins = [].concat(HEXifyEmojis, $docsify.plugins);
     }());

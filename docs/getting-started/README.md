@@ -11,6 +11,4 @@ The Map Colonies system is responsible for the management and serving of mapping
 Mapping products can be originated from various sources and may include Orthophoto discrete layers, 3D models, DTM/DSM data, etc. The catalog holds the metadata of each product with references to the map content files. It enables management and the search of existing products.
 The catalog exposes an API, as well as a Web UI.
 
-## Vector
-See [here](/getting-started/vector_getting_started.md)
 ## <!-- {docsify-ignore} -->

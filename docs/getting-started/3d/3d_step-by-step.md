@@ -128,12 +128,23 @@ Now, after you got all product metadata that you need by querying our Catalog an
 ...
 const tileset = viewer.scene.primitives.add(
     new Cesium.Cesium3DTileset({
-      url: URL,    
+      url: new Cesium.Resource({
+        url: "<URL>",
+        headers: {
+            "x-api-key": "<token>",
+        }
+        /*************************************************************************/
+        /* or queryParamters when authentication defined via query string params */
+        /*************************************************************************/
+        // queryParameters: {
+        //   "token": "<token>",
+        // },
+    }),    
     })  
 );
 ...
 ```
-Replace `URL` with the URL link that you got from **Step 2**.
+Replace `<URL>` with the URL link that you got from **Step 2**.
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
 

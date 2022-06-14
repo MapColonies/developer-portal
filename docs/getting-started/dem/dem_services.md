@@ -1,9 +1,9 @@
-## Raster Services <!-- {docsify-ignore} -->
+## DEM Services <!-- {docsify-ignore} -->
 | Service | Description | URL |
 |-|-|-|
-| [Map Service](/ogc-protocols/ogc-wcs.md) | Imagery tile service | `<MAP_SERVER-DEM-SERVICE_URL>` |
-| [Data Coverage Service]() | Data Coverage service | `<SUPERIOR-DEM-SERVICE_URL>` |
-| [Catalog Service](/ogc-protocols/ogc-csw.md) | Catalog service | `<PYCSW-RASTER-SERVICE_URL>` |
+| [Map Service](/getting-started/dem/services/map_server.md) | Imagery tile and data service | `<MAP_SERVER-DEM-SERVICE_URL>` |
+| [Data Coverage Service](/getting-started/dem/services/data_coverage_service.md) | Data Coverage service | `<SUPERIOR-DEM-SERVICE_URL>` |
+| [Catalog Service](/getting-started/dem/services/csw_service.md) | Catalog service | `<PYCSW-DEM-SERVICE_URL>` |
 
 <br/>
 <br/>
@@ -14,7 +14,7 @@
                 <a href="#/getting-started/dem/dem_overview">Previous (Overview)</a>
             </td>
             <td align="right">
-                <a href="#/catalog-information/v1_0/dem_profile">Next (Catalog profile)</a>
+                <a href="#/getting-started/dem/dem_authentication">Next (Authentication)</a>
             </td>
         </tr>
     </tbody>

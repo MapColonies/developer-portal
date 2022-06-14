@@ -1,5 +1,8 @@
 ## 3D Services <!-- {docsify-ignore} -->
-Currently NO exposed services on this domain.
+| Service | Description | URL |
+|-|-|-|
+| [Model Server](/getting-started/3d/services/model_server.md) | Model delivery service | `<MODEL_SERVER-3D-SERVICE_URL>` |
+| [Catalog Service](/getting-started/3d/services/csw_service.md) | Catalog service | `<PYCSW-3D-SERVICE_URL>` |
 
 <br/>
 <br/>
@@ -10,7 +13,7 @@ Currently NO exposed services on this domain.
                 <a href="#/getting-started/3d/3d_overview">Previous (Overview)</a>
             </td>
             <td align="right">
-                <a href="#/catalog-information/v1_0/3d_profile">Next (Catalog profile)</a>
+                <a href="#/getting-started/3d/3d_authentication">Next (Authentication)</a>
             </td>
         </tr>
     </tbody>

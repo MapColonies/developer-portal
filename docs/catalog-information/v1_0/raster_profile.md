@@ -43,7 +43,7 @@
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/raster/raster_services">Previous (Services)</a>
+                <a href="#/getting-started/raster/raster_authentication">Previous (Authentication)</a>
             </td>
             <td align="right">
                 <a href="#/getting-started/raster/raster_step-by-step">Next (Step-by-step)</a>

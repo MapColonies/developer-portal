@@ -1,6 +1,8 @@
 # WCS - Web Coverage Service
 [WCS OGC standard](https://www.ogc.org/standards/wcs) :globe_with_meridians:
 
+[WCS OGC standard](.//assets/pdfs/manuals/17-089r1_WCS_2.1_Interface_Standard_-_Core.pdf) :books:
+
 | Operation | Description |
 | ------ | ------- |
 | GetCapabilities | Retrieves a list of the server’s data, as well as valid WCS operations and parameters |
