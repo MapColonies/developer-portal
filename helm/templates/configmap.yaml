@@ -17,5 +17,7 @@ data:
   CLASSIFIED_REPO_URL: {{ quote .Values.env.CLASSIFIED_REPO_URL }}
   API_KEY: {{ quote .Values.env.API_KEY }}
   EMOJI_CODE: {{ quote .Values.env.EMOJI_CODE }}
+  MODEL_SERVER-3D-SERVICE_URL: {{ quote .Values.env.MODEL_SERVER_3D_SERVICE_URL }}
+  SUPERIOR-DEM-SERVICE_URL: {{ quote .Values.env.SUPERIOR_DEM_SERVICE_URL }}
 
 {{- end }}
