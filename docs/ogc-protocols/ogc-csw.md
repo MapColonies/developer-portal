@@ -2,6 +2,8 @@
 Overview - source
 The CSW service exposes the metadata records in XML format using the [OGC CSW protocol](https://docs.pycsw.org/en/latest/introduction.html#csw-support) :globe_with_meridians:
 
+[CSW Registry Service](.//assets/pdfs/manuals/07-110r4_CSW-ebRIM_Registry_Service_-_Part_1_ebRIM_profile_of_CSW_v1.0.1.pdf) :books:
+
 Standard protocol supported [Operations](https://docs.pycsw.org/en/latest/introduction.html#supported-operations) :globe_with_meridians:
 
 MapColonies operations:

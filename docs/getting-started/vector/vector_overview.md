@@ -1,10 +1,9 @@
-# Vector
-
+## Vector Overview <!-- {docsify-ignore} -->
 
 Vector data structures represent specific features on the Earth’s surface, and assign attributes to those features. Vectors are composed of discrete geometric locations (x, y values) known as vertices that define the shape of the spatial object. The organization of the vertices determines the type of vector that we are working with: point, line or polygon.
 
 <figure>
-    <img src="./assets/images/../../../assets/images/pnt_line_poly.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;">
+    <img src="./assets/images/pnt_line_poly.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;">
 </figure>
 
 ### Types of vector objects
@@ -32,10 +31,15 @@ potential bias in datasets - what didn’t get recorded?
 Calculations involving multiple vector layers need to do math on the geometry as well as the attributes, so can be slow compared to raster math.
 Vector datasets are in use in many industries besides geospatial fields. For instance, computer graphics are largely vector-based, although the data structures in use tend to join points using arcs and complex curves rather than straight lines. Computer-aided design (CAD) is also vector- based. The difference is that geospatial datasets are accompanied by information tying their features to real-world locations.
 
-## Services <!-- {docsify-ignore} -->
-| Service | Description |
-|-|-|
-| [Query 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data |
-| [Replication 📦](/getting-started/vector/services/replication_service.md) | Vector data replication service |
-
-## <!-- {docsify-ignore} -->
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left"></td>
+            <td align="right">
+                <a href="#/getting-started/vector/vector_services">Next (Services)</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

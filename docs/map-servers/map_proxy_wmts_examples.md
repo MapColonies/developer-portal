@@ -6,7 +6,7 @@
 **{Layer}** - the name of the layer (ex. ***Ortho_25cm***)
 
 **{TileMatrixSet}** - define the grid name of the layer,
-> :information_source: **How to get Grid name?** Grid name (`TileMatrixSet`) can be reached by **GetCapabilities** response [Raster - Get Started / Step 4](/getting-started/get_start_raster.md?id=step-4)
+> :information_source: **How to get Grid name?** Grid name (`TileMatrixSet`) can be reached by **GetCapabilities** response [Raster - Get Started / Step 4](/getting-started/raster/raster_step-by-step.md?id=step-4)
 <figure>
     <img src="./assets/images/map_proxy_getcap_ortho_example.png" style="display: block;margin-left: auto;margin-right: auto;width: 100%;">
 </figure>

@@ -45,3 +45,18 @@
 | mc:insertDate | date | the date when item was added to catalog |
 | mc:boundingBox | wkt | currently stored footprint in wkt format |
 | mc:keywords | text | list of key words relevant for product |
+
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="#/getting-started/3d/3d_authentication">Previous (Authentication)</a>
+            </td>
+            <td align="right">
+                <a href="#/getting-started/3d/3d_step-by-step">Next (Step-by-step)</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

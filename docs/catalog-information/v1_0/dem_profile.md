@@ -38,3 +38,18 @@
 | mc:keywords | text | list of key words relevant for product |
 | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_DEM***|
+
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="#/getting-started/dem/dem_authentication">Previous (Authentication)</a>
+            </td>
+            <td align="right">
+                <a href="#/getting-started/dem/dem_step-by-step">Next (Step-by-step)</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
