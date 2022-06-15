@@ -8,12 +8,19 @@ The token, should be used in **every** request to our services and will enable y
 
 > :information_source: The token has an **expiration date**
 
-When making any request, you need to add a special **header** or **query parameter** in which you supply the token. Here is the instructions how to do it in both ways:
+When making any request, you need to add a special **header** or **query parameter** in which you supply the token! Otherwise, you will get only 403 http response code (forbbiden). 
+
+Here is the instructions how to do it in both ways:
 
 
-1). **Header:** add the token as a header. Header's key: "x-api-key" and value: $THE_TOKEN.
+1). **Header:** add the token as a header. Header's key: "x-api-key" and value: `<AUTH_TOKEN>`.
 
-2). **Query Params:** add the token in query params by inserting in the end of the url: "?token=$THE_TOKEN". (the char '?' allows you to add a query parameter).
+2). **Query Params:** add the token in query params by inserting in the end of the url: `?token=<AUTH_TOKEN>`. 
+> the char '?' allows you to add a query parameter
+
+Replace `<AUTH_TOKEN>` by received one.
+
+For further information, see:
 
 - [Catalog Service](/ogc-protocols/ogc-csw-auth.md)
 - [Model Server](/getting-started/3d/authentication/model_server_auth)

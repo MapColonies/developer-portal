@@ -10,5 +10,21 @@
 | GetRepositoryItem | GET (KVP) |
 | GetDomain | GET (KVP) / POST (XML) / SOAP |
 
-An example of a request:
-![alt text](https://github.com/MapColonies/developer-portal/blob/3d/docs/getting-started/3d/images/post_request.png?raw=true)
+**_How can I see the records??_**
+
+You need to send a post request with xml describing the specific records you want.
+
+Of course, you have to add the authentication stage in order to get answer.
+
+For more details, see: [Authentication](/ogc-protocols/ogc-csw-auth.md)
+
+An example of a post request's body:
+
+![alt text](../images/post_request.png?raw=true)
+
+After sending the request, you will get a response with all the records matched to the filter query. For example:
+
+![alt text](../images/post_response.png?raw=true)
+
+You can see in the response how much records returned, from which schema and etc...
+Of course, you can also see all the metadata of the matched records.
