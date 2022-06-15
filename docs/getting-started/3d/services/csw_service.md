@@ -10,4 +10,5 @@
 | GetRepositoryItem | GET (KVP) |
 | GetDomain | GET (KVP) / POST (XML) / SOAP |
 
-
+An example of a request:
+![alt text](https://github.com/MapColonies/developer-portal/blob/3d/docs/getting-started/3d/images/post_request.png?raw=true)
