@@ -11,7 +11,7 @@
 | mc:productName | text | the product name |
 | mc:productVersion | int | the product version |
 | [mc:productType](#productType) | enum  | **Valid Values**: <br/> 3DPhotoRealistic / QuantizedMeshDTMBest / QuantizedMeshDSMBest |
-| mc:links | array of links | available links for current product [CSW Links](/catalog-information/csw_links.md) <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
+| mc:links | text | available links for current product [CSW Links](/catalog-information/csw_links.md) <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
 | mc:creationDateUTC | date | the date when raw product was created <br/> supported format: **dd/mm/yyyy** |
 | mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
