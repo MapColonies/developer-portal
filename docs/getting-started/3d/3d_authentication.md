@@ -13,12 +13,12 @@ When making any request, you need to add a special **header** or **query paramet
 Here is the instructions how to do it in both ways:
 
 
-1). **Header:** add the token as a header. Header's key: "x-api-key" and value: `<AUTH_TOKEN>`.
+1). **Header:** add the token as a header. Header's key: "x-api-key" and value: `<API_KEY>`.
 
-2). **Query Params:** add the token in query params by inserting in the end of the url: `?token=<AUTH_TOKEN>`. 
+2). **Query Params:** add the token in query params by inserting in the end of the url: `?token=<API_KEY>`. 
 > the char '?' allows you to add a query parameter
 
-Replace `<AUTH_TOKEN>` by received one.
+Replace `<API_KEY>` by received one.
 
 For further information, see:
 

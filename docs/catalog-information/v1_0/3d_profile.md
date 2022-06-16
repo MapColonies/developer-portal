@@ -24,14 +24,14 @@
 | mc:accuracySE90 | double | double unsigned valid: **0 to 250** |
 | mc:relativeAccuracyLE90 | double | double unsigned valid: **0 to 100** |
 | mc:visualAccuracy | double | double unsigned valid: **0 to 100** |
-| mc:sensors | array of texts | list of sensors used as a source for the product <br/> comma separated list |
+| mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
 | mc:footprint | geojson | geographical delineation of the product / model trace |
 | mc:heightRangeFrom | double | **minimum** height range in meters |
 | mc:heightRangeTo | double | **maximum** height range in meters |
 | mc:SRS | text | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
 | mc:SRSName | text | name of reference system |
 | mc:SRSOrigin | text | Coordinates of reference system <br /> pattern: '(x;y;z)' |
-| mc:region | array of texts | sector / countries <br/> comma separated list |
+| mc:region | text | sector / countries <br/> comma separated list |
 | mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/3d/classification_table.md) |
 | mc:productionSystem | text | the production system |
 | mc:productionSystemVersion | text | the version of the production system |

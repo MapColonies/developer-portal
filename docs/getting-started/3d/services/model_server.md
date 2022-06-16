@@ -1,6 +1,6 @@
-# Model Server: Nginx
+# Model Server:
 
-In 3d, the model server is used as a proxy to serve the models files from S3.
+In 3d, the model server is used as a proxy to serve the models files.
 
 **How does it work??**
 
@@ -12,18 +12,18 @@ For further information, see: [Authentication](/getting-started/3d/authenticatio
 The get request should be like:
 
 ```curl
-<NGINX_SERVICE_URL>/<MODEL>/<PATH_TO_FILE>
+<MODEL_SERVER_3D_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]
 ```
 
-`<NGINX_SERVICE_URL>` - the url of the service.
+`<MODEL_SERVER_3D_SERVICE_URL>` - the url of the service.
 
-`<MODEL>` - the name of the model in S3.
+`[MODEL]` - the name of the model.
 
-`<PATH_TO_FILE>` - the full path to the wanted file.
+`[PATH_TO_FILE]` - the full path to the wanted file.
 
 An example:
 
-`http://nginx-3d-s3/24bd1e6e-3ebb-4f77-a971-9629eef4037a/tileset.json`
+`<MODEL_SERVER_3D_SERVICE_URL>/24bd1e6e-3ebb-4f77-a971-9629eef4037a/tileset.json`
 
 > :information_source: This request is **without** the authentication
 
