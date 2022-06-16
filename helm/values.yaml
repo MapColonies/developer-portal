@@ -46,6 +46,7 @@ env:
   EMOJI_CODE: "false"
   MODEL_SERVER_3D_SERVICE_URL: "https://3d_model_server.com"
   SUPERIOR_DEM_SERVICE_URL: "https://dem_superior_service.com"
+  CATALOG_APP_SERVICE_URL: "http://catalog_app.com"
 resources:
   enabled: false
   value:
