@@ -2,7 +2,7 @@
 
 | Service | Domain | URL | |
 |-|-|-|-|
-| Catalog Application | Raster, 3D, DEM, Vector | `<CATALOG_APP-SERVICE_URL>` | |
+| Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<CATALOG_APP-SERVICE_URL>) | |
 | (py)CSW | Raster | `<PYCSW-RASTER-SERVICE_URL>` | |
 | Map server | Raster | `<MAP_SERVER-RASTER-SERVICE_URL>` | |
 | (py)CSW | 3D | `<PYCSW-3D-SERVICE_URL>` | |
@@ -13,6 +13,15 @@
 | Query Service | Vector | `<QUERY-VECTOR-SERVICE-URL>` | |
 | Replication Service | Vector | `<REPLICATION-VECTOR-SERVICE_URL>` | |
 
+<style>
+  table code {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 500px !important;
+    display: block;
+  }
+</style>  
 <script>
 var copy = function(target) {
     var textArea = document.createElement('textarea')
