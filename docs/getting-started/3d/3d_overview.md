@@ -1,4 +1,4 @@
-## 3D Overview :house_with_garden: <!-- {docsify-ignore} -->
+## 3D Overview <!-- {docsify-ignore} -->
 The process of creating photo-realistic 3D models is based on photogrammetry, which is the technique of taking multiple overlapping aerial photographs and deriving measurements from them to create 3D models of objects or scenes. This is done by external systems which generate 3D models in one of the following formats:
 * OSGB (legacy)
 * 3D Tiles

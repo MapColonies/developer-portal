@@ -1,4 +1,4 @@
-# 3D Authentication :detective:
+# 3D Authentication :lock_with_ink_pen: 
 
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 

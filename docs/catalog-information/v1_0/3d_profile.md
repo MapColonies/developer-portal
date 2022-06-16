@@ -1,4 +1,4 @@
-# 3D Catalog Profile Information :information_desk_person:
+# 3D Catalog Profile Information
 
 1. **typename** = `mc:MC3DRecord`
 2. **main_namespace** = `http://schema.mapcolonies.com/3d`

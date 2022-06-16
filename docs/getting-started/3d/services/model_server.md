@@ -1,4 +1,4 @@
-# Model Server :world_map:
+# Model Server 
 
 In 3d, the model server is used as a proxy to serve the models files.
 

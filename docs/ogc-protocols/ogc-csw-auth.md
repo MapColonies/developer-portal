@@ -1,4 +1,4 @@
-# CSW Authentication
+# CSW Authentication :lock_with_ink_pen: 
 The following section will help you understand how to make authenticated requests to our CSW services.
 
 > :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).

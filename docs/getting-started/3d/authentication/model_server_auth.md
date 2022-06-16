@@ -1,4 +1,4 @@
-# Model Server Authentication :package:
+# Model Server Authentication :lock_with_ink_pen: 
 
 The following section will help you understand how to make authenticated requests to our model service.
 
