@@ -1,4 +1,4 @@
-## Developer Guide step-by-step <!-- {docsify-ignore} -->
+## Developer Guide step-by-step :baby:<!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
@@ -63,7 +63,6 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:accuracyLEP90>999</mc:accuracyLEP90>
             <mc:accuracySE90>250</mc:accuracySE90>
             <mc:classification>5</mc:classification>
-            <mc:compartmentalization>string</mc:compartmentalization>
             <mc:creationDateUTC>2022-03-22T08:54:28Z</mc:creationDateUTC>
             <mc:description>string</mc:description>
             <mc:footprint>0103000020E61000000100000005000000ED2918192DA241406AFF61D4F74A4040ED2918192DA24140F040CE07A550404038CF40C4C0A74140F040CE07A550404038CF40C4C0A741406AFF61D4F74A4040ED2918192DA241406AFF61D4F74A4040</mc:footprint>
@@ -71,17 +70,17 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:heightRangeFrom>0</mc:heightRangeFrom>
             <mc:heightRangeTo>0</mc:heightRangeTo>
             <mc:maxHorizontalAccuracyCE90>0</mc:maxHorizontalAccuracyCE90>
-            <mc:id>e3e95ea1-dbb1-4f0a-abb3-3f430e82b81e</mc:id>
-            <mc:links scheme="3DTiles" name="" description="">http://3dtiles-server.com/3dtiles/332dd927-6ad9-4054-a0de-931f1f2e67f3/tileset.json</mc:links>
+            <mc:id>1-2-3-4</mc:id>
+            <mc:links scheme="schema" name="" description="">http://3d-server.com/bucket/model/path/to/file/tileset.json</mc:links>
             <mc:maxFlightAlt>0</mc:maxFlightAlt>
             <mc:maxResolutionMeter>1.5</mc:maxResolutionMeter>
             <mc:minFlightAlt>0</mc:minFlightAlt>
             <mc:minResolutionMeter>1.1</mc:minResolutionMeter>
             <mc:nominalResolution>5</mc:nominalResolution>
             <mc:producerName>string</mc:producerName>
-            <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
-            <mc:productId>e3e95ea1-dbb1-4f0a-abb3-3f430e82b81e</mc:productId>
-            <mc:productName>Afula</mc:productName>
+            <mc:productBBox>1,2,3,4</mc:productBBox>
+            <mc:productId>id-uuid-1234</mc:productId>
+            <mc:productName>name</mc:productName>
             <mc:productType>3DPhotoRealistic</mc:productType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionMethod>string</mc:productionMethod>
@@ -92,14 +91,14 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:sensors>OTHER</mc:sensors>
             <mc:imagingTimeEndUTC>2022-03-22T08:54:28Z</mc:imagingTimeEndUTC>
             <mc:imagingTimeBeginUTC>2022-03-22T08:54:28Z</mc:imagingTimeBeginUTC>
-            <mc:SRS>4326</mc:SRS>
+            <mc:SRS>srsId</mc:SRS>
             <mc:SRSName>string</mc:SRSName>
-            <mc:SRSOrigin>(30;40;50)</mc:SRSOrigin>
+            <mc:SRSOrigin>srsOrigin</mc:SRSOrigin>
             <mc:type>RECORD_3D</mc:type>
             <mc:visualAccuracy>100</mc:visualAccuracy>
             <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
-                <ows:LowerCorner>32.5856881598 35.2670012825</ows:LowerCorner>
-                <ows:UpperCorner>32.6300363309 35.3105702702</ows:UpperCorner>
+                <ows:LowerCorner>1 2</ows:LowerCorner>
+                <ows:UpperCorner>3 4</ows:UpperCorner>
             </ows:BoundingBox>
         </mc:MC3DRecord>
     </csw:SearchResults>

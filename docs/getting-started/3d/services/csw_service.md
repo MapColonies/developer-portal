@@ -48,6 +48,9 @@ xmlns:ogc="http://www.opengis.net/ogc">
 
 After sending the request, you will get a response with all the records matched to the filter query. For example:
 
+<details>
+  <summary>Response example</summary>
+
 ```response
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- pycsw 2.7.dev0 -->
@@ -145,6 +148,8 @@ After sending the request, you will get a response with all the records matched 
     </csw:SearchResults>
 </csw:GetRecordsResponse>
 ```
+
+</details>
 
 You can see in the response how much records returned, from which schema and etc...
 

@@ -1,4 +1,4 @@
-# 3D Authentication
+# 3D Authentication :detective:
 
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 

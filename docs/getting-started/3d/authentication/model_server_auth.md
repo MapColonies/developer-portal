@@ -1,4 +1,4 @@
-# Model Server Authentication: 
+# Model Server Authentication :package:
 
 The following section will help you understand how to make authenticated requests to our model service.
 
@@ -20,17 +20,19 @@ Set-Cookie: blabla=blablabla; path=/; HttpOnly
 Example for a get request with x-api-key header:
 
 ```curl
-curl --location --request GET '<MODEL_SERVER_3D_SERVICE_URL>/123-543-234-321/q/2/tileset.json' \
+curl --location --request GET '<MODEL_SERVER_3D_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]' \
 --header 'x-api-key: <API_KEY>' 
 ```
 
 Example for a get request with token query-params:
 
 ```curl
-curl --location --request GET '<MODEL_SERVER_3D_SERVICE_URL>/123-543-234-321/q/2/tileset.json?token=<API_KEY>'
+curl --location --request GET '<MODEL_SERVER_3D_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]?token=<API_KEY>'
 ```
 
 Replace following:
-- `<MODEL_SERVER_3D_SERVICE_URL>` by real service.
-- `<API_KEY>` by received one.
+
+- `[MODEL]` - the name of the model.
+
+- `[PATH_TO_FILE]` - the full path to the wanted file.
 
