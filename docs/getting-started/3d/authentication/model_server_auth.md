@@ -14,7 +14,7 @@ HTTP/1.1 403 Forbidden
 date: Thu, 16 Jun 2022 07:44:25 GMT
 server: envoy
 content-length: 0
-Set-Cookie: 40362373b9c85fe282bd24218487e4b1=3d1dbdc26dece520a00c407ffaf6b1f9; path=/; HttpOnly
+Set-Cookie: blabla=blablabla; path=/; HttpOnly
 ```
 
 Example for a get request with x-api-key header:
