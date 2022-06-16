@@ -1,4 +1,4 @@
-## 3D Services <!-- {docsify-ignore} -->
+## 3D Services :houses: <!-- {docsify-ignore} -->
 | Service | Description | URL |
 |-|-|-|
 | [Model Server](/getting-started/3d/services/model_server.md) | Model delivery service | `<MODEL_SERVER-3D-SERVICE_URL>` |

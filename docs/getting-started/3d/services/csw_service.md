@@ -10,4 +10,147 @@
 | GetRepositoryItem | GET (KVP) |
 | GetDomain | GET (KVP) / POST (XML) / SOAP |
 
+**_How can I see the records??_**
 
+You need to send a post request with xml describing the specific records you want.
+
+Of course, you have to add the authentication stage in order to get answer.
+
+For more details, see: [Authentication](/ogc-protocols/ogc-csw-auth.md)
+
+An example of a post request's body:
+
+```request
+<csw:GetRecords
+maxRecords="10"
+outputFormat="application/xml"
+outputSchema="http://schema.mapcolonies.com/3d"
+resultType="results"
+service="CSW"
+version="2.0.2"
+startPosition="1"
+xmlns:mc="http://schema.mapcolonies.com/3d"
+xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+xmlns:ogc="http://www.opengis.net/ogc">
+    <csw:Query typeNames="csw:Record">
+        <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <ogc:Filter>
+                <ogc:PropertyIsEqualTo>
+                    <ogc:PropertyName>mc:classification</ogc:PropertyName>
+                    <ogc:Literal>7</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+            </ogc:Filter>
+        </csw:Constraint>
+    </csw:Query>
+</csw:GetRecords>
+```
+
+After sending the request, you will get a response with all the records matched to the filter query. For example:
+
+<details>
+  <summary>Response example</summary>
+
+```response
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- pycsw 2.7.dev0 -->
+<csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mc="http://schema.mapcolonies.com/3d" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
+    <csw:SearchStatus timestamp="2022-06-16T07:12:25Z"/>
+    <csw:SearchResults numberOfRecordsMatched="3" numberOfRecordsReturned="3" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
+        <mc:MC3DRecord>
+            <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
+            <mc:classification>7</mc:classification>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[1,2],[1,3],[4,3],[4,2],[1,2]]]}</mc:footprint>
+            <mc:geographicArea>אזור</mc:geographicArea>
+            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
+            <mc:links scheme="סכמה" name="" description="">http://model-server-3d/1e7a5211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
+            <mc:producerName>שםם</mc:producerName>
+            <mc:productBBox>1,2,4,3</mc:productBBox>
+            <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
+            <mc:productName>סתם שם</mc:productName>
+            <mc:productType>סוג</mc:productType>
+            <mc:productVersion>1</mc:productVersion>
+            <mc:productionMethod>צילום</mc:productionMethod>
+            <mc:productionSystem>ררר</mc:productionSystem>
+            <mc:productionSystemVersion>1</mc:productionSystemVersion>
+            <mc:region>אביאבי</mc:region>
+            <mc:sensors>אבי</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-06-15T10:39:00Z</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-06-15T10:39:00Z</mc:imagingTimeBeginUTC>
+            <mc:SRS>23</mc:SRS>
+            <mc:SRSName>שם</mc:SRSName>
+            <mc:type>סוגגגג</mc:type>
+            <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:23" dimensions="2">
+                <ows:LowerCorner>2 1</ows:LowerCorner>
+                <ows:UpperCorner>3 4</ows:UpperCorner>
+            </ows:BoundingBox>
+        </mc:MC3DRecord>
+        <mc:MC3DRecord>
+            <mc:accuracyLEP90>888.0</mc:accuracyLEP90>
+            <mc:classification>7</mc:classification>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[11,22],[11,33],[44,33],[44,22],[11,22]]]}</mc:footprint>
+            <mc:maxHorizontalAccuracyCE90>888.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>5ddb97e3-464b-4b28-be44-5e4c6afc1b7e</mc:id>
+            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/4776389a-1d32-4a1b-88ac-ecf1148d7f54/tileset.json</mc:links>
+            <mc:producerName>IDFMU</mc:producerName>
+            <mc:productBBox>11,22,44,33</mc:productBBox>
+            <mc:productId>5ddb97e3-464b-4b28-be44-5e4c6afc1b7e</mc:productId>
+            <mc:productName>משהו</mc:productName>
+            <mc:productType>3DPhotoRealistic</mc:productType>
+            <mc:productVersion>1</mc:productVersion>
+            <mc:productionMethod>photogrammetric</mc:productionMethod>
+            <mc:productionSystem>אאאא</mc:productionSystem>
+            <mc:productionSystemVersion>1</mc:productionSystemVersion>
+            <mc:region>ישראל</mc:region>
+            <mc:sensors>אבוש</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-06-15T11:07:00Z</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-06-15T11:07:00Z</mc:imagingTimeBeginUTC>
+            <mc:SRS>23</mc:SRS>
+            <mc:SRSName>WGS84GEO</mc:SRSName>
+            <mc:type>RECORD_3D</mc:type>
+            <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:23" dimensions="2">
+                <ows:LowerCorner>22 11</ows:LowerCorner>
+                <ows:UpperCorner>33 44</ows:UpperCorner>
+            </ows:BoundingBox>
+        </mc:MC3DRecord>
+        <mc:MC3DRecord>
+            <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
+            <mc:classification>7</mc:classification>
+            <mc:creationDateUTC>2022-06-15</mc:creationDateUTC>
+            <mc:description>srtm100</mc:description>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[11,22],[11,33],[44,33],[44,22],[11,22]]]}</mc:footprint>
+            <mc:geographicArea>North</mc:geographicArea>
+            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>11111111-1111-1111-1111-111111111111</mc:id>
+            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/lala/layer.json</mc:links>
+            <mc:producerName>aa</mc:producerName>
+            <mc:productBBox>11,22,44,33</mc:productBBox>
+            <mc:productId>11111111-1111-1111-1111-111111111111</mc:productId>
+            <mc:productName>aaa</mc:productName>
+            <mc:productType>type</mc:productType>
+            <mc:productVersion>1</mc:productVersion>
+            <mc:productionMethod></mc:productionMethod>
+            <mc:productionSystem></mc:productionSystem>
+            <mc:productionSystemVersion>1</mc:productionSystemVersion>
+            <mc:region>region</mc:region>
+            <mc:sensors>aa</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-06-15</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-06-15</mc:imagingTimeBeginUTC>
+            <mc:SRS>23</mc:SRS>
+            <mc:SRSName>1234</mc:SRSName>
+            <mc:type>revorsd</mc:type>
+            <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:23" dimensions="2">
+                <ows:LowerCorner>22 11</ows:LowerCorner>
+                <ows:UpperCorner>33 44</ows:UpperCorner>
+            </ows:BoundingBox>
+        </mc:MC3DRecord>
+    </csw:SearchResults>
+</csw:GetRecordsResponse>
+```
+
+</details>
+
+You can see in the response how much records returned, from which schema and etc...
+
+Of course, you can also see all the metadata of the matched records.

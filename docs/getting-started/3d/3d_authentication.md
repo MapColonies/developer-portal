@@ -1,4 +1,4 @@
-# 3D Authentication
+# 3D Authentication :lock_with_ink_pen: 
 
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 
@@ -8,7 +8,19 @@ The token, should be used in **every** request to our services and will enable y
 
 > :information_source: The token has an **expiration date**
 
-When making any request, you need to add a special **header** or **query parameter** in which you supply the token.
+When making any request, you need to add a special **header** or **query parameter** in which you supply the token! Otherwise, you will get only 403 http response code (forbbiden). 
+
+Here is the instructions how to do it in both ways:
+
+
+1). **Header:** add the token as a header. Header's key: "x-api-key" and value: `<API_KEY>`.
+
+2). **Query Params:** add the token in query params by inserting in the end of the url: `?token=<API_KEY>`. 
+> the char '?' allows you to add a query parameter
+
+Replace `<API_KEY>` by received one.
+
+For further information, see:
 
 - [Catalog Service](/ogc-protocols/ogc-csw-auth.md)
 - [Model Server](/getting-started/3d/authentication/model_server_auth)
