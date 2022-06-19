@@ -2,7 +2,22 @@ const show3DModelBtn = document.querySelector('#show3DModelBtn');
 
 const CSW_3D_SERVICE_URL = '<PYCSW-3D-SERVICE_URL>/csw';
 const TOKEN_3D = '<API_KEY>';
-const tokenHeader = { 'X-API-KEY': TOKEN_3D };
+const INJECTION_TYPE = '<INJECTION_TYPE>';
+
+// according to defined B2B authentication principles HEADER or QUERYPARAM
+const getAuthObject = () => {
+  const tokenProps = {};
+  if (INJECTION_TYPE.toLowerCase() === 'header') {
+    tokenProps.headers = {
+      'X-API-KEY': RASTER_TOKEN
+    };
+  } else if (INJECTION_TYPE.toLowerCase() === 'queryparam') {
+    tokenProps.queryParameters = {
+      'token': RASTER_TOKEN
+    };
+  }
+  return tokenProps;
+}
 
 const showLoaderContainer = (show) => {
   document.getElementById('loader').style.display = !show ? 'none' : '';
@@ -68,7 +83,7 @@ const constructAndApply3DModel = () => {
     method: 'POST',
     body: getRecordsXML3D,
     /* Don't forget to include the authentication header */
-    headers: new Headers(tokenHeader),
+    ...getAuthObject()
   })
   .then(xmlDoc => {
     const modelMetadata = xmlDoc.children[0].children[1].children[0];
@@ -86,7 +101,7 @@ const constructAndApply3DModel = () => {
       new Cesium.Cesium3DTileset({
         url:new Cesium.Resource({
           url: layerUri,     
-          headers: tokenHeader
+          ...getAuthObject()
         })
       })
     );

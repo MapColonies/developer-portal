@@ -4,8 +4,23 @@ const applyProductId = document.querySelector('#applyLayerBtn');
 
 const RASTER_CSW_SERVICE_URL = '<PYCSW-RASTER-SERVICE_URL>/csw';
 const RASTER_TOKEN = '<API_KEY>';
-const tokenHeader = { 'X-API-KEY': RASTER_TOKEN };
 const mapProxyBaseUrl = '<MAP_SERVER-RASTER-SERVICE_URL>';
+const INJECTION_TYPE = '<INJECTION_TYPE>';
+
+// according to defined B2B authentication principles HEADER or QUERYPARAM
+const getAuthObject = () => {
+  const tokenProps = {};
+  if (INJECTION_TYPE.toLowerCase() === 'header') {
+    tokenProps.headers = {
+      'X-API-KEY': RASTER_TOKEN
+    };
+  } else if (INJECTION_TYPE.toLowerCase() === 'queryparam') {
+    tokenProps.queryParameters = {
+      'token': RASTER_TOKEN
+    };
+  }
+  return tokenProps;
+}
 
 const showLoaderContainer = (show) => {
   document.getElementById('loader').style.display = !show ? 'none' : '';
@@ -22,7 +37,10 @@ const showPointer = (show) => {
 
 
 // Setup Cesium viewer first.
-const viewer = new Cesium.Viewer('cesiumContainer', { baseLayerPicker: false });
+const viewer = new Cesium.Viewer('cesiumContainer', { 
+  baseLayerPicker: false,
+  sceneMode : Cesium.SceneMode.SCENE2D
+});
 
 // Remove stock cesium's base layer
 viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
@@ -73,7 +91,7 @@ const constructAndApplyLayer = (e) => {
     method: 'POST',
     body: getRecordsXML,
     /* Don't forget to include the authentication header */
-    headers: new Headers(tokenHeader)
+    ...getAuthObject()
   }).then(xmlDoc => {
 
     /**********************************************************************/
@@ -122,7 +140,7 @@ const constructAndApplyLayer = (e) => {
           // TODO: should be used 'layerUrl'
           url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
           /* Don't forget to include the authentication header */
-          headers: tokenHeader,
+          ...getAuthObject()
         }),
         style,
         format,
@@ -131,6 +149,11 @@ const constructAndApplyLayer = (e) => {
       })
     
       viewer.imageryLayers.addImageryProvider(provider);
+
+      // flyTo added layer(optional), added just for convinience
+      viewer.camera.flyTo({
+        destination : rectangle
+      });
 
       showLoaderContainer(false);
     }
@@ -142,7 +165,7 @@ const constructAndApplyLayer = (e) => {
     fetchAndParseXML(`${mapProxyBaseUrl}/service?REQUEST=GetCapabilities&SERVICE=WMTS`, {
       method: 'GET',
       /* Don't forget to include the authentication header */
-      headers: new Headers(tokenHeader)
+      ...getAuthObject()
     })
     /*********************************************************************************/
     /* STEP 4.1: Get the desired layer from MAP_SERVER GetCapabilities               */
