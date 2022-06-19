@@ -9,11 +9,11 @@ const getAuthObject = () => {
   const tokenProps = {};
   if (INJECTION_TYPE.toLowerCase() === 'header') {
     tokenProps.headers = {
-      'X-API-KEY': RASTER_TOKEN
+      'X-API-KEY': TOKEN_3D
     };
   } else if (INJECTION_TYPE.toLowerCase() === 'queryparam') {
     tokenProps.queryParameters = {
-      'token': RASTER_TOKEN
+      'token': TOKEN_3D
     };
   }
   return tokenProps;
