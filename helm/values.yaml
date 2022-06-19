@@ -59,6 +59,7 @@ resources:
       memory: 900Mi
 route:
   enabled: true
+  https: true
   path: /
   timeout:
     enabled: false
