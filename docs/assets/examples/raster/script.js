@@ -58,7 +58,12 @@ const generateRectangle = (layerFootprint) => {
 }
 
 const fetchAndParseXML = (url, options) => {
-  return fetch(url, options)
+  const {queryParameters, ...restOptions} = options;
+  let queryParams= url.indexOf('?') > -1 ? '&' : '?';
+  if(queryParameters){
+    queryParams += new URLSearchParams(queryParameters);
+  }
+  return fetch(url + queryParams, restOptions)
         .then(res => res.text())
         .then(str => new DOMParser().parseFromString(str, 'text/xml'));
 }
