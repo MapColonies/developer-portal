@@ -20,5 +20,6 @@ data:
   MODEL_SERVER-3D-SERVICE_URL: {{ quote .Values.env.MODEL_SERVER_3D_SERVICE_URL }}
   SUPERIOR-DEM-SERVICE_URL: {{ quote .Values.env.SUPERIOR_DEM_SERVICE_URL }}
   CATALOG_APP-SERVICE_URL: {{ quote .Values.env.CATALOG_APP_SERVICE_URL }}
+  INJECTION_TYPE: {{ quote .Values.env.INJECTION_TYPE }}
 
 {{- end }}

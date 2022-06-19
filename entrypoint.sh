@@ -17,7 +17,7 @@ zip -r examples ./*
 
 cd /
 
-ENV_TEMPLATE_VALUES=$(printenv | grep 'SERVICE_URL=\|API_KEY=\|EMOJI_CODE=' | cut -d'=' -f1)
+ENV_TEMPLATE_VALUES=$(printenv | grep 'SERVICE_URL=\|API_KEY=\|EMOJI_CODE=\|INJECTION_TYPE=' | cut -d'=' -f1)
 
 for f in $(find /docs/ -type f \( -name "*.js" -o -name "*.html" -o -name "*.md" \)); 
     do
