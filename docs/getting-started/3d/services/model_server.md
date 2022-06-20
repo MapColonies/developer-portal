@@ -2,7 +2,7 @@
 
 In 3d, the model server is used as a proxy to serve the models files.
 
-**How does it work??**
+**How does it work?**
 
 Just send a get request with the file you want to get.
 
@@ -12,16 +12,14 @@ For further information, see: [Authentication](/getting-started/3d/authenticatio
 The get request should be like:
 
 ```curl
-<MODEL_SERVER_3D_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]
+<MODEL_SERVER_3D_SERVICE_URL>/[PATH_TO_FILE_TILESET_JSON]
 ```
 
-`[MODEL]` - the name of the model.
-
-`[PATH_TO_FILE]` - the full path to the wanted file.
+`[PATH_TO_FILE_TILESET_JSON]` - the full path to the wanted file.
 
 An example:
 
-`<MODEL_SERVER_3D_SERVICE_URL>/model-name/a-path/tileset.json`
+`<MODEL_SERVER_3D_SERVICE_URL>/path/tileset.json`
 
 > :information_source: This request is **without** the authentication
 
@@ -59,3 +57,5 @@ An example:
 "content":{"url":"4/1/14.b3dm"}}]}]}]}]}}
 ```
 </details>
+
+This get request is actually the URL from the `mc:links` element from the records showed in CSW service.

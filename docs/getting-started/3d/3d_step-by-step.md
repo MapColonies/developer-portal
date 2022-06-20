@@ -60,45 +60,32 @@ You will get GetRecords XML Response with product **metadata**.
     <csw:SearchStatus timestamp="2022-03-27T06:45:54Z" />
     <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
         <mc:MC3DRecord>
-            <mc:accuracyLEP90>999</mc:accuracyLEP90>
-            <mc:accuracySE90>250</mc:accuracySE90>
+            <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
             <mc:classification>5</mc:classification>
-            <mc:creationDateUTC>2022-03-22T08:54:28Z</mc:creationDateUTC>
-            <mc:description>string</mc:description>
-            <mc:footprint>0103000020E61000000100000005000000ED2918192DA241406AFF61D4F74A4040ED2918192DA24140F040CE07A550404038CF40C4C0A74140F040CE07A550404038CF40C4C0A741406AFF61D4F74A4040ED2918192DA241406AFF61D4F74A4040</mc:footprint>
-            <mc:geographicArea>string</mc:geographicArea>
-            <mc:heightRangeFrom>0</mc:heightRangeFrom>
-            <mc:heightRangeTo>0</mc:heightRangeTo>
-            <mc:maxHorizontalAccuracyCE90>0</mc:maxHorizontalAccuracyCE90>
-            <mc:id>1-2-3-4</mc:id>
-            <mc:links scheme="schema" name="" description="">http://3d-server.com/bucket/model/path/to/file/tileset.json</mc:links>
-            <mc:maxFlightAlt>0</mc:maxFlightAlt>
-            <mc:maxResolutionMeter>1.5</mc:maxResolutionMeter>
-            <mc:minFlightAlt>0</mc:minFlightAlt>
-            <mc:minResolutionMeter>1.1</mc:minResolutionMeter>
-            <mc:nominalResolution>5</mc:nominalResolution>
-            <mc:producerName>string</mc:producerName>
-            <mc:productBBox>1,2,3,4</mc:productBBox>
-            <mc:productId>id-uuid-1234</mc:productId>
-            <mc:productName>name</mc:productName>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[31.2603,33.4345],[31.2603,34.4888],[32.3353,34.4888],[32.3353,33.4345],[31.2603,33.4345]]]}</mc:footprint>
+            <mc:geographicArea>ישראל</mc:geographicArea>
+            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
+            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/15211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
+            <mc:producerName>TZAHAL</mc:producerName>
+            <mc:productBBox>31.2603,33.4345,32.3353,34.4888</mc:productBBox>
+            <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
+            <mc:productName>מודל פריז</mc:productName>
             <mc:productType>3DPhotoRealistic</mc:productType>
             <mc:productVersion>1</mc:productVersion>
-            <mc:productionMethod>string</mc:productionMethod>
-            <mc:productionSystem>string</mc:productionSystem>
-            <mc:productionSystemVersion>string</mc:productionSystemVersion>
-            <mc:region>string</mc:region>
-            <mc:relativeAccuracyLE90>100</mc:relativeAccuracyLE90>
-            <mc:sensors>OTHER</mc:sensors>
-            <mc:imagingTimeEndUTC>2022-03-22T08:54:28Z</mc:imagingTimeEndUTC>
-            <mc:imagingTimeBeginUTC>2022-03-22T08:54:28Z</mc:imagingTimeBeginUTC>
-            <mc:SRS>srsId</mc:SRS>
-            <mc:SRSName>string</mc:SRSName>
-            <mc:SRSOrigin>srsOrigin</mc:SRSOrigin>
+            <mc:productionMethod>photogrammetric</mc:productionMethod>
+            <mc:productionSystem>P-30</mc:productionSystem>
+            <mc:productionSystemVersion>1</mc:productionSystemVersion>
+            <mc:region>צפון</mc:region>
+            <mc:sensors>sensor1</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-06-15T10:39:00Z</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-06-15T10:39:00Z</mc:imagingTimeBeginUTC>
+            <mc:SRS>4567</mc:SRS>
+            <mc:SRSName>WGS24GEO</mc:SRSName>
             <mc:type>RECORD_3D</mc:type>
-            <mc:visualAccuracy>100</mc:visualAccuracy>
             <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
-                <ows:LowerCorner>1 2</ows:LowerCorner>
-                <ows:UpperCorner>3 4</ows:UpperCorner>
+                <ows:LowerCorner>33.4345 31.2603</ows:LowerCorner>
+                <ows:UpperCorner>34.4888 32.3353</ows:UpperCorner>
             </ows:BoundingBox>
         </mc:MC3DRecord>
     </csw:SearchResults>

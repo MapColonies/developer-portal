@@ -8,14 +8,12 @@ The token, should be used in **every** request to our services and will enable y
 
 > :information_source: The token has an **expiration date**
 
-When making any request, you need to add a special **header** or **query parameter** in which you supply the token! Otherwise, you will get only 403 http response code (forbbiden). 
+When making any request, you need to add a special **query parameter** in which you supply the token! Otherwise, you will get only 403 http response code (forbbiden). 
 
-Here is the instructions how to do it in both ways:
+Here is the instructions how to do it:
 
 
-1). **Header:** add the token as a header. Header's key: "x-api-key" and value: `<API_KEY>`.
-
-2). **Query Params:** add the token in query params by inserting in the end of the url: `?token=<API_KEY>`. 
+Add the token in query params by inserting in the end of the url: `?token=<API_KEY>`. 
 > the char '?' allows you to add a query parameter
 
 Replace `<API_KEY>` by received one.
