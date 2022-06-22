@@ -1,7 +1,7 @@
 # Raster Catalog Profile Information
 
 1. **typename** = `mc:MCRasterRecord`
-2. **main_namespace** = `http://schema.mapcolonies.com/raster`
+2. **main_namespace** = `http://schema.mapcolonies.com/raster` (This site doesn't exist)
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |

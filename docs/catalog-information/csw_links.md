@@ -21,3 +21,5 @@ Different ***scheme/protocol*** values:
 | THUMBNAIL_S | Optional | Layer SMALL thumbnail image link |
 | THUMBNAIL_M | Optional | Layer MEDIUM thumbnail image link |
 | THUMBNAIL_L | Optional | Layer LARGE  thumbnail image link |
+
+**Note:** some links are supported only for specific domains, some links are available only for specific records

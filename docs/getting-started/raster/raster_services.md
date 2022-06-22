@@ -18,3 +18,6 @@
         </tr>
     </tbody>
 </table>
+
+> :no_entry: **Authentication must be integrated in order to communicate with MAP And CSW servers.**<br/>
+> **See the principles [here](/getting-started/raster/raster_authentication.md)**

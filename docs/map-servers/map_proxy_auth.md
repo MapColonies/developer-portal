@@ -4,14 +4,14 @@
 
 > :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
 
-On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a custom header `x-api-key` as such:
+On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a **query parameter** `token` as such:
 
 ```javascript
 const wmts = new Cesium.WebMapTileServiceImageryProvider({
   url: new Cesium.Resource({
     url: "<MAP_SERVER-RASTER-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
-    headers: {
-      "x-api-key": "<token>",
+    queryParameters: {
+      "token": "<token>",
     }
   }),
   layers: "<layer_name>",
