@@ -100,7 +100,7 @@ You will get GetRecords XML Response with product **metadata**.
 In the Response, look for 
 
 `<mc:links scheme="`<strong>3DTiles</strong>`" name="">`
-  `http://3dtiles-server.com/3dtiles/332dd927-6ad9-4054-a0de-931f1f2e67f3/tileset.json`
+  `http://3d-model-server.com/path-to-tileset.json`
 `</mc:links>`element.
 
 > :information_source: **You need to save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
@@ -116,21 +116,18 @@ const tileset = viewer.scene.primitives.add(
     new Cesium.Cesium3DTileset({
       url: new Cesium.Resource({
         url: "<URL>",
-        headers: {
-            "x-api-key": "<token>",
-        }
-        /*************************************************************************/
-        /* or queryParamters when authentication defined via query string params */
-        /*************************************************************************/
-        // queryParameters: {
-        //   "token": "<token>",
-        // },
+
+        queryParameters: {
+          "token": "<token>",
+        },
     }),    
     })  
 );
 ...
 ```
 Replace `<URL>` with the URL link that you got from **Step 2**.
+
+Replace `<token>` with the token you have.
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
 
