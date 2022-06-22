@@ -62,21 +62,21 @@ You will get GetRecords XML Response with product **metadata**.
         <mc:MC3DRecord>
             <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
             <mc:classification>5</mc:classification>
-            <mc:footprint>{"type":"Polygon","coordinates":[[[31.2603,33.4345],[31.2603,34.4888],[32.3353,34.4888],[32.3353,33.4345],[31.2603,33.4345]]]}</mc:footprint>
-            <mc:geographicArea>ישראל</mc:geographicArea>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[21.2603,23.4345],[21.2603,24.4888],[22.3353,24.4888],[22.3353,23.4345],[21.2603,23.4345]]]}</mc:footprint>
+            <mc:geographicArea>north</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
-            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/15211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
-            <mc:producerName>TZAHAL</mc:producerName>
-            <mc:productBBox>31.2603,33.4345,32.3353,34.4888</mc:productBBox>
+            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/path/to/file/tileset.json</mc:links>
+            <mc:producerName>Europe</mc:producerName>
+            <mc:productBBox>21.2603,23.4345,22.3353,24.4888</mc:productBBox>
             <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
-            <mc:productName>מודל פריז</mc:productName>
+            <mc:productName>model-name</mc:productName>
             <mc:productType>3DPhotoRealistic</mc:productType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionMethod>photogrammetric</mc:productionMethod>
             <mc:productionSystem>P-30</mc:productionSystem>
             <mc:productionSystemVersion>1</mc:productionSystemVersion>
-            <mc:region>צפון</mc:region>
+            <mc:region>south</mc:region>
             <mc:sensors>sensor1</mc:sensors>
             <mc:imagingTimeEndUTC>2022-06-15T10:39:00Z</mc:imagingTimeEndUTC>
             <mc:imagingTimeBeginUTC>2022-06-15T10:39:00Z</mc:imagingTimeBeginUTC>
@@ -84,8 +84,8 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:SRSName>WGS24GEO</mc:SRSName>
             <mc:type>RECORD_3D</mc:type>
             <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
-                <ows:LowerCorner>33.4345 31.2603</ows:LowerCorner>
-                <ows:UpperCorner>34.4888 32.3353</ows:UpperCorner>
+                <ows:LowerCorner>23.4345 21.2603</ows:LowerCorner>
+                <ows:UpperCorner>24.4888 22.3353</ows:UpperCorner>
             </ows:BoundingBox>
         </mc:MC3DRecord>
     </csw:SearchResults>
