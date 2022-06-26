@@ -1,7 +1,7 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies Catalog and how to consume mapping products in ***dynamic way*** (materials might be changed or added)
 
-**Note:** In order to get the layers details (Product_ID, region, etc.) you have the following options:
+**Note:** In order to get the layer details (Product_ID, region, etc.) you have the following options:
 1. Open map-colonies catalog application and locate the required layer
 2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](catalog-information/query-examples.md) 
 
