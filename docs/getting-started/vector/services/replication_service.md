@@ -44,7 +44,7 @@ snapshot.zip/
 
 #### Delta
 
-When receiving a response from the replication service API for snapshot, The response will contain an array of files to download.
+When receiving a response from the replication service API for delta, The response will contain an array of files to download.
 
 1. Each downloaded file is a *zip*.
 
