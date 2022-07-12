@@ -7,10 +7,14 @@ const RASTER_TOKEN = '<API_KEY>';
 const mapProxyBaseUrl = '<MAP_SERVER-RASTER-SERVICE_URL>';
 const INJECTION_TYPE = '<INJECTION_TYPE>';
 
-// according to defined B2B authentication principles QUERYPARAM
+// according to defined B2B authentication principles HEADER or QUERYPARAM - Currently only QUERYPARAM is available
 const getAuthObject = () => {
   const tokenProps = {};
-  if (INJECTION_TYPE.toLowerCase() === 'queryparam') {
+  if (INJECTION_TYPE.toLowerCase() === 'header') {
+    tokenProps.headers = {
+      'X-API-KEY': RASTER_TOKEN
+    };
+  } else if (INJECTION_TYPE.toLowerCase() === 'queryparam') {
     tokenProps.queryParameters = {
       'token': RASTER_TOKEN
     };
@@ -91,7 +95,7 @@ const constructAndApplyLayer = (e) => {
   fetchAndParseXML(RASTER_CSW_SERVICE_URL,{
     method: 'POST',
     body: getRecordsXML,
-    /* Don't forget to include the authentication query param */
+    /* Don't forget to include the authentication header or query param */
     ...getAuthObject()
   }).then(xmlDoc => {
 
@@ -140,7 +144,7 @@ const constructAndApplyLayer = (e) => {
         url: new Cesium.Resource({
           // TODO: should be used 'layerUrl'
           url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
-          /* Don't forget to include the authentication query param */
+          /* Don't forget to include the authentication header or query param */
           ...getAuthObject()
         }),
         style,
@@ -165,7 +169,7 @@ const constructAndApplyLayer = (e) => {
     /*********************************************************************************/
     fetchAndParseXML(`${mapProxyBaseUrl}/service?REQUEST=GetCapabilities&SERVICE=WMTS`, {
       method: 'GET',
-      /* Don't forget to include the authentication query param */
+      /* Don't forget to include the authentication header or query param */
       ...getAuthObject()
     })
     /*********************************************************************************/

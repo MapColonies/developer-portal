@@ -181,7 +181,7 @@ You need to **save** the following values in order to consume the layer later on
 ## Construct Client side LAYER (Step 5)
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
-
+> :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
 ### Cesium
 ```javascript
 ...
@@ -195,6 +195,9 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       /*********************************************************************************/
       // url:new Cesium.Resource({
       //  url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
+      //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
+      //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token - 
+      //}),
       layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4
