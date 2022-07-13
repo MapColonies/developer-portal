@@ -9,7 +9,7 @@
 | mc:id | text | unique internal catalog item id |
 | mc:productId | text | unique external product id |
 | mc:productName | text | the product name |
-| [mc:productType](#productType) | enum  | **Valid Values**: <br/> DTM / DSM / QuantizedMesh |
+| [mc:productType](#productType) | enum  | **Valid Values**: <br/> DTM / DSM / QuantizedMesh  / QuantizedMeshDTMBest / QuantizedMeshDSMBest |
 | mc:description | text | the product description |
 | mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |

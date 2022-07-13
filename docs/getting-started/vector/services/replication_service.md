@@ -44,7 +44,7 @@ snapshot.zip/
 
 #### Delta
 
-When receiving a response from the replication service API for snapshot, The response will contain an array of files to download.
+When receiving a response from the replication service API for delta, The response will contain an array of files to download.
 
 1. Each downloaded file is a *zip*.
 
@@ -124,3 +124,7 @@ Example of `deleted_uuid.json`:
 ```json
 ["{6b973f22-46d9-4540-908f-fe5395ac0ca5}", "{0e4bcbb5-aa99-4bf6-a818-fc9df28666aa}", "{5652897d-e661-4e14-83fc-969bab027bb2}"]
 ```
+
+### Important Notes
+1. The data is in WGS84 (following the GeoJSON spec).
+2. We aim that zip would not exceed a 500MB size threshold.
