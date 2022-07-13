@@ -35,6 +35,7 @@ env:
     enabled: false
     url: 'http://localhost:55681/v1/metrics'
   PYCSW_RASTER_SERVICE_URL: "https://pycsw_raster.com"
+  EXPORT_RASTER_SERVICE_URL: "https://export_raster.com"
   PYCSW_3D_SERVICE_URL: "https://pycsw_3d.com"
   PYCSW_DEM_SERVICE_URL: "https://pycsw_dem.com"
   MAP_SERVER_RASTER_SERVICE_URL: "https://map-server_raster.com"

@@ -25,3 +25,6 @@ Different ***scheme/protocol*** values:
 | LEGEND_DOC  | Optional | Layer legend in doc format (PDF, etc.) |
 | LEGEND_IMG  | Optional | Layer legend in doc format (PNG, JPEG, etc.) |
 | LEGEND  | Optional | Layer legend as object for custom presentation |
+
+**Note:** some links are supported only for specific domains, some links are available only for specific records
+

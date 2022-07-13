@@ -5,6 +5,7 @@
 | Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<CATALOG_APP-SERVICE_URL>) | |
 | (py)CSW | Raster | `<PYCSW-RASTER-SERVICE_URL>` | |
 | Map server | Raster | `<MAP_SERVER-RASTER-SERVICE_URL>` | |
+| Export | Raster | `<EXPORT-RASTER-SERVICE_URL>` | |
 | (py)CSW | 3D | `<PYCSW-3D-SERVICE_URL>` | |
 | Model Service | 3D | `<MODEL_SERVER-3D-SERVICE_URL>` | |
 | (py)CSW | DEM |  `<PYCSW-DEM-SERVICE_URL>` | |

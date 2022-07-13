@@ -1,10 +1,18 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies Catalog and how to consume mapping products in ***dynamic way*** (materials might be changed or added)
 
+**Note:** In order to get the layer details (Product_ID, region, etc.) you have the following options:
+1. Open map-colonies catalog application and locate the required layer
+2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](catalog-information/query-examples.md) 
+
+
 > :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**
 
 
 ## Flow diagram
+
+The following flow will show you one of our main use-case's
+
 ```mermaid
 flowchart LR
     subgraph CSW
@@ -174,6 +182,7 @@ You need to **save** the following values in order to consume the layer later on
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
+> :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
 ### Cesium
 ```javascript
 ...
@@ -188,6 +197,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       // url:new Cesium.Resource({
       //  url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
       //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
+      //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token - 
       //}),
       layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
       style : '<LAYER_STYLE>',                          // from Step_4

@@ -6,6 +6,8 @@ It's a standard protocol for serving pre-rendered or run-time computed georefere
 It provides facilities for searching and retrieving raster layers data with the `GetCapabilities` and `GetTile` operations, all other operations are invalid.
 For the full capabilities provided by the service see [GetCapabilities](#getcapabilities)
 
+> :no_entry: **Authentication must be integrated in order to communicate with MAP And CSW servers.**<br/>
+> **See the principles [here](/getting-started/raster/raster_authentication.md)**
 
 ## GetCapabilities
 A WMTS server responding to a **GetCapabilities** request returns metadata about the service, including supported operations and parameters, and a list of the available layers.

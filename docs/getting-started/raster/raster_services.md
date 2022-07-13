@@ -3,6 +3,7 @@
 |-|-|-|
 | [Map Service](/getting-started/raster/services/map_server.md) | Imagery tile service | `<MAP_SERVER-RASTER-SERVICE_URL>` |
 | [Catalog Service](/getting-started/raster/services/csw_service.md) | Catalog service | `<PYCSW-RASTER-SERVICE_URL>` |
+| [Export Service](/getting-started/raster/services/export_api.md) | Export service | `<EXPORT-RASTER-SERVICE_URL>` |
 
 <br/>
 <br/>
@@ -18,3 +19,6 @@
         </tr>
     </tbody>
 </table>
+
+> :no_entry: **Authentication must be integrated in order to communicate with MAP And CSW servers.**<br/>
+> **See the principles [here](/getting-started/raster/raster_authentication.md)**
