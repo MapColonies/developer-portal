@@ -15,7 +15,7 @@ You can query for replicas via the replication service API.
 
 > ⚠️ **You will need an API token as part of the service authentication &nbsp;**
 
-You can see the full OpenAPI spec [here](<REPLICATION-VECTOR-SERVICE-URL>/docs/api)
+You can see the full OpenAPI spec [here](<REPLICATION-VECTOR-SERVICE_URL>/docs/api)
 
 The API in general is split to two parts:
 1. Metadata - you can query the service what layers are available for replication.

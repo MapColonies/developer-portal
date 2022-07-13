@@ -11,7 +11,7 @@
 | (py)CSW | DEM |  `<PYCSW-DEM-SERVICE_URL>` | |
 | Map server | DEM |  `<MAP_SERVER-DEM-SERVICE_URL>` | |
 | Superior DEM service | DEM | `<SUPERIOR-DEM-SERVICE_URL>` | |
-| Query Service | Vector | `<QUERY-VECTOR-SERVICE-URL>` | |
+| Query Service | Vector | `<QUERY-VECTOR-SERVICE_URL>` | |
 | Replication Service | Vector | `<REPLICATION-VECTOR-SERVICE_URL>` | |
 
 <style>
