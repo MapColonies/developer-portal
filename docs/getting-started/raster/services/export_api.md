@@ -10,7 +10,7 @@ Export OpenAPI (Swagger)
     <img src="./assets/images/raster_exporter_openapi.png" style="display: block;margin-left: auto;margin-right: auto;">
 </figure>
 
-```
+```yaml
 openapi: 3.0.1
 info:
   title: exporter-trigger

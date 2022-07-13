@@ -181,6 +181,7 @@ You need to **save** the following values in order to consume the layer later on
 ## Construct Client side LAYER (Step 5)
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
+
 > :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
 ### Cesium
 ```javascript
