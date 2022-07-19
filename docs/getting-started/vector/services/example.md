@@ -108,8 +108,8 @@ we'll invoke a POST GetFeature request with the following body
                     <gml:exterior>
                         <gml:LinearRing>
                             <gml:posList>
-                  1.462 42.590 1.459 42.547 1.535 42.547 1.537 42.592 1.462 42.590
-                </gml:posList>
+                                1.462 42.590 1.459 42.547 1.535 42.547 1.537 42.592 1.462 42.590
+                            </gml:posList>
                         </gml:LinearRing>
                     </gml:exterior>
                 </gml:Polygon>
