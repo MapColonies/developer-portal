@@ -1,9 +1,9 @@
 {{- $releaseName := .Release.Name -}}
-{{- $chartName := include "mc-cookbook.name" . -}}
-{{- $cloudProviderFlavor := include "mc-cookbook.cloudProviderFlavor" . -}}
-{{- $cloudProviderDockerRegistryUrl := include "mc-cookbook.cloudProviderDockerRegistryUrl" . -}}
-{{- $cloudProviderImagePullSecretName := include "mc-cookbook.cloudProviderImagePullSecretName" . -}}
-{{- $imageTag := include "mc-cookbook.tag" . -}}
+{{- $chartName := include "developer-portal.name" . -}}
+{{- $cloudProviderFlavor := include "developer-portal.cloudProviderFlavor" . -}}
+{{- $cloudProviderDockerRegistryUrl := include "developer-portal.cloudProviderDockerRegistryUrl" . -}}
+{{- $cloudProviderImagePullSecretName := include "developer-portal.cloudProviderImagePullSecretName" . -}}
+{{- $imageTag := include "developer-portal.tag" . -}}
 {{- if .Values.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -12,9 +12,9 @@ metadata:
   labels:
     app: {{ $chartName }}
     component: {{ $chartName }}
-    environment: {{ include "mc-cookbook.environment" . }}
+    environment: {{ include "developer-portal.environment" . }}
     release: {{ $releaseName }}
-    {{- include "mc-cookbook.labels" . | nindent 4 }}
+    {{- include "developer-portal.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -22,14 +22,14 @@ spec:
       app: {{ $chartName }}
       release: {{ $releaseName }}
       run: {{ $releaseName }}-{{ $chartName }}
-      {{- include "mc-cookbook.selectorLabels" . | nindent 6 }}
+      {{- include "developer-portal.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: {{ $chartName }}
         release: {{ $releaseName }}
         run: {{ $releaseName }}-{{ $chartName }}
-        {{- include "mc-cookbook.selectorLabels" . | nindent 8 }}
+        {{- include "developer-portal.selectorLabels" . | nindent 8 }}
       {{- if .Values.resetOnConfigChange }}
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}

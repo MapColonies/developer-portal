@@ -11,6 +11,6 @@ jobs:
       - name: Azure Pipelines Action
         uses: Azure/pipelines@v1
         with:
-          azure-devops-project-url: https://dev.azure.com/Libot-Mipui-Org/cookbook
+          azure-devops-project-url: https://dev.azure.com/Libot-Mipui-Org/developer-portal
           azure-pipeline-name: 'build-and-push-ACR'
           azure-devops-token: ${{ secrets.AZURE_TOKEN_NEW }}
