@@ -1,5 +1,8 @@
 # WFS - Web Feature Service
-[official OGC documentation](http://opengeospatial.github.io/e-learning/wmts/text/operations.html) :globe_with_meridians:
+[Official OGC documentation(Online)](http://opengeospatial.github.io/e-learning/wmts/text/operations.html) :globe_with_meridians:
+
+[Official OGC documentation(Offline)](..//assets//pdfs//manuals//web_feature_service_ogc.pdf) 📄
+
 
 The OGC Web Feature Service (WFS) Interface Standard defines a set of interfaces for accessing geographic information at the feature and feature property level over the Internet. A feature is an abstraction of real world phenomena, that is it is a representation of anything that can be found in the world. The attributes or characteristics of a geographic feature are referred to as feature properties. WFS offer the means to retrieve or query geographic features in a manner independent of the underlying data stores they publish. Where a WFS is authorized to do so, the service can also update or delete geographic features. An instance of a WFS is also able to store queries in order to enable client applications to retrieve or execute the queries at a later point in time.
 
