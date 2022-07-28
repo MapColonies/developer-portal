@@ -109,7 +109,7 @@ The following GET request will retrieve a specific feature by provided featureId
     featureId=FID
 ```
 
-WFS protocol partitions the queryable features into different feature types, each feature type consists of a schema describing the feature. the feature type is queryable by its schema, each feature type has a default coordinate reference system and a *** bounding box those are also possible parameters for querying.
+WFS protocol partitions the queryable features into different feature types, each feature type consists of a schema describing the feature. the feature type is queryable by its schema, each feature type has a default coordinate reference system and the bounding box which containis all features of this type, those are also possible parameters for querying.
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
