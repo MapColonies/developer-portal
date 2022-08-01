@@ -109,7 +109,27 @@ The following GET request will retrieve a specific feature by provided featureId
     featureId=FID
 ```
 
+## Example
+
 WFS protocol partitions the queryable features into different feature types, each feature type consists of a schema describing the feature. the feature type is queryable by its schema, each feature type has a default coordinate reference system and the bounding box which containis all features of this type, those are also possible parameters for querying.
+
+Let's see an example using all three operations with different filters, the following chart describes our work flow
+
+```mermaid
+flowchart LR
+A{Get Auth Token} -->|token| B[GetCapabillities]
+    subgraph WFS
+      direction LR
+        B -->|FeatureTypeList| C{Select Feature}
+        C -->|feature| D[DescribeFeatureType]
+        D -->|schema| E{Build Your Filter}
+        E -->|filter| F[GetFeature]
+        F -->G((filtered features))
+    end
+```
+
+> :no_entry: **to get an auth token [see this](this)**<br/>
+
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
