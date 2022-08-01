@@ -1,8 +1,7 @@
 {
-  "name": "@map-colonies/cookbook",
+  "name": "@map-colonies/developer-portal",
   "version": "1.0.0",
-  "description": "This is map colonies cookbook generated from confluence",
-  "main": "./dist/index.js",
+  "description": "This is MapColonies developer-portal",
   "scripts": {
     "build": "npm run copyassets:all",
     "start": "npm run copyassets:all && docsify serve docs --port 4000",
@@ -18,22 +17,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MapColonies/cookbook.git"
+    "url": "git+https://github.com/MapColonies/developer-portal.git"
   },
   "author": "MapColonies",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MapColonies/cookbook/issues"
+    "url": "https://github.com/MapColonies/developer-portal/issues"
   },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "files": [
-    "dist/**/*"
-  ],
-  "homepage": "https://github.com/MapColonies/cookbook#readme",
+  "homepage": "https://github.com/MapColonies/developer-portal#readme",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
