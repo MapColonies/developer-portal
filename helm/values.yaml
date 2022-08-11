@@ -1,7 +1,5 @@
 global:
   cloudProvider: {}
-  tracing: {}
-  metrics: {}
   environment: {}
 enabled: true
 environment: development
@@ -23,17 +21,6 @@ image:
 env:
   port: 80
   targetPort: 8080
-  protocol: TCP
-  logLevel: info
-  logPrettyPrintEnabled: false
-  responseCompressionEnabled: true
-  requestPayloadLimit: 1mb
-  tracing:
-    enabled: false
-    url: 'http://localhost:55681/v1/trace'
-  metrics:
-    enabled: false
-    url: 'http://localhost:55681/v1/metrics'
   RASTER_CATALOG_SERVICE_URL: "https://pycsw_raster.com"
   RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
   RASTER-RASTER-SERVING-SERVICE_URL: "https://map-server_raster.com"

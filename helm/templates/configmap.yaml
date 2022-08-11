@@ -1,6 +1,4 @@
 {{- $chartName := include "developer-portal.name" . -}}
-{{- $tracingUrl := include "developer-portal.tracingUrl" . -}}
-{{- $metricsUrl := include "developer-portal.metricsUrl" . -}}
 {{- if .Values.enabled -}}
 apiVersion: v1
 kind: ConfigMap
