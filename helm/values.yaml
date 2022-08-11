@@ -37,14 +37,14 @@ env:
   INJECTION_TYPE: "queryParam"
   CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
 resources:
-  enabled: false
+  enabled: true
   value:
     limits:
-      cpu: 500m
-      memory: 900Mi
+      cpu: 250m
+      memory: 64Mi
     requests:
       cpu: 500m
-      memory: 900Mi
+      memory: 128Mi
 route:
   enabled: true
   https: true
