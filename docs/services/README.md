@@ -1,19 +1,22 @@
 # MapColonies available services
 
-| Service | Domain | URL | |
-|-|-|-|-|
-| Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<APP-CATALOG_URL>) | |
-| (py)CSW | Raster | `<RASTER-CATALOG-SERVICE_URL>` | |
-| Map server | Raster | `<RASTER-RASTER-SERVING-SERVICE_URL>` | |
-| Export | Raster | `<RASTER-EXPORT-SERVICE_URL>` | |
-| (py)CSW | 3D | `<3D-CATALOG-SERVICE_URL>` | |
-| Model Service | 3D | `<3D-MODEL-SERVING-SERVICE_URL>` | |
-| (py)CSW | DEM |  `<DEM-CATALOG-SERVICE_URL>` | |
-| Map server | DEM |  `<DEM-DEM-SERVING-SERVICE_URL>` | |
-| Superior DEM service | DEM | `<DEM-SUPERIOR-SERVICE_URL>` | |
-| Query Service | Vector | `<VECTOR-QUERY-SERVICE_URL>` | |
-| Replication Service | Vector | `<VECTOR-REPLICATION-SERVICE_URL>` | |
-
+|   Domain   	|       Service       	|                  URL                  	|
+|:----------:	|:-------------------:	|:-------------------------------------:	|
+|            	| Catalog Application 	| `<RASTER-CATALOG-SERVICE_URL>`        	|
+| **Raster** 	|                     	|                                       	|
+|            	| Catalog             	| `<RASTER-CATALOG-SERVICE_URL>`        	|
+|            	| Map                 	| `<RASTER-RASTER-SERVING-SERVICE_URL>` 	|
+|            	| Export              	| `<RASTER-EXPORT-SERVICE_URL>`         	|
+| **Vector** 	|                     	|                                       	|
+|            	| Replication         	| `<VECTOR-REPLICATION-SERVICE_URL>`    	|
+|            	| Query               	| `<VECTOR-QUERY-SERVICE_URL>`          	|
+| **3D**     	|                     	|                                       	|
+|            	| Catalog             	| `<3D-CATALOG-SERVICE_URL>`            	|
+|            	| Map                 	| `<3D-MODEL-SERVING-SERVICE_URL>`      	|
+| **DEM**        	|                     	|                                       	|
+|            	| Catalog             	| `<DEM-CATALOG-SERVICE_URL>`           	|
+|            	| Superior            	| `<DEM-SUPERIOR-SERVICE_URL>`          	|
+|            	| Map                 	| `<DEM-DEM-SERVING-SERVICE_URL>`       	|
 <style>
   table code {
     white-space: nowrap;
