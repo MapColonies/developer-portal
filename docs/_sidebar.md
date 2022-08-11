@@ -1,7 +1,7 @@
 <!-- docs/_sidebar.md -->
 
 <div class="dark-mode-wrapper">
-  <b>Dark Mode:</b>
+  <b>Light Mode:</b>
   <div class="onoffswitch" >
       <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" >
       <label class="onoffswitch-label" for="myonoffswitch">
