@@ -2,17 +2,17 @@
 
 | Service | Domain | URL | |
 |-|-|-|-|
-| Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<CATALOG_APP-SERVICE_URL>) | |
-| (py)CSW | Raster | `<PYCSW-RASTER-SERVICE_URL>` | |
-| Map server | Raster | `<MAP_SERVER-RASTER-SERVICE_URL>` | |
-| Export | Raster | `<EXPORT-RASTER-SERVICE_URL>` | |
-| (py)CSW | 3D | `<PYCSW-3D-SERVICE_URL>` | |
-| Model Service | 3D | `<MODEL_SERVER-3D-SERVICE_URL>` | |
-| (py)CSW | DEM |  `<PYCSW-DEM-SERVICE_URL>` | |
-| Map server | DEM |  `<MAP_SERVER-DEM-SERVICE_URL>` | |
-| Superior DEM service | DEM | `<SUPERIOR-DEM-SERVICE_URL>` | |
-| Query Service | Vector | `<QUERY-VECTOR-SERVICE_URL>` | |
-| Replication Service | Vector | `<REPLICATION-VECTOR-SERVICE_URL>` | |
+| Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<APP-CATALOG_URL>) | |
+| (py)CSW | Raster | `<RASTER-CATALOG-SERVICE_URL>` | |
+| Map server | Raster | `<RASTER-RASTER-SERVING-SERVICE_URL>` | |
+| Export | Raster | `<RASTER-EXPORT-SERVICE_URL>` | |
+| (py)CSW | 3D | `<3D-CATALOG-SERVICE_URL>` | |
+| Model Service | 3D | `<3D-MODEL-SERVING-SERVICE_URL>` | |
+| (py)CSW | DEM |  `<DEM-CATALOG-SERVICE_URL>` | |
+| Map server | DEM |  `<DEM-DEM-SERVING-SERVICE_URL>` | |
+| Superior DEM service | DEM | `<DEM-SUPERIOR-SERVICE_URL>` | |
+| Query Service | Vector | `<VECTOR-QUERY-SERVICE_URL>` | |
+| Replication Service | Vector | `<VECTOR-REPLICATION-SERVICE_URL>` | |
 
 <style>
   table code {
@@ -22,7 +22,7 @@
     width: 500px !important;
     display: block;
   }
-</style>  
+</style>
 <script>
 var copy = function(target) {
     var textArea = document.createElement('textarea')

@@ -5,9 +5,9 @@ Basically this service “hides” a work against catalog but mimics original WC
 
 ### GetCoverage data from catalog materials with best resolution (coverageId=DTMBestResolution)
 
-***Request example:*** 
+***Request example:***
 ```
-<SUPERIOR-DEM-SERVICE_URL>/wcs/?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
+<DEM-SUPERIOR-SERVICE_URL>/wcs/?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
 ```
 
 ***Response:***
@@ -15,9 +15,9 @@ Tiff will be received
 
 ### GetCoverage data from catalog materials with min resolution(coverageId=DTMMinResolution)
 
-***Request example:*** 
+***Request example:***
 ```
-<SUPERIOR-DEM-SERVICE_URL>/wcs/?service=WCS&version=2.0.1&coverageId=DTMMinResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
+<DEM-SUPERIOR-SERVICE_URL>/wcs/?service=WCS&version=2.0.1&coverageId=DTMMinResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)
 ```
 
 ***Response:***

@@ -3,7 +3,7 @@ The following guide will help you understand, ***Step-by-step*** the best practi
 
 **Note:** In order to get the layer details (Product_ID, region, etc.) you have the following options:
 1. Open map-colonies catalog application and locate the required layer
-2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](catalog-information/query-examples.md) 
+2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](catalog-information/query-examples.md)
 
 
 > :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**
@@ -46,7 +46,7 @@ Query the catalog by the [‘mc:productId’ profile field](/catalog-information
 POST Request
 
 url:
-'<PYCSW-RASTER-SERVICE_URL>/csw'
+'<RASTER-CATALOG-SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -123,11 +123,11 @@ You will get GetRecords XML Response with product **metadata**.
 ## Extract product BBOX (Step 2)
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
 In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
- 
+
 
 Another way to find the product extent:
 In the Response, look for `<mc:footprint></mc:footprint>` element.
-In the example above - response XML file looks like this: 
+In the example above - response XML file looks like this:
 `<mc:footprint>{"type":"Polygon","coordinates":[[[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]]]}</mc:footprint>`)
 
 Use any ***tool(CESIUM, TURF, etc..)*** to convert the footprint(geojson) into a BBOX.
@@ -146,10 +146,10 @@ export const generateLayerRectangle = (layer: LayerRasterRecord): Rectangle => {
 After you’ve got your product BBOX lets move to the next step…
 
 ## Get layer URI (Step 3)
-In the Response, look for 
+In the Response, look for
 
 `<mc:links scheme="`<strong>WMTS_LAYER</strong>`" name="[desired_layer_identifier]">`
-  `<MAP_SERVER-RASTER-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
+  `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
 `</mc:links>`element.
 
 You need to save `[desired_layer_identifier]` value for later use.
@@ -160,7 +160,7 @@ You need to save `[desired_layer_identifier]` value for later use.
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
 You can go to the next URL below with your browser or just send GET request to:
 ```
-<MAP_SERVER-RASTER-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
+<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
 ```
 
 Response will contain the details of **all** available layers in following format.
@@ -175,7 +175,7 @@ You can read more about ***GetCapabilities*** OGC format [here](http://docs.open
 You need to **save** the following values in order to consume the layer later on [Step 5](#step-5).
 
 > :information_source: **Alternative to &nbsp; [Step 3](#step-3) way to get layer consumption URL**
-> `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well 
+> `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well
 
 
 ## Construct Client side LAYER (Step 5)
@@ -197,7 +197,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       // url:new Cesium.Resource({
       //  url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
       //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
-      //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token - 
+      //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token -
       //}),
       layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
       style : '<LAYER_STYLE>',                          // from Step_4
@@ -211,8 +211,8 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       /********     EXTENT SHOULD BE AS MUCH AS CLOSE TO LAYER ORIGIN FOOTPRINT ********/
       /*********************************************************************************/
       rectangle : <LAYER_EXTENT>,                       // from Step_2
-    });   
-    
+    });
+
 map.addLayer(catalogLayer);
 ...
 ...
@@ -232,7 +232,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
-    
+
     const catalogLayer = new TileLayer({
           opacity: 1,
           extent: <LAYER_EXTENT>                          // from Step_2
@@ -247,7 +247,7 @@ Replace all `<>` place holders with the real values that we got from all previou
             requestEncoding: 'REST'
           }),
     }),
-    
+
     map.addLayer(catalogLayer)
 ...
 ...
@@ -265,7 +265,7 @@ In order to present catalog items in your system you can use following fields:
 
 - **mc:productName**
 - **mc:description**
-- **...** 
+- **...**
 - **rest** [Raster profile definition](./catalog-information/v1_0/raster_profile.md)
 
 > :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**
