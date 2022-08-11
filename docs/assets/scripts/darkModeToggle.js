@@ -13,7 +13,7 @@ function toggle() {
   });
 
   document.body.setAttribute("theme", title);
-  
+
 }
 window.addEventListener('load', function() {
   toggle();
