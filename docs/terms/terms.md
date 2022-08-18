@@ -1,0 +1,1 @@
+# MapColonies Available Terms & Abbreviations
