@@ -1,19 +1,22 @@
 # MapColonies available services
 
-| Service | Domain | URL | |
-|-|-|-|-|
-| Catalog Application | Raster, 3D, DEM, Vector | [Catalog Application](<CATALOG_APP-SERVICE_URL>) | |
-| (py)CSW | Raster | `<PYCSW-RASTER-SERVICE_URL>` | |
-| Map server | Raster | `<MAP_SERVER-RASTER-SERVICE_URL>` | |
-| Export | Raster | `<EXPORT-RASTER-SERVICE_URL>` | |
-| (py)CSW | 3D | `<PYCSW-3D-SERVICE_URL>` | |
-| Model Service | 3D | `<MODEL_SERVER-3D-SERVICE_URL>` | |
-| (py)CSW | DEM |  `<PYCSW-DEM-SERVICE_URL>` | |
-| Map server | DEM |  `<MAP_SERVER-DEM-SERVICE_URL>` | |
-| Superior DEM service | DEM | `<SUPERIOR-DEM-SERVICE_URL>` | |
-| Query Service | Vector | `<QUERY-VECTOR-SERVICE_URL>` | |
-| Replication Service | Vector | `<REPLICATION-VECTOR-SERVICE_URL>` | |
-
+|   Domain   	|       Service       	|                  URL                  	|
+|:----------:	|:-------------------:	|:-------------------------------------:	|
+|            	| Catalog Application 	| `<RASTER-CATALOG-SERVICE_URL>`        	|
+| **Raster** 	|                     	|                                       	|
+|            	| Catalog             	| `<RASTER-CATALOG-SERVICE_URL>`        	|
+|            	| Map                 	| `<RASTER-RASTER-SERVING-SERVICE_URL>` 	|
+|            	| Export              	| `<RASTER-EXPORT-SERVICE_URL>`         	|
+| **Vector** 	|                     	|                                       	|
+|            	| Replication         	| `<VECTOR-REPLICATION-SERVICE_URL>`    	|
+|            	| Query               	| `<VECTOR-QUERY-SERVICE_URL>`          	|
+| **3D**     	|                     	|                                       	|
+|            	| Catalog             	| `<3D-CATALOG-SERVICE_URL>`            	|
+|            	| Map                 	| `<3D-MODEL-SERVING-SERVICE_URL>`      	|
+| **DEM**        	|                     	|                                       	|
+|            	| Catalog             	| `<DEM-CATALOG-SERVICE_URL>`           	|
+|            	| Superior            	| `<DEM-SUPERIOR-SERVICE_URL>`          	|
+|            	| Map                 	| `<DEM-DEM-SERVING-SERVICE_URL>`       	|
 <style>
   table code {
     white-space: nowrap;
@@ -22,7 +25,7 @@
     width: 500px !important;
     display: block;
   }
-</style>  
+</style>
 <script>
 var copy = function(target) {
     var textArea = document.createElement('textarea')

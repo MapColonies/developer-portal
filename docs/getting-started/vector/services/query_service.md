@@ -21,7 +21,7 @@ The following parameters are common query parameters for all of the provided ope
 The GetCapabilities operation is a GET request to a WFS server for a list of the operations, services or capabilities supported by that service
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetCapabilities
@@ -40,7 +40,7 @@ Specifically, the operation will request a list of features and attributes for t
 The following GET request will return a list of all feature types, sorted by namespace
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType
@@ -49,7 +49,7 @@ The following GET request will return a list of all feature types, sorted by nam
 The following GET request will list information about a specific feature type named `namespace:featuretype`, the response will be formatted in `application/json` format
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType&
@@ -75,7 +75,7 @@ The GetFeature request queries the server with a set of parameters describing th
 The following GET request will get at most the top N features of feature type named `namespace:featuretype` sorted by attributeA, the response will be formatted in `application/json`
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -89,7 +89,7 @@ The following GET request will search for all the features contained or partiall
 The retrieved features will be encoded in `EPSG:4326` as well as requested by the srsName parameter value.
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -101,7 +101,7 @@ The retrieved features will be encoded in `EPSG:4326` as well as requested by th
 The following GET request will retrieve a specific feature by provided featureId FID
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -165,7 +165,7 @@ If you would like to view the schema of the `buildings` `FeatureType`, we could 
 For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType&
@@ -292,7 +292,7 @@ Now that we hold the structure of the `buildings` FeatureType we're able to quer
 due to `enitityId` containing '{' and '}' at the beginning and the end of the string we need to encode those to '%7B' and '%7D' respectively
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -392,7 +392,7 @@ Other than the feature itself we also retrieve additional metadata such as the c
 the default sort is in **ascending** order, to specify order append +A or +D to the `sortBy` parameter
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
@@ -528,7 +528,7 @@ The retrieved features will be encoded in the specified `srsName` coordinate sys
 For simplicity we'll limit the result to only __2__ features with the `count` parameter:
 
 ```
-<QUERY-VECTOR-SERVICE_URL>/wfs?
+<VECTOR-QUERY-SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&

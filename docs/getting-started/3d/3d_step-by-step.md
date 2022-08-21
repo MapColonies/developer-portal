@@ -36,7 +36,7 @@ Example query based on `mc:classification` profile field
 POST Request
 
 url:
-'<PYCSW-3D-SERVICE_URL>/csw'
+'<3D-CATALOG-SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
