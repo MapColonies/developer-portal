@@ -13,7 +13,7 @@
 A WCS server responding to a **GetCapabilities** request returns metadata about the service, including supported operations and parameters, and a list of the available layers.
 
 ```
-<MAP_SERVER-DEM-SERVICE_URL>/geoserver/ows?
+<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
 service=WCS&
 version=2.0.1&
 request=GetCapabilities
@@ -65,36 +65,36 @@ request=GetCapabilities
           <ows:Operation name="GetCapabilities">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
           <ows:Operation name="DescribeCoverage">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
           <ows:Operation name="GetCoverage">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<MAP_SERVER-DEM-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
@@ -323,7 +323,7 @@ request=GetCapabilities
   ```
 </details>
 
-This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** response (the following pictures contains the **dem__gt30e020n40** layer related sub-section). 
+This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** response (the following pictures contains the **dem__gt30e020n40** layer related sub-section).
 <figure>
     <img src="./assets/images/getcap_wcs_example.png" style="display: block;margin-left: auto;margin-right: auto;width: 80%;">
 </figure>
@@ -332,7 +332,7 @@ This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** re
 The purpose of the **DescribeCoverage** request is to additional information about a Coverage a client wants to query. It returns information about the crs, the metadata, the domain, the range and the formats it is available in. A client generally will need to issue a DescribeCoverage request before being sure it can make the proper GetCoverage request
 
 ```
-<MAP_SERVER-DEM-SERVICE_URL>/geoserver/ows?
+<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
@@ -430,7 +430,7 @@ COVERAGE=n30_e034_1arc_v3
   ```
 </details>
 
-This request shows an XML file containing the DescribeCoverage response of ***n30_e034_1arc_v3***  layer. 
+This request shows an XML file containing the DescribeCoverage response of ***n30_e034_1arc_v3***  layer.
 
 ## GetCoverage
 The **GetCoverage** operation requests the actual spatial data. It can retrieve subsets of coverages, and the result can be either the coverage itself or a reference to it. The most powerful thing about a GetCoverage request is its ability to subset domains (height and time) and ranges. It can also do resampling, encode in different data formats, and return the resulting file in different ways.
@@ -438,7 +438,7 @@ The **GetCoverage** operation requests the actual spatial data. It can retrieve 
 Detailed explanation about params might be found [here](https://www.mapserver.org/ogc/wcs_server.html) :globe_with_meridians:
 
 ```
-<MAP_SERVER-DEM-SERVICE_URL>/geoserver/ows?
+<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=GetCoverage&

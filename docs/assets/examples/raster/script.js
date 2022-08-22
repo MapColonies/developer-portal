@@ -2,9 +2,9 @@ const productIdForm = document.querySelector('form');
 const productIdInput = document.querySelector('#productIdInput');
 const applyProductId = document.querySelector('#applyLayerBtn');
 
-const RASTER_CSW_SERVICE_URL = '<PYCSW-RASTER-SERVICE_URL>/csw';
+const RASTER_CSW_SERVICE_URL = '<RASTER-CATALOG-SERVICE_URL>/csw';
 const RASTER_TOKEN = '<API_KEY>';
-const mapProxyBaseUrl = '<MAP_SERVER-RASTER-SERVICE_URL>';
+const mapProxyBaseUrl = '<RASTER-RASTER-SERVING-SERVICE_URL>';
 const INJECTION_TYPE = '<INJECTION_TYPE>';
 
 // according to defined B2B authentication principles HEADER or QUERYPARAM - Currently only QUERYPARAM is available
@@ -37,7 +37,7 @@ const showPointer = (show) => {
 
 
 // Setup Cesium viewer first.
-const viewer = new Cesium.Viewer('cesiumContainer', { 
+const viewer = new Cesium.Viewer('cesiumContainer', {
   baseLayerPicker: false,
   sceneMode : Cesium.SceneMode.SCENE2D
 });
@@ -106,7 +106,7 @@ const constructAndApplyLayer = (e) => {
     /**********************************************************************/
     const footprint = xmlDoc.children[0].children[1].getElementsByTagName('mc:footprint')[0].textContent;
     const rectangle = generateRectangle(footprint);
-    
+
     /*********************************************************************************/
     /* STEP 3: Extract layer's "WMTS_LAYER" template url from <mc:links> collection, */
     /* Identifier and capabilities url from XML (document) response, for later use.  */
@@ -117,29 +117,29 @@ const constructAndApplyLayer = (e) => {
 
     const getLayerMetadataFromGetCapabilities = getCapabilitiesDoc => {
       const arr = [...getCapabilitiesDoc.children[0].children[2].querySelectorAll("Layer")];
-    
+
       // Traversing through the layers from GetCapabilities, to find the one we're looking for by productId
       const desiredLayer = arr.find(layer => {
           const layerIdentifierValue = getChildNodeByTagName(layer, 'ows:Identifier').textContent;
-    
+
           return layerIdentifierValue === layerIdentifier;
       })
-      
+
       return desiredLayer;
      }
-    
+
      const extractRequiredMetadataFromGetCapabilities = desiredLayer => {
       // Get additional layer metadata from GetCapabilities.
       const tileMatrixSet = getChildNodeByTagName(desiredLayer, 'TileMatrixSetLink').children[0].textContent;
       const layerStyle = getChildNodeByTagName(desiredLayer, 'Style').children[0].textContent;
       const layerFormat = getChildNodeByTagName(desiredLayer, 'Format').children.textContent;
-    
+
       return { tileMatrixSet, layerStyle, layerFormat };
     }
-    
+
     const setupImageryProviderAndApplyToViewer = layerAdditionalParams => {
       const {tileMatrixSet: tileMatrixSetID, layerFormat: format, layerStyle: style} = layerAdditionalParams;
-    
+
       const provider = new Cesium.WebMapTileServiceImageryProvider({
         url: new Cesium.Resource({
           // TODO: should be used 'layerUrl'
@@ -152,7 +152,7 @@ const constructAndApplyLayer = (e) => {
         tilingScheme: new Cesium.GeographicTilingScheme(),
         rectangle
       })
-    
+
       viewer.imageryLayers.addImageryProvider(provider);
 
       // flyTo added layer(optional), added just for convinience
@@ -178,11 +178,11 @@ const constructAndApplyLayer = (e) => {
     .then(getLayerMetadataFromGetCapabilities)
     /*********************************************************************************/
     /* STEP 4.2: Extract layer's definition from MAP_SERVER GetCapabilities          */
-    /*********************************************************************************/    
-    .then(extractRequiredMetadataFromGetCapabilities) 
+    /*********************************************************************************/
+    .then(extractRequiredMetadataFromGetCapabilities)
     /*********************************************************************************/
     /* STEP 5: Finally, build the CESIUM imageryProvider with the retrieved data.    */
-    /*********************************************************************************/    
+    /*********************************************************************************/
     .then(setupImageryProviderAndApplyToViewer)
     .catch((e) => {
       showLoader(false);
@@ -200,5 +200,3 @@ const constructAndApplyLayer = (e) => {
 
 productIdForm.addEventListener('submit', constructAndApplyLayer);
 productIdInput.addEventListener('input', (e) => { e.target.setCustomValidity('') })
-
-

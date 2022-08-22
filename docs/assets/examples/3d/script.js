@@ -1,6 +1,6 @@
 const show3DModelBtn = document.querySelector('#show3DModelBtn');
 
-const CSW_3D_SERVICE_URL = '<PYCSW-3D-SERVICE_URL>/csw';
+const CSW_3D_SERVICE_URL = '<3D-CATALOG-SERVICE_URL>/csw';
 const TOKEN_3D = '<API_KEY>';
 const INJECTION_TYPE = '<INJECTION_TYPE>';
 
@@ -58,7 +58,7 @@ const constructAndApply3DModel = () => {
   /*********************************************************************************/
   /*  STEP 1: Build 3D CSW XML query based on `mc:classification` profile field,   */
   /*          and fetch XML record using GetRecords CSW operation.                 */
-  /*********************************************************************************/  
+  /*********************************************************************************/
   const getRecordsXML3D = `<?xml version="1.0" encoding="UTF-8"?>
   <csw:GetRecords
     outputFormat="application/xml"
@@ -98,17 +98,17 @@ const constructAndApply3DModel = () => {
   })
   .then(xmlDoc => {
     const modelMetadata = xmlDoc.children[0].children[1].children[0];
-    
+
     /*********************************************************************************/
     /*  STEP 2: Extract layer's URI from the XML response (<mc:links> element).      */
-    /*********************************************************************************/  
+    /*********************************************************************************/
     const layerUri = modelMetadata.getElementsByTagName('mc:links')[0].textContent;
-    
+
     /*********************************************************************************/
     /*  STEP 2.1: Extract layer's URI from the XML response (<mc:links> element).    */
     /*  Without baseMap terrain provider not look good, so there is a reason to      */
     /*  define terrain provider when baseMap is defined                              */
-    /*********************************************************************************/  
+    /*********************************************************************************/
     // const terrainMetadata = xmlDoc.children[0].children[1].children[xmlDoc.children[0].children[1].children.length -1]; /* ugly code to get the last record, proper lookup should be applied */
     // let terrainUri;
     // terrainUri = terrainMetadata.getElementsByTagName('mc:links')[0].textContent;
@@ -117,10 +117,10 @@ const constructAndApply3DModel = () => {
     //     url: new Cesium.Resource({
     //       url: terrainUri,
     //       ...getAuthObject()
-    //     }),    
-    //   });  
+    //     }),
+    //   });
     // }
-   
+
     /*********************************************************************************/
     /*  STEP 3: Add the layer to cesium's viewer to display it.                      */
     /*          (Using the layerUri variable we just assigned)                       */
@@ -128,7 +128,7 @@ const constructAndApply3DModel = () => {
     const tileset = viewer.scene.primitives.add(
       new Cesium.Cesium3DTileset({
         url:new Cesium.Resource({
-          url: layerUri,     
+          url: layerUri,
           ...getAuthObject()
         })
       })
@@ -141,7 +141,7 @@ const constructAndApply3DModel = () => {
       }
     })
     .catch(e => console.log(e));
-    
+
   })
   .catch(e => {
     console.error("There was an error fetching the model.. Error: ", e);
