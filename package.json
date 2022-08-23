@@ -4,8 +4,8 @@
   "description": "This is MapColonies developer-portal",
   "scripts": {
     "build": "npm run copyassets:all",
-    "start": "npm run copyassets:all && docsify serve docs --port 4000",
-    "start:prod": "http-server docs --port 4000",
+    "start": "npm run copyassets:all && docsify serve docs --port 8080",
+    "start:prod": "http-server docs --port 8080",
     "release": "standard-version",
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
