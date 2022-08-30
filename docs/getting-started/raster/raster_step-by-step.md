@@ -35,13 +35,40 @@ flowchart LR
     C -- layer_params --> D
 ```
 
-
 ## Query CSW catalog (Step 1)
 Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md).
+</br></br>
+:information_source: Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
+</br></br>
+You can Query the catalog in different ways, for example:
+1. By product type [‘mc:productType‘ profile field](/catalog-information/v1_0/raster_profile.md), for example to get the world "Best" map we query by productType is "OrthophotoBest"
 
-Assuming you enquire the desired mapping ***productId*** from our catalog.
+```
+POST Request
 
-Query the catalog by the [‘mc:productId’ profile field](/catalog-information/v1_0/raster_profile.md) to get the product metadata:
+url:
+'<RASTER-CATALOG-SERVICE_URL>/csw'
+
+body (XML):
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+  <csw:Query typeNames="mc:MCRasterRecord">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+          <PropertyName>mc:productType</PropertyName>
+          <Literal>OrthophotoBest</Literal>
+        </PropertyIsLike>
+      </Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>
+```
+
+2. Assuming you enquire the desired mapping ***productId*** from our catalog.
+By the [‘mc:productId’ profile field](/catalog-information/v1_0/raster_profile.md) to get the product metadata:
+
 ```
 POST Request
 
@@ -60,6 +87,31 @@ body (XML):
           <!-- ****** INSERT LAYER LAYER ID START ********************** -->
           <Literal>bluemarble_5km</Literal>
           <!-- ****** INSERT LAYER LAYER ID END ************************ -->
+        </PropertyIsLike>
+      </Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>
+```
+
+3. Assuming you enquire all raster products, you can use the following query
+
+```
+POST Request
+
+url:
+'<RASTER-CATALOG-SERVICE_URL>/csw'
+
+body (XML):
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+  <csw:Query typeNames="mc:MCRasterRecord">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+          <PropertyName>mc:type</PropertyName>
+          <Literal>RECORD_RASTER</Literal>
         </PropertyIsLike>
       </Filter>
     </csw:Constraint>
