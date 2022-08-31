@@ -63,6 +63,46 @@ above example declare a query for `mc:productId` field in catalog and response w
 `startPosition`  will display records from all result start from the first one to the `maxRecords` value
 ***(1 to 1 in example)***.
 
+## Query by ***IsEqualTo*** value
+How to query the catalog by **specific property** and his **value**
+```xml
+POST request
+
+Url:
+http://localhost:8080/csw
+
+Content-type:
+application/xml
+
+Request body:
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1" 
+outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[SUB-SYSTEM-MAIN-NAMESPACE]" >
+  <csw:Query typeNames="[SUB-SYSTEM-TYPENAME]">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <PropertyIsEqualTo matchCase="true">
+          <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
+          <PropertyName>mc:productId</PropertyName>
+          <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
+          
+          <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
+          <Literal>MAS_6_ORT</Literal>
+          <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
+        </PropertyIsEqualTo>
+      </Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>
+```
+above example declare a query for `mc:productId` field in catalog and response with the full metadata of `MAS_6_ORT match` result.
+
+`maxRecords` attribute in `<csw:GetRecords></csw:GetRecords>`element is equals to "1" means response will contain only 1 result.
+
+`startPosition`  will display records from all result start from the first one to the `maxRecords` value
+***(1 to 1 in example)***.
+
 ## Query by field ***like*** value
 How to query the catalog by specific property to be like **wild-card** value
 ```xml
