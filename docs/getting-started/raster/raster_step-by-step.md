@@ -37,9 +37,9 @@ flowchart LR
 
 ## Query CSW catalog (Step 1)
 Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md).
-</br></br>
-:information_source: Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
-</br></br>
+
+> :information_source: Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
+
 You can Query the catalog in different ways, for example:
 1. By product type [‘mc:productType‘ profile field](/catalog-information/v1_0/raster_profile.md), for example to get the world "Best" map we query by productType is "OrthophotoBest"
 

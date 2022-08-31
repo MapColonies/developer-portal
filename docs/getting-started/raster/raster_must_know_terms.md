@@ -4,14 +4,14 @@ Term | Description
 **Raster Geodetic Datum**  | World Geodetic System of WGS 84 (also known as WGS 1984 ensemble: EPSG:4326 for 2D coordinate reference system (CRS))
 **Raster Map projection**  | Latitude / Longitude Projection
 **Raster Best Practice Protocol**  | WMTS
-**Rater Tiling scheme**  | InspireCRS84Quad (World CRS84 TileMatrixSet), That tiling schemes consists of two 256x256 tiles at its zoom level 0, in EPSG:4326 CRS, with extent in longitude in the range [-180,180] and in latitude in the range [-90,90].
-**Rater Tile Size**  | 256*256
-**Rater Tile Format**  | PNG
+**Raster Tiling scheme**  | InspireCRS84Quad (World CRS84 TileMatrixSet), That tiling schemes consists of two 256x256 tiles at its zoom level 0, in EPSG:4326 CRS, with extent in longitude in the range [-180,180] and in latitude in the range [-90,90].
+**Raster Tile Size**  | 256*256
+**Raster Tile Format**  | PNG
 **Auth token** | A JWT token that needs to be supplied by raster PO (product team) and be supplied to raster services via QUERYPARAM, there are different kinds of token permissions (raster serving CSW, WMTS, WMS, export, etc.) 
 
 <br/>
 
-**Rater Tiling scheme In Detail**
+**Raster Tiling scheme In Detail**
 
 Zoom Level Id  | Matrix Width (tiles) | Matrix Height (tiles) | Tile Size (degrees) | Pixel Size (degrees) | Tile Size* (meters) | Pixel Size* (meters)
 :--- | ---: | ---: | ---: | ---: | ---: | ---: 
