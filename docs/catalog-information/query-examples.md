@@ -29,7 +29,7 @@ POST request
 Url:
 http://localhost:8080/csw
 
-Content-type:
+Content-Type
 application/xml
 
 Request body:
@@ -71,7 +71,7 @@ POST request
 Url:
 http://localhost:8080/csw
 
-Content-type:
+Content-Type
 application/xml
 
 Request body:
@@ -111,7 +111,7 @@ POST request
 Url:
 http://localhost:8080/csw
 
-Content-type:
+Content-Type
 application/xml
 
 Request body:
