@@ -11,6 +11,6 @@ jobs:
 
       - name: Check lines in files for trailing whitespaces
         uses: marcopaganini/check-trailing-spaces@v1
-      - with:
+        with:
           check_all_files: 1
           source_directory: docs
