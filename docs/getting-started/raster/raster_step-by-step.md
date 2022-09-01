@@ -140,9 +140,13 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:ingestionDate>2022-02-13T13:04:23Z</mc:ingestionDate>
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:layerPolygonParts>{"bbox":[],"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[],[]]]},"properties":{}}]}</mc:layerPolygonParts>
-                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'YOUR_MAPPROXY_URL/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
+                <mc:links scheme="WMS_BASE" name="bluemarble_5km"
+                description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
+                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
                 <mc:links scheme="WMTS_LAYER" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="bluemarble_5km"
+                description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
@@ -200,9 +204,19 @@ After you’ve got your product BBOX lets move to the next step…
 ## Get layer URI (Step 3)
 In the Response, look for
 
-`<mc:links scheme="`<strong>WMTS_LAYER</strong>`" name="[desired_layer_identifier]">`
+> Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
+
+``` xml
+`<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
+<mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
+</mc:links>
+<mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
   `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
-`</mc:links>`element.
+</mc:links>`element.
+```
 
 You need to save `[desired_layer_identifier]` value for later use.
 > :information_source: **You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
@@ -210,9 +224,15 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4)
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
+Option 1
 You can go to the next URL below with your browser or just send GET request to:
 ```
 <RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
+```
+Option 2
+Use the ***WMTS*** scheme with its already built in GET query
+```
+<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml
 ```
 
 Response will contain the details of **all** available layers in following format.

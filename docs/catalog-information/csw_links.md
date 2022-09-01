@@ -6,6 +6,12 @@ When querying PYCSW record(s) response XML **may** contain **`<mc:links>`** elem
 <mc:links scheme="WMTS_LAYER" name="bluemarble_5km" description="">
   [MAP_SERVER_URL]/wmts/{TileMatrixSet}/{TileMatrix}/{TileMatrix}/{TileCol}/{TileRow}.png
 </mc:links>
+<mc:links scheme="WMTS_BASE" name="bluemarble_5km" description="">
+  [MAP_SERVER_URL]/wmts
+</mc:links>
+<mc:links scheme="WMTS" name="bluemarble_5km" description="">
+  [MAP_SERVER_URL]/wmts/1.0.0/WMTSCapabilities.xml"
+</mc:links>
 ```
 
 Different ***scheme/protocol*** values:
