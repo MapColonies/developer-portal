@@ -1,0 +1,16 @@
+on: [pull_request]
+
+jobs:
+  check-trailing-spaces:
+    name: Example workflow using the check-trailing-spaces action.
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository contents.
+        uses: actions/checkout@v1
+
+      - name: Check lines in files for trailing whitespaces
+        uses: marcopaganini/check-trailing-spaces@v1
+      - with:
+          check_all_files: 1
+          source_directory: docs
