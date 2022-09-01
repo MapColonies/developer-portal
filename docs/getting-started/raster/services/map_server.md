@@ -1,4 +1,4 @@
-# Map Server :world_map: 
+# Map Server :world_map:
 
 The raster map service uses the [WMTS](/ogc-protocols/ogc-wmts.md) protocol which is a READ-ONLY Web Map Tile Service.
 It's a standard protocol for serving pre-rendered or run-time computed georeferenced map tiles over the Internet.

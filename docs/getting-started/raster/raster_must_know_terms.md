@@ -7,14 +7,14 @@ Term | Description
 **Raster Tiling scheme**  | InspireCRS84Quad (World CRS84 TileMatrixSet), That tiling schemes consists of two 256x256 tiles at its zoom level 0, in EPSG:4326 CRS, with extent in longitude in the range [-180,180] and in latitude in the range [-90,90].
 **Raster Tile Size**  | 256*256
 **Raster Tile Format**  | PNG
-**Auth token** | A JWT token that needs to be supplied by raster PO (product team) and be supplied to raster services via QUERYPARAM, there are different kinds of token permissions (raster serving CSW, WMTS, WMS, export, etc.) 
+**Auth token** | A JWT token that needs to be supplied by raster PO (product team) and be supplied to raster services via QUERYPARAM, there are different kinds of token permissions (raster serving CSW, WMTS, WMS, export, etc.)
 
 <br/>
 
 **Raster Tiling scheme In Detail**
 
 Zoom Level Id  | Matrix Width (tiles) | Matrix Height (tiles) | Tile Size (degrees) | Pixel Size (degrees) | Tile Size* (meters) | Pixel Size* (meters)
-:--- | ---: | ---: | ---: | ---: | ---: | ---: 
+:--- | ---: | ---: | ---: | ---: | ---: | ---:
 0 |	2 |	1 |	180 | 0.703125 | 20,037,508.34 | 78,271.52
 1 |	4 |	2 |	90 | 0.3515625 | 10,018,754.17 | 39,135.76
 2 | 8 | 4 | 45 | 0.17578125 | 5,009,377.09 | 19,567.88
