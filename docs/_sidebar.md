@@ -14,7 +14,7 @@
 
 - [Available Services](/services/README.md)
 * [Terms and Abbreviations](/terms/terms.md)
-- [Domains](/getting-started/README.md)
+* [Domains](/getting-started/README.md)
   * [Raster](/getting-started/raster/raster_overview.md)
     * [Must Know Terms](/getting-started/raster/raster_must_know_terms.md)
     * [Services](/getting-started/raster/raster_services.md)
