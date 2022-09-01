@@ -1,6 +1,0 @@
-Term | Description
-:--- | :---
-**OGC**  | The **Open Geospatial Consortium** is an international voluntary consensus  standards organization, originated in 1994. In the OGC, more than 500 commercial, governmental, nonprofit and research organizations worldwide collaborate in a consensus process encouraging development and implementation of open standards for geospatial content and services, sensor web and IoT, GIS data processing and  data sharing.
-**OSGeo**  | The **Open Source Geospatial Foundation** is a not-for-profit organization whose mission is to support and promote the collaborative development of open source geospatial software, data and education. The foundation provides financial, organizational and legal support to the broader open source geospatial community.
-**ESRI**  | **Environmental Systems Research Institute** is an international supplier of GIS software, web GIS and geodatabase management applications.
-**MapBox**  | An American company which provides custom online maps for websites and applications. Mapbox is also the creator of, or a significant contributor to, some open source mapping libraries and applications, including the Mapbox GL-JS JavaScript library, the MBTiles specification, the TileMill cartography IDE, the Leaflet JavaScript library, and the CartoCSS map styling language and parser.
