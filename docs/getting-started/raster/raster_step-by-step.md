@@ -40,7 +40,8 @@ Query **RASTER CSW catalog** service to find item(s) according to desired filter
 
 > :information_source: Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
 
-You can Query the catalog in different ways, for example:
+There are a few ways to aquire the productId, for example:
+
 1. By product type [‘mc:productType‘ profile field](/catalog-information/v1_0/raster_profile.md), for example to get the world "Best" map we query by productType is "OrthophotoBest"
 
 ```
@@ -66,8 +67,32 @@ body (XML):
 </csw:GetRecords>
 ```
 
-2. Assuming you enquire the desired mapping ***productId*** from our catalog.
-By the [‘mc:productId’ profile field](/catalog-information/v1_0/raster_profile.md) to get the product metadata:
+2. You can enquire all raster products:
+
+```
+POST Request
+
+url:
+'<RASTER-CATALOG-SERVICE_URL>/csw'
+
+body (XML):
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+  <csw:Query typeNames="mc:MCRasterRecord">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+          <PropertyName>mc:type</PropertyName>
+          <Literal>RECORD_RASTER</Literal>
+        </PropertyIsLike>
+      </Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>
+```
+
+If you already have the ***productId*** you can use the following query (***productId*** can also be coppied from our catalog app):
 
 ```
 POST Request
@@ -87,31 +112,6 @@ body (XML):
           <!-- ****** INSERT LAYER LAYER ID START ********************** -->
           <Literal>bluemarble_5km</Literal>
           <!-- ****** INSERT LAYER LAYER ID END ************************ -->
-        </PropertyIsLike>
-      </Filter>
-    </csw:Constraint>
-  </csw:Query>
-</csw:GetRecords>
-```
-
-3. Assuming you enquire all raster products, you can use the following query
-
-```
-POST Request
-
-url:
-'<RASTER-CATALOG-SERVICE_URL>/csw'
-
-body (XML):
-<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
-  <csw:Query typeNames="mc:MCRasterRecord">
-   <csw:ElementSetName>full</csw:ElementSetName>
-    <csw:Constraint version="1.1.0">
-      <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
-          <PropertyName>mc:type</PropertyName>
-          <Literal>RECORD_RASTER</Literal>
         </PropertyIsLike>
       </Filter>
     </csw:Constraint>
@@ -140,9 +140,13 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:ingestionDate>2022-02-13T13:04:23Z</mc:ingestionDate>
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:layerPolygonParts>{"bbox":[],"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[],[]]]},"properties":{}}]}</mc:layerPolygonParts>
-                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'YOUR_MAPPROXY_URL/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
+                <mc:links scheme="WMS_BASE" name="bluemarble_5km"
+                description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
+                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
                 <mc:links scheme="WMTS_LAYER" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="bluemarble_5km"
+                description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
@@ -200,9 +204,19 @@ After you’ve got your product BBOX lets move to the next step…
 ## Get layer URI (Step 3)
 In the Response, look for
 
-`<mc:links scheme="`<strong>WMTS_LAYER</strong>`" name="[desired_layer_identifier]">`
+> Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
+
+``` xml
+`<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
+<mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
+</mc:links>
+<mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
   `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
-`</mc:links>`element.
+</mc:links>`element.
+```
 
 You need to save `[desired_layer_identifier]` value for later use.
 > :information_source: **You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
@@ -210,9 +224,15 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4)
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
+Option 1
 You can go to the next URL below with your browser or just send GET request to:
 ```
 <RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
+```
+Option 2
+Use the ***WMTS*** scheme with its already built in GET query
+```
+<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml
 ```
 
 Response will contain the details of **all** available layers in following format.
