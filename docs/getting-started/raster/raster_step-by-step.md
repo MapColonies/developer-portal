@@ -270,6 +270,8 @@ map.addLayer(catalogLayer);
 ...
 ...
 ```
+> :heavy_exclamation_mark: **Important:** Add **query parameter** `version` with the record version to the request, in order to prevent browser & server cache mechanizem from giving you an unupdated tiles
+
 Replace all `<>` place holders with the real values that we got from all previous steps:
 - url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
 - layer - should be replaced with layer Product ID.
