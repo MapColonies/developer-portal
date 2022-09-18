@@ -13,8 +13,10 @@
 
 
 - [Available Services](/services/README.md)
-- [Domains](/getting-started/README.md)
+* [Terms and Abbreviations](/terms/terms.md)
+* [Domains](/getting-started/README.md)
   * [Raster](/getting-started/raster/raster_overview.md)
+    * [Must Know Terms](/getting-started/raster/raster_must_know_terms.md)
     * [Services](/getting-started/raster/raster_services.md)
     * [Authentication](/getting-started/raster/raster_authentication.md)
     * [Catalog Profile (v1.0)](/catalog-information/v1_0/raster_profile.md)

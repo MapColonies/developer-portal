@@ -572,7 +572,7 @@ http://localhost:8080/csw?request=DescribeRecord&service=CSW&version=2.0.2&outpu
             This schema defines the basic record types that must be supported
             by all CSW implementations. These correspond to full, summary, and
             brief views based on DCMI metadata terms.
-            
+
             CSW is an OGC Standard.
             Copyright (c) 2004,2010 Open Geospatial Consortium, Inc. All Rights Reserved.
             To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
@@ -763,7 +763,7 @@ http://localhost:8080/csw?request=DescribeRecord&service=CSW&version=2.0.2&outpu
 
 Requests examples:
 ```
-GET request 
+GET request
 
 http://localhost:8080/csw?request=GetRecordById&service=CSW&version=2.0.2&elementSetName=full&id=413d8ff2-ef27-4a5f-8cf6-964a807745d1
 ```

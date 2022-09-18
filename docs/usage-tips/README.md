@@ -1,10 +1,10 @@
 # Usage Tips
 
-## WMTS layer **rectangle** 
+## WMTS layer **rectangle**
 It is important to specify the extent/rectangle as BBOX derived from layer's footprint in order to properly consume the existing tiles for the layer, it will improve layer on-map performance.<br/>
 This **rectangle** can limit the visible portion of the imagery provider.
 
-## OpenLayers WMTS layer from Capabilities 
+## OpenLayers WMTS layer from Capabilities
 There is an easy way to consume WMTS layer from GetCapabilities response with OpenLayers, and even create the configuration manually. See [WMTS Layer from Capabilities](https://openlayers.org/en/latest/examples/wmts-layer-from-capabilities.html) :globe_with_meridians:
 
 ## Tiling scheme - Cesium
