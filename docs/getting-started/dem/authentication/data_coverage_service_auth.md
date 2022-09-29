@@ -8,15 +8,15 @@ If token doesn't supplied then the request will get a **403** http response code
 
 Example for ***GetCoverage*** request if authentication via **header**:
 ```curl
-curl --location --request GET '<SUPERIOR-DEM-SERVICE_URL>?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)' \
---header 'x-api-key: <AUTH_TOKEN>' 
+curl --location --request GET '<DEM-SUPERIOR-SERVICE_URL>?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)' \
+--header 'x-api-key: <AUTH_TOKEN>'
 ```
 
 Example for ***GetCoverage*** request if authentication via **queryParams**:
 ```curl
-curl --location --request GET '<SUPERIOR-DEM-SERVICE_URL>?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)&token=<AUTH_TOKEN>'
+curl --location --request GET '<DEM-SUPERIOR-SERVICE_URL>?service=WCS&version=2.0.1&coverageId=DTMBestResolution&request=GetCoverage&format=image/geotiff&subset=Long(33,35)&subset=Lat(29,33)&token=<AUTH_TOKEN>'
 ```
 
 Replace following:
-- `<SUPERIOR-DEM-SERVICE_URL>` by real service.
+- `<DEM-SUPERIOR-SERVICE_URL>` by real service.
 - `<AUTH_TOKEN>` by received one.

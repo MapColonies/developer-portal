@@ -1,0 +1,16 @@
+node_modules
+.git
+.github
+.vscode
+helm
+.gitattributes
+.gitignore
+.licrc
+.npmrc
+.nvmrc
+.prettierignore
+.prettierrc
+.versionrc.json
+CHANGELOG.md
+commitlint.config.json
+README.md

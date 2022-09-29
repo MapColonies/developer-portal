@@ -1,4 +1,4 @@
-# Model Server 
+# Model Server
 
 In 3d, the model server is used as a proxy to serve the models files.
 
@@ -12,14 +12,14 @@ For further information, see: [Authentication](/getting-started/3d/authenticatio
 The get request should be like:
 
 ```curl
-<MODEL_SERVER_3D_SERVICE_URL>/[PATH_TO_FILE_TILESET_JSON]
+<3D_MODEL_SERVING_SERVICE_URL>/[PATH_TO_FILE_TILESET_JSON]
 ```
 
 `[PATH_TO_FILE_TILESET_JSON]` - the full path to the wanted file.
 
 An example:
 
-`<MODEL_SERVER_3D_SERVICE_URL>/path/tileset.json`
+`<3D_MODEL_SERVING_SERVICE_URL>/path/tileset.json`
 
 > :information_source: This request is **without** the authentication
 

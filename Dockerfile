@@ -1,40 +1,28 @@
-## Container base
-from node:17.9.0-alpine
-RUN apk update && apk add git zip
+FROM node:18.7.0-alpine
 
-## Container labels
-label docker_docsify_version_major="4"
-label docker_docsify_version_minor="4"
-label docker_docsify_version_patch="4"
-label docker_docsify_version_revision="1"
-label docker_docsify_version="4.4.4.1"
+RUN apk update && apk add git zip dumb-init
 
-## Container setup
-run npm install -g docsify-cli@latest
+WORKDIR /app
 
-WORKDIR ./
-
-COPY . .
+COPY ./package*.json ./
 RUN npm install
-RUN npm run copyassets:all
+RUN npm run build
 
-## Container environment variables
-env PORT 4000
-env DOCSIFY_VERSION latest
-env NODE_VERSION alpine
+# ENV NODE_ENV=production
 
-## Container runtime configuration
-expose 4000
+RUN npm ci
+RUN npm run build
 
-# create new user 
+COPY ./docs ./docs
+COPY ./entrypoint.sh ./
+
 RUN chmod +x ./entrypoint.sh
-RUN mkdir -p /classified_repo
-RUN chmod g+rwx -R /docs /classified_repo
-RUN chgrp -R root /docs /classified_repo
-# RUN addgroup node root
-# RUN chmod g+w /
-# RUN /bin/su node
-# RUN whoami
+RUN mkdir -p ./classified_repo
+RUN chmod g+rwx -R ./docs ./classified_repo
+RUN chgrp -R node ./docs ./classified_repo
+
+USER node
+EXPOSE 4000
 
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["npm","run","start:prod"]
+CMD ["dumb-init", "npm", "run", "start:prod"]

@@ -2,13 +2,13 @@
 
 > :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
 
-On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a custom **header** `x-api-key` or **query parameter** `token` as such: 
+On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a custom **header** `x-api-key` or **query parameter** `token` as such:
 > :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
 
 ```javascript
 const wmts = new Cesium.WebMapTileServiceImageryProvider({
   url: new Cesium.Resource({
-    url: "<MAP_SERVER-RASTER-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+    url: "<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
     // headers: {
     //   "x-api-key": "<token>",
     // },
@@ -54,4 +54,4 @@ Related: <br/>
 
 - CESIUM documentation regarding WMTS layer URL (Resource | String) as [Resource](https://cesium.com/learn/cesiumjs/ref-doc/Resource.html) :globe_with_meridians:
 
-- Read more about [TODO: MapColonies authentication](LINK) 
+- Read more about [TODO: MapColonies authentication](LINK)

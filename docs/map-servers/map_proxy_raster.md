@@ -2,9 +2,9 @@
 <figure>
     <img src="./assets/images/mapproxy-diag.png" style="display: block;margin-left: auto;margin-right: auto;width: 90%;">
 </figure>
- 
 
-## Source  
+
+## Source
 [MapProxy —  The accelerating web map proxy](https://mapproxy.org/) :globe_with_meridians:
 
 ## Overview

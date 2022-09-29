@@ -1,4 +1,4 @@
-# Export Service :card_file_box: 
+# Export Service :card_file_box:
  The export module is responsible for packaging mapping data that can be downloaded by clients or transferred to other systems. Export can be requested for various mapping products within a specific region. The export module exposes an API and Web-based tool.
 
  > :no_entry: **Authentication must be integrated in order to communicate with export service.**<br/>

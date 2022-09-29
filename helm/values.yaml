@@ -1,7 +1,5 @@
 global:
   cloudProvider: {}
-  tracing: {}
-  metrics: {}
   environment: {}
 enabled: true
 environment: development
@@ -12,61 +10,53 @@ resetOnConfigChange: true
 cloudProvider:
   dockerRegistryUrl: localhost:5001
   imagePullSecretName: my-registry-secret
-  flavor: openshift
+  flavor: minikube
 caSecretName: ''
 caPath: /usr/local/share/ca-certificates
 caKey: ca.crt
 image:
-  repository: mc-cookbook
+  repository: developer-portal
   tag: v1.0.2
   imagePullPolicy: IfNotPresent
 env:
   port: 80
   targetPort: 8080
-  protocol: TCP
-  logLevel: info
-  logPrettyPrintEnabled: false
-  responseCompressionEnabled: true
-  requestPayloadLimit: 1mb
-  tracing:
-    enabled: false
-    url: 'http://localhost:55681/v1/trace'
-  metrics:
-    enabled: false
-    url: 'http://localhost:55681/v1/metrics'
-  PYCSW_RASTER_SERVICE_URL: "https://pycsw_raster.com"
-  EXPORT_RASTER_SERVICE_URL: "https://export_raster.com"
-  PYCSW_3D_SERVICE_URL: "https://pycsw_3d.com"
-  PYCSW_DEM_SERVICE_URL: "https://pycsw_dem.com"
-  MAP_SERVER_RASTER_SERVICE_URL: "https://map-server_raster.com"
-  MAP_SERVER_DEM_SERVICE_URL: "https://map-server_dem.com"
-  WFS_VECTOR_SERVICE_URL: "https://wfs.com"
-  CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
-  REPLICATION_VECTOR_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  RASTER_CATALOG_SERVICE_URL: "https://pycsw_raster.com"
+  RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
+  RASTER-RASTER-SERVING-SERVICE_URL: "https://map-server_raster.com"
+  3D_CATALOG_SERVICE_URL: "https://pycsw_3d.com"
+  3D_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
+  DEM_CATALOG_SERVICE_URL: "https://pycsw_dem.com"
+  DEM_DEM_SERVING_SERVICE_URL: "https://map-server_dem.com"
+  DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
+  VECTOR_QUERY_SERVICE_URL: "https://wfs.com"
+  VECTOR_REPLICATION_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  APP_CATALOG_URL: "http://catalog_app.com"
   API_KEY: "API_KEY"
   EMOJI_CODE: "false"
-  MODEL_SERVER_3D_SERVICE_URL: "https://3d_model_server.com"
-  SUPERIOR_DEM_SERVICE_URL: "https://dem_superior_service.com"
-  CATALOG_APP_SERVICE_URL: "http://catalog_app.com"
   INJECTION_TYPE: "queryParam"
+  CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
 resources:
-  enabled: false
+  enabled: true
   value:
     limits:
-      cpu: 500m
-      memory: 900Mi
+      cpu: 250m
+      memory: 64Mi
     requests:
       cpu: 500m
-      memory: 900Mi
+      memory: 128Mi
+    requests:
+      cpu: 250m
+      memory: 64Mi
 route:
-  enabled: true
+  enabled: false
   https: true
   path: /
   timeout:
     enabled: false
     duration: 60s
 ingress:
-  enabled: false
+  enabled: true
   path: /
   host: localhost
   cors:

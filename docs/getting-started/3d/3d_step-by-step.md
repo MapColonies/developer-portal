@@ -36,7 +36,7 @@ Example query based on `mc:classification` profile field
 POST Request
 
 url:
-'<PYCSW-3D-SERVICE_URL>/csw'
+'<3D-CATALOG-SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -141,7 +141,7 @@ You will get GetRecords XML Response with product **metadata**.
 > **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
 
 ## Get layer URI (Step 2)
-In the Response, look for 
+In the Response, look for
 
 `<mc:links scheme="`<strong>3D_LAYER</strong>`" name="">` <br/>
   `http://3d-model-server.com/path-to-tileset.json` <br/>
@@ -150,7 +150,7 @@ In the Response, look for
 > :information_source: **You need to save `<mc:links>` <u>element</u> value as MODEL_URL, which is a layer consumption URL.**
 
 ## Get terrain provider URI (Step 2.1, optional)
-In the Response, look for 
+In the Response, look for
 
 `<mc:links scheme="`<strong>TERRAIN_QMESH</strong>`" name="">` <br/>
   `http://terrain-server.com/terrains/srtm100/layer.json` <br/>
@@ -163,6 +163,9 @@ Now, after you got all product metadata that you need by querying our Catalog an
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
 ### Cesium
+
+> :information_source: **The minimum required version for cesium is v84.**
+
 ```javascript
 // **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground
 viewer.terrainProvider = new Cesium.TerrainProvider({
@@ -171,8 +174,8 @@ viewer.terrainProvider = new Cesium.TerrainProvider({
         queryParameters: {
           "token": "<token>",
         },
-    }),    
-});  
+    }),
+});
 ...
 ...
 // Add 3d model to the scene
@@ -183,8 +186,8 @@ const tileset = viewer.scene.primitives.add(
         queryParameters: {
           "token": "<token>",
         },
-    }),    
-    })  
+    }),
+    })
 );
 ...
 ```

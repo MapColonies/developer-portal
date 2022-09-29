@@ -1,6 +1,6 @@
-# Model Server Authentication :lock_with_ink_pen: 
+# Model Server Authentication :lock_with_ink_pen:
 
-The following section will help you understand how to make authenticated requests to our model service. 
+The following section will help you understand how to make authenticated requests to our model service.
 
 > :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
 
@@ -20,7 +20,7 @@ Set-Cookie: blabla=blablabla; path=/; HttpOnly
 Example for a get request with token query-params:
 
 ```curl
-curl --location --request GET '<MODEL_SERVER_3D_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]?token=<API_KEY>'
+curl --location --request GET '<3D_MODEL_SERVING_SERVICE_URL>/[MODEL]/[PATH_TO_FILE]?token=<API_KEY>'
 ```
 
 Replace following:
@@ -28,4 +28,3 @@ Replace following:
 - `[MODEL]` - the name of the model.
 
 - `[PATH_TO_FILE]` - the full path to the wanted file.
-

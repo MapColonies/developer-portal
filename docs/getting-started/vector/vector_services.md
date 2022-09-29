@@ -1,8 +1,8 @@
 ## Vector Services <!-- {docsify-ignore} -->
 | Service | Description | URL |
 |-|-|-|
-| [Query service](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data | `<QUERY-VECTOR-SERVICE_URL>` |
-| [Replication service](/getting-started/vector/services/replication_service.md) | Vector data replication service | `<REPLICATION-VECTOR-SERVICE_URL>` |
+| [Query Service 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data | `<VECTOR-QUERY-SERVICE_URL>` |
+| [Replication Service 📦](/getting-started/vector/services/replication_service.md) | Vector data replication service | `<VECTOR-REPLICATION-SERVICE_URL>` |
 
 <br/>
 <br/>
