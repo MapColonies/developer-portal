@@ -7,26 +7,25 @@ replicaCount: 1
 initialDelaySeconds: 60
 nodePort: 30030
 resetOnConfigChange: true
-cloudProvider:
-  dockerRegistryUrl: localhost:5001
-  imagePullSecretName: my-registry-secret
-  flavor: minikube
 caSecretName: ''
 caPath: /usr/local/share/ca-certificates
 caKey: ca.crt
+cloudProvider:
+  imagePullSecretName: my-registry-secret
+  flavor: minikube
 image:
-  repository: developer-portal
-  tag: v1.0.2
+  repository: meow
+  tag: meow1
   imagePullPolicy: IfNotPresent
 env:
   port: 80
   targetPort: 8080
-  RASTER_CATALOG_SERVICE_URL: "https://pycsw_raster.com"
+  RASTER_CATALOG_SERVICE_URL: "https://catalog-raster.com"
   RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
-  RASTER-RASTER-SERVING-SERVICE_URL: "https://map-server_raster.com"
-  3D_CATALOG_SERVICE_URL: "https://pycsw_3d.com"
-  3D_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
-  DEM_CATALOG_SERVICE_URL: "https://pycsw_dem.com"
+  RASTER_RASTER_SERVING_SERVICE_URL: "https://map-server_raster.com"
+  D3_CATALOG_SERVICE_URL: "https://3d-catalog.com"
+  D3_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
+  DEM_CATALOG_SERVICE_URL: "https://catalog-dem.com"
   DEM_DEM_SERVING_SERVICE_URL: "https://map-server_dem.com"
   DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
   VECTOR_QUERY_SERVICE_URL: "https://wfs.com"

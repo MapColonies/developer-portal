@@ -11,8 +11,8 @@
 |            	| Replication         	| `<VECTOR-REPLICATION-SERVICE_URL>`    	|
 |            	| Query               	| `<VECTOR-QUERY-SERVICE_URL>`          	|
 | **3D**     	|                     	|                                       	|
-|            	| Catalog             	| `<3D-CATALOG-SERVICE_URL>`            	|
-|            	| Map                 	| `<3D-MODEL-SERVING-SERVICE_URL>`      	|
+|            	| Catalog             	| `<D3-CATALOG-SERVICE_URL>`            	|
+|            	| Map                 	| `<D3-MODEL-SERVING-SERVICE_URL>`      	|
 | **DEM**        	|                     	|                                       	|
 |            	| Catalog             	| `<DEM-CATALOG-SERVICE_URL>`           	|
 |            	| Superior            	| `<DEM-SUPERIOR-SERVICE_URL>`          	|

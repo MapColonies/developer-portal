@@ -1,6 +1,6 @@
 const show3DModelBtn = document.querySelector('#show3DModelBtn');
 
-const CSW_3D_SERVICE_URL = '<3D-CATALOG-SERVICE_URL>/csw';
+const CSW_3D_SERVICE_URL = '<D3-CATALOG-SERVICE_URL>/csw';
 const TOKEN_3D = '<API_KEY>';
 const INJECTION_TYPE = '<INJECTION_TYPE>';
 

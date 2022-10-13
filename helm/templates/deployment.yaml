@@ -42,7 +42,7 @@ spec:
       containers:
         - name: {{ $releaseName }}-{{ $chartName }}-deployment
           {{- with .Values.image }}
-          image: {{ $cloudProviderDockerRegistryUrl }}{{ .repository }}:{{ $imageTag }}
+          image: {{ .repository }}:{{ $imageTag }}
           {{- end }}
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           volumeMounts:

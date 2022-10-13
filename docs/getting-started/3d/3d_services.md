@@ -1,8 +1,8 @@
 ## 3D Services :houses: <!-- {docsify-ignore} -->
 | Service | Description | URL |
 |-|-|-|
-| [Catalog Service](/getting-started/3d/services/csw_service.md) | Catalog service | `<3D-CATALOG-SERVICE_URL>` |
-| [Model Server](/getting-started/3d/services/model_server.md) | Model delivery service | `<3D-MODEL-SERVING-SERVICE_URL>` |
+| [Catalog Service](/getting-started/3d/services/csw_service.md) | Catalog service | `<D3-CATALOG-SERVICE_URL>` |
+| [Model Server](/getting-started/3d/services/model_server.md) | Model delivery service | `<D3-MODEL-SERVING-SERVICE_URL>` |
 
 <br/>
 <br/>

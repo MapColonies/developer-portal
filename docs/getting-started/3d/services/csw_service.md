@@ -1,4 +1,4 @@
-# CSW Service :card_file_box: 
+# CSW Service :card_file_box:
  [Catalogue Service for the Web (CSW)](/ogc-protocols/ogc-csw.md) is a standard for exposing a catalogue of geospatial records in XML on the Internet (over HTTP). The catalogue is made up of records that describe geospatial data, geospatial services (e.g. [WMTS](/ogc-protocols/ogc-wmts.md)), and related resources.
 
 | **Request** | **HTTP method binding(s)** |
@@ -156,6 +156,6 @@ You can see in the response how much records returned, from which schema and etc
 
 In addition, you can also see all the metadata of the matched records.
 
-In each record, you can find an element called `<mc:links>`. 
+In each record, you can find an element called `<mc:links>`.
 
 This link is a layer consumption URL.
