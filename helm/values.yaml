@@ -8,24 +8,24 @@ initialDelaySeconds: 60
 nodePort: 30030
 resetOnConfigChange: true
 cloudProvider:
-  dockerRegistryUrl: localhost:5001
-  imagePullSecretName: my-registry-secret
-  flavor: minikube
+  dockerRegistryUrl: acrarolibotnonprod.azurecr.io
+  imagePullSecretName: acr-registry
+  flavor: openshift
 caSecretName: ''
 caPath: /usr/local/share/ca-certificates
 caKey: ca.crt
 image:
-  repository: developer-portal
-  tag: v1.0.2
+  repository: mc-cookbook
+  tag: v2.1.1
   imagePullPolicy: IfNotPresent
 env:
   port: 80
-  targetPort: 8080
+  targetPort: 4000
   RASTER_CATALOG_SERVICE_URL: "https://pycsw_raster.com"
   RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
-  RASTER-RASTER-SERVING-SERVICE_URL: "https://map-server_raster.com"
-  3D_CATALOG_SERVICE_URL: "https://pycsw_3d.com"
-  3D_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
+  RASTER_RASTER_SERVING_SERVICE_URL: "https://map-server_raster.com"
+  D3_CATALOG_SERVICE_URL: "https://pycsw_3d.com"
+  D3_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
   DEM_CATALOG_SERVICE_URL: "https://pycsw_dem.com"
   DEM_DEM_SERVING_SERVICE_URL: "https://map-server_dem.com"
   DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
@@ -40,8 +40,8 @@ resources:
   enabled: true
   value:
     limits:
-      cpu: 250m
-      memory: 64Mi
+      cpu: 500m
+      memory: 128Mi
     requests:
       cpu: 500m
       memory: 128Mi
