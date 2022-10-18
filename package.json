@@ -1,6 +1,6 @@
 {
   "name": "@map-colonies/developer-portal",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "description": "This is MapColonies developer-portal",
   "scripts": {
     "build": "npm run copyassets:all",
