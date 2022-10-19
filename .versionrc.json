@@ -1,5 +1,16 @@
 {
-  "scripts": {
-    "postcommit": "npx typedoc --out docs && git add . && git commit --amend --no-edit"
-  }
+  "bumpFiles": [
+    {
+      "filename": "package.json",
+      "type": "json"
+    },
+    {
+      "filename": "package-lock.json",
+      "type": "json"
+    },
+    {
+      "filename": "helm/Chart.yaml",
+      "updater": "node_modules/@map-colonies/standard-version-update-helm-version/src/index.js"
+    }
+  ]
 }
