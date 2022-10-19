@@ -159,6 +159,9 @@
 
       window.$docsify = {
         ...window.$docsify,
+        requestHeaders: {
+          'cache-control': 'max-age=600'
+        },
         markdown: {
           renderer: {
             code: function(code, lang) {
