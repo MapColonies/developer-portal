@@ -2,5 +2,5 @@ apiVersion: v2
 name: developer-portal
 description: A Helm chart for developer-portal
 type: application
-version: 2.0.0
-appVersion: 2.2.0
+version: 2.2.2
+appVersion: 2.2.2
