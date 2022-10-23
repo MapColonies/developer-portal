@@ -1,6 +1,6 @@
-# Map Service Authentication
+# Raster Authentication
 
-> :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
+> :heavy_exclamation_mark: Don't forget to read the main authentication page [here](/docs/auth/auth.md)
 
 On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in a custom **header** `x-api-key` or **query parameter** `token` as such:
 > :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
@@ -54,4 +54,19 @@ Related: <br/>
 
 - CESIUM documentation regarding WMTS layer URL (Resource | String) as [Resource](https://cesium.com/learn/cesiumjs/ref-doc/Resource.html) :globe_with_meridians:
 
-- Read more about [TODO: MapColonies authentication](LINK)
+
+
+<br/>
+<br/>
+<table style=" width: 100%; display: table !important;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="#/getting-started/raster/raster_services">Previous (Services)</a>
+            </td>
+            <td align="right">
+                <a href="#/catalog-information/v1_0/raster_profile">Next (Catalog profile)</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-# Raster Authentication
+# Authentication
 
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 
@@ -11,20 +11,28 @@ The token, should be used in **every** request to our services and will enable y
 When making any request, you need to add a special **header** or **query parameter** in which you supply the token.
 > :heavy_exclamation_mark: **Important:** only **query parameter** `token` is currently supported
 
-- [Catalog Service](/ogc-protocols/ogc-csw-auth.md)
-- [Map serice](/getting-started/raster/authentication/map_service_auth.md)
+Some services will require an `API Token`, it will be specified in the service description.
 
-<br/>
-<br/>
-<table style=" width: 100%; display: table !important;">
-    <tbody>
-        <tr>
-            <td align="left">
-                <a href="#/getting-started/raster/raster_services">Previous (Services)</a>
-            </td>
-            <td align="right">
-                <a href="#/catalog-information/v1_0/raster_profile">Next (Catalog profile)</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+# B2B Clients
+If you are a developer who develops a backend service that communicates with one of our backend services and it requires a **token** don't forget to add the `Origin` header with one of the allowed origins as a value.
+
+
+```javascript
+const config = {
+  headers:{
+    Origin: 'https://my-allowed-origin.domain'
+  }
+};
+
+const url = "api endpoint";
+
+const data ={
+  name: "Avi Itzik",
+  email: "avi@meow.com"
+};
+
+axios.get(url, config)
+  .then(res=> console.log(res))
+  .catch(err=> console.log(err));
+
+```

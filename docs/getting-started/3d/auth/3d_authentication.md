@@ -1,5 +1,7 @@
 # :lock_with_ink_pen: 3D Authentication
 
+> :heavy_exclamation_mark: Don't forget to read the main authentication page [here](/auth/auth.md)
+
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 
 > :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
@@ -13,15 +15,14 @@ When making any request, you need to add a special **query parameter** in which 
 Here is the instructions how to do it:
 
 
-Add the token in query params by inserting in the end of the url: `?token=<API_KEY>`.
-> the char '?' allows you to add a query parameter.
+Add the token in query params by inserting in the end of the url: `?token=<TOKEN>`.
 
-Replace `<API_KEY>` by received one.
+Replace `<TOKEN>` by received one.
 
 For further information, see:
 
 - [Catalog Service](/ogc-protocols/ogc-csw-auth.md)
-- [Model Server](/getting-started/3d/authentication/model_server_auth)
+- [Model Server](/getting-started/3d/auth/model_server_auth)
 
 <br/>
 <br/>
