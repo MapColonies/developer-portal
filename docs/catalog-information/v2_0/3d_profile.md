@@ -52,7 +52,7 @@
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/3d/3d_authentication">Previous (Authentication)</a>
+                <a href="#/catalog-information/v1_0/3d_profile">Previous (Catalog profile)</a>
             </td>
             <td align="right">
                 <a href="#/getting-started/3d/3d_step-by-step">Next (Step-by-step)</a>
