@@ -9,7 +9,7 @@ The following section will help you understand how to extract **terrain height**
 
 ```javascript
 // Query the terrain height of two Cartographic positions
-let positions = [
+const positions = [
   Cesium.Cartographic.fromDegrees(86.925145, 27.988257),
   Cesium.Cartographic.fromDegrees(87.0, 28.0)
 ];
@@ -32,7 +32,9 @@ void Cesium.sampleTerrainMostDetailed(
             <td align="left">
                 <a href="#/getting-started/3d/3d_step-by-step">Previous (Step-by-step)</a>
             </td>
-            <td align="right"></td>
+            <td align="right">
+              <a href="#/getting-started/3d/3d_terrain_min_max_height_extraction">Next (Terrain Min-Max Height Extraction)</a>
+            </td>
         </tr>
     </tbody>
 </table>
