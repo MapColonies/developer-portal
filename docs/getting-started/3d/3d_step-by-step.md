@@ -169,25 +169,25 @@ Now, after you got all product metadata that you need by querying our Catalog an
 ```javascript
 // **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground
 viewer.terrainProvider = new Cesium.TerrainProvider({
-      url: new Cesium.Resource({
-        url: "<TERRAIN_URL>",
-        queryParameters: {
-          "token": "<token>",
-        },
-    }),
+  url: new Cesium.Resource({
+    url: "<TERRAIN_URL>",
+    queryParameters: {
+      "token": "<token>",
+    },
+  }),
 });
 ...
 ...
 // Add 3d model to the scene
 const tileset = viewer.scene.primitives.add(
-    new Cesium.Cesium3DTileset({
-      url: new Cesium.Resource({
-        url: "<MODEL_URL>",
-        queryParameters: {
-          "token": "<token>",
-        },
+  new Cesium.Cesium3DTileset({
+    url: new Cesium.Resource({
+      url: "<MODEL_URL>",
+      queryParameters: {
+        "token": "<token>",
+      },
     }),
-    })
+  })
 );
 ...
 ```
@@ -205,9 +205,11 @@ Replace `<token>` with the token you have.
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/catalog-information/v1_0/3d_profile">Previous (Catalog profile)</a>
+                <a href="#/catalog-information/v2_0/3d_profile">Previous (Catalog profile)</a>
             </td>
-            <td align="right"></td>
+            <td align="right">
+              <a href="#/getting-started/3d/3d_terrain_height_extraction">Next (Terrain Height Extraction)</a>
+            </td>
         </tr>
     </tbody>
 </table>
