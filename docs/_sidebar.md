@@ -12,7 +12,8 @@
 </div>
 
 
-- [Available Services](/services/README.md)
+- [Release Notes](/release-notes/2022-Q3-02.md)
+* [Available Services](/services/README.md)
 * [Terms and Abbreviations](/terms/terms.md)
 * [Authentication](/auth/auth.md)
 * [Domains](/getting-started/README.md)
