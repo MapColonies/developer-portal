@@ -15,7 +15,7 @@ cloudProvider:
   flavor: minikube
 image:
   repository: meow
-  tag: meow1
+  tag: meow12
   imagePullPolicy: IfNotPresent
 env:
   port: 80
@@ -35,6 +35,9 @@ env:
   EMOJI_CODE: "false"
   INJECTION_TYPE: "queryParam"
   CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
+  ## Releases
+  R1_STAGE_DATE_SERVICE_URL: "2022-10-20"
+  R1_PROD_DATE_SERVICE_URL: "2022-10-20"
 resources:
   enabled: true
   value:
@@ -48,6 +51,16 @@ route:
   enabled: false
   https: true
   path: /
+  host: some-host
+  wildcardPolicy: None
+  port:
+    targetPort: YOUR-SERVICE-EXPOSED-PORT
+  tls:
+    termination: edge
+    certificate: THE-CONTENT-OF-THE-CERT-FILE
+    key: THE-CONTENT-OF-THE-KEY-FILE
+    caCertificate: THE-CONTENT-OF-THE-ROOT-CA-FILE
+    insecureEdgeTerminationPolicy: Redirect # <- important
   timeout:
     enabled: false
     duration: 60s

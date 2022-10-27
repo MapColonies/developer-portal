@@ -20,5 +20,7 @@ data:
   API_KEY: {{ quote .Values.env.API_KEY }}
   EMOJI_CODE: {{ quote .Values.env.EMOJI_CODE }}
   CLASSIFIED_REPO_URL: {{ quote .Values.env.CLASSIFIED_REPO_URL }}
+  R1-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R1_STAGE_DATE_SERVICE_URL }}
+  R1-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R1_PROD_DATE_SERVICE_URL }}
 
 {{- end }}

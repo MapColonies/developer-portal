@@ -16,10 +16,15 @@ spec:
   to:
     kind: Service
     name: {{ $releaseName }}-{{ $chartName }}
+    weight: 100
   port:
     targetPort: http
   {{- if .Values.route.https }}
   tls:
-    termination: edge
+    termination: {{ .Values.route.tls.termination }}
+    certificate: {{ .Values.route.tls.certificate }}
+    key: {{ .Values.route.tls.key }}
+    caCertificate: {{ .Values.route.tls.caCertificate }}
+    insecureEdgeTerminationPolicy: {{ .Values.route.tls.insecureEdgeTerminationPolicy }}
   {{- end -}}
 {{- end -}}
