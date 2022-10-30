@@ -1,5 +1,5 @@
 ## Terrain Min-Max Height Extraction <!-- {docsify-ignore} -->
-The following example shows how to extract **min/max terrain height** value from a terrain provider at a selected area, area is selected by drawing a bounding polygon.
+The following example shows how to extract **min/max terrain height** value from a terrain provider at a selected area, area is defined by a bounding polygon.
 
 > :information_source: In order to set a **terrain provider**, see [here](/getting-started/3d/3d_step-by-step.md).
 
@@ -28,19 +28,20 @@ const polygon = turf.polygon([
   ]
 ]);
 
-// Takes a set of features, calculates the bbox of all input features, and returns a bounding box.
+// Takes a set of features, calculates the bbox of all input features
+// and returns a bounding box
 const bbox = turf.bbox(polygon); // bbox extent in minX, minY, maxX, maxY order
-const cellSideMeter = 1.0; // distance between points, in units
+const cellSide = 1.0; // distance between points (in units)
 const options = {
-  units: 'meters', // used in calculating cellSide, can be degrees, radians, miles, or kilometers (default)
+  units: 'meters', // used in calculating cellSide, can be: degrees, radians, miles, or kilometers (default)
   mask: polygon // if passed a Polygon or MultiPolygon, the grid Points will be created only inside it
 };
 
 // Creates a Point grid from a bounding box, FeatureCollection or Feature.
-const pointGrid = turf.pointGrid(bbox, cellSideMeter, options); // grid of points
+const pointGrid = turf.pointGrid(bbox, cellSide, options); // grid of points
 const pointGridCoordinates = pointGrid.features.map(f => f.geometry.coordinates);
 
-console.log(pointGridCoordinates); // 2359 points inside the polygon
+console.log(pointGridCoordinates); // 2,359 points inside the polygon
 
 pointGridCoordinates.forEach(p => {
   viewer.entities.add({
@@ -61,6 +62,15 @@ void Cesium.sampleTerrainMostDetailed(
   ...
 });
 ```
+> :warning: **Above example is based on `Pseudo code`, you will have to adapt it in your own application to make it work.<br/>Please note:<br/>Time increases with the amount of sampling points<br/>This example was tested against Cesium World Terrain over the internet**
+
+**Distance between points<br/>(cellSide)** || **Number of Sampling<br/>Points** || **Time to Sample<br/>(seconds)**
+:--- || :--- || :---
+1.0 || 2,359 || 0.98
+0.5 || 9,427 || 1.15
+0.4 || 14,748 || 1.35
+0.3 || 26,225 || 1.59
+0.2 || 58,891 || 2.88
 
 <br/>
 <br/>
