@@ -16,5 +16,5 @@ Search for **OrthophotoBest** or **RasterVectorBest** layers, other layers types
 
 See valid values:
 - [Raster](/catalog-information/v1_0/raster_profile.md?id=producttype)
-- [3D](/catalog-information/v1_0/3d_profile.md?id=producttype)
+- [3D](/catalog-information/v1_0/3D_profile.md?id=producttype)
 - [DEM](/catalog-information/v1_0/dem_profile.md?id=producttype)

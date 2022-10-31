@@ -12,7 +12,7 @@ Each of these models represent a specific geographic region, building, facility 
         <tr>
             <td align="left"></td>
             <td align="right">
-                <a href="#/getting-started/3d/3d_services">Next (Services)</a>
+                <a href="#/getting-started/3D/3D_services">Next (Services)</a>
             </td>
         </tr>
     </tbody>

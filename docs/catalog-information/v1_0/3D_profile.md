@@ -32,7 +32,7 @@
 | mc:SRSName | text | name of reference system |
 | mc:SRSOrigin | text | Coordinates of reference system <br /> pattern: '(x;y;z)' |
 | mc:region | text | sector / countries <br/> comma separated list |
-| mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/3d/classification_table.md) |
+| mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/3D/classification_table.md) |
 | mc:productionSystem | text | the production system |
 | mc:productionSystemVersion | text | the version of the production system <br/> maxLength: 20 |
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
@@ -53,10 +53,10 @@
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/3d/3d_authentication">Previous (Authentication)</a>
+                <a href="#/getting-started/3D/3D_authentication">Previous (Authentication)</a>
             </td>
             <td align="right">
-                <a href="#/getting-started/3d/3d_step-by-step">Next (Step-by-step)</a>
+                <a href="#/getting-started/3D/3D_step-by-step">Next (Step-by-step)</a>
             </td>
         </tr>
     </tbody>

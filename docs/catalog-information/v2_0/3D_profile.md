@@ -4,6 +4,9 @@
 2. **main_namespace** = `http://schema.mapcolonies.com/3d`
 3. The **3D** sub-system Catalog profile fields with information of each of them:
 
+#### Changes from previous profile:
+Removed unnecessary properties and added two properties: source and status of the product.
+
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:id | text | unique internal catalog item id <br/> AUTO_GENERATED |
@@ -30,7 +33,7 @@
 | mc:SRS | text | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
 | mc:SRSName | text | name of reference system |
 | mc:region | text | sector / countries <br/> comma separated list |
-| mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/3d/classification_table.md) |
+| mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/3D/classification_table.md) |
 | mc:productionSystem | text | the production system |
 | mc:productionSystemVersion | text | the version of the production system <br/> maxLength: 20 |
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
@@ -52,10 +55,10 @@
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/3d/3d_authentication">Previous (Authentication)</a>
+                <a href="#/getting-started/3D/3D_authentication">Previous (Authentication)</a>
             </td>
             <td align="right">
-                <a href="#/getting-started/3d/3d_step-by-step">Next (Step-by-step)</a>
+                <a href="#/getting-started/3D/3D_step-by-step">Next (Step-by-step)</a>
             </td>
         </tr>
     </tbody>

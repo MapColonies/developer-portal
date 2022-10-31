@@ -1,7 +1,7 @@
 ## Developer Guide step-by-step <!-- {docsify-ignore} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
-> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
+> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3D/index.html)**
 
 
 ## Flow diagram
@@ -29,7 +29,7 @@ flowchart LR
 ## Query CSW catalog (Step 1)
 Query **3D CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md)
 
-Filter should be based on [3D profile](/catalog-information/v1_0/3d_profile.md)
+Filter should be based on [3D profile](/catalog-information/v1_0/3D_profile.md)
 
 Example query based on `mc:classification` profile field
 ```
@@ -197,7 +197,7 @@ Replace `<TERRAIN_URL>` with the URL link that you got from **Step 2.1 (optional
 
 Replace `<token>` with the token you have.
 
-> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3d/index.html)**
+> :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3D/index.html)**
 
 <br/>
 <br/>
@@ -205,7 +205,7 @@ Replace `<token>` with the token you have.
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/catalog-information/v1_0/3d_profile">Previous (Catalog profile)</a>
+                <a href="#/catalog-information/v1_0/3D_profile">Previous (Catalog profile)</a>
             </td>
             <td align="right"></td>
         </tr>

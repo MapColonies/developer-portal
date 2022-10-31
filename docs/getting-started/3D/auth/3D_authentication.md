@@ -22,7 +22,7 @@ Replace `<TOKEN>` by received one.
 For further information, see:
 
 - [Catalog Service](/ogc-protocols/ogc-csw-auth.md)
-- [Model Server](/getting-started/3d/auth/model_server_auth)
+- [3DTiles Server](/getting-started/3D/auth/3Dtiles_server_auth)
 
 <br/>
 <br/>
@@ -30,10 +30,10 @@ For further information, see:
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/3d/3d_services">Previous (Services)</a>
+                <a href="#/getting-started/3D/3D_services">Previous (Services)</a>
             </td>
             <td align="right">
-                <a href="#/catalog-information/v2_0/3d_profile">Next (Catalog profile)</a>
+                <a href="#/catalog-information/v2_0/3D_profile">Next (Catalog profile)</a>
             </td>
         </tr>
     </tbody>
