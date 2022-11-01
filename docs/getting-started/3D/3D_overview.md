@@ -4,6 +4,9 @@ The process of creating photo-realistic 3D models is based on photogrammetry, wh
 * 3D Tiles
 
 Each of these models represent a specific geographic region, building, facility or any other object.
+<figure>
+    <img src="./assets/images/3Dtile.png" style="display: block;margin-left: auto;margin-right: auto;width: 40%;">
+</figure>
 
 <br/>
 <br/>

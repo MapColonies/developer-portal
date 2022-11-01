@@ -1,6 +1,6 @@
 # 3D Tile Server
 
-In 3D, the 3DTiles server is used as a proxy to serve the models files.
+In 3D, the 3DTiles server uses the [XYZ protocol](../../../library/xyz-protocol.md) to serve the models files.
 
 **How does it work?**
 
