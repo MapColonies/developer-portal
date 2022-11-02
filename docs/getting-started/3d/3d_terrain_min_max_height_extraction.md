@@ -62,15 +62,20 @@ void Cesium.sampleTerrainMostDetailed(
   ...
 });
 ```
-> :warning: **Above example is based on `Pseudo code`, you will have to adapt it in your own application to make it work.<br/>Please note:<br/>Time increases with the amount of sampling points<br/>This example was tested against Cesium World Terrain over the internet**
+> :warning: **Above example is based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
-**Distance between points<br/>(cellSide)** || **Number of Sampling<br/>Points** || **Time to Sample<br/>(seconds)**
-:--- || :--- || :---
-1.0 || 2,359 || 0.98
-0.5 || 9,427 || 1.15
-0.4 || 14,748 || 1.35
-0.3 || 26,225 || 1.59
-0.2 || 58,891 || 2.88
+> :heavy_exclamation_mark: **Please note:<br/>Time increases with the amount of sampling points<br/>This example was tested against Cesium World Terrain over the internet<br/>Need to consider amount of sampling points against the resolution of the source height product**
+
+**Distance between points<br/>(cellSide)** || **Number of<br/>Sampling Points** || **Number of<br/>Requests** || **Time to Sample<br/>(seconds)**
+:--- || :--- || :--- || :---
+30.0 || 1 || 147 / 387 || 0.53
+20.0 || 7 || 149 / 385 || 0.56
+15.0 || 9 || 153 / 399 || 0.59
+1.0 || 2,359 || 153 / 395 || 0.98
+0.5 || 9,427 || 153 / 395 || 1.15
+0.4 || 14,748 || 157 / 403 || 1.35
+0.3 || 26,225 || 157 / 404 || 1.59
+0.2 || 58,891 || 153 / 395 || 2.88
 
 <br/>
 <br/>
