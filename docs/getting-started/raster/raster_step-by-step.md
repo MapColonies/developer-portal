@@ -144,7 +144,6 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:links scheme="WMS_BASE" name="bluemarble_5km"
                 description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
                 <mc:links scheme="WMTS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
-                <mc:links scheme="WMTS_LAYER" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
                 <mc:links scheme="WMTS_BASE" name="bluemarble_5km"
                 description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
@@ -213,9 +212,7 @@ In the Response, look for
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
 </mc:links>
-<mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
-  `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
-</mc:links>`element.
+`element.
 ```
 
 You need to save `[desired_layer_identifier]` value for later use.

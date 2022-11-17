@@ -107,6 +107,7 @@ const constructAndApplyLayer = (e) => {
     const footprint = xmlDoc.children[0].children[1].getElementsByTagName('mc:footprint')[0].textContent;
     const rectangle = generateRectangle(footprint);
 
+    // TODO: need to be fixed to capabilities url
     /*********************************************************************************/
     /* STEP 3: Extract layer's "WMTS_LAYER" template url from <mc:links> collection, */
     /* Identifier and capabilities url from XML (document) response, for later use.  */
