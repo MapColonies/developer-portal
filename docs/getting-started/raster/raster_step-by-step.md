@@ -211,8 +211,7 @@ In the Response, look for
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
-</mc:links>
-`element.
+</mc:links>`element.
 ```
 
 You need to save `[desired_layer_identifier]` value for later use.
