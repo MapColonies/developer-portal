@@ -306,33 +306,22 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
+    const parser = new WMTSCapabilities();
+    const capabilitiesResponse = await fetch('<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml');      // from Step_4
+    const capabilitiesText = await capabilitiesResponse.text();
+    const parserResult = parser.read(capabilitiesText);
+    const layerOptions = optionsFromCapabilities(parserResult, {
+      layer: '<LAYER_NAME>'                                                                                               // from Step_3
+    });
+    const layer = new TileLayer({ source: new WMTS(layerOptions) });
 
-    const catalogLayer = new TileLayer({
-          opacity: 1,
-          extent: <LAYER_EXTENT>                          // from Step_2
-          source: new WMTS({
-            name: '<LAYER_PRODUCT_ID>',                   // from Step_1
-            url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
-            layer: '<LAYER_PRODUCT_ID>',                  // from Step_1
-            matrixSet: '<LAYER_TILE_MATRIX_SET_ID>',      // from Step_4
-            format: '<LAYER_FORMAT>',                     // from Step_4
-            isBaseLayer: true,
-            style: '<LAYER_STYLE>',                       // from Step_4
-            requestEncoding: 'REST'
-          }),
-    }),
-
-    map.addLayer(catalogLayer)
+    map.addLayer(layer);
 ...
 ...
 ...
 ```
-- extent - value should be the BBOX (extent) that you got from [Step 2](#step-2).
-- url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
-- layer - should be replaced with layer Product ID.
-- matrixSetID -from Response from [Step 4](#step-4).
-- style - should be replaced with the value that you got from [Step 4](#step-4).
-- format - should be replaced with the value that you got from [Step 4](#step-4).
+- When fetching data, make sure to provide correct **WMTS Capabilities URL**
+- **LAYER_NAME** - should be replaced with layer's name from step 3
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
