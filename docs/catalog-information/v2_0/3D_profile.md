@@ -55,7 +55,7 @@ Removed unnecessary properties and added two properties: source and status of th
     <tbody>
         <tr>
             <td align="left">
-                <a href="#/getting-started/3D/3D_authentication">Previous (Authentication)</a>
+                <a href="#/catalog-information/v1_0/3d_profile">Previous (Catalog profile)</a>
             </td>
             <td align="right">
                 <a href="#/getting-started/3D/3D_step-by-step">Next (Step-by-step)</a>

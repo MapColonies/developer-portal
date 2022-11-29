@@ -56,7 +56,7 @@
                 <a href="#/getting-started/3D/3D_authentication">Previous (Authentication)</a>
             </td>
             <td align="right">
-                <a href="#/getting-started/3D/3D_step-by-step">Next (Step-by-step)</a>
+                <a href="#/catalog-information/v2_0/3d_profile">Next (Catalog profile)</a>
             </td>
         </tr>
     </tbody>

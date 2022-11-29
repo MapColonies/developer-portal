@@ -30,6 +30,13 @@
       * [v1.0](/catalog-information/v1_0/3D_profile.md)
       * [v2.0](/catalog-information/v2_0/3D_profile.md)
     * [Step-by-step](/getting-started/3D/3D_step-by-step.md)
+      * [v1.0](/catalog-information/v1_0/3d_profile.md)
+      * [v2.0](/catalog-information/v2_0/3d_profile.md)
+    * Guides
+      * [Step-by-step](/getting-started/3d/3d_step-by-step.md)
+      * QMesh
+        * [Height Extraction](/getting-started/3d/3d_terrain_height_extraction.md)
+        * [Min-Max Height Extraction](/getting-started/3d/3d_terrain_min_max_height_extraction.md)
   * [Vector](/getting-started/vector/vector_overview.md)
     * [Services](/getting-started/vector/vector_services.md)
 - [Standard Protocols](/ogc-protocols/README.md)
