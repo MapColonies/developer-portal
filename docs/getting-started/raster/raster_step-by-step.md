@@ -92,7 +92,7 @@ body (XML):
 </csw:GetRecords>
 ```
 
-If you already have the ***productId*** you can use the following query (***productId*** can also be coppied from our catalog app):
+To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app):
 
 ```
 POST Request
@@ -102,17 +102,25 @@ url:
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="10"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
   <csw:Query typeNames="mc:MCRasterRecord">
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
-          <PropertyName>mc:productId</PropertyName>
-          <!-- ****** INSERT LAYER LAYER ID START ********************** -->
-          <Literal>bluemarble_5km</Literal>
-          <!-- ****** INSERT LAYER LAYER ID END ************************ -->
-        </PropertyIsLike>
+  		<And>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productId</PropertyName>
+            <!-- ****** INSERT LAYER LAYER ID START ********************** -->
+	          <Literal>bluemarble_5km</Literal>
+            <!-- ****** INSERT LAYER LAYER ID END ************************ -->
+	        </PropertyIsEqualTo>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productType</PropertyName>
+            <!-- ****** INSERT LAYER LAYER TYPE START ********************** -->
+	          <Literal>Orthophoto</Literal>
+            <!-- ****** INSERT LAYER LAYER TYPE END ************************ -->
+	        </PropertyIsEqualTo>
+        </And>
       </Filter>
     </csw:Constraint>
   </csw:Query>
@@ -152,7 +160,7 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
                 <mc:productId>bluemarble_5km</mc:productId>
                 <mc:productName>bluemarble_5cm</mc:productName>
-                <mc:productType>OrthophotoHistory</mc:productType>
+                <mc:productType>Orthophoto</mc:productType>
                 <mc:productVersion>4.0</mc:productVersion>
                 <mc:region>World</mc:region>
                 <mc:maxResolutionDeg>0.000171661376953125</mc:maxResolutionDeg>
