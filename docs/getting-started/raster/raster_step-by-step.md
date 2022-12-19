@@ -207,7 +207,7 @@ In the Response, look for
 > Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
 
 ``` xml
-`<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
@@ -215,7 +215,7 @@ In the Response, look for
 </mc:links>
 <mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
   `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
-</mc:links>`element.
+</mc:links>
 ```
 
 You need to save `[desired_layer_identifier]` value for later use.
@@ -224,18 +224,15 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4)
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
-Option 1
-You can go to the next URL below with your browser or just send GET request to:
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
-```
-Option 2
-Use the ***WMTS*** scheme with its already built in GET query
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml
+First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
+
+``` xml
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
 ```
 
-Response will contain the details of **all** available layers in following format.
+Make a GET request to this link. The response contains the details of **all** available layers in following format.
 <figure>
     <img src="./assets/images/getcapabilities_response.png" style="display: block;margin-left: auto;margin-right: auto;">
 </figure>
@@ -307,11 +304,11 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
     const parser = new WMTSCapabilities();
-    const capabilitiesResponse = await fetch('<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml');      // from Step_4
+    const capabilitiesResponse = await fetch('CapabilitiesURL');                    // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
     const parserResult = parser.read(capabilitiesText);
     const layerOptions = optionsFromCapabilities(parserResult, {
-      layer: '<LAYER_NAME>'                                                                                               // from Step_3
+      layer: '[desired_layer_identifier]'                                           // from Step_3
     });
     const layer = new TileLayer({ source: new WMTS(layerOptions) });
 
@@ -321,7 +318,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ```
 - When fetching data, make sure to provide correct **WMTS Capabilities URL**
-- **LAYER_NAME** - should be replaced with layer's name from step 3
+- ``[desired_layer_identifier]`` - should be replaced with layer's name from step 3
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
