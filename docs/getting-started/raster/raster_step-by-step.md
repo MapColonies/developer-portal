@@ -92,7 +92,7 @@ body (XML):
 </csw:GetRecords>
 ```
 
-To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for Best Orthophoto use the following):
+To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for ***Best Orthophoto*** use the following):
 
 ```
 POST Request
