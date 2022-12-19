@@ -92,7 +92,7 @@ body (XML):
 </csw:GetRecords>
 ```
 
-If you already have the ***productId*** you can use the following query (***productId*** can also be coppied from our catalog app):
+To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for ***Best Orthophoto*** use the following):
 
 ```
 POST Request
@@ -102,17 +102,25 @@ url:
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="10"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
   <csw:Query typeNames="mc:MCRasterRecord">
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
-          <PropertyName>mc:productId</PropertyName>
-          <!-- ****** INSERT LAYER LAYER ID START ********************** -->
-          <Literal>bluemarble_5km</Literal>
-          <!-- ****** INSERT LAYER LAYER ID END ************************ -->
-        </PropertyIsLike>
+  		<And>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productId</PropertyName>
+            <!-- ****** INSERT LAYER LAYER ID START ********************** -->
+	          <Literal>ORTHOPHOTO_MOSAIC_BASE</Literal>
+            <!-- ****** INSERT LAYER LAYER ID END ************************ -->
+	        </PropertyIsEqualTo>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productType</PropertyName>
+            <!-- ****** INSERT LAYER LAYER TYPE START ********************** -->
+	          <Literal>OrthophotoBest</Literal>
+            <!-- ****** INSERT LAYER LAYER TYPE END ************************ -->
+	        </PropertyIsEqualTo>
+        </And>
       </Filter>
     </csw:Constraint>
   </csw:Query>
@@ -140,20 +148,20 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:ingestionDate>2022-02-13T13:04:23Z</mc:ingestionDate>
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:layerPolygonParts>{"bbox":[],"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[],[]]]},"properties":{}}]}</mc:layerPolygonParts>
-                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMS_BASE" name="bluemarble_5km"
+                <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
+                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE"
                 description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
-                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
-                <mc:links scheme="WMTS_LAYER" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
-                <mc:links scheme="WMTS_BASE" name="bluemarble_5km"
+                <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMTS_LAYER" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/ORTHOPHOTO_MOSAIC_BASE/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE"
                 description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
-                <mc:productId>bluemarble_5km</mc:productId>
-                <mc:productName>bluemarble_5cm</mc:productName>
-                <mc:productType>OrthophotoHistory</mc:productType>
-                <mc:productVersion>4.0</mc:productVersion>
+                <mc:productId>ORTHOPHOTO_MOSAIC_BASE</mc:productId>
+                <mc:productName>אורתופוטו מתעדכן</mc:productName>
+                <mc:productType>OrthophotoBest</mc:productType>
+                <mc:productVersion>1.0</mc:productVersion>
                 <mc:region>World</mc:region>
                 <mc:maxResolutionDeg>0.000171661376953125</mc:maxResolutionDeg>
                 <mc:sensors>UNDEFINED</mc:sensors>
@@ -214,7 +222,7 @@ In the Response, look for
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
 </mc:links>
 <mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
-  `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/bluemarble_5km/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
+  `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/ORTHOPHOTO_MOSAIC_BASE/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
 </mc:links>`element.
 ```
 
