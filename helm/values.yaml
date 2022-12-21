@@ -24,7 +24,7 @@ env:
   RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
   RASTER_RASTER_SERVING_SERVICE_URL: "https://map-server_raster.com"
   D3_CATALOG_SERVICE_URL: "https://3d-catalog.com"
-  D3_MODEL_SERVING_SERVICE_URL: "https://3d_model_server.com"
+  D3_TILES_SERVING_SERVICE_URL: "https://3d_model_server.com"
   DEM_CATALOG_SERVICE_URL: "https://catalog-dem.com"
   DEM_DEM_SERVING_SERVICE_URL: "https://map-server_dem.com"
   DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
