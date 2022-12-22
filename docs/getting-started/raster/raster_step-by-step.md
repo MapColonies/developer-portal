@@ -312,11 +312,11 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
     const parser = new WMTSCapabilities();
-    const capabilitiesResponse = await fetch('CapabilitiesURL');                    // from Step_4
+    const capabilitiesResponse = await fetch('CapabilitiesURL'); // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
     const parserResult = parser.read(capabilitiesText);
     const layerOptions = optionsFromCapabilities(parserResult, {
-      layer: '[desired_layer_identifier]'                                           // from Step_3
+      layer: '[desired_layer_identifier]'                       // from Step_3
     });
     const layer = new TileLayer({ source: new WMTS(layerOptions) });
 
