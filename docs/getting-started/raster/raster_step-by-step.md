@@ -276,7 +276,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
       //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token -
       //}),
-      layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
+      layer : '[desired_layer_identifier]',             // from Step_3
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4
       tileMatrixSetID : '<LAYER_TILE_MATRIX_SET_ID>',   // from Step_4
@@ -318,15 +318,15 @@ Replace all `<>` place holders with the real values that we got from all previou
     const layerOptions = optionsFromCapabilities(parserResult, {
       layer: '[desired_layer_identifier]'                       // from Step_3
     });
-    const layer = new TileLayer({ source: new WMTS(layerOptions) });
+    const extent = options.tileGrid.getExtent();
+    const layer = new TileLayer({ source: new WMTS(layerOptions), extent });
 
     map.addLayer(layer);
 ...
 ...
 ...
 ```
-- When fetching data, make sure to provide correct **WMTS Capabilities URL**
-- ``[desired_layer_identifier]`` - should be replaced with layer's name from step 3
+- Note - **extent** is received dynamically from CSW response.
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
