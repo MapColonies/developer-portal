@@ -311,22 +311,22 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
+    
     const parser = new WMTSCapabilities();
-    const capabilitiesResponse = await fetch('CapabilitiesURL'); // from Step_4
+    const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
     const parserResult = parser.read(capabilitiesText);
     const layerOptions = optionsFromCapabilities(parserResult, {
-      layer: '[desired_layer_identifier]'                       // from Step_3
+      layer: '[desired_layer_identifier]'                                     // from Step_3
     });
-    const extent = options.tileGrid.getExtent();
-    const layer = new TileLayer({ source: new WMTS(layerOptions), extent });
+    const layer = new TileLayer({ source: new WMTS(layerOptions), extent });  // from Step_2
 
     map.addLayer(layer);
 ...
 ...
 ...
 ```
-- Note - **extent** is received dynamically from CSW response.
+- Note - **extent** taken from step 2 - where bbox is calculated.
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
