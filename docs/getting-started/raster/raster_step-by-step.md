@@ -306,7 +306,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 - tilingScheme - see [Usage Tips](/usage-tips/README.md)
 - rectangle - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2](#step-2).
 
-### OpenLayers
+### OpenLayers (6.x)
 ```javascript
 ...
 ...
