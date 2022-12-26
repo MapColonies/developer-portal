@@ -215,7 +215,7 @@ In the Response, look for
 > Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
 
 ``` xml
-`<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
@@ -232,18 +232,15 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4)
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
-Option 1
-You can go to the next URL below with your browser or just send GET request to:
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
-```
-Option 2
-Use the ***WMTS*** scheme with its already built in GET query
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml
+First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
+
+``` xml
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
 ```
 
-Response will contain the details of **all** available layers in following format.
+Make a GET request to this link. The response contains the details of **all** available layers in following format.
 <figure>
     <img src="./assets/images/getcapabilities_response.png" style="display: block;margin-left: auto;margin-right: auto;">
 </figure>
@@ -279,7 +276,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
       //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token -
       //}),
-      layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
+      layer : '[desired_layer_identifier]',             // from Step_3
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4
       tileMatrixSetID : '<LAYER_TILE_MATRIX_SET_ID>',   // from Step_4
@@ -309,38 +306,27 @@ Replace all `<>` place holders with the real values that we got from all previou
 - tilingScheme - see [Usage Tips](/usage-tips/README.md)
 - rectangle - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2](#step-2).
 
-### OpenLayers
+### OpenLayers (6.x)
 ```javascript
 ...
 ...
 ...
+    
+    const parser = new WMTSCapabilities();
+    const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
+    const capabilitiesText = await capabilitiesResponse.text();
+    const parserResult = parser.read(capabilitiesText);
+    const layerOptions = optionsFromCapabilities(parserResult, {
+      layer: '[desired_layer_identifier]'                                     // from Step_3
+    });
+    const layer = new TileLayer({ source: new WMTS(layerOptions), extent });  // from Step_2
 
-    const catalogLayer = new TileLayer({
-          opacity: 1,
-          extent: <LAYER_EXTENT>                          // from Step_2
-          source: new WMTS({
-            name: '<LAYER_PRODUCT_ID>',                   // from Step_1
-            url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
-            layer: '<LAYER_PRODUCT_ID>',                  // from Step_1
-            matrixSet: '<LAYER_TILE_MATRIX_SET_ID>',      // from Step_4
-            format: '<LAYER_FORMAT>',                     // from Step_4
-            isBaseLayer: true,
-            style: '<LAYER_STYLE>',                       // from Step_4
-            requestEncoding: 'REST'
-          }),
-    }),
-
-    map.addLayer(catalogLayer)
+    map.addLayer(layer);
 ...
 ...
 ...
 ```
-- extent - value should be the BBOX (extent) that you got from [Step 2](#step-2).
-- url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
-- layer - should be replaced with layer Product ID.
-- matrixSetID -from Response from [Step 4](#step-4).
-- style - should be replaced with the value that you got from [Step 4](#step-4).
-- format - should be replaced with the value that you got from [Step 4](#step-4).
+- Note - **extent** taken from step 2 - where bbox is calculated.
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
