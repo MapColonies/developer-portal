@@ -38,6 +38,8 @@ env:
   ## Releases
   R1_STAGE_DATE_SERVICE_URL: "2022-10-20"
   R1_PROD_DATE_SERVICE_URL: "2022-10-20"
+  R2_STAGE_DATE_SERVICE_URL: "2023-01-19"
+  R2_STAGE_DATE_SERVICE_URL: "2023-01-19"
 resources:
   enabled: true
   value:
