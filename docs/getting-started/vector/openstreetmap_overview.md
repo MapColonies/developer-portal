@@ -3,7 +3,13 @@
   <img src=".//assets/images/Openstreetmap_logo.svg">
   <div style="text-align:center">The OpenStreetMap logo</div>
 </div>
-OpenStreetMap (OSM) is a collaborative project to create a free, editable map of the world. The project was started in 2004 by Steve Coast, and has since grown to include millions of contributors from around the globe. The data in OSM is licensed under the Open Data Commons Open Database License, which allows for free use and distribution of the data.
+OpenStreetMap is a free, editable map of the whole world made by people like you. It was started in 2004 in the UK, out of frustration with the lack of availability of good map data that was free to use.
+
+OpenStreetMap includes data about roads, buildings, addresses, shops and businesses, points of interest, railways, trails, transit, land use and natural features, and much more.
+
+The map is created and maintained by nearly 5 million registered users and more than 1 million map contributors in every country in the world, using free tools and software. The data is used by local people, volunteer groups, companies, governments, software developers and more.
+
+The project has a very lean governance structure run entirely by the volunteers of the OpenStreetMap Foundation. Financial support comes from the OpenStreetMap Foundation members, including corporate members, as well as donations.
 
 ### History
 The idea for OpenStreetMap came about in 2003, when Steve Coast was working on a project for the UK government. He realized that there was a need for a free, open-source map of the world that could be easily edited and updated by anyone. In 2004, Coast launched the OpenStreetMap website and began to gather data from various sources, including GPS traces and aerial imagery.
