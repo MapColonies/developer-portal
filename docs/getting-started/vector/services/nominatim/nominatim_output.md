@@ -1,4 +1,4 @@
-# Place Output
+# Output formats
 
 The [/reverse](/getting-started/vector/services/nominatim/nominatim_reverse.md), [/search](/getting-started/vector/services/nominatim/nominatim_search.md) and [/lookup](/getting-started/vector/services/nominatim/nominatim_lookup.md)
 API calls produce very similar output which is explained in this section.
@@ -23,7 +23,7 @@ a single place (for reverse) of the following format:
     "class": "place",
     "type": "city",
     "importance": 0.9654895765402,
-    "icon": "https://nominatim.openstreetmap.org/images/mapicons/poi_place_city.p.20.png",
+    "icon": "<VECTOR-NOMINATIM-SERVICE_URL>/images/mapicons/poi_place_city.p.20.png",
     "address": {
       "city": "London",
       "state_district": "Greater London",
@@ -168,12 +168,12 @@ Additional information requested with `addressdetails=1`, `extratags=1` and
 <searchresults timestamp="Sat, 11 Aug 18 11:55:35 +0000"
                attribution="Data © OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright"
                querystring="london" polygon="false" exclude_place_ids="100149"
-               more_url="https://nominatim.openstreetmap.org/search.php?q=london&addressdetails=1&extratags=1&exclude_place_ids=100149&format=xml&accept-language=en-US%2Cen%3Bq%3D0.7%2Cde%3Bq%3D0.3">
+               more_url="<VECTOR-NOMINATIM-SERVICE_URL>/search.php?q=london&addressdetails=1&extratags=1&exclude_place_ids=100149&format=xml&accept-language=en-US%2Cen%3Bq%3D0.7%2Cde%3Bq%3D0.3">
   <place place_id="100149" osm_type="node" osm_id="107775" place_rank="15" address_rank="15"
          boundingbox="51.3473219,51.6673219,-0.2876474,0.0323526" lat="51.5073219" lon="-0.1276474"
          display_name="London, Greater London, England, SW1A 2DU, United Kingdom"
          class="place" type="city" importance="0.9654895765402"
-         icon="https://nominatim.openstreetmap.org/images/mapicons/poi_place_city.p.20.png">
+         icon="<VECTOR-NOMINATIM-SERVICE_URL>/images/mapicons/poi_place_city.p.20.png">
     <extratags>
       <tag key="capital" value="yes"/>
       <tag key="website" value="http://www.london.gov.uk"/>

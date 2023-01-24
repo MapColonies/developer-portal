@@ -13,7 +13,7 @@ This can be used to narrow down the kind of objects to be returned.
 The search API has the following format:
 
 ```
-   https://nominatim.openstreetmap.org/search?<params>
+   <VECTOR-NOMINATIM-SERVICE_URL>/search?<params>
 ```
 
 The search term may be specified with two different sets of parameters:
@@ -22,8 +22,8 @@ The search term may be specified with two different sets of parameters:
 
     Free-form query string to search for.
     Free-form queries are processed first left-to-right and then right-to-left if that fails. So you may search for
-    [pilkington avenue, birmingham](https://nominatim.openstreetmap.org/search?q=pilkington+avenue,birmingham) as well as for
-    [birmingham, pilkington avenue](https://nominatim.openstreetmap.org/search?q=birmingham,+pilkington+avenue).
+    [pilkington avenue, birmingham](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=pilkington+avenue,birmingham) as well as for
+    [birmingham, pilkington avenue](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=birmingham,+pilkington+avenue).
     Commas are optional, but improve performance by reducing the complexity of the search.
 
 
@@ -166,187 +166,191 @@ This overrides the specified machine readable format. (Default: 0)
 
 ##### XML with kml polygon
 
-* [https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon_geojson=1&addressdetails=1](https://nominatim.openstreetmap.org/search?q=135+pilkington+avenue,+birmingham&format=xml&polygon_geojson=1&addressdetails=1)
+[<VECTOR-NOMINATIM-SERVICE_URL>/search?q=נוה+שאנן+20+ירושלים&format=xml&polygon_geojson=1&addressdetails=1](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=נוה+שאנן+20+ירושלים&format=xml&polygon_geojson=1&addressdetails=1)
 
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/search.html?q=נוה+שאנן+20+ירושלים&polygon_geojson=1&addressdetails=1)
 ```xml
-  <searchresults timestamp="Sat, 07 Nov 09 14:42:10 +0000" querystring="135 pilkington, avenue birmingham" polygon="true">
-    <place
-      place_id="1620612" osm_type="node" osm_id="452010817"
-      boundingbox="52.548641204834,52.5488433837891,-1.81612110137939,-1.81592094898224"
-      lat="52.5487429714954" lon="-1.81602098644987"
-      display_name="135, Pilkington Avenue, Wylde Green, City of Birmingham, West Midlands (county), B72, United Kingdom"
-      class="place" type="house">
-      <geokml>
-        <Polygon>
-          <outerBoundaryIs>
-            <LinearRing>
-              <coordinates>-1.816513,52.548756599999997 -1.816434,52.548747300000002 -1.816429,52.5487629 -1.8163717,52.548756099999999 -1.8163464,52.548834599999999 -1.8164599,52.548848100000001 -1.8164685,52.5488213 -1.8164913,52.548824000000003 -1.816513,52.548756599999997</coordinates>
-            </LinearRing>
-          </outerBoundaryIs>
-        </Polygon>
-      </geokml>
-      <house_number>135</house_number>
-      <road>Pilkington Avenue</road>
-      <village>Wylde Green</village>
-      <town>Sutton Coldfield</town>
-      <city>City of Birmingham</city>
-      <county>West Midlands (county)</county>
-      <postcode>B72</postcode>
-      <country>United Kingdom</country>
-      <country_code>gb</country_code>
+  <searchresults timestamp="Mon, 23 Jan 23 11:14:56 +0000"
+    attribution="Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright"
+    querystring="נוה שאנן 20 ירושלים" exclude_place_ids="135102101"
+    more_url="<VECTOR-NOMINATIM-SERVICE_URL>/search/?q=%D7%A0%D7%95%D7%94+%D7%A9%D7%90%D7%A0%D7%9F+20+%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%99%D7%9D&addressdetails=1&polygon_geojson=1&exclude_place_ids=135102101&format=xml&accept-language=en-GB%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8">
+    <place place_id="135102101" osm_type="way" osm_id="117395912" place_rank="26" address_rank="26"
+      boundingbox="31.7701362,31.7728728,35.2005205,35.2011552" geojson="{" type":" LineString"," coordinates":[[35.2005205,31.7728728],[35.2006515,31.7727207],[35.2008554,31.7724425],[35.2008817,31.7722532],[35.2009251,31.7719408],[35.2010378,31.7709603],[35.2010813,31.77059],[35.2011075,31.7703674],[35.2011369,31.7702248],[35.2011552,31.7701362]]}" lat="31.7719408"
+      lon="35.2009251"
+      display_name="Nave Shaanan, Nayot, Jerusalem, Jerusalem Subdistrict, Jerusalem District, 9218812, Israel"
+      class="highway" type="residential" importance="0.10001">
+      <road>Nave Shaanan</road>
+      <suburb>Nayot</suburb>
+      <city>Jerusalem</city>
+      <state_district>Jerusalem Subdistrict</state_district>
+      <state>Jerusalem District</state>
+      <ISO3166-2-lvl4>IL-JM</ISO3166-2-lvl4>
+      <postcode>9218812</postcode>
+      <country>Israel</country>
+      <country_code>il</country_code>
     </place>
   </searchresults>
 ```
 
 ##### JSON with SVG polygon
 
-[https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1](https://nominatim.openstreetmap.org/search/Unter%20den%20Linden%201%20Berlin?format=json&addressdetails=1&limit=1&polygon_svg=1)
+[https://nominatim.openstreetmap.org/search/?q=שדרות+רוטשילד+תל+אביב&format=json&addressdetails=1&limit=1&polygon_svg=1](<VECTOR-NOMINATIM-SERVICE_URL>/search/?q=שדרות+רוטשילד+תל+אביב&format=json&addressdetails=1&limit=1&polygon_svg=1)
+
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/search.html?q=שדרות+רוטשילד+תל+אביב&format=jsonv2&addressdetails=1&limit=1)
 
 ```json
     {
-        "address": {
-            "city": "Berlin",
-            "city_district": "Mitte",
-            "construction": "Unter den Linden",
-            "continent": "European Union",
-            "country": "Deutschland",
-            "country_code": "de",
-            "house_number": "1",
-            "neighbourhood": "Scheunenviertel",
-            "postcode": "10117",
-            "public_building": "Kommandantenhaus",
-            "state": "Berlin",
-            "suburb": "Mitte"
-        },
-        "boundingbox": [
-            "52.5170783996582",
-            "52.5173187255859",
-            "13.3975105285645",
-            "13.3981599807739"
-        ],
-        "class": "amenity",
-        "display_name": "Kommandantenhaus, 1, Unter den Linden, Scheunenviertel, Mitte, Berlin, 10117, Deutschland, European Union",
-        "importance": 0.73606775332943,
-        "lat": "52.51719785",
-        "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright",
-        "lon": "13.3978352028938",
-        "osm_id": "15976890",
+        "place_id": 144435067,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
         "osm_type": "way",
-        "place_id": "30848715",
-        "svg": "M 13.397511 -52.517283599999999 L 13.397829400000001 -52.517299800000004 13.398131599999999 -52.517315099999998 13.398159400000001 -52.517112099999999 13.3975388 -52.517080700000001 Z",
-        "type": "public_building"
+        "osm_id": 154741757,
+        "boundingbox": [
+            "32.0635149",
+            "32.0681999",
+            "34.7729215",
+            "34.7779348"
+        ],
+        "lat": "32.0654291",
+        "lon": "34.7766695",
+        "display_name": "Rothschild Boulevard, Tel Aviv, Lev Tel Aviv, Tel Aviv-Yafo, Tel Aviv Subdistrict, Tel Aviv District, 6688209, Israel",
+        "class": "highway",
+        "type": "tertiary",
+        "importance": 0.10000999999999993,
+        "address": {
+            "road": "Rothschild Boulevard",
+            "residential": "Tel Aviv",
+            "suburb": "Lev Tel Aviv",
+            "city": "Tel Aviv-Yafo",
+            "state_district": "Tel Aviv Subdistrict",
+            "state": "Tel Aviv District",
+            "ISO3166-2-lvl4": "IL-TA",
+            "postcode": "6688209",
+            "country": "Israel",
+            "country_code": "il"
+        },
+        "svg": "M 34.7779348 -32.0681999 L 34.7779248 -32.0681693 34.777464 -32.0667233 34.7774456 -32.0666655 34.7774298 -32.0666189 34.7771958 -32.0659273 34.7767089 -32.0654665 34.7766695 -32.0654291 34.7755674 -32.0643757 34.7748309 -32.0641328 34.7747835 -32.0641179 34.7747331 -32.0641021 34.7744227 -32.0640012 34.7741919 -32.0639261 34.7740025 -32.0638618 34.7737944 -32.0637997 34.7737636 -32.0637897 34.7729979 -32.0635408 34.7729506 -32.0635243 34.7729215 -32.0635149"
     }
 ```
 
 ##### JSON with address details
 
-[https://nominatim.openstreetmap.org/?addressdetails=1&q=bakery+in+berlin+wedding&format=json&limit=1](https://nominatim.openstreetmap.org/?addressdetails=1&q=bakery+in+berlin+wedding&format=json&limit=1)
+[<VECTOR-NOMINATIM-SERVICE_URL>/search?addressdetails=1&q=bakery+in+beer+sheba+&format=json&limit=1](<VECTOR-NOMINATIM-SERVICE_URL>/search?addressdetails=1&q=bakery+in+beer+sheba+&format=json&limit=1)
+
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/search.html?addressdetails=1&q=bakery+in+beer+sheba+&format=json&limit=1)
 
 ```json
     {
-        "address": {
-            "bakery": "B\u00e4cker Kamps",
-            "city_district": "Mitte",
-            "continent": "European Union",
-            "country": "Deutschland",
-            "country_code": "de",
-            "footway": "Bahnsteig U6",
-            "neighbourhood": "Sprengelkiez",
-            "postcode": "13353",
-            "state": "Berlin",
-            "suburb": "Wedding"
-        },
-        "boundingbox": [
-            "52.5460929870605",
-            "52.5460968017578",
-            "13.3591794967651",
-            "13.3591804504395"
-        ],
-        "class": "shop",
-        "display_name": "B\u00e4cker Kamps, Bahnsteig U6, Sprengelkiez, Wedding, Mitte, Berlin, 13353, Deutschland, European Union",
-        "icon": "https://nominatim.openstreetmap.org/images/mapicons/shopping_bakery.p.20.png",
-        "importance": 0.201,
-        "lat": "52.5460941",
-        "licence": "Data \u00a9 OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright",
-        "lon": "13.35918",
-        "osm_id": "317179427",
+        "place_id": 15852500,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
         "osm_type": "node",
-        "place_id": "1453068",
-        "type": "bakery"
+        "osm_id": 1772765812,
+        "boundingbox": [
+            "31.2447187",
+            "31.2448187",
+            "34.8124668",
+            "34.8125668"
+        ],
+        "lat": "31.2447687",
+        "lon": "34.8125168",
+        "display_name": "Harishonim bakery, Eliyahu Nawi, Beersheba Industrial Area, Beer-Sheba, Beersheba Subdistrict, South District, 8441410, Israel",
+        "class": "shop",
+        "type": "bakery",
+        "importance": 0.40001,
+        "icon": "<VECTOR-NOMINATIM-SERVICE_URL>/ui/mapicons/shopping_bakery.p.20.png",
+        "address": {
+            "shop": "Harishonim bakery",
+            "road": "Eliyahu Nawi",
+            "suburb": "Beersheba Industrial Area",
+            "city": "Beer-Sheba",
+            "state_district": "Beersheba Subdistrict",
+            "state": "South District",
+            "ISO3166-2-lvl4": "IL-D",
+            "postcode": "8441410",
+            "country": "Israel",
+            "country_code": "il"
+        }
     }
 ```
 
 ##### GeoJSON
 
-[https://nominatim.openstreetmap.org/search?q=17+Strada+Pictor+Alexandru+Romano%2C+Bukarest&format=geojson](https://nominatim.openstreetmap.org/search?q=17+Strada+Pictor+Alexandru+Romano%2C+Bukarest&format=geojson)
+[<VECTOR-NOMINATIM-SERVICE_URL>/search?q=חורב+15+חיפה&format=geojson](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=חורב+15+חיפה&format=geojson)
+
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/search.html?q=חורב+15+חיפה&format=geojson)
 
 ```json
 {
-  "type": "FeatureCollection",
-  "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "place_id": "35811445",
-        "osm_type": "node",
-        "osm_id": "2846295644",
-        "display_name": "17, Strada Pictor Alexandru Romano, Bukarest, Bucharest, Sector 2, Bucharest, 023964, Romania",
-        "place_rank": "30",
-        "category": "place",
-        "type": "house",
-        "importance": 0.62025
-      },
-      "bbox": [
-        26.1156689,
-        44.4354754,
-        26.1157689,
-        44.4355754
-      ],
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          26.1157189,
-          44.4355254
-        ]
-      }
-    }
-  ]
+    "type": "FeatureCollection",
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "place_id": 123700904,
+                "osm_type": "way",
+                "osm_id": 60468022,
+                "display_name": "Horev Center, 15, Horev, Ahuzzat Shemuel, Carmel Heights District, Haifa, Haifa Subdistrict, Haifa District, 3434120, Israel",
+                "place_rank": 30,
+                "category": "shop",
+                "type": "mall",
+                "importance": 0.11000999999999997
+            },
+            "bbox": [
+                34.9867531,
+                32.7841525,
+                34.9877418,
+                32.785079
+            ],
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    34.98706599757996,
+                    32.7845887
+                ]
+            }
+        }
+    ]
 }
 ```
 
 ##### GeocodeJSON
 
-[https://nominatim.openstreetmap.org/search?q=%CE%91%CE%B3%CE%AF%CE%B1+%CE%A4%CF%81%CE%B9%CE%AC%CE%B4%CE%B1%2C+%CE%91%CE%B4%CF%89%CE%BD%CE%B9%CE%B4%CE%BF%CF%82%2C+Athens%2C+Greece&format=geocodejson](https://nominatim.openstreetmap.org/search?q=%CE%91%CE%B3%CE%AF%CE%B1+%CE%A4%CF%81%CE%B9%CE%AC%CE%B4%CE%B1%2C+%CE%91%CE%B4%CF%89%CE%BD%CE%B9%CE%B4%CE%BF%CF%82%2C+Athens%2C+Greece&format=geocodejson)
+[<VECTOR-NOMINATIM-SERVICE_URL>/search?q=הכותל+המערבי&format=geocodejson](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=הכותל+המערבי&format=geocodejson)
+
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/search.html?q=הכותל+המערבי&format=geocodejson)
 
 ```json
 {
-  "type": "FeatureCollection",
-  "geocoding": {
-    "version": "0.1.0",
-    "attribution": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
-    "licence": "ODbL",
-    "query": "Αγία Τριάδα, Αδωνιδος, Athens, Greece"
-  },
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "geocoding": {
-          "type": "place_of_worship",
-          "label": "Αγία Τριάδα, Αδωνιδος, Άγιος Νικόλαος, 5º Δημοτικό Διαμέρισμα Αθηνών, Athens, Municipality of Athens, Regional Unit of Central Athens, Region of Attica, Attica, 11472, Greece",
-          "name": "Αγία Τριάδα",
-          "admin": null
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "0.1.0",
+        "attribution": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+        "licence": "ODbL",
+        "query": "הכותל המערבי"
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "geocoding": {
+                    "place_id": 267010108,
+                    "osm_type": "way",
+                    "osm_id": 817206833,
+                    "osm_key": "amenity",
+                    "osm_value": "place_of_worship",
+                    "type": "house",
+                    "label": "Western Wall, Wilson's Arch, Jewish Quarter, Old City, Jerusalem, Jerusalem Subdistrict, Jerusalem District, 9511208, Israel",
+                    "name": "Western Wall"
+                }
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    35.23446114230339,
+                    31.776734949999998
+                ]
+            }
         }
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          23.72949633941,
-          38.0051697
-        ]
-      }
-    }
-  ]
+    ]
 }
 ```

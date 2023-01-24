@@ -1,8 +1,8 @@
-## Areas <!-- {docsify-ignore} --> 
+# Areas 
 
 Areas in the osm-carto tile layer denote various different things, from land usage to buildings to restricted access zones. A few areas may be drawn as a overlay. This means they can be combined with another background. For example, wetland can be combined with forest, grassland, etc.
 
-##### Table of Contents
+#### Table of Contents
 - [Nature](#nature)
 - [City planning](#city-planning)
 - [Buildings](#buildings)
@@ -15,7 +15,7 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 - [Military](#military)
 - [Miscellaneous - framed areas](#miscellaneous-framed-areas)
 
-### Nature
+## Nature
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Base layer land.png" src=".//assets/images/osm-carto/areas/Base_layer_land.png" decoding="async" width="125" height="125">|*(no symbol)*|Land (This is only shown when no more specific information is available)|No||
@@ -48,7 +48,7 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Rendering-landuse-salt-pond.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-salt-pond.png" decoding="async" width="125" height="125">|*(no symbol)*|Salt pond|Yes|`landuse=salt_pond`|
 |<img alt="Glacier-area.png" src=".//assets/images/osm-carto/areas/Glacier-area.png" decoding="async" width="125" height="125">|*(no symbol)*|Glacier|No|`natural=glacier`|
 
-### City planning
+## City planning
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Rendering-area-landuse-residential.png" src=".//assets/images/osm-carto/areas/Rendering-area-landuse-residential.png" decoding="async" width="125" height="125">|*(no symbol)*|Residential area|No|`landuse=residential`|
@@ -65,14 +65,14 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Rendering-landuse-construction-mapnik.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-construction-mapnik.png" decoding="async" width="125" height="125">|*(no symbol)*|Brownfield / Construction yard|No|`landuse=brownfield` / `landuse=construction`|
 |<img alt="Rendering-landuse-landfill-mapnik.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-landfill-mapnik.png" decoding="async" width="125" height="125">|*(no symbol)*|Landfill|No|`landuse=landfill`|
 
-### Buildings
+## Buildings
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Area building=yes.png" src=".//assets/images/osm-carto/areas/Area_building=yes.png" decoding="async" width="125" height="125">|*(no symbol)*|Non-specific building|No|`building=*`|
 |<img alt="Area amenity=place of worship.png" src=".//assets/images/osm-carto/areas/Area_amenity=place_of_worship.png" decoding="async" width="125" height="125">|*(no symbol)*|Airport terminal / Train station / Aerialway station / Bus station|No|`aeroway=terminal` + `building=*` / `building=train_station` / `aerialway=station` + `building=*` / `public_transport=station` + `building=*`|
 |<img alt="Area amenity=place of worship.png" src=".//assets/images/osm-carto/areas/Area_amenity=place_of_worship.png" decoding="async" width="125" height="125">|<img alt="Christian-16.svg" src=".//assets/images/osm-carto/symbols/16px-Christian-16.svg.png" decoding="async" width="16" height="16"/><img alt="Muslim-16.svg" src=".//assets/images/osm-carto/symbols/16px-Muslim-16.svg.png" decoding="async" width="16" height="16"/><img alt="Jewish-16.svg" src=".//assets/images/osm-carto/symbols/16px-Jewish-16.svg.png" decoding="async" width="16" height="16"/><br /><img alt="Taoist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Taoist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Buddhist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Buddhist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Hinduist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Hinduist-16.svg.png" decoding="async" width="16" height="16"><br /><img alt="Shintoist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Shintoist-16.svg.png" decoding="async" width="16" height="16" /><img alt="Sikhist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Sikhist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Place-of-worship-16.svg" src=".//assets/images/osm-carto/symbols/16px-Place-of-worship-16.svg.png" decoding="async" width="16" height="16"/>|Place of worship where religious practices are held, i.e. church, synagogue, mosque, temple.|No|`amenity=place_of_worship` + `building=*`|
 
-### Transportation
+## Transportation
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Area parking.png" src=".//assets/images/osm-carto/areas/Area_parking.png" decoding="async" width="125" height="125">|<img alt="Parking-16.svg" src=".//assets/images/osm-carto/symbols/9px-Parking-16.svg.png" decoding="async" width="9" height="12"/><br /><img alt="Parking-bicycle-16.svg" src=".//assets/images/osm-carto/symbols/16px-Parking-bicycle-16.svg.png" decoding="async" width="16" height="16" /><br /><img alt="Parking-motorcycle-16.svg" src=".//assets/images/osm-carto/symbols/14px-Parking-motorcycle-16.svg.png" decoding="async" width="14" height="14" /><br /><img alt="Taxi.16.svg" src=".//assets/images/osm-carto/symbols/16px-Taxi.16.svg.png" decoding="async" width="16" height="16"/>|Car parking lot <br> Bicycle parking <br> Motorcycle parking <br> Taxi rank|No|`amenity=parking` <br> `amenity=bicycle_parking` <br> `amenity=motorcycle_parking` <br> `amenity=taxi`|
@@ -88,7 +88,7 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Highway pedestrian footway path area.png" src=".//assets/images/osm-carto/areas/Highway_pedestrian_footway_path_area.png" decoding="async" width="125" height="125">|*(no symbol)*|Pedestrian street, footway or path as a freely routable area|No|`highway=pedestrian` + `area=yes` / `highway=footway` + `area=yes` / `highway=path` + `area=yes`|
 |<img alt="Highway track area.png" src=".//assets/images/osm-carto/areas/Highway_track_area.png" decoding="async" width="125" height="125">|*(no symbol)*|Agricultural, forestry road (track) as a place|No|`highway=track` + `area=yes`|
 
-### Agriculture and industry
+## Agriculture and industry
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Rendering-landuse-farm-mapnik.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-farm-mapnik.png" decoding="async" width="125" height="125">|*(no symbol)*|Farmland / Land area used for growing plants in greenhouses|No|`landuse=farmland` / `landuse=greenhouse_horticulture`|
@@ -106,12 +106,12 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Rendering-landuse-quarry-mapnik.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-quarry-mapnik.png" decoding="async" width="125" height="125">|*(no symbol)*|Quarry|No|`landuse=quarry`|
 |<img alt="Dam area 100.png" src=".//assets/images/osm-carto/areas/Dam_area_100.png" decoding="async" width="125" height="125">|*(no symbol)*|Dam|No|`waterway=dam`|
 
-### Electricity
+## Electricity
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Area power.png" src=".//assets/images/osm-carto/areas/Area_power.png" decoding="async" width="125" height="125">|*(no symbol)*|Generator / Substation / Plant|No|`power=generator` / `power=substation` / `power=plant`|
 
-### Leisure and recreation
+## Leisure and recreation
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Rendering-area-leisure-park.png" src=".//assets/images/osm-carto/areas/125px-Rendering-area-leisure-park.png" decoding="async" width="125" height="125" srcset="/w/images/thumb/0/08/Rendering-area-leisure-park.png/188px-Rendering-area-leisure-park.png 1.5x, /w/images/thumb/0/08/Rendering-area-leisure-park.png/250px-Rendering-area-leisure-park.png 2x">|*(no symbol)*|Park|No|`leisure=park`|
@@ -121,7 +121,7 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Area tourism=campsite.png" src=".//assets/images/osm-carto/areas/Area_tourism=campsite.png" decoding="async" width="125" height="125">|<img alt="Camping.16.svg" src=".//assets/images/osm-carto/symbols/16px-Camping.16.svg.png" decoding="async" width="16" height="16"/><br /><img alt="Caravan-16.svg" src=".//assets/images/osm-carto/symbols/16px-Caravan-16.svg.png" decoding="async" width="16" height="16" />|Campsite <br> Caravansite|No|`tourism=camp_site` <br> `tourism=caravan_site`|
 |<img alt="Rendering-leisure dog park.png" src=".//assets/images/osm-carto/areas/Rendering-leisure_dog_park.png" decoding="async" width="120" height="120">|<img alt="Dog park.svg" src=".//assets/images/osm-carto/symbols/14px-Dog_park.svg.png" decoding="async" width="14" height="14" />|Dog park|No|`leisure=dog_park`|
 
-### Sports
+## Sports
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Area leisure=playground.png" src=".//assets/images/osm-carto/areas/Area_leisure=playground.png" decoding="async" width="125" height="125">|*(no symbol)*|Sports centre / Stadium|No|`leisure=sports_centre` / `leisure=stadium`|
@@ -131,7 +131,7 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Golf-rough.png" src=".//assets/images/osm-carto/areas/125px-Golf-rough.png" decoding="async" width="125" height="125" srcset="/w/images/c/cc/Golf-rough.png 1.5x">|*(no symbol)*|Golf rough|No|`golf=rough`|
 |<img alt="Rendering-golf-green.png" src=".//assets/images/osm-carto/areas/Rendering-golf-green.png" decoding="async" width="125" height="125">|*(no symbol)*|Putting green of a golf course|No|`golf=green`|
 
-### Institutional areas
+## Institutional areas
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Rendering-area-amenity-school.png" src=".//assets/images/osm-carto/areas/Rendering-area-amenity-school.png" decoding="async" width="125" height="125">|*(no symbol)*|Area which belongs to a kindergarten / school / college / university|No|`amenity=kindergarten` / `amenity=school` / `amenity=college` / `amenity=university`|
@@ -143,13 +143,13 @@ Areas in the osm-carto tile layer denote various different things, from land usa
 |<img alt="Place of worship area.png" src=".//assets/images/osm-carto/areas/Place_of_worship_area.png" decoding="async" width="125" height="125">|*(no symbol)*|Religious ground|No|`landuse=religious`|
 |<img alt="Place of worship area.png" src=".//assets/images/osm-carto/areas/Place_of_worship_area.png" decoding="async" width="125" height="125">|<img alt="Christian-16.svg" src=".//assets/images/osm-carto/symbols/16px-Christian-16.svg.png" decoding="async" width="16" height="16"/><img alt="Muslim-16.svg" src=".//assets/images/osm-carto/symbols/16px-Muslim-16.svg.png" decoding="async" width="16" height="16"/><img alt="Jewish-16.svg" src=".//assets/images/osm-carto/symbols/16px-Jewish-16.svg.png" decoding="async" width="16" height="16"/><br /><img alt="Taoist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Taoist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Buddhist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Buddhist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Hinduist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Hinduist-16.svg.png" decoding="async" width="16" height="16"><br /><img alt="Shintoist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Shintoist-16.svg.png" decoding="async" width="16" height="16" /><img alt="Sikhist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Sikhist-16.svg.png" decoding="async" width="16" height="16"/><img alt="Place-of-worship-16.svg" src=".//assets/images/osm-carto/symbols/16px-Place-of-worship-16.svg.png" decoding="async" width="16" height="16"/>|Place of worship where religious practices are held (other than building).|No|`amenity=place_of_worship`|
 
-### Military
+## Military
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Rendering-landuse-military-mapnik.png" src=".//assets/images/osm-carto/areas/Rendering-landuse-military-mapnik.png" decoding="async" width="125" height="125">|*(no symbol)*|Land used by the military.|Yes|`landuse=military`|
 |<img alt="Area=military=danger area.png" src=".//assets/images/osm-carto/areas/Area_military_equals_danger_area.png" decoding="async" width="125" height="125">|*(no symbol)*|A military zone which has been be declared to be dangerous for some reason (i.e. a firing range, bombing range, etc.).|Yes|`military=danger_area`|
 
-### Miscellaneous - framed areas
+## Miscellaneous - framed areas
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |
 | :---: | --- | --- | --- | --- |
 |<img alt="Natianal park.png" src=".//assets/images/osm-carto/areas/National_park.png" decoding="async" width="125" height="125">|*(no symbol)*|National park / Nature reserve|Yes|`boundary=national_park` / `leisure=nature_reserve`|

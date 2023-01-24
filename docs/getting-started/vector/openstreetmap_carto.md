@@ -1,29 +1,30 @@
-## OpenStreetMap Carto <!-- {docsify-ignore} --> 
+# OpenStreetMap Carto
 ![The openstreetmap website](.//assets/images/osm-carto/osm-carto.png)
 OpenStreetMap Carto (or OSM Carto or osm-carto for short) is an open-source stylesheet for rendering OpenStreetMap data to raster tiles. Since 2013, the main OpenStreetMap homepage has featured OSM Carto tiles as the default tile layer.
 
-### How to use
-The style can be consumed as a raster tiles layer from Raster's team services.
+## How to use
+The style can be consumed as a raster tiles layer from Raster team services.
 For more information check [Raster step by step guide](/getting-started/raster/raster_step-by-step).
 
-### What did we do
+## What did we do
 As this stylesheet is an open-source, we had to make a few minor changes compared to the original one.
 - We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/terms/terms?id=mapping).
 - We modified the database insertion script to prefer names in Hebrew and English when possible.
 - We imported data from the Natural Earth dataset in places where we didn't import OSM data.
 
-### Style key
+## Style key
 - [Symbols](/getting-started/vector/openstreetmap_symbols#symbols)
 - [Lines](/getting-started/vector/openstreetmap_lines#lines)
 - [Areas](/getting-started/vector/openstreetmap_areas#areas)
 
-### "My house appears wrong on the map, do something about it 😡"
+## "My house doesn't appears on the map, fix it 😡"
 First, we are sorry, but its not our fault 🤷
 
 We import the data as is from the internet, without any change or modification to maintain authenticity. Because OpenStreetMap is free and Open Source, you can go on their website at `openstreetmap.org`, and make the changes yourself. Be sure to read the guidelines before making any change to avoid it being removed.
 
-### Stylesheet design goals
-#### General purpose
+## Stylesheet design goals
+<small>Taken from the project repository</small>
+### General purpose
 
 This style has multiple purposes:
 
@@ -36,7 +37,7 @@ There is no ranking of these purposes.  To allow serving all of them and to
 avoid satisfying only some at the cost of the others the following main goals
 have been identified.
 
-#### Main goals
+### Main goals
 
 The following goals need to be balanced against each other to serve the purposes
 above.  There is no fixed order of priorities.  Apart from these goals there are

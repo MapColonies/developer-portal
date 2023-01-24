@@ -1,6 +1,6 @@
-## Lines <!-- {docsify-ignore} -->
+# Lines
 
-##### Table of Contents 
+#### Table of Contents 
 
 - [Roads](#roads)
   * [Major roads](#major-roads)
@@ -18,11 +18,11 @@
 - [Nature](#nature)
 - [Boundaries](#boundaries)
 
-### Roads
+## Roads
 In OpenStreetMap, the major roads of a road network are sorted on an importance scale, from motorway to quaternary road
 
 
-#### Major roads
+### Major roads
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-highway motorway carto.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_motorway_carto.png" decoding="async" width="100" height="100"> |Motorway, the most important roads in a road network. Equivalent to freeway, Autobahn (Germany), etc.|`highway=motorway`|
@@ -42,7 +42,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-highway unclassified.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_unclassified.png" decoding="async" width="100" height="100"> |Quaternary road|`highway=unclassified`|
 
 
-#### City roads
+### City roads
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-highway residential.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_residential.png" decoding="async" width="100" height="100"> |Residential road|`highway=residential`|
@@ -58,7 +58,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-highway construction pedestrian carto.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_construction_pedestrian_carto.png" decoding="async" width="100" height="100"> |Pedestrian street under construction|`highway=construction` + `construction=pedestrian`|
 
 
-#### Roads and ways for non-motorized vehicles
+### Roads and ways for non-motorized vehicles
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-highway bridleway.png" src=".//assets/images/osm-carto/lines/Rendering-highway_bridleway.png" decoding="async" width="100" height="75"> |Bridleway|`highway=bridleway`|
@@ -68,7 +68,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-highway construction misc ways carto.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_construction_misc_ways_carto.png" decoding="async" width="100" height="100"> |Bridleway / Cycleway / Footway / Multi-use path / Steps / Track under construction|`highway=construction` + `construction=bridleway` / `highway=construction` + `construction=cycleway` / `highway=construction` + `construction=footway` / `highway=construction` + `construction=path` / `highway=construction` + `construction=steps` / `highway=construction` + `construction=track`|
 
 
-#### gricultural and/or forestry roads
+### gricultural and/or forestry roads
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Mapnik-tracktype-grade1.png" src=".//assets/images/osm-carto/lines/Mapnik-tracktype-grade1.png" decoding="async" width="100" height="75"> |Track. Solid surface.|`highway=track` + `tracktype=grade1`|
@@ -79,7 +79,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Mapnik-tracktype-not-set.png" src=".//assets/images/osm-carto/lines/Mapnik-tracktype-not-set.png" decoding="async" width="100" height="75"> |Track with unknown surface type.|`highway=track`|
 
 
-#### Miscellaneous roads
+### Miscellaneous roads
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-aeroway runway line.png" src=".//assets/images/osm-carto/lines/100px-Rendering-aeroway_runway_line.png" decoding="async" width="100" height="100"> |Runway|`aeroway=runway`|
@@ -92,7 +92,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-man made pier.png" src=".//assets/images/osm-carto/lines/100px-Rendering-man_made_pier.png" decoding="async" width="100" height="100"> |Pier, Landing stage|`man_made=pier`|
 
 
-### Railways
+## Railways
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-railway rail.png" src=".//assets/images/osm-carto/lines/100px-Rendering-railway_rail.png" decoding="async" width="100" height="100"> |Railway for full-sized passenger trains|`railway=rail`|
@@ -108,7 +108,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-area-railway turntable-mapnik.png" src=".//assets/images/osm-carto/lines/Rendering-area-railway_turntable-mapnik.png" decoding="async" width="94" height="94"> |Railway turntable|`railway=turntable`|
 
 
-### Aerial lifts
+## Aerial lifts
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Chair lift rendering.png" src=".//assets/images/osm-carto/lines/100px-Chair-lift-rendering.png" decoding="async" width="100" height="100"> |Chairlift / Drag lift / T-bar lift / J-bar lift / Platter lift / Rope tow lift / Zip line|`aerialway=chair_lift` / `aerialway=drag_lift` / `aerialway=t-bar` / `aerialway=j-bar` / `aerialway=platter` / `aerialway=rope_tow` / `aerialway=zip_line`|
@@ -116,7 +116,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Aerialway goods.png" src=".//assets/images/osm-carto/lines/100px-Aerialway_goods.png" decoding="async" width="100" height="100"> |An aerial lift for goods|`aerialway=goods`|
 
 
-### Waterways
+## Waterways
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-river.png" src=".//assets/images/osm-carto/lines/100px-Rendering-river.png" decoding="async" width="100" height="100"> |River / Canal|`waterway=river` / `waterway=canal`|
@@ -128,17 +128,17 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-waterway stream tunnel.png" src=".//assets/images/osm-carto/lines/100px-Rendering-waterway_stream_tunnel.png" decoding="async" width="100" height="100"> |Stream in pipe or tunnel / Ditch in pipe or tunnel / drain in pipe or tunnel|`waterway=stream` + `tunnel=yes` / `waterway=ditch` + `tunnel=yes` / `waterway=drain` + `tunnel=yes`|
 |<img alt="Rendering-attraction water slide.png" src=".//assets/images/osm-carto/lines/100px-Rendering-attraction_water_slide.png" decoding="async" width="100" height="100"> |Water slide|`attraction=water_slide`|
 
-### Water traffic
+## Water traffic
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Route ferry.png" src=".//assets/images/osm-carto/lines/100px-Route_ferry.png" decoding="async" width="100" height="100"> |Ferry route|`route=ferry`|
 
-### Platforms
+## Platforms
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-highway railway platform line.png" src=".//assets/images/osm-carto/lines/100px-Rendering-highway_railway_platform_line.png" decoding="async" width="100" height="100"> |Platform at a bus stop or station / Railway platform|`highway=platform` / `railway=platform`|
 
-### Energy supply
+## Energy supply
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Power line.png" src=".//assets/images/osm-carto/lines/100px-Power_line.png" decoding="async" width="100" height="100"> |Major power line|`power=line`|
@@ -149,7 +149,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-man-made-pipeline-substance-water.png" src=".//assets/images/osm-carto/lines/100px-Rendering-man-made-pipeline-substance-water.png" decoding="async" width="100" height="100"> |Overground water pipeline|`man_made=pipeline` + `location=overground` + `substance=water`|
 |<img alt="Rendering-man made goods conveyor.png" src=".//assets/images/osm-carto/lines/100px-Rendering-man_made_goods_conveyor.png" decoding="async" width="100" height="100"> |Conveyor system for transporting materials|`man_made=goods_conveyor`|
 
-### Barriers
+## Barriers
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="City-wall-render-eg1.png" src=".//assets/images/osm-carto/lines/100px-City-wall-render-eg1.png" decoding="async" width="100" height="100"> |City wall|`barrier=city_wall` / `historic=citywalls`|
@@ -160,7 +160,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Rendering-waterway-dam-way.png" src=".//assets/images/osm-carto/lines/100px-Rendering-waterway-dam-way.png" decoding="async" width="100" height="100"> |Dam|`waterway=dam`|
 
 
-### Nature
+## Nature
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-natural tree row-mapnik.png" src=".//assets/images/osm-carto/lines/100px-Rendering-natural_tree_row-mapnik.png" decoding="async" width="100" height="100"> |Line of trees|`natural=tree_row`|
@@ -171,7 +171,7 @@ In OpenStreetMap, the major roads of a road network are sorted on an importance 
 |<img alt="Man made embankment.png" src=".//assets/images/osm-carto/lines/100px-Man_made_embankment.png" decoding="async" width="100" height="100"> |Embankment|man_made=embankment|
 
 
-### Boundaries
+## Boundaries
 | Drawing | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Rendering-adminlevel 2-mapnik.png" src=".//assets/images/osm-carto/lines/100px-Rendering-adminlevel_2-mapnik.png" decoding="async" width="100" height="100"> |National boundary|`boundary=administrative` + `admin_level=2`|

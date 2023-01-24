@@ -1,36 +1,23 @@
-## OpenStreetMap <!-- {docsify-ignore} -->
-<div style="float:right;border:1px solid #a2a9b1;padding:0.2em">
-  <img src=".//assets/images/Openstreetmap_logo.svg">
-  <div style="text-align:center">The OpenStreetMap logo</div>
-</div>
-OpenStreetMap is a free, editable map of the whole world made by people like you. It was started in 2004 in the UK, out of frustration with the lack of availability of good map data that was free to use.
-
-OpenStreetMap includes data about roads, buildings, addresses, shops and businesses, points of interest, railways, trails, transit, land use and natural features, and much more.
-
-The map is created and maintained by nearly 5 million registered users and more than 1 million map contributors in every country in the world, using free tools and software. The data is used by local people, volunteer groups, companies, governments, software developers and more.
-
-The project has a very lean governance structure run entirely by the volunteers of the OpenStreetMap Foundation. Financial support comes from the OpenStreetMap Foundation members, including corporate members, as well as donations.
-
-### History
-The idea for OpenStreetMap came about in 2003, when Steve Coast was working on a project for the UK government. He realized that there was a need for a free, open-source map of the world that could be easily edited and updated by anyone. In 2004, Coast launched the OpenStreetMap website and began to gather data from various sources, including GPS traces and aerial imagery.
-
-Over the next few years, the project grew rapidly, with the number of contributors and the amount of data increasing. In 2007, the OpenStreetMap Foundation was established to support the project and provide infrastructure for the community. Today, OpenStreetMap is one of the largest and most widely used open data projects in the world.
-
+# OpenStreetMap
 ![The openstreetmap website](.//assets/images/openstreetmap-website-2022.png)
 <div style="text-align:center">The OpenStreetMap website</div>
 
-### Uses
-OpenStreetMap data is used in a wide variety of applications, including:
+## What is it?
+OpenStreetMap (OSM) is a free, open geographic database updated and maintained by a community of volunteers via open collaboration. Contributors collect data from surveys, trace from aerial imagery and also import from other freely licensed geodata sources. OpenStreetMap is freely licensed under the Open Database License and as a result commonly used to make electronic maps, inform turn-by-turn navigation, assist in humanitarian aid and data visualisation.
 
-Online maps: The most obvious use of OpenStreetMap data is in online maps, such as the main OpenStreetMap website. The data is also used by many other websites and apps that provide maps and location-based services, such as OpenRouteService, GraphHopper, and Mapbox.
+## Why are we using it
+We believe that any additional data is welcome, and because OpenStreetMap is the de-facto standard in mapping in the internet today, we should also import the data and as many services as possible.
 
-GIS: OpenStreetMap data is also used in Geographic Information Systems (GIS) for a wide range of applications, such as land use planning, emergency response, and environmental monitoring.
+## Available OSM based products
+- [OSM Carto](/getting-started/vector/openstreetmap_carto#openstreetmap-carto) The default OSM raster tile layer style.
+- [Nominatim](/getting-started/vector/services/nominatim/nominatim_overview#nominatim) OpenStreetMap based GeoCoding and Reverse GeoCoding service.
 
-Navigation: OpenStreetMap data is used by many navigation apps and devices, such as OsmAnd, Navit, and OpenFietsMap.
+## Future OSM based products
+- Navigation
+- Query
+- Additional styles
 
-Humanitarian aid: OpenStreetMap data is often used in disaster response and humanitarian aid efforts, as it can be quickly and easily updated to reflect changes on the ground.
-
-Overall, OpenStreetMap provides a valuable resource for many different fields, from online maps and navigation to GIS and humanitarian aid. With the data constantly updated by a community of volunteers, it offers a reliable and accurate map of the world.
-
-![The openstreetmap website](.//assets/images/id-editor-2023.png)
-<div style="text-align:center">idEditor - The official OpenStreetMap editor</div>
+## Additional information about OSM
+- [OSM Deep Dive](/getting-started/vector/openstreetmap_indepth.md) More about the project and it's history.
+- [OSM Data Model](/getting-started/vector/openstreetmap_data_model.md) About the "building blocks" OSM uses to describe the world.
+- [OSM Users](/getting-started/vector/openstreetmap_users.md) A partial list of organizations and companies that use OpenStreetMap.

@@ -12,13 +12,13 @@ Its API has the following endpoints for querying the data:
 
 ## Nominatim UI
 Nominatim is a search API, it does not provide a website interface on its own. nominatim-ui offers a small website for trying Nominatim and inspecting the database content.
-You can use the UI as the following address INSERT ADDRESS
+You can use the UI at the following address:[<VECTOR-NOMINATIM-UI_URL>](<VECTOR-NOMINATIM-UI_URL>)
 
 
-## Im getting bad results
-Please check the [FAQ page](/getting-started/vector/services/nominatim/nominatim_faq.md) and check if there is a solution to your problem there. If the problem persists don't hesitate to contact us.
+## I'm getting bad results
+Please check the [FAQ page](/getting-started/vector/services/nominatim/nominatim_faq) and check if there is a solution to your problem there. If the problem persists don't hesitate to contact us.
 
-## "I cant find my home address, do something about it 😡"
+## "I can't find my home address, do something about it 😡"
 First, we are sorry, but its not our fault 🤷
 
 We import the data as is from the internet, without any change or modification to maintain authenticity. Because OpenStreetMap is free and Open Source, you can go on their website at `openstreetmap.org`, and make the changes yourself. Be sure to read the guidelines before making any change to avoid it being removed.

@@ -30,6 +30,8 @@ env:
   DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
   VECTOR_QUERY_SERVICE_URL: "https://wfs.com"
   VECTOR_REPLICATION_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  VECTOR-NOMINATIM-SERVICE_URL: "https://www.youtube.com/watch?v=9jK-NcRmVcw"
+  VECTOR-NOMINATIM-UI_URL: "https://nominatim-ui.com"
   APP_CATALOG_URL: "http://catalog_app.com"
   API_KEY: "API_KEY"
   EMOJI_CODE: "false"

@@ -8,7 +8,7 @@ multiple OSM objects like node, way or relation.
 The lookup API has the following format:
 
 ```
-  https://nominatim.openstreetmap.org/lookup?osm_ids=[N|W|R]<value>,…,…,&<params>
+  <VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=[N|W|R]<value>,…,…,&<params>
 ```
 
 `osm_ids` is mandatory and must contain a comma-separated list of OSM ids each
@@ -21,7 +21,7 @@ Additional optional parameters are explained below.
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_output.md) for details on each format. (Default: xml)
+See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_output#output-formats) for details on each format. (Default: xml)
 
 * `json_callback=<string>`
 
@@ -90,84 +90,106 @@ This overrides the specified machine readable format. (Default: 0)
 
 ##### XML
 
-[https://nominatim.openstreetmap.org/lookup?osm_ids=R146656,W104393803,N240109189](https://nominatim.openstreetmap.org/lookup?osm_ids=R146656,W50637691,N240109189)
+[<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821](<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821)
 
 ```xml
-  <lookupresults timestamp="Mon, 28 Mar 22 14:38:54 +0000" attribution="Data &#xA9; OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright" querystring="R146656,W50637691,N240109189" more_url="">
-    <place place_id="282236157" osm_type="relation" osm_id="146656" place_rank="16" address_rank="16" boundingbox="53.3401044,53.5445923,-2.3199185,-2.1468288" lat="53.44246175" lon="-2.2324547359718547" display_name="Manchester, Greater Manchester, North West England, England, United Kingdom" class="boundary" type="administrative" importance="0.35">
-      <city>Manchester</city>
-      <county>Greater Manchester</county>
-      <state_district>North West England</state_district>
-      <state>England</state>
-      <country>United Kingdom</country>
-      <country_code>gb</country_code>
+  <lookupresults timestamp="Tue, 24 Jan 23 06:41:19 +0000"
+    attribution="Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright"
+    querystring="R7116646,W551414758,N4976386821" more_url="">
+    <place place_id="308733271" osm_type="relation" osm_id="7116646" place_rank="30" address_rank="30"
+      boundingbox="31.7805304,31.7816054,35.2033623,35.2046501" lat="31.78107505"
+      lon="35.20375223509767"
+      display_name="Supreme Court of Israel, Rotschild, Kiryat HaMemshalah, Jerusalem, Jerusalem Subdistrict, Jerusalem District, 9432301, Israel"
+      class="amenity" type="courthouse" importance="0.24232784765904">
+      <amenity>Supreme Court of Israel</amenity>
+      <road>Rotschild</road>
+      <suburb>Kiryat HaMemshalah</suburb>
+      <city>Jerusalem</city>
+      <state_district>Jerusalem Subdistrict</state_district>
+      <state>Jerusalem District</state>
+      <ISO3166-2-lvl4>IL-JM</ISO3166-2-lvl4>
+      <postcode>9432301</postcode>
+      <country>Israel</country>
+      <country_code>il</country_code>
     </place>
-    <place place_id="115462561" osm_type="way" osm_id="50637691" place_rank="30" address_rank="30" boundingbox="52.3994612,52.3996426,13.0479574,13.0481754" lat="52.399550700000006" lon="13.048066846939687" display_name="Brandenburger Tor, Brandenburger Stra&#xDF;e, Historische Innenstadt, Innenstadt, Potsdam, Brandenburg, 14467, Germany" class="tourism" type="attraction" importance="0.29402874005524">
-      <tourism>Brandenburger Tor</tourism>
-      <road>Brandenburger Stra&#xDF;e</road>
-      <suburb>Historische Innenstadt</suburb>
-      <city>Potsdam</city>
-      <state>Brandenburg</state>
-      <postcode>14467</postcode>
-      <country>Germany</country>
-      <country_code>de</country_code>
+    <place place_id="222933834" osm_type="way" osm_id="551414758" place_rank="30" address_rank="30"
+      boundingbox="31.7760076,31.776938,35.2048741,35.2059629" lat="31.776474049999997"
+      lon="35.20538295033272"
+      display_name="Knesset, Berman Square, Kiryat HaMemshalah, Jerusalem, Jerusalem Subdistrict, Jerusalem District, 9107202, Israel"
+      class="office" type="government" importance="0.34176259084946">
+      <office>Knesset</office>
+      <road>Berman Square</road>
+      <suburb>Kiryat HaMemshalah</suburb>
+      <city>Jerusalem</city>
+      <state_district>Jerusalem Subdistrict</state_district>
+      <state>Jerusalem District</state>
+      <ISO3166-2-lvl4>IL-JM</ISO3166-2-lvl4>
+      <postcode>9107202</postcode>
+      <country>Israel</country>
+      <country_code>il</country_code>
     </place>
-    <place place_id="567505" osm_type="node" osm_id="240109189" place_rank="15" address_rank="16" boundingbox="52.3586925,52.6786925,13.2396024,13.5596024" lat="52.5186925" lon="13.3996024" display_name="Berlin, 10178, Germany" class="place" type="city" importance="0.78753902824914">
-      <city>Berlin</city>
-      <state>Berlin</state>
-      <postcode>10178</postcode>
-      <country>Germany</country>
-      <country_code>de</country_code>
+    <place place_id="55796886" osm_type="node" osm_id="4976386821" place_rank="30" address_rank="30"
+      boundingbox="32.0695874,32.0696874,34.7845255,34.7846255" lat="32.0696374" lon="34.7845755"
+      display_name="Lehamim, 103, HaHashmonaim, Sarona Gardens, Tel Aviv, Bitsaron, Tel Aviv-Yafo, Tel Aviv Subdistrict, Tel Aviv District, 6713203, Israel"
+      class="shop" type="bakery" importance="9.9999999999545E-6">
+      <shop>Lehamim</shop>
+      <house_number>103</house_number>
+      <road>HaHashmonaim</road>
+      <suburb>Bitsaron</suburb>
+      <residential>Tel Aviv</residential>
+      <city>Tel Aviv-Yafo</city>
+      <state_district>Tel Aviv Subdistrict</state_district>
+      <state>Tel Aviv District</state>
+      <ISO3166-2-lvl4>IL-TA</ISO3166-2-lvl4>
+      <postcode>6713203</postcode>
+      <country>Israel</country>
+      <country_code>il</country_code>
     </place>
   </lookupresults>
 ```
 
 ##### JSON with extratags
 
-[https://nominatim.openstreetmap.org/lookup?osm_ids=W50637691&format=json&extratags=1](https://nominatim.openstreetmap.org/lookup?osm_ids=W50637691&format=json&extratags=1)
+[<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=W44296789&format=json&extratags=1](<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=W44296789&format=json&extratags=1)
+
+[Demo Link](<VECTOR-NOMINATIM-UI_URL>/details.html?osmtype=W&osmid=44296789)
 
 ```json
 [
-   {
-      "place_id": 115462561,
-      "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
-      "osm_type": "way",
-      "osm_id": 50637691,
-      "boundingbox": [
-        "52.3994612",
-        "52.3996426",
-        "13.0479574",
-        "13.0481754"
-      ],
-      "lat": "52.399550700000006",
-      "lon": "13.048066846939687",
-      "display_name": "Brandenburger Tor, Brandenburger Straße, Historische Innenstadt, Innenstadt, Potsdam, Brandenburg, 14467, Germany",
-      "class": "tourism",
-      "type": "attraction",
-      "importance": 0.2940287400552381,
-      "address": {
-        "tourism": "Brandenburger Tor",
-        "road": "Brandenburger Straße",
-        "suburb": "Historische Innenstadt",
-        "city": "Potsdam",
-        "state": "Brandenburg",
-        "postcode": "14467",
-        "country": "Germany",
-        "country_code": "de"
-      },
-      "extratags": {
-        "image": "http://commons.wikimedia.org/wiki/File:Potsdam_brandenburger_tor.jpg",
-        "heritage": "4",
-        "wikidata": "Q695045",
-        "architect": "Carl von Gontard;Georg Christian Unger",
-        "wikipedia": "de:Brandenburger Tor (Potsdam)",
-        "wheelchair": "yes",
-        "description": "Kleines Brandenburger Tor in Potsdam",
-        "heritage:website": "http://www.bldam-brandenburg.de/images/stories/PDF/DML%202012/04-p-internet-13.pdf",
-        "heritage:operator": "bldam",
-        "architect:wikidata": "Q68768;Q95223",
-        "year_of_construction": "1771"
-      }
-   }
+    {
+        "place_id": 119518296,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 44296789,
+        "boundingbox": [
+            "31.7775552",
+            "31.777817",
+            "35.2019221",
+            "35.203181"
+        ],
+        "lat": "31.777682300000002",
+        "lon": "35.202551594501585",
+        "display_name": "Ministry of Finance, Rupin, Kiryat HaMemshalah, Jerusalem, Jerusalem Subdistrict, Jerusalem District, 9218812, Israel",
+        "class": "office",
+        "type": "government",
+        "importance": 0.4438713827293206,
+        "address": {
+            "office": "Ministry of Finance",
+            "road": "Rupin",
+            "suburb": "Kiryat HaMemshalah",
+            "city": "Jerusalem",
+            "state_district": "Jerusalem Subdistrict",
+            "state": "Jerusalem District",
+            "ISO3166-2-lvl4": "IL-JM",
+            "postcode": "9218812",
+            "country": "Israel",
+            "country_code": "il"
+        },
+        "extratags": {
+            "wikidata": "Q1707870",
+            "government": "ministry",
+            "building:levels": "7"
+        }
+    }
 ]
 ```

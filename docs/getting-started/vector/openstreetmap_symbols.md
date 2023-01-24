@@ -1,7 +1,7 @@
 
-## Symbols <!-- {docsify-ignore} -->
+# Symbols
 
-##### Table of Contents 
+#### Table of Contents 
 - [Gastronomy](#gastronomy)
 - [Culture, entertainment and arts](#culture-entertainment-and-arts)
 - [Historical objects](#historical-objects)
@@ -22,7 +22,7 @@
 - [Electricity](#electricity)
 - [Places](#places)
 
-### Gastronomy
+## Gastronomy
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Restaurant-14.svg" src=".//assets/images/osm-carto/symbols/14px-Restaurant-14.svg.png" decoding="async" width="14" height="14" > | Restaurant (except fast food) / food court| `amenity=restaurant`/ `amenity=food_court` |
@@ -34,7 +34,7 @@
 |<img alt="Biergarten-16.svg" src=".//assets/images/osm-carto/symbols/16px-Biergarten-16.svg.png" decoding="async" width="16" height="16"> | Biergarten (traditional sense)| `amenity=biergarten` |
 |<img alt="Outdoor seating-14.svg" src=".//assets/images/osm-carto/symbols/14px-Outdoor_seating-14.svg.png" decoding="async" width="14" height="14"> | A outdoor seating area, usually for the consumption of food and drink from neighbouring cafes and restaurants| `leisure=outdoor_seating` |
 
-### Culture, entertainment and arts
+## Culture, entertainment and arts
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Artwork-14.svg" src=".//assets/images/osm-carto/symbols/14px-Artwork-14.svg.png" decoding="async" width="14" height="14"> | Artwork| `tourism=artwork` |
@@ -51,7 +51,7 @@
 |<img alt="Public bookcase-14.svg" src=".//assets/images/osm-carto/symbols/14px-Public_bookcase-14.svg.png" decoding="async" width="14" height="14"> | Public bookcase| `amenity=public_bookcase` |
 |<img alt="Amusement arcade-14.svg" src=".//assets/images/osm-carto/symbols/14px-Amusement_arcade-14.svg.png" decoding="async" width="14" height="14"> | A venue with pay-to-play games| `leisure=amusement_arcade` |
 
-### Historical objects
+## Historical objects
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Memorial-16.svg" src=".//assets/images/osm-carto/symbols/16px-Memorial-16.svg.png" decoding="async" width="16" height="16"> | Memorial (standard size)| `historic=memorial` |
@@ -70,7 +70,7 @@
 |<img alt="Manor-14.svg" src=".//assets/images/osm-carto/symbols/14px-Manor-14.svg.png" decoding="async" width="14" height="14"> | Manor house| `historic=castle` + `castle_type=manor` |
 |<img alt="Obelisk-14.svg" src=".//assets/images/osm-carto/symbols/14px-Obelisk-14.svg.png" decoding="async" width="14" height="14"> | Obelisk| `man_made=obelisk` |
 
-### Leisure, recreation and sports
+## Leisure, recreation and sports
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Playground-16.svg" src=".//assets/images/osm-carto/symbols/14px-Playground-16.svg.png" decoding="async" width="14" height="14"> | Playground| `leisure=playground` |
@@ -87,7 +87,7 @@
 |<img alt="Dog park.svg" src=".//assets/images/osm-carto/symbols/14px-Dog_park.svg.png" decoding="async" width="14" height="14"> | Dog park| `leisure=dog_park` |
 |<img alt="Leisure-golf-pin.svg" src=".//assets/images/osm-carto/symbols/9px-Leisure-golf-pin.svg.png" decoding="async" width="9" height="23"> | Hole of a golf course| `golf=pin` |
 
-### Waste management
+## Waste management
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Toilets-16.svg" src=".//assets/images/osm-carto/symbols/16px-Toilets-16.svg.png" decoding="async" width="16" height="16"> | Public toilets| `amenity=toilets` |
@@ -96,7 +96,7 @@
 |<img alt="Waste disposal-14.svg" src=".//assets/images/osm-carto/symbols/14px-Waste_disposal-14.svg.png" decoding="async" width="14" height="14"> | Disposal bin (medium size), for bagged up household or industrial waste| `amenity=waste_disposal` |
 |<img alt="Excrement bags-14.svg" src=".//assets/images/osm-carto/symbols/14px-Excrement_bags-14.svg.png" decoding="async" width="14" height="14"> | Excrement bag dispenser| `amenity=vending_machine` + `vending=excrement_bags` |
 
-### Outdoor
+## Outdoor
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Bench-16.svg" src=".//assets/images/osm-carto/symbols/16px-Bench-16.svg.png" decoding="async" width="16" height="16"> | Bench| `amenity=bench` |
@@ -112,7 +112,7 @@
 |<img alt="Firepit.svg" src=".//assets/images/osm-carto/symbols/14px-Firepit.svg.png" decoding="async" width="14" height="14"> | Fireplace| `leisure=firepit` |
 |<img alt="Bird hide-14.svg" src=".//assets/images/osm-carto/symbols/14px-Bird_hide-14.svg.png" decoding="async" width="14" height="14"> | Bird hide| `leisure=bird_hide` |
 
-### Tourism and accommodation
+## Tourism and accommodation
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Guidepost-14.svg" src=".//assets/images/osm-carto/symbols/14px-Guidepost-14.svg.png" decoding="async" width="14" height="14"> | Guidepost| `tourism=information` + `information=guidepost` |
@@ -131,14 +131,14 @@
 |<img alt="Alpinehut.svg" src=".//assets/images/osm-carto/symbols/14px-Alpinehut.svg.png" decoding="async" width="14" height="14"> | Alpine hut| `tourism=alpine_hut` |
 |<img alt="Wilderness hut.svg" src=".//assets/images/osm-carto/symbols/14px-Wilderness_hut.svg.png" decoding="async" width="14" height="14"> | Wilderness hut| `tourism=wilderness_hut` |
 
-### Finance
+## Finance
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Bank-16.svg" src=".//assets/images/osm-carto/symbols/16px-Bank-16.svg.png" decoding="async" width="16" height="16"> | Bank| `amenity=bank` |
 |<img alt="Atm-14.svg" src=".//assets/images/osm-carto/symbols/14px-Atm-14.svg.png" decoding="async" width="14" height="14"> | ATM or cash point| `amenity=atm` |
 |<img alt="Bureau de change-14.svg" src=".//assets/images/osm-carto/symbols/14px-Bureau_de_change-14.svg.png" decoding="async" width="14" height="14"> | Bureau de change| `amenity=bureau_de_change` |
 
-### Healthcare
+## Healthcare
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Pharmacy-14.svg" src=".//assets/images/osm-carto/symbols/14px-Pharmacy-14.svg.png" decoding="async" width="14" height="14"> | Pharmacy| `amenity=pharmacy` |
@@ -147,7 +147,7 @@
 |<img alt="Dentist-14.svg" src=".//assets/images/osm-carto/symbols/14px-Dentist-14.svg.png" decoding="async" width="14" height="14"> | Dentist| `amenity=dentist` |
 |<img alt="Veterinary-14.svg" src=".//assets/images/osm-carto/symbols/14px-Veterinary-14.svg.png" decoding="async" width="14" height="14"> | Veterinary| `amenity=veterinary` |
 
-### Communication
+## Communication
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Post box-12.svg" src=".//assets/images/osm-carto/symbols/12px-Post_box-12.svg.png" decoding="async" width="12" height="12"> | Post box| `amenity=post_box` |
@@ -156,7 +156,7 @@
 |<img alt="Telephone.16.svg" src=".//assets/images/osm-carto/symbols/16px-Telephone.16.svg.png" decoding="async" width="16" height="16"> | Public telephone| `amenity=telephone` |
 |<img alt="Emergency phone.16.svg" src=".//assets/images/osm-carto/symbols/16px-Emergency-phone.16.svg.png" decoding="async" width="16" height="16"> | Emergency phone| `emergency=phone` |
 
-### Transportation
+## Transportation
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Parking-16.svg" src=".//assets/images/osm-carto/symbols/9px-Parking-16.svg.png" decoding="async" width="9" height="12"> | Car parking| `amenity=parking` |
@@ -184,7 +184,7 @@
 |<img alt="Boat rental-14.svg" src=".//assets/images/osm-carto/symbols/14px-Boat_rental-14.svg.png" decoding="async" width="14" height="14"> | Boat rental| `amenity=boat_rental` |
 |<img alt="Parking entrance multi-storey 14.svg" src=".//assets/images/osm-carto/symbols/14px-Parking_entrance_multi-storey_14.svg.png" decoding="async" width="14" height="14"> | Multi-storey parking entrance| `amenity=parking_entrance` + `parking=multi-storey` |
 
-### Road features
+## Road features
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Oneway.svg" src=".//assets/images/osm-carto/symbols/12px-Oneway.svg.png" decoding="async" width="12" height="5"> | One-way| `oneway=yes` |
@@ -209,7 +209,7 @@
 |<img alt="Lock gate node.svg" src=".//assets/images/osm-carto/symbols/14px-Lock_gate_node.svg.png" decoding="async" width="14" height="14"> | Gate of a lock| `waterway=lock_gate` |
 |<img alt="Turning circle on highway track-16.svg" src=".//assets/images/osm-carto/symbols/16px-Turning_circle_on_highway_track-16.svg.png" decoding="async" width="16" height="16"> | Turning circle at agricultural or forestry roads| Node with `highway=turning_circle` at way with `highway=track` |
 
-### Nature
+## Nature
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Tree-16.svg" src=".//assets/images/osm-carto/symbols/16px-Tree-16.svg.png" decoding="async" width="16" height="16"> | Tree| `natural=tree` |
@@ -220,7 +220,7 @@
 |<img alt="Saddle-8.svg" src=".//assets/images/osm-carto/symbols/8px-Saddle-8.svg.png" decoding="async" width="8" height="8"> | Topographic saddle| `natural=saddle` |
 |<img alt="Volcano-8.svg" src=".//assets/images/osm-carto/symbols/8px-Volcano-8.svg.png" decoding="async" width="8" height="8"> | Volcano| `natural=volcano` |
 
-### Administrative facilities
+## Administrative facilities
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Police-16.svg" src=".//assets/images/osm-carto/symbols/16px-Police-16.svg.png" decoding="async" width="16" height="16"> | Police station| `amenity=police` |
@@ -232,7 +232,7 @@
 |<img alt="Office-diplomatic-consulate.svg" src=".//assets/images/osm-carto/symbols/14px-Office-diplomatic-consulate.svg.png" decoding="async" width="14" height="14"> | Consulate| `office=diplomatic` + `diplomatic=consulate` |
 |<img alt="Prison-16.svg" src=".//assets/images/osm-carto/symbols/16px-Prison-16.svg.png" decoding="async" width="16" height="16"> | Prison| `amenity=prison` |
 
-### Religious place
+## Religious place
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Christian-16.svg" src=".//assets/images/osm-carto/symbols/16px-Christian-16.svg.png" decoding="async" width="16" height="16"> | Christian (except Jehovah's Witnesses, La Luz del Mundo, Iglesia ni Cristo and Mormons)| `amenity=place_of_worship` + `religion=christian` |
@@ -245,7 +245,7 @@
 |<img alt="Sikhist-16.svg" src=".//assets/images/osm-carto/symbols/16px-Sikhist-16.svg.png" decoding="async" width="16" height="16"> | Sikh| `amenity=place_of_worship` + `religion=sikh` |
 |<img alt="Place-of-worship-16.svg" src=".//assets/images/osm-carto/symbols/16px-Place-of-worship-16.svg.png" decoding="async" width="16" height="16"> | Unspecified or other religion| `amenity=place_of_worship` + without or other `religion=*` value |
 
-### Shops and services
+## Shops and services
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Marketplace-14.svg" src=".//assets/images/osm-carto/symbols/14px-Marketplace-14.svg.png" decoding="async" width="14" height="14"> | Marketplace| `amenity=marketplace` |
@@ -324,7 +324,7 @@
 |<img alt="Office-16.svg" src=".//assets/images/osm-carto/symbols/16px-Office-16.svg.png" decoding="async" width="16" height="16"> | Office, department, bureau (all)| `<bdi style="white-space:nowrap">office</bdi>=* |
 |<img alt="Social amenity darken 80-16.svg" src=".//assets/images/osm-carto/symbols/16px-Social_amenity_darken_80-16.svg.png" decoding="async" width="16" height="16"> | Nursing home care / Childcare| `amenity=nursing_home` / `amenity=childcare` |
 
-### Landmarks, man-made infrastructure, masts and towers
+## Landmarks, man-made infrastructure, masts and towers
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Storage tank-14.svg" src=".//assets/images/osm-carto/symbols/14px-Storage_tank-14.svg.png" decoding="async" width="14" height="14"> | Storage tanks /  Silo| `man_made=storage_tank` / `man_made=silo` |
@@ -357,13 +357,13 @@
 |<img alt="Telescope dish-14.svg" src=".//assets/images/osm-carto/symbols/14px-Telescope_dish-14.svg.png" decoding="async" width="14" height="14"> | Radio telescope| `man_made=telescope` + `telescope:type=radio` |
 |<img alt="Telescope dome-14.svg" src=".//assets/images/osm-carto/symbols/14px-Telescope_dome-14.svg.png" decoding="async" width="14" height="14"> | Optical telescope| `man_made=telescope` + `telescope:type=optical` |
 
-### Electricity
+## Electricity
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Power tower.svg" src=".//assets/images/osm-carto/symbols/7px-Power_tower.svg.png" decoding="async" width="7" height="7"> | Big electricity pylon, carrying high voltage electricity cables| `power=tower` |
 |<img alt="Power pole.svg" src=".//assets/images/osm-carto/symbols/3px-Power_pole.svg.png" decoding="async" width="3" height="3"> | Small electricity pole, carrying low voltage electricity cables| `power=pole` |
 
-### Places
+## Places
 | Icon | Description | Tags |
 | :---: | --- | --- |
 |<img alt="Place-6.svg" src=".//assets/images/osm-carto/symbols/6px-Place-6.svg.png" decoding="async" width="6" height="6"> | City| `place=city` |
