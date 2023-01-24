@@ -1,19 +1,21 @@
-# Areas 
+# Areas
 
 Areas in the osm-carto tile layer denote various different things, from land usage to buildings to restricted access zones. A few areas may be drawn as a overlay. This means they can be combined with another background. For example, wetland can be combined with forest, grassland, etc.
 
 #### Table of Contents
-- [Nature](#nature)
-- [City planning](#city-planning)
-- [Buildings](#buildings)
-- [Transportation](#transportation)
-- [Agriculture and industry](#agriculture-and-industry)
-- [Electricity](#electricity)
-- [Leisure and recreation](#leisure-and-recreation)
-- [Sports](#sports)
-- [Institutional areas](#institutional-areas)
-- [Military](#military)
-- [Miscellaneous - framed areas](#miscellaneous-framed-areas)
+- [Areas](#areas)
+      - [Table of Contents](#table-of-contents)
+  - [Nature](#nature)
+  - [City planning](#city-planning)
+  - [Buildings](#buildings)
+  - [Transportation](#transportation)
+  - [Agriculture and industry](#agriculture-and-industry)
+  - [Electricity](#electricity)
+  - [Leisure and recreation](#leisure-and-recreation)
+  - [Sports](#sports)
+  - [Institutional areas](#institutional-areas)
+  - [Military](#military)
+  - [Miscellaneous - framed areas](#miscellaneous---framed-areas)
 
 ## Nature
 | <div style="width:125px">Area</div> | Symbol|Description| Overlay? | Tags |

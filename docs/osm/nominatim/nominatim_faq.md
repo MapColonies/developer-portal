@@ -1,6 +1,6 @@
-# Frequently Asked Questions
+# Frequently Asked Questions <!-- {docsify-ignore} -->
 
-## API Results
+## API Results <!-- {docsify-ignore} -->
 
 #### 1. The address of my search results contains far-away places that don't belong there.
 

@@ -1,4 +1,4 @@
-# OpenStreetMap Users
+# OpenStreetMap Users <!-- {docsify-ignore} -->
 A list of various OpenStreetMap users taken from Wikipedia.
 
 - Amazon uses OpenStreetMap for navigation and has a team who revises the map based on feedback from drivers.

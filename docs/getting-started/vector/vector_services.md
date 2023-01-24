@@ -3,7 +3,7 @@
 |-|-|-|
 | [Query Service 🔎](/getting-started/vector/services/query_service.md) | Searching and retrieving feature data | `<VECTOR-QUERY-SERVICE_URL>` |
 | [Replication Service 📦](/getting-started/vector/services/replication_service.md) | Vector data replication service | `<VECTOR-REPLICATION-SERVICE_URL>` |
-| [Nominatim 🌎](/getting-started/vector/services/nominatim/nominatim_overview.md) | Civilian geocoding service based on OpenStreetMap | `<VECTOR-NOMINATIM-SERVICE_URL>` |
+| [Nominatim 🌎](/getting-started/vector/services/nominatim_service.md) | Civilian geocoding service based on OpenStreetMap | `<VECTOR-NOMINATIM-SERVICE_URL>` |
 
 <br/>
 <br/>

@@ -1,4 +1,4 @@
-# OpenStreetMap in depth
+# OpenStreetMap in depth <!-- {docsify-ignore} -->
 <div style="float:right;border:1px solid #a2a9b1;padding:0.2em">
   <img src=".//assets/images/Openstreetmap_logo.svg">
   <div style="text-align:center">The OpenStreetMap logo</div>
@@ -11,7 +11,7 @@ The map is created and maintained by nearly 5 million registered users and more 
 
 The project has a very lean governance structure run entirely by the volunteers of the OpenStreetMap Foundation. Financial support comes from the OpenStreetMap Foundation members, including corporate members, as well as donations.
 
-## History
+## History <!-- {docsify-ignore} -->
 The idea for OpenStreetMap came about in 2003, when Steve Coast was working on a project for the UK government. He realized that there was a need for a free, open-source map of the world that could be easily edited and updated by anyone. In 2004, Coast launched the OpenStreetMap website and began to gather data from various sources, including GPS traces and aerial imagery.
 
 Over the next few years, the project grew rapidly, with the number of contributors and the amount of data increasing. In 2007, the OpenStreetMap Foundation was established to support the project and provide infrastructure for the community. Today, OpenStreetMap is one of the largest and most widely used open data projects in the world.
@@ -19,7 +19,7 @@ Over the next few years, the project grew rapidly, with the number of contributo
 ![The openstreetmap website](.//assets/images/id-editor-2023.png)
 <div style="text-align:center">idEditor - The official OpenStreetMap editor</div>
 
-## Uses
+## Uses <!-- {docsify-ignore} -->
 OpenStreetMap data is used in a wide variety of applications, including:
 
 Online maps: The most obvious use of OpenStreetMap data is in online maps, such as the main OpenStreetMap website. The data is also used by many other websites and apps that provide maps and location-based services, such as OpenRouteService, GraphHopper, and Mapbox.

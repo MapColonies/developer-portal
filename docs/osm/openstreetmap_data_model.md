@@ -1,4 +1,4 @@
-# OpenStreetMap Data Model
+# OpenStreetMap Data Model <!-- {docsify-ignore} -->
 The basic components of OpenStreetMap's conceptual data model of the physical world are called elements. Elements are of three types:
 
 - nodes (defining points in space)
@@ -9,7 +9,7 @@ All of the above can have one or more associated tags (which describe the meanin
 When Sharing or creating OSM entities, the most common way to describe said elements is XML.
 
 ![OpenStreetMap Entities](.//assets/images/OpenStreetMap_entities.png)
-## Node
+## Node <!-- {docsify-ignore} -->
 A **node** represents a specific point on the earth's surface defined by its latitude and longitude, referred to the World Geodetic System 1984. Each node comprises at least an id number and a pair of coordinates.
 
 Nodes can be used to define standalone point features. For example, a node could represent a park bench or a water well.
@@ -18,16 +18,16 @@ Nodes are also used to define the shape of a way. When used as points along ways
 
 A node can be included as member of relation. The relation also may indicate the member's role: that is, the node's function in this particular set of related data elements.
 
-## Way
+## Way <!-- {docsify-ignore} -->
 A **way** is an ordered list of between 1 (!) and 2,000 nodes that define a polyline. Ways are used to represent linear features such as rivers and roads.
 
-Ways can also represent the boundaries of areas (solid polygons) such as buildings or forests. In this case, the way's first and last node will be the same. This is called a "closed way". 
+Ways can also represent the boundaries of areas (solid polygons) such as buildings or forests. In this case, the way's first and last node will be the same. This is called a "closed way".
 
 Note that closed ways occasionally represent loops, such as roundabouts on highways, rather than solid areas. The way's tags must be examined to discover which it is. For elements with tags that could both be a linear representation or an area-representation of a real life object (such as `man_made=pier`) the tag `area=yes` or `area=no` can be used to avoid ambiguity or misinterpretation.
 
 Areas with holes, or with boundaries of more than 2,000 nodes, cannot be represented by a single way. Instead, the feature will require a more complex multipolygon relation data structure.
 
-## Relation
+## Relation <!-- {docsify-ignore} -->
 A **relation** is a multi-purpose data structure that documents a relationship between two or more data elements (nodes, ways, and/or other relations). Examples include:
 
 - A route relation, which lists the ways that form a major (numbered) highway, a cycle route, or a bus route.

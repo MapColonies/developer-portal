@@ -1,9 +1,9 @@
-# Address lookup
+# Address lookup <!-- {docsify-ignore} -->
 
 The lookup API allows to query the address and other details of one or
 multiple OSM objects like node, way or relation.
 
-## Parameters
+## Parameters <!-- {docsify-ignore} -->
 
 The lookup API has the following format:
 
@@ -17,18 +17,18 @@ can be queried at the same time.
 
 Additional optional parameters are explained below.
 
-### Output format
+### Output format <!-- {docsify-ignore} -->
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_output#output-formats) for details on each format. (Default: xml)
+See [Place Output Formats](/osm/nominatim/nominatim_output#output-formats) for details on each format. (Default: xml)
 
 * `json_callback=<string>`
 
 Wrap JSON output in a callback function (JSONP) i.e. `<string>(<json>)`.
 Only has an effect for JSON output formats.
 
-### Output details
+### Output details <!-- {docsify-ignore} -->
 
 * `addressdetails=[0|1]`
 
@@ -47,7 +47,7 @@ Include a list of alternative names in the results. These may include
 language variants, references, operator and brand. (Default: 0)
 
 
-### Language of results
+### Language of results <!-- {docsify-ignore} -->
 
 * `accept-language=<browser language string>`
 
@@ -56,7 +56,7 @@ specified in the "Accept-Language" HTTP header.
 Either use a standard RFC2616 accept-language string or a simple
 comma-separated list of language codes.
 
-### Polygon output
+### Polygon output <!-- {docsify-ignore} -->
 
 * `polygon_geojson=1`
 * `polygon_kml=1`
@@ -72,7 +72,7 @@ Return a simplified version of the output geometry. The parameter is the
 tolerance in degrees with which the geometry may differ from the original
 geometry. Topology is preserved in the result. (Default: 0.0)
 
-### Other
+### Other <!-- {docsify-ignore} -->
 
 * `email=<valid email address>`
 
@@ -86,9 +86,9 @@ Output assorted developer debug information. Data on internals of Nominatim's
 This overrides the specified machine readable format. (Default: 0)
 
 
-## Examples
+## Examples <!-- {docsify-ignore} -->
 
-##### XML
+##### XML <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821](<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821)
 
@@ -148,7 +148,7 @@ This overrides the specified machine readable format. (Default: 0)
   </lookupresults>
 ```
 
-##### JSON with extratags
+##### JSON with extratags <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=W44296789&format=json&extratags=1](<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=W44296789&format=json&extratags=1)
 

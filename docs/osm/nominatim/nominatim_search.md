@@ -1,4 +1,4 @@
-# Search queries
+# Search queries <!-- {docsify-ignore} -->
 
 The search API allows you to look up a location from a textual description
 or address. Nominatim supports structured and free-form search queries.
@@ -8,7 +8,7 @@ The search query may also contain
 which are translated into specific OpenStreetMap (OSM) tags (e.g. Pub => `amenity=pub`).
 This can be used to narrow down the kind of objects to be returned.
 
-## Parameters
+## Parameters <!-- {docsify-ignore} -->
 
 The search API has the following format:
 
@@ -40,11 +40,11 @@ The search term may be specified with two different sets of parameters:
 
 Both query forms accept the additional parameters listed below.
 
-### Output format
+### Output format <!-- {docsify-ignore} -->
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_output.md) for details on each format. (Default: jsonv2)
+See [Place Output Formats](/osm/nominatim/nominatim_output.md) for details on each format. (Default: jsonv2)
 
 
 * `json_callback=<string>`
@@ -52,7 +52,7 @@ See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_
 Wrap JSON output in a callback function `JSONP` i.e. `<string>(<json>)`.
 Only has an effect for JSON output formats.
 
-### Output details
+### Output details <!-- {docsify-ignore} -->
 
 * `addressdetails=[0|1]`
 
@@ -71,7 +71,7 @@ Include a list of alternative names in the results. These may include
 language variants, references, operator and brand. (Default: 0)
 
 
-### Language of results
+### Language of results <!-- {docsify-ignore} -->
 
 * `accept-language=<browser language string>`
 
@@ -80,7 +80,7 @@ specified in the ["Accept-Language" HTTP header](https://developer.mozilla.org/e
 Either use a standard RFC2616 accept-language string or a simple
 comma-separated list of language codes.
 
-### Result limitation
+### Result limitation <!-- {docsify-ignore} -->
 
 * `countrycodes=<countrycode>[,<countrycode>][,<countrycode>]...`
 
@@ -122,7 +122,7 @@ brackets, e.g. `[pub]` and a selection of objects of this type is returned.
 There is no guarantee that the result is complete. (Default: 0)
 
 
-### Polygon output
+### Polygon output <!-- {docsify-ignore} -->
 
 * `polygon_geojson=1`
 * `polygon_kml=1`
@@ -138,7 +138,7 @@ Return a simplified version of the output geometry. The parameter is the
 tolerance in degrees with which the geometry may differ from the original
 geometry. Topology is preserved in the result. (Default: 0.0)
 
-### Other
+### Other <!-- {docsify-ignore} -->
 
 * `email=<valid email address>`
 
@@ -161,10 +161,10 @@ This overrides the specified machine readable format. (Default: 0)
 
 
 
-## Examples
+## Examples <!-- {docsify-ignore} -->
 
 
-##### XML with kml polygon
+##### XML with kml polygon <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/search?q=נוה+שאנן+20+ירושלים&format=xml&polygon_geojson=1&addressdetails=1](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=נוה+שאנן+20+ירושלים&format=xml&polygon_geojson=1&addressdetails=1)
 
@@ -192,7 +192,7 @@ This overrides the specified machine readable format. (Default: 0)
   </searchresults>
 ```
 
-##### JSON with SVG polygon
+##### JSON with SVG polygon <!-- {docsify-ignore} -->
 
 [https://nominatim.openstreetmap.org/search/?q=שדרות+רוטשילד+תל+אביב&format=json&addressdetails=1&limit=1&polygon_svg=1](<VECTOR-NOMINATIM-SERVICE_URL>/search/?q=שדרות+רוטשילד+תל+אביב&format=json&addressdetails=1&limit=1&polygon_svg=1)
 
@@ -232,7 +232,7 @@ This overrides the specified machine readable format. (Default: 0)
     }
 ```
 
-##### JSON with address details
+##### JSON with address details <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/search?addressdetails=1&q=bakery+in+beer+sheba+&format=json&limit=1](<VECTOR-NOMINATIM-SERVICE_URL>/search?addressdetails=1&q=bakery+in+beer+sheba+&format=json&limit=1)
 
@@ -272,7 +272,7 @@ This overrides the specified machine readable format. (Default: 0)
     }
 ```
 
-##### GeoJSON
+##### GeoJSON <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/search?q=חורב+15+חיפה&format=geojson](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=חורב+15+חיפה&format=geojson)
 
@@ -313,7 +313,7 @@ This overrides the specified machine readable format. (Default: 0)
 }
 ```
 
-##### GeocodeJSON
+##### GeocodeJSON <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/search?q=הכותל+המערבי&format=geocodejson](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=הכותל+המערבי&format=geocodejson)
 

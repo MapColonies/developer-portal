@@ -1,11 +1,11 @@
-# Output formats
+# Output formats <!-- {docsify-ignore} -->
 
-The [/reverse](/getting-started/vector/services/nominatim/nominatim_reverse.md), [/search](/getting-started/vector/services/nominatim/nominatim_search.md) and [/lookup](/getting-started/vector/services/nominatim/nominatim_lookup.md)
+The [/reverse](/osm/nominatim/nominatim_reverse.md), [/search](/osm/nominatim/nominatim_search.md) and [/lookup](/osm/nominatim/nominatim_lookup.md)
 API calls produce very similar output which is explained in this section.
 There is one section for each format. The format correspond to what was
 selected via the `format` parameter.
 
-## JSON
+## JSON <!-- {docsify-ignore} -->
 
 The JSON format returns an array of places (for search and lookup) or
 a single place (for reverse) of the following format:
@@ -61,14 +61,14 @@ The possible fields are:
  * `geojson`, `svg`, `geotext`, `geokml` - full geometry
    (only with the appropriate `polygon_*` parameter)
 
-## JSONv2
+## JSONv2 <!-- {docsify-ignore} -->
 
 This is the same as the JSON format with two changes:
 
  * `class` renamed to `category`
  * additional field `place_rank` with the search rank of the object
 
-## GeoJSON
+## GeoJSON <!-- {docsify-ignore} -->
 
 This format follows the [RFC7946](https://geojson.org). Every feature includes
 a bounding box (`bbox`).
@@ -91,7 +91,7 @@ The properties object has the following fields:
 Use `polygon_geojson` to output the full geometry of the object instead
 of the centroid.
 
-## GeocodeJSON
+## GeocodeJSON <!-- {docsify-ignore} -->
 
 The GeocodeJSON format follows the
 [GeocodeJSON spec 0.1.0](https://github.com/geocoders/geocodejson-spec).
@@ -112,12 +112,12 @@ The following feature attributes are implemented:
 Use `polygon_geojson` to output the full geometry of the object instead
 of the centroid.
 
-## XML
+## XML <!-- {docsify-ignore} -->
 
 The XML response returns one or more place objects in slightly different
 formats depending on the API call.
 
-### Reverse
+### Reverse <!-- {docsify-ignore} -->
 
 ```
 <reversegeocode timestamp="Sat, 11 Aug 18 11:53:21 +0000"
@@ -162,7 +162,7 @@ The full address of the result can be found in the content of the
 Additional information requested with `addressdetails=1`, `extratags=1` and
 `namedetails=1` can be found in extra elements.
 
-### Search and Lookup
+### Search and Lookup <!-- {docsify-ignore} -->
 
 ```
 <searchresults timestamp="Sat, 11 Aug 18 11:55:35 +0000"
@@ -226,9 +226,9 @@ be found in extra elements as sub-element of `extratags` and `namedetails`
 respectively.
 
 
-## Notes on field values
+## Notes on field values <!-- {docsify-ignore} -->
 
-### place_id is not a persistent id
+### place_id is not a persistent id <!-- {docsify-ignore} -->
 
 The `place_id` is an internal identifier that is assigned data is imported
 into a Nominatim database. The same OSM object will have a different value
@@ -245,7 +245,7 @@ e.g. when a restaurant is retagged as supermarket.
 If you need an ID that is consistent over multiple installations of Nominatim,
 then you should use the combination of `osm_type`+`osm_id`+`class`.
 
-### OSM reference
+### OSM reference <!-- {docsify-ignore} -->
 
 Nominatim may sometimes return special objects that do not correspond directly
 to an object in OpenStreetMap. These are:
@@ -264,7 +264,7 @@ Please note that the `osm_type` and `osm_id` returned may be changed in the
 future. You should not expect to only find `node`, `way` and `relation` for
 the type.
 
-### boundingbox
+### boundingbox <!-- {docsify-ignore} -->
 
 Comma separated list of min latitude, max latitude, min longitude, max longitude.
 The whole planet would be `-90,90,-180,180`.
@@ -276,7 +276,7 @@ mapping library
 Bounds crossing the antimeridian have a min latitude -180 and max latitude 180,
 essentially covering the entire planet.
 
-### addressdetails
+### addressdetails <!-- {docsify-ignore} -->
 
 Address details in the xml and json formats return a list of names together
 with a designation label. Per default the following labels may appear:

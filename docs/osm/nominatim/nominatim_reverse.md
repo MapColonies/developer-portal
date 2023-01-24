@@ -1,8 +1,8 @@
-# Reverse Geocoding
+# Reverse Geocoding <!-- {docsify-ignore} -->
 
 Reverse geocoding generates an address from a latitude and longitude.
 
-## How it works
+## How it works <!-- {docsify-ignore} -->
 
 The reverse geocoding API does not exactly compute the address for the
 coordinate it receives. It works by finding the closest suitable OSM object
@@ -19,7 +19,7 @@ have a similar enough address to the coordinate you were requesting. For
 example, in dense city areas it may belong to a completely different street.
 
 
-## Parameters
+## Parameters <!-- {docsify-ignore} -->
 
 The main format of the reverse API is
 
@@ -35,22 +35,22 @@ Additional parameters are accepted as listed below.
 <div style="background:#ffedcc;padding:12px;line-height:24px;margin-bottom:24px">
   <p style="background:#f0b37e;font-weight: bold;display: block;color: #fff;margin: -12px;padding: 6px 12px;margin-bottom: 12px;">⚠️ "Deprecation warning"</p>
   <p style="color:#404040">The reverse API used to allow address lookup for a single OSM object by
-  its OSM id. This use is now deprecated. Use the <a href="/#/getting-started/vector/services/nominatim/nominatim_lookup?id=address-lookup">Address Lookup API</a>
+  its OSM id. This use is now deprecated. Use the <a href="/#/osm/nominatim/nominatim_lookup?id=address-lookup">Address Lookup API</a>
   instead.</p>
 </div>
 
-### Output format
+### Output format <!-- {docsify-ignore} -->
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/getting-started/vector/services/nominatim/nominatim_output.md) for details on each format. (Default: xml)
+See [Place Output Formats](/osm/nominatim/nominatim_output.md) for details on each format. (Default: xml)
 
 * `json_callback=<string>`
 
 Wrap JSON output in a callback function ([JSONP](https://en.wikipedia.org/wiki/JSONP)) i.e. `<string>(<json>)`.
 Only has an effect for JSON output formats.
 
-### Output details
+### Output details <!-- {docsify-ignore} -->
 
 * `addressdetails=[0|1]`
 
@@ -69,7 +69,7 @@ Include a list of alternative names in the results. These may include
 language variants, references, operator and brand. (Default: 0)
 
 
-### Language of results
+### Language of results <!-- {docsify-ignore} -->
 
 * `accept-language=<browser language string>`
 
@@ -78,7 +78,7 @@ specified in the "Accept-Language" HTTP header.
 Either use a standard RFC2616 accept-language string or a simple
 comma-separated list of language codes.
 
-### Result limitation
+### Result limitation <!-- {docsify-ignore} -->
 
 * `zoom=[0-18]`
 
@@ -99,7 +99,7 @@ In terms of address details the zoom levels are as follows:
   18  | building
 
 
-### Polygon output
+### Polygon output <!-- {docsify-ignore} -->
 
 * `polygon_geojson=1`
 * `polygon_kml=1`
@@ -115,7 +115,7 @@ Return a simplified version of the output geometry. The parameter is the
 tolerance in degrees with which the geometry may differ from the original
 geometry. Topology is preserved in the result. (Default: 0.0)
 
-### Other
+### Other <!-- {docsify-ignore} -->
 
 * `email=<valid email address>`
 
@@ -130,7 +130,7 @@ Output assorted developer debug information. Data on internals of Nominatim's
 This overrides the specified machine readable format. (Default: 0)
 
 
-## Examples
+## Examples <!-- {docsify-ignore} -->
 
 * [<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=xml&lat=31.770454150126838&lon=35.20109340043129&zoom=18&addressdetails=1](<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=xml&lat=31.770454150126838&lon=35.20109340043129&zoom=18&addressdetails=1)
 
@@ -200,7 +200,7 @@ This overrides the specified machine readable format. (Default: 0)
 }
 ```
 
-##### Example with `format=geojson`
+##### Example with `format=geojson` <!-- {docsify-ignore} -->
 
 * [<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=geojson&lat=31.258847882906082&lon=34.801318450147534](<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=geojson&lat=31.258847882906082&lon=34.801318450147534)
 
@@ -256,7 +256,7 @@ This overrides the specified machine readable format. (Default: 0)
 }
 ```
 
-##### Example with `format=geocodejson`
+##### Example with `format=geocodejson` <!-- {docsify-ignore} -->
 
 [<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=geocodejson&lat=31.77671359535347&lon=35.234473935516405](<VECTOR-NOMINATIM-SERVICE_URL>/reverse?format=geocodejson&lat=31.77671359535347&lon=35.234473935516405)
 
