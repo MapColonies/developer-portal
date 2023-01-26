@@ -44,7 +44,7 @@ Both query forms accept the additional parameters listed below.
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/osm/nominatim/nominatim_output.md) for details on each format. (Default: jsonv2)
+See [Place Output Formats](/OpenStreetMap/nominatim/output.md#output-formats) for details on each format. (Default: jsonv2)
 
 
 * `json_callback=<string>`

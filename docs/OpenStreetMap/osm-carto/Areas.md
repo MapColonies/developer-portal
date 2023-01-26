@@ -3,8 +3,6 @@
 Areas in the osm-carto tile layer denote various different things, from land usage to buildings to restricted access zones. A few areas may be drawn as a overlay. This means they can be combined with another background. For example, wetland can be combined with forest, grassland, etc.
 
 #### Table of Contents
-- [Areas](#areas)
-      - [Table of Contents](#table-of-contents)
   - [Nature](#nature)
   - [City planning](#city-planning)
   - [Buildings](#buildings)

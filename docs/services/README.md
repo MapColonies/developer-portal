@@ -12,7 +12,6 @@
 |            	| Query               	| `<VECTOR-QUERY-SERVICE_URL>`          	|
 |            	| Nominatim               	| `<VECTOR-QUERY-SERVICE_URL>`          	|
 |            	| Nominatim-UI               	| [<VECTOR-NOMINATIM-UI_URL>](<VECTOR-NOMINATIM-UI_URL>)          	|
-
 | **3D**     	|                     	|                                       	|
 |            	| Catalog             	| `<D3-CATALOG-SERVICE_URL>`            	|
 |            	| Map                 	| `<D3-MODEL-SERVING-SERVICE_URL>`      	|

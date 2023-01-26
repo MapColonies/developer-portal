@@ -1,9 +1,9 @@
 # OpenStreetMap Data Model <!-- {docsify-ignore} -->
 The basic components of OpenStreetMap's conceptual data model of the physical world are called elements. Elements are of three types:
 
-- nodes (defining points in space)
-- ways (defining linear features and area boundaries)
-- relations (which are sometimes used to explain how other elements work together).
+- **nodes** (defining points in space)
+- **ways** (defining linear features and area boundaries)
+- **relations** (which are sometimes used to explain how other elements work together).
 
 All of the above can have one or more associated tags (which describe the meaning of a particular element).
 When Sharing or creating OSM entities, the most common way to describe said elements is XML.
@@ -41,7 +41,7 @@ Each element can optionally have a role within the relation. For example, a turn
 
 A single element such as a particular way may appear multiple times in a relation.
 
-## Tag
+## Tag <!-- {docsify-ignore} -->
 All types of data element (nodes, ways and relations) can have tags. Tags describe the meaning of the particular element to which they are attached.
 
 A tag consists of two free format text fields; a 'key' and a 'value'. Each of these are Unicode strings of up to 255 characters. For example, `highway=residential` defines the way as a road whose main function is to give access to people's homes. An element cannot have 2 tags with the same 'key', the 'key's must be unique. For example, you cannot have an element tagged both `amenity=restaurant` and `amenity=bar`.

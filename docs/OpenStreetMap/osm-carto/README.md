@@ -1,28 +1,28 @@
-# OpenStreetMap Carto
+# OpenStreetMap Carto <!-- {docsify-ignore} -->
 ![The openstreetmap website](.//assets/images/osm-carto/osm-carto.png)
 OpenStreetMap Carto (or OSM Carto or osm-carto for short) is an open-source stylesheet for rendering OpenStreetMap data to raster tiles. Since 2013, the main OpenStreetMap homepage has featured OSM Carto tiles as the default tile layer.
 
-## How to use
+## How to use <!-- {docsify-ignore} -->
 The style can be consumed as a raster tiles layer from Raster team services.
 For more information check [Raster step by step guide](/getting-started/raster/raster_step-by-step).
 
-## What did we do
+## What did we do <!-- {docsify-ignore} -->
 As this stylesheet is an open-source, we had to make a few minor changes compared to the original one.
 - We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/terms/terms?id=mapping).
 - We modified the database insertion script to prefer names in Hebrew and English when possible.
 - We imported data from the Natural Earth dataset in places where we didn't import OSM data.
 
-## Style key
-- [Symbols](/getting-started/vector/openstreetmap_symbols#symbols)
-- [Lines](/getting-started/vector/openstreetmap_lines#lines)
-- [Areas](/getting-started/vector/openstreetmap_areas#areas)
+## Style key <!-- {docsify-ignore} -->
+- [Symbols](/OpenStreetMap/osm-carto/Symbols#symbols)
+- [Lines](/OpenStreetMap/osm-carto/Lines#lines)
+- [Areas](/OpenStreetMap/osm-carto/Areas#areas)
 
-## "My house doesn't appears on the map, fix it 😡"
+## "My house doesn't appears on the map, fix it 😡" <!-- {docsify-ignore} -->
 First, we are sorry, but its not our fault 🤷
 
 We import the data as is from the internet, without any change or modification to maintain authenticity. Because OpenStreetMap is free and Open Source, you can go on their website at `openstreetmap.org`, and make the changes yourself. Be sure to read the guidelines before making any change to avoid it being removed.
 
-## Stylesheet design goals
+## Stylesheet design goals <!-- {docsify-ignore} -->
 <small>Taken from the project repository</small>
 ### General purpose
 

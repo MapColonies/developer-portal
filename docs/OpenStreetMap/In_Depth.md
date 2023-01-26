@@ -22,12 +22,12 @@ Over the next few years, the project grew rapidly, with the number of contributo
 ## Uses <!-- {docsify-ignore} -->
 OpenStreetMap data is used in a wide variety of applications, including:
 
-Online maps: The most obvious use of OpenStreetMap data is in online maps, such as the main OpenStreetMap website. The data is also used by many other websites and apps that provide maps and location-based services, such as OpenRouteService, GraphHopper, and Mapbox.
+**Online maps:** The most obvious use of OpenStreetMap data is in online maps, such as the main OpenStreetMap website. The data is also used by many other websites and apps that provide maps and location-based services, such as OpenRouteService, GraphHopper, and Mapbox.
 
-GIS: OpenStreetMap data is also used in Geographic Information Systems (GIS) for a wide range of applications, such as land use planning, emergency response, and environmental monitoring.
+**GIS:** OpenStreetMap data is also used in Geographic Information Systems (GIS) for a wide range of applications, such as land use planning, emergency response, and environmental monitoring.
 
-Navigation: OpenStreetMap data is used by many navigation apps and devices, such as OsmAnd, Navit, and OpenFietsMap.
+**Navigation:** OpenStreetMap data is used by many navigation apps and devices, such as OsmAnd, Navit, and OpenFietsMap.
 
-Humanitarian aid: OpenStreetMap data is often used in disaster response and humanitarian aid efforts, as it can be quickly and easily updated to reflect changes on the ground.
+**Humanitarian aid:** OpenStreetMap data is often used in disaster response and humanitarian aid efforts, as it can be quickly and easily updated to reflect changes on the ground.
 
 Overall, OpenStreetMap provides a valuable resource for many different fields, from online maps and navigation to GIS and humanitarian aid. With the data constantly updated by a community of volunteers, it offers a reliable and accurate map of the world.
