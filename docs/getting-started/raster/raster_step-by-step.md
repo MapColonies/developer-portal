@@ -9,7 +9,7 @@ The following guide will help you understand, ***Step-by-step*** the best practi
 > :satisfied: **You can see fully functional example &nbsp; [Raster Example](.//assets/examples/raster/index.html)**
 
 
-## Flow diagram
+## Flow diagram <!-- {docsify-ignore} -->
 
 The following flow will show you one of our main use-case's
 
@@ -35,12 +35,12 @@ flowchart LR
     C -- layer_params --> D
 ```
 
-## Query CSW catalog (Step 1)
+## Query CSW catalog (Step 1) <!-- {docsify-ignore} -->
 Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/catalog-information/query-examples.md).
 
 > :information_source: Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
 
-There are a few ways to aquire the productId, for example:
+There are a few ways to acquire the productId, for example:
 
 1. By product type [‘mc:productType‘ profile field](/catalog-information/v1_0/raster_profile.md), for example to get the world "Best" map we query by productType is "OrthophotoBest"
 
@@ -184,7 +184,7 @@ You will get GetRecords XML Response with product **metadata**.
 > :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
 > **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
 
-## Extract product BBOX (Step 2)
+## Extract product BBOX (Step 2) <!-- {docsify-ignore} -->
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
 In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
 
@@ -209,7 +209,7 @@ export const generateLayerRectangle = (layer: LayerRasterRecord): Rectangle => {
 ```
 After you’ve got your product BBOX lets move to the next step…
 
-## Get layer URI (Step 3)
+## Get layer URI (Step 3) <!-- {docsify-ignore} -->
 In the Response, look for
 
 > Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
@@ -230,7 +230,7 @@ You need to save `[desired_layer_identifier]` value for later use.
 > :information_source: **You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
 
 
-## Get Layer Capabilities (Step 4)
+## Get Layer Capabilities (Step 4) <!-- {docsify-ignore} -->
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
 First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
 
@@ -255,7 +255,7 @@ You need to **save** the following values in order to consume the layer later on
 > `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well
 
 
-## Construct Client side LAYER (Step 5)
+## Construct Client side LAYER (Step 5) <!-- {docsify-ignore} -->
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 > :warning: **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 
@@ -311,7 +311,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
-    
+
     const parser = new WMTSCapabilities();
     const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
@@ -328,7 +328,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ```
 - Note - **extent** taken from step 2 - where bbox is calculated.
 
-## Enrich Layer data (Step 6)
+## Enrich Layer data (Step 6) <!-- {docsify-ignore} -->
 In order to present catalog items in your system you can use following fields:
 
 - **mc:productName**
