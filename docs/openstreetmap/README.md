@@ -9,7 +9,7 @@ OpenStreetMap (OSM) is a free, open geographic database updated and maintained b
 We believe that any additional data is welcome, and because OpenStreetMap is the de-facto standard in mapping in the internet today, we should also import the data and as many services as possible.
 
 ## Available OSM based products <!-- {docsify-ignore} -->
-- [OSM Carto](/OpenStreetMap/osm-carto/README.md#openstreetmap-carto) The default OSM raster tile layer style.
+- [OSM Carto](/openstreetmap/osm-carto/README.md#openstreetmap-carto) The default OSM raster tile layer style.
 - [Nominatim](/getting-started/vector/services/nominatim_service#nominatim) OpenStreetMap based GeoCoding and Reverse GeoCoding service.
 
 ## Future OSM based products <!-- {docsify-ignore} -->
@@ -18,6 +18,6 @@ We believe that any additional data is welcome, and because OpenStreetMap is the
 - Additional styles
 
 ## Additional information about OSM <!-- {docsify-ignore} -->
-- [OSM Deep Dive](/OpenStreetMap/In_Depth.md#openstreetmap-in-depth) More about the project and it's history.
-- [OSM Data Model](/OpenStreetMap/Data_Model.md#openstreetmap-data-model) About the "building blocks" OSM uses to describe the world.
-- [OSM Users](/OpenStreetMap/Users.md#openstreetmap-users) A partial list of organizations and companies that use OpenStreetMap.
+- [OSM Deep Dive](/openstreetmap/in_depth.md#openstreetmap-in-depth) More about the project and it's history.
+- [OSM Data Model](/openstreetmap/data_model.md#openstreetmap-data-model) About the "building blocks" OSM uses to describe the world.
+- [OSM Users](/openstreetmap/users.md#openstreetmap-users) A partial list of organizations and companies that use OpenStreetMap.

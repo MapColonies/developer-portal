@@ -11,7 +11,7 @@
 * [Available Services](services/README.md)
 * [Domains](getting-started/README.md#introduction)
 * [OGC Standard Protocols](/ogc-protocols/README.md)
-* [OpenStreetMap](/OpenStreetMap/)
+* [OpenStreetMap](/openstreetmap/)
 * [Catalog Querying](/catalog-information/README.md)
 * [Usage Tips](/usage-tips/README.md)
 * [Examples](/examples/README.md)

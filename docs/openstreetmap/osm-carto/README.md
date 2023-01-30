@@ -13,9 +13,9 @@ As this stylesheet is an open-source, we had to make a few minor changes compare
 - We imported data from the Natural Earth dataset in places where we didn't import OSM data.
 
 ## Style key <!-- {docsify-ignore} -->
-- [Symbols](/OpenStreetMap/osm-carto/Symbols#symbols)
-- [Lines](/OpenStreetMap/osm-carto/Lines#lines)
-- [Areas](/OpenStreetMap/osm-carto/Areas#areas)
+- [Symbols](/openstreetmap/osm-carto/symbols#symbols)
+- [Lines](/openstreetmap/osm-carto/lines#lines)
+- [Areas](/openstreetmap/osm-carto/areas#areas)
 
 ## "My house doesn't appears on the map, fix it 😡" <!-- {docsify-ignore} -->
 First, we are sorry, but its not our fault 🤷

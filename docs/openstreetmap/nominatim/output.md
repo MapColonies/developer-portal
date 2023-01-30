@@ -1,6 +1,6 @@
 # Output formats <!-- {docsify-ignore} -->
 
-The [/reverse](/OpenStreetMap/nominatim/reverse.md#reverse-geocoding), [/search](/OpenStreetMap/nominatim/search.md#search-queries) and [/lookup](/OpenStreetMap/nominatim/lookup.md#address-lookup)
+The [/reverse](/openstreetmap/nominatim/reverse.md#reverse-geocoding), [/search](/openstreetmap/nominatim/search.md#search-queries) and [/lookup](/openstreetmap/nominatim/lookup.md#address-lookup)
 API calls produce very similar output which is explained in this section.
 There is one section for each format. The format correspond to what was
 selected via the `format` parameter.

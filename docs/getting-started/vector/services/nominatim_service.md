@@ -6,9 +6,9 @@ Nominatim (from the Latin, 'by name') is a tool to search OpenStreetMap data by 
 Nominatim indexes named (or numbered) features within the OpenStreetMap (OSM) dataset and a subset of other unnamed features (pubs, hotels, churches, etc).
 
 Its API has the following endpoints for querying the data:
- * __[/search](/OpenStreetMap/nominatim/search.md#search-queries)__ - search OSM objects by name or type
- * __[/reverse](/OpenStreetMap/nominatim/reverse.md#reverse-geocoding)__ - search OSM object by their location
- * __[/lookup](/OpenStreetMap/nominatim/lookup.md#address-lookup)__ - look up address details for OSM objects by their ID
+ * __[/search](/openstreetmap/nominatim/search.md#search-queries)__ - search OSM objects by name or type
+ * __[/reverse](/openstreetmap/nominatim/reverse.md#reverse-geocoding)__ - search OSM object by their location
+ * __[/lookup](/openstreetmap/nominatim/lookup.md#address-lookup)__ - look up address details for OSM objects by their ID
 
 ## Nominatim UI
 Nominatim is a search API, it does not provide a website interface on its own. nominatim-ui offers a small website for trying Nominatim and inspecting the database content.
@@ -16,7 +16,7 @@ You can use the UI at the following address:[<VECTOR-NOMINATIM-UI_URL>](<VECTOR-
 
 
 ## I'm getting bad results
-Please check the [FAQ page](/OpenStreetMap/nominatim/faq#frequently-asked-questions) and check if there is a solution to your problem there. If the problem persists don't hesitate to contact us.
+Please check the [FAQ page](/openstreetmap/nominatim/faq#frequently-asked-questions) and check if there is a solution to your problem there. If the problem persists don't hesitate to contact us.
 
 ## "I can't find my home address, do something about it 😡"
 First, we are sorry, but its not our fault 🤷

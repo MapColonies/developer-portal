@@ -43,7 +43,7 @@ Additional parameters are accepted as listed below.
 
 * `format=[xml|json|jsonv2|geojson|geocodejson]`
 
-See [Place Output Formats](/OpenStreetMap/nominatim/output.md#output-formats) for details on each format. (Default: xml)
+See [Place Output Formats](/openstreetmap/nominatim/output.md#output-formats) for details on each format. (Default: xml)
 
 * `json_callback=<string>`
 
