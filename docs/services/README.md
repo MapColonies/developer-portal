@@ -1,4 +1,4 @@
-# MapColonies available services
+# MapColonies Available Services
 
 |   Domain   	|       Service       	|                  URL                  	|
 |:----------:	|:-------------------:	|:-------------------------------------:	|
@@ -15,10 +15,7 @@
 | **3D**     	|                     	|                                       	|
 |            	| Catalog             	| `<D3-CATALOG-SERVICE_URL>`            	|
 |            	| Map                 	| `<D3-MODEL-SERVING-SERVICE_URL>`      	|
-| **DEM**        	|                     	|                                       	|
-|            	| Catalog             	| `<DEM-CATALOG-SERVICE_URL>`           	|
-|            	| Superior            	| `<DEM-SUPERIOR-SERVICE_URL>`          	|
-|            	| Map                 	| `<DEM-DEM-SERVING-SERVICE_URL>`       	|
+
 <style>
   table code {
     white-space: nowrap;
