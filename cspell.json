@@ -58,7 +58,8 @@
         "nillable",
         "shapefile",
         "describefeaturetype",
-        "getfeature"
+        "getfeature",
+        "GPKG"
     ],
     "flagWords": [
     ]

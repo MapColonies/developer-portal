@@ -1,4 +1,4 @@
-# Usage Tips
+# Usage Tips <!-- {docsify-ignore-all} -->
 
 ## WMTS layer **rectangle**
 It is important to specify the extent/rectangle as BBOX derived from layer's footprint in order to properly consume the existing tiles for the layer, it will improve layer on-map performance.<br/>

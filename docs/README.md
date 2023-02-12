@@ -16,4 +16,3 @@
 * [Usage Tips](/usage-tips/README.md)
 * [Examples](/examples/README.md)
 * [Library](/library/README.md)
-* [Contact us](/classified/contact_us.md)
