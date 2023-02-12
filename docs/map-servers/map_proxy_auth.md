@@ -2,7 +2,7 @@
 
 ## Map Component <!-- {docsify-ignore} -->
 
-> :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
+> :information_desk_person: In order to enquire **auth token**
 
 On web clients, when using a Map Component such as Cesium for example, you will need to supply your token in custom **header** `x-api-key` or **query parameter** `token` as such:
 

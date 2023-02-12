@@ -1,5 +1,7 @@
 # 3D Tile Server
 
+> :heavy_exclamation_mark: Hardware Acceleration for WebGL / WebGL2 is crucial for 3D tiles rendering performance for more info click [here](/usage-tips/hardware_acceleration.md)
+
 In 3D, the 3DTiles server uses the [XYZ protocol](../../../library/xyz-protocol.md) to serve the models files.
 
 **How does it work?**

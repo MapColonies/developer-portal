@@ -1,7 +1,7 @@
 # Data Coverage Service Authentication
 The following section will help you understand how to make authenticated requests to our Data Coverage (Superior DEM) services.
 
-> :information_desk_person: In order to enquire **auth token**, please [contact us](/classified/contact_us.md).
+> :information_desk_person: In order to enquire **auth token**
 
 When making **any** request to our CSW services, the `x-api-key` **header** or `token` **query parameter** must be supplied.<br/>
 If token doesn't supplied then the request will get a **403** http response code.

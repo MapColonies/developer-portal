@@ -8,4 +8,3 @@
   * [Raster](/classified/raster/product_sub_type.md)
 - Docs
   * [Vector](/classified/vector/docs.md)
-- [Contact us](/classified/contact_us.md)
