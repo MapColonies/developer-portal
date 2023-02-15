@@ -92,7 +92,7 @@ body (XML):
 </csw:GetRecords>
 ```
 
-If you already have the ***productId*** you can use the following query (***productId*** can also be coppied from our catalog app):
+To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for ***Best Orthophoto*** use the following):
 
 ```
 POST Request
@@ -102,17 +102,25 @@ url:
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="10"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
   <csw:Query typeNames="mc:MCRasterRecord">
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
-          <PropertyName>mc:productId</PropertyName>
-          <!-- ****** INSERT LAYER LAYER ID START ********************** -->
-          <Literal>bluemarble_5km</Literal>
-          <!-- ****** INSERT LAYER LAYER ID END ************************ -->
-        </PropertyIsLike>
+  		<And>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productId</PropertyName>
+            <!-- ****** INSERT LAYER LAYER ID START ********************** -->
+	          <Literal>ORTHOPHOTO_MOSAIC_BASE</Literal>
+            <!-- ****** INSERT LAYER LAYER ID END ************************ -->
+	        </PropertyIsEqualTo>
+	        <PropertyIsEqualTo matchCase="true">
+	          <PropertyName>mc:productType</PropertyName>
+            <!-- ****** INSERT LAYER LAYER TYPE START ********************** -->
+	          <Literal>OrthophotoBest</Literal>
+            <!-- ****** INSERT LAYER LAYER TYPE END ************************ -->
+	        </PropertyIsEqualTo>
+        </And>
       </Filter>
     </csw:Constraint>
   </csw:Query>
@@ -140,19 +148,17 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:ingestionDate>2022-02-13T13:04:23Z</mc:ingestionDate>
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:layerPolygonParts>{"bbox":[],"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[],[]]]},"properties":{}}]}</mc:layerPolygonParts>
-                <mc:links scheme="WMS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMS_BASE" name="bluemarble_5km"
-                description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
-                <mc:links scheme="WMTS" name="bluemarble_5km" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
-                <mc:links scheme="WMTS_BASE" name="bluemarble_5km"
-                description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
+                <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
+                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
+                <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
-                <mc:productId>bluemarble_5km</mc:productId>
-                <mc:productName>bluemarble_5cm</mc:productName>
-                <mc:productType>OrthophotoHistory</mc:productType>
-                <mc:productVersion>4.0</mc:productVersion>
+                <mc:productId>ORTHOPHOTO_MOSAIC_BASE</mc:productId>
+                <mc:productName>אורתופוטו מתעדכן</mc:productName>
+                <mc:productType>OrthophotoBest</mc:productType>
+                <mc:productVersion>1.0</mc:productVersion>
                 <mc:region>World</mc:region>
                 <mc:maxResolutionDeg>0.000171661376953125</mc:maxResolutionDeg>
                 <mc:sensors>UNDEFINED</mc:sensors>
@@ -160,6 +166,7 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:imagingTimeBeginUTC>2020-05-21</mc:imagingTimeBeginUTC>
                 <mc:SRS>4326</mc:SRS>
                 <mc:SRSName>WGS84GEO</mc:SRSName>
+                <mc:transparency>OPAQUE</mc:transparency>
                 <mc:type>RECORD_RASTER</mc:type>
                 <mc:updateDateUTC>2022-02-13T13:03:07Z</mc:updateDateUTC>
                 <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
@@ -206,7 +213,7 @@ In the Response, look for
 > Note: WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
 
 ``` xml
-`<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
@@ -220,18 +227,15 @@ You need to save `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4)
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
-Option 1
-You can go to the next URL below with your browser or just send GET request to:
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS
-```
-Option 2
-Use the ***WMTS*** scheme with its already built in GET query
-```
-<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml
+First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
+
+``` xml
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
 ```
 
-Response will contain the details of **all** available layers in following format.
+Make a GET request to this link. The response contains the details of **all** available layers in following format.
 <figure>
     <img src="./assets/images/getcapabilities_response.png" style="display: block;margin-left: auto;margin-right: auto;">
 </figure>
@@ -267,7 +271,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       //  headers: { 'X-API-KEY': RASTER_TOKEN },       // received RASTER auth token
       //  queryParameters: { 'token': RASTER_TOKEN },   // received RASTER auth token -
       //}),
-      layer : '<LAYER_PRODUCT_ID>',                     // from Step_1
+      layer : '[desired_layer_identifier]',             // from Step_3
       style : '<LAYER_STYLE>',                          // from Step_4
       format : '<LAYER_FORMAT>',                        // from Step_4
       tileMatrixSetID : '<LAYER_TILE_MATRIX_SET_ID>',   // from Step_4
@@ -297,38 +301,27 @@ Replace all `<>` place holders with the real values that we got from all previou
 - tilingScheme - see [Usage Tips](/usage-tips/README.md)
 - rectangle - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2](#step-2).
 
-### OpenLayers
+### OpenLayers (6.x)
 ```javascript
 ...
 ...
 ...
+    
+    const parser = new WMTSCapabilities();
+    const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
+    const capabilitiesText = await capabilitiesResponse.text();
+    const parserResult = parser.read(capabilitiesText);
+    const layerOptions = optionsFromCapabilities(parserResult, {
+      layer: '[desired_layer_identifier]'                                     // from Step_3
+    });
+    const layer = new TileLayer({ source: new WMTS(layerOptions), extent });  // from Step_2
 
-    const catalogLayer = new TileLayer({
-          opacity: 1,
-          extent: <LAYER_EXTENT>                          // from Step_2
-          source: new WMTS({
-            name: '<LAYER_PRODUCT_ID>',                   // from Step_1
-            url: '<LAYER_WMTS_URL>',                      // from Step_3 or Step_4
-            layer: '<LAYER_PRODUCT_ID>',                  // from Step_1
-            matrixSet: '<LAYER_TILE_MATRIX_SET_ID>',      // from Step_4
-            format: '<LAYER_FORMAT>',                     // from Step_4
-            isBaseLayer: true,
-            style: '<LAYER_STYLE>',                       // from Step_4
-            requestEncoding: 'REST'
-          }),
-    }),
-
-    map.addLayer(catalogLayer)
+    map.addLayer(layer);
 ...
 ...
 ...
 ```
-- extent - value should be the BBOX (extent) that you got from [Step 2](#step-2).
-- url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
-- layer - should be replaced with layer Product ID.
-- matrixSetID -from Response from [Step 4](#step-4).
-- style - should be replaced with the value that you got from [Step 4](#step-4).
-- format - should be replaced with the value that you got from [Step 4](#step-4).
+- Note - **extent** taken from step 2 - where bbox is calculated.
 
 ## Enrich Layer data (Step 6)
 In order to present catalog items in your system you can use following fields:
