@@ -12,7 +12,9 @@
 </div>
 
 
-- [Release Notes](/release-notes/2022-Q3-02.md)
+- [Release Notes](/release-notes/2022-Q4.md)
+  * [2022-Q4](/release-notes/2022-Q4.md)
+  * [2022-Q3-02](/release-notes/2022-Q3-02.md)
 * [Available Services](/services/README.md)
 * [Terms and Abbreviations](/terms/terms.md)
 * [Authentication](/auth/auth.md)
@@ -22,21 +24,18 @@
     * [Services](/getting-started/raster/raster_services.md)
     * [Authentication](/getting-started/raster/auth/raster_authentication.md)
     * [Catalog Profile (v1.0)](/catalog-information/v1_0/raster_profile.md)
-    * [Step-by-step](/getting-started/raster/raster_step-by-step.md)
+    - [Step-by-step](/getting-started/raster/raster_step-by-step.md)
   * [3D](/getting-started/3D/3D_overview.md)
     * [Services](/getting-started/3D/3D_services.md)
     * [Authentication](/getting-started/3D/auth/3D_authentication.md)
     * Catalog Profiles
       * [v1.0](/catalog-information/v1_0/3D_profile.md)
       * [v2.0](/catalog-information/v2_0/3D_profile.md)
-    * [Step-by-step](/getting-started/3D/3D_step-by-step.md)
-      * [v1.0](/catalog-information/v1_0/3d_profile.md)
-      * [v2.0](/catalog-information/v2_0/3d_profile.md)
     * Guides
-      * [Step-by-step](/getting-started/3d/3d_step-by-step.md)
+      * [Step-by-step](/getting-started/3D/guides/3D_step-by-step.md)
       * QMesh
-        * [Height Extraction](/getting-started/3d/3d_terrain_height_extraction.md)
-        * [Min-Max Height Extraction](/getting-started/3d/3d_terrain_min_max_height_extraction.md)
+        * [Height Extraction](/getting-started/3D/guides/3D_terrain_height_extraction.md)
+        * [Min-Max Height Extraction](/getting-started/3D/guides/3D_terrain_min_max_height_extraction.md)
   * [Vector](/getting-started/vector/vector_overview.md)
     * [Services](/getting-started/vector/vector_services.md)
 - [Standard Protocols](/ogc-protocols/README.md)
@@ -47,6 +46,16 @@
     * [WCS - Web Coverage Service](/ogc-protocols/ogc-wcs.md)
     * [WFS - Web Feature Service](/ogc-protocols/ogc-wfs.md)
   - [XYZ](/library/xyz-protocol.md)
+- [OpenStreetMap](/openstreetmap/)
+    * [Deep Dive](/openstreetmap/in_depth.md)
+    * [Data model](/openstreetmap/data_model.md)
+    * [Users](/openstreetmap/users.md)
+  * [OpenStreetMap Carto](/openstreetmap/osm-carto/)
+    * [Symbols](/openstreetmap/osm-carto/symbols.md)
+    * [Lines](/openstreetmap/osm-carto/lines.md)
+    * [Areas](/openstreetmap/osm-carto/areas.md)
+
+
 - [Catalog Querying](/catalog-information/README.md)
   * [Links of CSW catalog item](/catalog-information/csw_links.md)
   * [Query Examples](/catalog-information/query-examples.md)

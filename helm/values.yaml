@@ -30,6 +30,8 @@ env:
   DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
   VECTOR_QUERY_SERVICE_URL: "https://wfs.com"
   VECTOR_REPLICATION_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  VECTOR-NOMINATIM-SERVICE_URL: "https://www.youtube.com/watch?v=9jK-NcRmVcw"
+  VECTOR-NOMINATIM-UI_URL: "https://nominatim-ui.com"
   APP_CATALOG_URL: "http://catalog_app.com"
   API_KEY: "API_KEY"
   EMOJI_CODE: "false"
@@ -38,6 +40,8 @@ env:
   ## Releases
   R1_STAGE_DATE_SERVICE_URL: "2022-10-20"
   R1_PROD_DATE_SERVICE_URL: "2022-10-20"
+  R2_STAGE_DATE_SERVICE_URL: "2023-01-19"
+  R2_STAGE_DATE_SERVICE_URL: "2023-01-19"
 resources:
   enabled: true
   value:
