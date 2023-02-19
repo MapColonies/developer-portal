@@ -4,7 +4,49 @@
  > :no_entry: **Authentication must be integrated in order to communicate with export service.**<br/>
 > **See the principles [here](/getting-started/raster/raster_authentication.md)**
 
-Export OpenAPI (Swagger)
+Export Service consists of /create POST message that allows users that have a valid token to create & download a GPKG file
+
+1. Request Parameters - The POST message can receive the following request parameters:
+    1. dbId - Raster Catalog Record DB ID
+    2. bbox - one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty)
+        3. Bounding box corners (lower left, upper right)=[minx,miny,maxx,maxy] in crs units as array. 
+        4. GeoJSon geometry of Polygon or MultiPolygon type
+        5. If empty - original layer's footprint is taken.
+    3. targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL)
+    4. callbackURLs - webhook to call when GPKG creation is complete
+    5. crs - Target CRS for the GPKG to be created with (currently only "EPSG:4326" is supported)
+    6. priority - Optional field to set the priority of the export task
+2. Response Parameters - The POST message can return the following response parameters:
+    1. json object for newly created or "In progress" export task
+        - status: "In-Progress" - Status of the export task
+        - id: uuid - unique identifier for export request
+        - taskIds: uuid[] -  unique identifier for inner tasks of export request
+    2. json object for completed task
+        - status: "Completed" - Status of the export task
+        - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
+        - fileUri: string - download link for the exported GPKG file
+        - expirationTime: string($date) - date when the exported file will be deleted
+        - fileSize: number - GPKG file size in bytes
+        - dbId: uuid - Raster Catalog Record DB ID - from orginal request
+        - packageName: string - the GPKG file name
+        - bbox: one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty) - from orginal request
+        - targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL) - from orginal request
+        - success: boolean - whether the export task was successfull
+        - errorReason: string - if export task was unsuccessful this field will describe the error
+3. Callback response object:
+    - json object for newly created or "In progress" export task
+    - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
+    - fileUri: string - download link for the exported GPKG file
+    - expirationTime: string($date) - date when the exported file will be deleted
+    - fileSize: number - GPKG file size in bytes
+    - dbId: uuid - Raster Catalog Record DB ID - from orginal request
+    - packageName: string - the GPKG file name
+    - bbox: one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty) - from orginal request
+    - targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL) - from orginal request
+    - success: boolean - whether the export task was successfull
+    - errorReason: string - if export task was unsuccessful this field will describe the error
+
+Appendix 1: Export OpenAPI (Swagger)
 
 <figure>
     <img src="./assets/images/raster_exporter_openapi.png" style="display: block;margin-left: auto;margin-right: auto;">
