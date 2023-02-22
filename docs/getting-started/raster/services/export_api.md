@@ -1,40 +1,46 @@
-# Export Service :card_file_box:
- The export module is responsible for packaging mapping data that can be downloaded by clients or transferred to other systems. Export can be requested for various mapping products within a specific region. The export module exposes an API and Web-based tool.
+# Export Service 📦
 
- > :no_entry: **Authentication must be integrated in order to communicate with export service.**<br/>
+## Purpose
+The export service is responsible for packaging mapping data that can be downloaded by clients or transferred to other systems. Export can be requested for various mapping products within a specific region. The export module exposes an API and Web-based tool.
+
+## Usage
+You can create export tasks via the Exporter-Trigger service API.
+
+> ⚠️ **Authentication must be integrated in order to communicate with export service.**<br/>
 > **See the principles [here](/getting-started/raster/raster_authentication.md)**
 
-Export Service consists of /create POST message that allows users that have a valid token to create & download a GPKG file
+You can see the full OpenAPI spec [here](<RASTER-EXPORT-SERVICE_URL>/docs/api)
 
-1. Request Parameters - The POST message can receive the following request parameters:
-    1. dbId - Raster Catalog Record DB ID
-    2. bbox - one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty)
-        3. Bounding box corners (lower left, upper right)=[minx,miny,maxx,maxy] in crs units as array. 
-        4. GeoJSon geometry of Polygon or MultiPolygon type
-        5. If empty - original layer's footprint is taken.
-    3. targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL)
-    4. callbackURLs - webhook to call when GPKG creation is complete
-    5. crs - Target CRS for the GPKG to be created with (currently only "EPSG:4326" is supported)
-    6. priority - Optional field to set the priority of the export task
-2. Response Parameters - The POST message can return the following response parameters:
-    1. json object for newly created or "In progress" export task
-        - status: "In-Progress" - Status of the export task
-        - id: uuid - unique identifier for export request
-        - taskIds: uuid[] -  unique identifier for inner tasks of export request
-    2. json object for completed task
-        - status: "Completed" - Status of the export task
-        - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
-        - fileUri: string - download link for the exported GPKG file
-        - expirationTime: string($date) - date when the exported file will be deleted
-        - fileSize: number - GPKG file size in bytes
-        - dbId: uuid - Raster Catalog Record DB ID - from orginal request
-        - packageName: string - the GPKG file name
-        - bbox: one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty) - from orginal request
-        - targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL) - from orginal request
-        - success: boolean - whether the export task was successfull
-        - errorReason: string - if export task was unsuccessful this field will describe the error
-3. Callback response object:
-    - json object for newly created or "In progress" export task
+The API consists of one method:
+1. create - you can create a new export task, if the requested task params were previously created they are returned in the response, else via provided webhook
+
+## Files structure
+
+#### GPKG
+SQLite DB file that contains all the necessary tiles
+for more details view:
+- **http://www.geopackage.org/spec/**
+- **https://www.sqlite.org/index.html**
+
+Our specification consists of the following:
+- terms [here](/getting-started/raster/raster_must_know_terms?id=Terms)
+- tiling scheme (World CRS84 TileMatrixSet) [here](/getting-started/raster/raster_must_know_terms?id=raster-tiling-scheme-in-detail)
+- file extension: ".gpkg"
+
+#### Metadata
+JSON file that contains the record metadata such as footprint and resolution
+- file extension: ".JSON"
+- provided fields follow the profile convention [here](/catalog-information/v1_0/raster_profile)
+
+
+
+### Important Notes
+1. The data is returned via callback response or on request response (structure in appendix 1)
+2. To download the data one needs to use authentication token
+3. To download the "metadta.json" file, write the GPKG url and change the sufix to ".json"
+
+
+### Appendix 1 - Callback response structure
     - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
     - fileUri: string - download link for the exported GPKG file
     - expirationTime: string($date) - date when the exported file will be deleted
@@ -45,216 +51,3 @@ Export Service consists of /create POST message that allows users that have a va
     - targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL) - from orginal request
     - success: boolean - whether the export task was successfull
     - errorReason: string - if export task was unsuccessful this field will describe the error
-
-Appendix 1: Export OpenAPI (Swagger)
-
-<figure>
-    <img src="./assets/images/raster_exporter_openapi.png" style="display: block;margin-left: auto;margin-right: auto;">
-</figure>
-
-```yaml
-openapi: 3.0.1
-info:
-  title: exporter-trigger
-  description: Service that responsible for activating the export geopackage process
-  version: 2.2.0
-  license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
-paths:
-  /create:
-    post:
-      tags:
-        - createGpkg
-      summary: Trigger export geopackage process
-      operationId: exportTilesToGpkg
-      requestBody:
-        $ref: '#/components/requestBodies/ExportGetmapBody'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/createGpkgJobResponse'
-                  - $ref: '#/components/schemas/naiveCacheJobResponse'
-                discriminator:
-                  propertyName: response
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '404':
-          description: Could not find layer with matched dbId
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-components:
-  requestBodies:
-    ExportGetmapBody:
-      description: Export to gpkg via GetMap
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/exportGetMap'
-  schemas:
-    CommonResponse:
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          type: string
-          enum:
-            - In-Progress
-            - Completed
-      discriminator:
-        propertyName: response
-    exportGetMap:
-      type: object
-      properties:
-        dbId:
-          type: string
-          format: uuid
-          description: ID as the primary key from the Raster Catalog
-        bbox:
-          $ref: '#/components/schemas/BBOX'
-        targetResolution:
-          type: number
-          description: >-
-            The target resolution in which the tiles will be created - DEGREE to
-            PIXEL
-        callbackURLs:
-          type: array
-          items:
-            type: string
-          description: The callback URL to notify the process if finished
-        crs:
-          $ref: '#/components/schemas/CRS'
-        priority:
-          type: number
-          description: The priority of the record. Maximum priority = most urgent.
-          minimum: 0
-          maximum: 999999999
-      required:
-        - dbId
-        - bbox
-        - targetResolution
-        - callbackURLs
-      example:
-        dbId: ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8
-        bbox:
-          - 34.811938017107494
-          - 31.95475033759175
-          - 34.82237261707599
-          - 31.96426962177354
-        targetResolution: 0.0000429153442382812
-        callbackURLs:
-          - http://example.getmap.com/callback
-          - http://example.getmap.com/callback2
-        crs: EPSG:4326
-        priority: 0
-    createGpkgJobResponse:
-      allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - In-Progress
-        id:
-          type: string
-          format: uuid
-        taskIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      required:
-        - id
-        - taskIds
-    naiveCacheJobResponse:
-      allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - Completed
-        fileUri:
-          type: string
-        expirationTime:
-          type: string
-          format: date
-        fileSize:
-          type: number
-        dbId:
-          type: string
-          format: uuid
-        packageName:
-          type: string
-        bbox:
-          $ref: '#/components/schemas/BBOX'
-        targetResolution:
-          type: number
-        requestId:
-          type: string
-        success:
-          type: boolean
-        errorReason:
-          type: string
-      required:
-        - fileUri
-        - expirationTime
-        - fileSize
-        - dbId
-        - packageName
-        - bbox
-        - targetResolution
-        - requestId
-        - success
-    error:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-    internalError:
-      type: object
-      required:
-        - message
-        - stacktrace
-      properties:
-        message:
-          type: string
-        stacktrace:
-          type: string
-    CRS:
-      type: string
-      description: List of supported
-      enum:
-        - EPSG:4326
-    BBOX:
-      type: array
-      items:
-        type: number
-      minItems: 4
-      maxItems: 4
-      description: >-
-        Bounding box corners (lower left, upper right)=[minx,miny,maxx,maxy] in
-        crs units as array
-```

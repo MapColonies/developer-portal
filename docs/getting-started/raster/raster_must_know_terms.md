@@ -8,7 +8,7 @@ Term | Description
 **Raster Best Practice Protocol**  | WMTS
 **Raster Tiling scheme**  | InspireCRS84Quad (World CRS84 TileMatrixSet), That tiling schemes consists of two 256x256 tiles at its zoom level 0, in EPSG:4326 CRS, with extent in longitude in the range [-180,180] and in latitude in the range [-90,90].
 **Raster Tile Size**  | 256*256
-**Raster Tile Format**  | PNG
+**Raster Tile Format**  | PNG / JPEG
 **Auth token** | A JWT token (you can aquire it by contacting our product owner) for raster services passed via http QUERY_PARAM. There are different kinds of token permissions (raster serving CSW, WMTS, WMS, export, etc.)
 **Zoom Level**  | The layer zoom level is determined by the field *mc:maxResolutionDeg*, the zoom level is calculated by the tiling scheme below (Pixel Size (degrees) is maxResolutionDeg), for example, for the following *mc:maxResolutionDeg* 2.14577E-05 >= resolution > 1.07288E-05 a zoom level of **15** will be created.
 
