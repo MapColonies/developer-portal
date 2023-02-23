@@ -57,10 +57,16 @@ body (XML):
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
-          <PropertyName>mc:productType</PropertyName>
-          <Literal>OrthophotoBest</Literal>
-        </PropertyIsLike>
+        <And>
+          <PropertyIsEqualTo>
+            <PropertyName>mc:productType</PropertyName>
+            <Literal>OrthophotoBest</Literal>
+          </PropertyIsEqualTo>
+          <PropertyIsEqualTo>
+            <PropertyName>mc:productId</PropertyName>
+            <Literal>ORTHOPHOTO_MOSAIC_BASE</Literal>
+          </PropertyIsEqualTo>
+        </And>
       </Filter>
     </csw:Constraint>
   </csw:Query>
@@ -82,10 +88,10 @@ body (XML):
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+        <PropertyIsEqualTo>
           <PropertyName>mc:type</PropertyName>
           <Literal>RECORD_RASTER</Literal>
-        </PropertyIsLike>
+        </PropertyIsEqualTo>
       </Filter>
     </csw:Constraint>
   </csw:Query>
