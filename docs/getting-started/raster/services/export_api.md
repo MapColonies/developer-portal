@@ -35,13 +35,12 @@ JSON file that contains the record metadata such as footprint and resolution
 
 
 ### Important Notes
-1. The data is returned via callback response or on request response (structure in appendix 1)
+1. The data is returned via callback request or on /create request response (structure in appendix 1)
 2. To download the data one needs to use authentication token
 3. To download the "metadta.json" file, write the GPKG url and change the sufix to ".json"
 
 
-### Appendix 1 - Callback response structure
-    - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
+### Appendix 1 - Callback request structure
     - fileUri: string - download link for the exported GPKG file
     - expirationTime: string($date) - date when the exported file will be deleted
     - fileSize: number - GPKG file size in bytes
@@ -49,5 +48,63 @@ JSON file that contains the record metadata such as footprint and resolution
     - packageName: string - the GPKG file name
     - bbox: one of the following types (BBOX / GeoJson Geometry (Polygon / MultiPolygon), empty) - from orginal request
     - targetResolution - The target resolution in which the tiles will be created - (max DEGREE to PIXEL) - from orginal request
+    - requestId: uuid - unique identifier for export request - the field that was returned from orginal create request
     - success: boolean - whether the export task was successfull
     - errorReason: string - if export task was unsuccessful this field will describe the error
+
+### Appendix 2 - Callback request example
+
+``` json
+{
+  "fileUri": "{downloadServiceURL}/{directory}/{GPKGFileName}.gpkg",
+  "expirationTime": "1970-01-17T12:27:14.520Z",
+  "fileSize": "120000",
+  "dbId": "ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8",
+  "packageName": "{GPKGFileName}.gpkg",
+  "bbox": [
+    34.811938017107494,
+    31.95475033759175,
+    34.82237261707599,
+    31.96426962177354
+  ],
+  "targetResolution": 0.0000429153442382812,
+  "requestId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "success": "true",
+  "errorReason": ""
+}
+```
+
+### Appendix 3 - /create response for In-Progress Export
+
+``` json
+{
+  "status": "In-Progress",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "taskIds": [
+    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  ]
+}
+```
+
+### Appendix 4 - /create response for cached export task
+
+``` json
+{
+  "status": "Completed",
+  "fileUri": "{downloadServiceURL}/{directory}/{GPKGFileName}.gpkg",
+  "expirationTime": "1970-01-17T12:27:14.520Z",
+  "fileSize": "120000",
+  "dbId": "ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8",
+  "packageName": "{GPKGFileName}.gpkg",
+  "bbox": [
+    34.811938017107494,
+    31.95475033759175,
+    34.82237261707599,
+    31.96426962177354
+  ],
+  "targetResolution": 0.0000429153442382812,
+  "requestId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "success": "true",
+  "errorReason": ""
+}
+```
