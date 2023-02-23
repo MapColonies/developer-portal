@@ -4,7 +4,6 @@ const applyProductId = document.querySelector('#applyLayerBtn');
 
 const RASTER_CSW_SERVICE_URL = '<RASTER-CATALOG-SERVICE_URL>/csw';
 const RASTER_TOKEN = '<API_KEY>';
-const mapProxyBaseUrl = '<RASTER-RASTER-SERVING-SERVICE_URL>';
 const INJECTION_TYPE = '<INJECTION_TYPE>';
 
 // according to defined B2B authentication principles HEADER or QUERYPARAM - Currently only QUERYPARAM is available
@@ -108,15 +107,14 @@ const constructAndApplyLayer = (e) => {
     const rectangle = generateRectangle(footprint);
 
     /*********************************************************************************/
-    /* STEP 3: Extract layer's "WMTS_LAYER" template url from <mc:links> collection, */
+    /* STEP 3: Extract layer's "WMTS" template url from <mc:links> collection, */
     /* Identifier and capabilities url from XML (document) response, for later use.  */
     /*********************************************************************************/
-    const layerUrl = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS_LAYER"]').textContent;
-    const layerIdentifier = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS_LAYER"]').attributes.name.textContent;
+    const layerIdentifier = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS"]').attributes.name.textContent;
     const getCapabilitiesUrl = xmlDoc.children[0].children[1].querySelector('[scheme="WMTS"]').textContent;
 
     const getLayerMetadataFromGetCapabilities = getCapabilitiesDoc => {
-      const arr = [...getCapabilitiesDoc.children[0].children[2].querySelectorAll("Layer")];
+      const arr = [...getCapabilitiesDoc.children[0].children[1].querySelectorAll("Layer")];
 
       // Traversing through the layers from GetCapabilities, to find the one we're looking for by productId
       const desiredLayer = arr.find(layer => {
@@ -133,17 +131,16 @@ const constructAndApplyLayer = (e) => {
       const tileMatrixSet = getChildNodeByTagName(desiredLayer, 'TileMatrixSetLink').children[0].textContent;
       const layerStyle = getChildNodeByTagName(desiredLayer, 'Style').children[0].textContent;
       const layerFormat = getChildNodeByTagName(desiredLayer, 'Format').children.textContent;
-
-      return { tileMatrixSet, layerStyle, layerFormat };
+      let resourceURL = getChildNodeByTagName(desiredLayer, 'ResourceURL').getAttribute("template");
+      resourceURL = resourceURL.replace("{TileMatrixSet}", tileMatrixSet);
+      return { layerStyle, layerFormat, resourceURL };
     }
 
     const setupImageryProviderAndApplyToViewer = layerAdditionalParams => {
-      const {tileMatrixSet: tileMatrixSetID, layerFormat: format, layerStyle: style} = layerAdditionalParams;
-
+      const {layerFormat: format, layerStyle: style, resourceURL: resourceURL} = layerAdditionalParams;
       const provider = new Cesium.WebMapTileServiceImageryProvider({
         url: new Cesium.Resource({
-          // TODO: should be used 'layerUrl'
-          url: `${mapProxyBaseUrl}/wmts/${layerIdentifier}/${tileMatrixSetID}/{TileMatrix}/{TileCol}/{TileRow}.png`,
+          url: resourceURL,
           /* Don't forget to include the authentication header or query param */
           ...getAuthObject()
         }),
@@ -165,9 +162,8 @@ const constructAndApplyLayer = (e) => {
 
     /*********************************************************************************/
     /* STEP 4: GetCapabilities request                                               */
-    /* TODO: should be used 'getCapabilitiesUrl'                                     */
     /*********************************************************************************/
-    fetchAndParseXML(`${mapProxyBaseUrl}/service?REQUEST=GetCapabilities&SERVICE=WMTS`, {
+    fetchAndParseXML(`${getCapabilitiesUrl}`, {
       method: 'GET',
       /* Don't forget to include the authentication header or query param */
       ...getAuthObject()

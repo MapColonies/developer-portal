@@ -193,6 +193,7 @@ http://localhost:8080/csw?request=GetCapabilities&service=CSW
                 <ows20:Value>mc:region</ows20:Value>
                 <ows20:Value>mc:scale</ows20:Value>
                 <ows20:Value>mc:sensors</ows20:Value>
+                <ows20:Value>mc:transparency</ows20:Value>
                 <ows20:Value>mc:type</ows20:Value>
                 <ows20:Value>mc:updateDateUTC</ows20:Value>
               </ows20:AllowedValues>

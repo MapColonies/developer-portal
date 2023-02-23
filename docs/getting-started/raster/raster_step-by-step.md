@@ -149,12 +149,9 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:layerPolygonParts>{"bbox":[],"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[],[]]]},"properties":{}}]}</mc:layerPolygonParts>
                 <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE"
-                description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
+                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
                 <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
-                <mc:links scheme="WMTS_LAYER" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/ORTHOPHOTO_MOSAIC_BASE/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png'</mc:links>
-                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE"
-                description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
@@ -169,6 +166,7 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:imagingTimeBeginUTC>2020-05-21</mc:imagingTimeBeginUTC>
                 <mc:SRS>4326</mc:SRS>
                 <mc:SRSName>WGS84GEO</mc:SRSName>
+                <mc:transparency>OPAQUE</mc:transparency>
                 <mc:type>RECORD_RASTER</mc:type>
                 <mc:updateDateUTC>2022-02-13T13:03:07Z</mc:updateDateUTC>
                 <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
@@ -220,9 +218,6 @@ In the Response, look for
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
   '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
-</mc:links>
-<mc:links scheme="WMTS_LAYER" name="[desired_layer_identifier]">`
-  `<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/ORTHOPHOTO_MOSAIC_BASE/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
 </mc:links>`element.
 ```
 
