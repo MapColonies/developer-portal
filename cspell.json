@@ -59,7 +59,9 @@
         "shapefile",
         "describefeaturetype",
         "getfeature",
-        "GPKG"
+        "GPKG",
+        "Nominatim",
+        "nominatim"
     ],
     "flagWords": [
     ]
