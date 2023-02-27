@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/MapColonies/developer-portal/compare/v2.4.0...v2.4.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* configurations and docsify ignore all ([a6cb7a3](https://github.com/MapColonies/developer-portal/commit/a6cb7a34d1cddf239a29c8f0177ce2d31391d0ea))
+
 ## [2.4.0](https://github.com/MapColonies/developer-portal/compare/v2.3.0...v2.4.0) (2023-02-27)
 
 
