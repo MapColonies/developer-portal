@@ -22,5 +22,7 @@ data:
   CLASSIFIED_REPO_URL: {{ quote .Values.env.CLASSIFIED_REPO_URL }}
   R1-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R1_STAGE_DATE_SERVICE_URL }}
   R1-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R1_PROD_DATE_SERVICE_URL }}
+  R2-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R2_STAGE_DATE_SERVICE_URL }}
+  R2-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R2_PROD_DATE_SERVICE_URL }}
 
 {{- end }}
