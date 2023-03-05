@@ -18,9 +18,10 @@ COPY ./entrypoint.sh ./
 RUN chmod +x ./entrypoint.sh
 RUN mkdir -p ./classified_repo
 RUN chmod g+rwx -R ./docs ./classified_repo
-RUN chgrp -R node ./docs ./classified_repo
+RUN chgrp -R root ./docs ./classified_repo
 
-USER node
+RUN adduser -Ds /bin/sh user && addgroup user root
+USER user
 EXPOSE 8080
 
 ENTRYPOINT ["./entrypoint.sh"]
