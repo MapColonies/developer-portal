@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/MapColonies/developer-portal/compare/v2.4.1...v2.4.2) (2023-03-05)
+
+
+### Bug Fixes
+
+* npm_config_cache and perms of image ([6169cc5](https://github.com/MapColonies/developer-portal/commit/6169cc507c1df66907296bec91b758a68b09be35))
+
 ### [2.4.1](https://github.com/MapColonies/developer-portal/compare/v2.4.0...v2.4.1) (2023-02-27)
 
 
