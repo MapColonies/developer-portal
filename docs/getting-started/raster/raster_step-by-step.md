@@ -248,7 +248,7 @@ First - find the correct **GetCapabilities URL**. Best way to achieve it is by l
 **OR** you can use wmts kvp capabilities
 
 ``` xml
-<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+<mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
   '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 ```
