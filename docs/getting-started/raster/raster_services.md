@@ -1,7 +1,7 @@
 ## Raster Services <!-- {docsify-ignore} -->
 | Service | Description | URL |
 |-|-|-|
-| [Map Service](/getting-started/raster/services/map_server.md) | Imagery tile service | `<RASTER-RASTER-SERVING-SERVICE_URL>` |
+| [Map Service](/getting-started/raster/services/map_server.md) | Imagery tile service | `<RASTER-SERVING-SERVICE_URL>` |
 | [Catalog Service](/getting-started/raster/services/csw_service.md) | Catalog service | `<RASTER-CATALOG-SERVICE_URL>` |
 | [Export Service](/getting-started/raster/services/export_api.md) | Export service | `<RASTER-EXPORT-SERVICE_URL>` |
 

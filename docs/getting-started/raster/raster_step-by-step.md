@@ -157,6 +157,7 @@ You will get GetRecords XML Response with product **metadata**.
                 <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
                 <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
                 <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMTS_KVP" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'</mc:links>
                 <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>IDFMU</mc:producerName>
@@ -220,11 +221,14 @@ In the Response, look for
 
 ``` xml
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
+<mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
+  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
-</mc:links>`element.
+  '<RASTER-SERVING-SERVICE_URL>/wmts'
+</mc:links>
 ```
 
 You need to save `[desired_layer_identifier]` value for later use.
@@ -237,7 +241,15 @@ First - find the correct **GetCapabilities URL**. Best way to achieve it is by l
 
 ``` xml
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+</mc:links>
+```
+
+**OR** you can use wmts kvp capabilities
+
+``` xml
+<mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
+  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 ```
 

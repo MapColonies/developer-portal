@@ -7,7 +7,10 @@ When querying PYCSW record(s) response XML **may** contain **`<mc:links>`** elem
   [MAP_SERVER_URL]/wmts
 </mc:links>
 <mc:links scheme="WMTS" name="bluemarble_5km" description="">
-  [MAP_SERVER_URL]/wmts/1.0.0/WMTSCapabilities.xml"
+  [MAP_SERVER_URL]/wmts/1.0.0/WMTSCapabilities.xml
+</mc:links>
+<mc:links scheme="WMTS_KVP" name="bluemarble_5km" description="">
+  [MAP_SERVER_URL]/service?REQUEST=GetCapabilities&SERVICE=WMTS
 </mc:links>
 ```
 
@@ -19,6 +22,7 @@ Different ***scheme/protocol*** values:
 | 3D_LAYER | AnyOf | Direct layer consumption URL |
 | TERRAIN_QMESH | AnyOf | Direct terrian provider consumption URL |
 | WMTS | AnyOf | Layer WMTS capabilities link |
+| WMTS_KVP | AnyOf | Layer WMTS KVP capabilities link |
 | WMTS_BASE | AnyOf | Layer WMTS base link ({tiles_server}/wmts) |
 | WMS | AnyOf | Layer WMS capabilities link |
 | WMS_BASE | AnyOf | Layer WMS base link ({tiles_server}/wms) |
