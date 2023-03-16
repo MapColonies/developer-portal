@@ -11,7 +11,7 @@ On web clients, when using a Map Component such as Cesium for example, you will 
 ```javascript
 const wmts = new Cesium.WebMapTileServiceImageryProvider({
   url: new Cesium.Resource({
-    url: "<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
+    url: "<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.<LAYER_FORMAT>",
     queryParameters: {
       "token": "<token>"
     }// ,
@@ -21,7 +21,7 @@ const wmts = new Cesium.WebMapTileServiceImageryProvider({
   }),
   layers: "<layer_name>",
   style: "<style>",
-  format: "image/png",
+  format: "<layer_format>",
   tileMatrixSetID: "<grid_name>",
   tilingScheme: new Cesium.GeographicTilingScheme()
 });
@@ -37,6 +37,7 @@ Following should be replaced:
 - `<token>`
 - `<layer_name>`
 - `<style>`
+- `<layer_format>`
 - `<grid_name>`
 
 Result on Map Component when the token isn’t supplied (all requests get status code **403**):
