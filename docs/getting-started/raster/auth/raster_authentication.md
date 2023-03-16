@@ -8,7 +8,8 @@ On web clients, when using a Map Component such as Cesium for example, you will 
 ```javascript
 const wmts = new Cesium.WebMapTileServiceImageryProvider({
   url: new Cesium.Resource({
-    url: "<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.<LAYER_FORMAT>", // supported LAYER_FORMAT can be found in 'raster step-by-step' guide (step 4).
+    url: "<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.<LAYER_FORMAT>",
+
     // headers: {
     //   "x-api-key": "<token>",
     // },
@@ -37,6 +38,7 @@ Following should be replaced:
 - `<token>`
 - `<layer_name>`
 - `<style>`
+- `<layer_format>`
 - `<grid_name>`
 
 Result on Map Component when the token isn’t supplied (all requests get status code **403**):

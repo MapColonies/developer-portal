@@ -7,7 +7,7 @@ On web clients, when using a Map Component such as Cesium for example, you will 
 ```javascript
 const wmts = new Cesium.WebMapTileServiceImageryProvider({
   url: new Cesium.Resource({
-    url: "<DEM-DEM-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.<LAYER_FORMAT>", // supported LAYER_FORMAT can be found in 'raster step-by-step' guide (step 4).
+    url: "<DEM-DEM-SERVING-SERVICE_URL>/wmts/<layer_name>/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png",
     headers: {
       "x-api-key": "<token>",
     }
@@ -20,7 +20,7 @@ const wmts = new Cesium.WebMapTileServiceImageryProvider({
   }),
   layers: "<layer_name>",
   style: "<style>",
-  format: "<layer_format>",
+  format: "image/png",
   tileMatrixSetID: "<grid_name>",
   tilingScheme: new Cesium.GeographicTilingScheme()
 });
