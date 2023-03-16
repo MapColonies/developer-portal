@@ -22,7 +22,7 @@ env:
   targetPort: 8080
   RASTER_CATALOG_SERVICE_URL: "https://catalog-raster.com"
   RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
-  RASTER_SERVING_SERVICE_URL: "https://map-server_raster.com"
+  RASTER-RASTER-SERVING-SERVICE_URL: "https://map-server_raster.com"
   D3_CATALOG_SERVICE_URL: "https://3d-catalog.com"
   D3_TILES_SERVING_SERVICE_URL: "https://3d_model_server.com"
   DEM_CATALOG_SERVICE_URL: "https://catalog-dem.com"

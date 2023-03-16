@@ -221,13 +221,13 @@ In the Response, look for
 
 ``` xml
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts'
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
 </mc:links>
 ```
 
@@ -241,15 +241,15 @@ First - find the correct **GetCapabilities URL**. Best way to achieve it is by l
 
 ``` xml
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 ```
 
-**OR** you can use wmts kvp capabilities
+**OR** you can use wmts KVP capabilities
 
 ``` xml
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 ```
 
