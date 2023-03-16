@@ -5,7 +5,7 @@
 |            	| Catalog Application 	| `<RASTER-CATALOG-SERVICE_URL>`        	|
 | **Raster** 	|                     	|                                       	|
 |            	| Catalog             	| `<RASTER-CATALOG-SERVICE_URL>`        	|
-|            	| Map                 	| `<RASTER-RASTER-SERVING-SERVICE_URL>` 	        |
+|            	| Map                 	| `<RASTER-RASTER-SERVING-SERVICE_URL>` 	|
 |            	| Export              	| `<RASTER-EXPORT-SERVICE_URL>`         	|
 | **Vector** 	|                     	|                                       	|
 |            	| Replication         	| `<VECTOR-REPLICATION-SERVICE_URL>`    	|
