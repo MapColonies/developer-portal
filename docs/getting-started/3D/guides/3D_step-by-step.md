@@ -1,4 +1,4 @@
-## Developer Guide step-by-step <!-- {docsify-ignore} -->
+## Developer Guide step-by-step <!-- {docsify-ignore-all} -->
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
 > :satisfied: **You can see fully functional example &nbsp; [3D Example](.//assets/examples/3D/index.html)**
