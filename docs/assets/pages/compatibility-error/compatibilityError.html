@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Not Supported!</title>
+    <link rel="stylesheet" href="compatibilityError.css">
+    <script src="../../outer-scripts/polyfills/polyfill.urlSearchParams.js"></script>
+  </head>
+
+
+  <body>
+    <img src="../../images/compatibilityError/compatibility-error-icon.png" />
+    <div class="titlesContainer">
+      <h1 id="errorMainTitle"></h1>
+      <h3 id="errorSecondaryTitle"></h1>
+    </div>
+    <div class="detailsSection">
+      <div id="browsersView"></div>
+    </div>
+
+    <script>
+        var browsersContainerElement = document.querySelector('#browsersView');
+        var errorMainElement = document.querySelector('#errorMainTitle');
+        var errorSecondaryElement = document.querySelector('#errorSecondaryTitle');
+        var parameters = new URLSearchParams(window.location.search);
+        var errorCode = parameters.get('error');
+
+        var browsers = [{
+            name: 'Edge',
+            minVersion: '85',
+            img: '../../images/compatibilityError/edge-icon.png'
+          },
+          {
+            name: 'Chrome',
+            minVersion: '84',
+            img: '../../images/compatibilityError/chrome-icon.png'
+          },
+          {
+            name: 'Opera',
+            minVersion: '85',
+            img: '../../images/compatibilityError/opera-icon.png'
+          }]
+
+          for (var i = 0; i < browsers.length; i++) {
+            var IMG_TEMP = "{IMG_SRC}";
+            var BROWSER_NAME_TEMP = "{BROWSER_NAME}";
+            var BROWSER_VERSION_TEMP = "{BROWSER_VERSION}";
+            
+            var currentBrowser = browsers[i];
+
+            var browserItem = '<div class="browserItemContainer"><div class="browserItem"><img class="browserImg" src="{IMG_SRC}"/><div class="browserDetails"><span class="browserName">{BROWSER_NAME}</span><span class="browserVersion">V{BROWSER_VERSION}+</span></div></div></div>';
+
+            browsersContainerElement.insertAdjacentHTML('beforeend', browserItem
+                                                                     .replace(IMG_TEMP, currentBrowser.img)
+                                                                     .replace(BROWSER_NAME_TEMP, currentBrowser.name)
+                                                                     .replace(BROWSER_VERSION_TEMP, currentBrowser.minVersion));
+          }
+  
+        var ERRORS = {
+          BROWSER_NOT_SUPPORTED : {main: "OOPS!</br>YOUR BROWSER IS NOT SUPPORTED.", secondary: "Please upgrade to the latest version of these browsers"},
+          BROWSER_VERSION_TOO_OLD: {main: "OOPS!</br>YOUR BROWSER IS OUTDATED.", secondary: "Please upgrade to the latest version of these browsers"}
+        }
+
+        var err = ERRORS[errorCode];
+        errorMainElement.innerHTML = err.main;
+        errorSecondaryElement.innerHTML = err.secondary;
+
+    </script>
+</body>
+</html>
