@@ -117,7 +117,7 @@
         } else {
           err = ERROR_CODES.BROWSER_NOT_SUPPORTED;
         }
-        window.alert("Error: Your browser is not supported, please use chrome v84+");
+        window.location.replace('./assets/pages/compatibility-error/compatibilityError.html?error=' + err);
       }
     }())
   </script>
