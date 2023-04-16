@@ -111,7 +111,7 @@ JSON file that contains the record metadata such as footprint and resolution
 }
 ```
 
-### Appendix 3 - /create response for In-Progress Export
+### Appendix 3 - /create and /create/roi response for In-Progress Export
 
 ``` json
 {
