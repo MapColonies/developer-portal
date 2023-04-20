@@ -324,7 +324,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
-
+    
     const parser = new WMTSCapabilities();
     const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
@@ -340,6 +340,48 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ```
 - Note - **extent** taken from step 2 - where bbox is calculated.
+
+### OpenLayers (1.x)
+```javascript
+  import L from "leaflet";
+...
+...
+...
+
+    const parser = (url) =>{
+      return wmtsUrl.replace("maps", "{s}")
+    .replace("{Style}", '<LAYER_STYLE>')                              // from Step_4
+    .replace("{TileMatrixSet}", '<LAYER_TILE_MATRIX_SET_ID>')         // from Step_4
+    .replace("{TileMatrix}", "{z}")
+    .replace("{TileRow}", "{y}")
+    .replace("{TileCol}", "{x}");
+    }
+
+    const bounds = L.latLngBounds([
+      [extent[1], extent[0]],                                         // from Step_2
+      [extent[3], extent[2]],                                         // from Step_2
+    ]);
+
+    const url = '<LAYER_WMTS_URL>'                                    // from Step_3 or Step_4
+    const parsedUrl = parser(url)                                     
+
+    const layer = L.tileLayer(parsedUrl + 'token=${RASTER_TOKEN}',{   // received RASTER auth token
+      id : '<desired_layer_identifier>',                              // from Step_3
+      bounds
+    })
+
+    map.addLayer(layer);
+    
+...
+...
+...
+```
+Replace all `<>` place holders with the real values that we got from all previous steps:
+- style - should be replaced with the value that you got from [Step 4](#step-4).
+- tileMatrixSetID - how can you get it? from Response from [Step 4](#step-4).
+- extent - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2]
+- url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
+- id - should be replaced with layer Product ID that you got from [Step 3](#step-3)
 
 ## Enrich Layer data (Step 6) <!-- {docsify-ignore} -->
 In order to present catalog items in your system you can use following fields:
