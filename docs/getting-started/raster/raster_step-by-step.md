@@ -361,7 +361,7 @@ Replace all `<>` place holders with the real values that we got from all previou
     ]);
 
     const urlTemplate = '<LAYER_WMTS_URL>'                                    // from Step_3 or Step_4
-    const parsedUrl = parser(url)                                     
+    const parsedUrl = parser(urlTemplate)                                     
                                                                       //in case of queryParameter authentication:
     const layer = L.tileLayer(parsedUrl + 'token=${RASTER_TOKEN}',{   // received RASTER auth token
       id : '<desired_layer_identifier>',                              // from Step_3
