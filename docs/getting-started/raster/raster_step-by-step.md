@@ -376,11 +376,10 @@ Replace all `<>` place holders with the real values that we got from all previou
 - **Note** - for **headers api key** see the following link: https://github.com/PaulLeCam/react-leaflet/issues/852#issuecomment-1495774676
 
 Replace all `<>` place holders with the real values that we got from all previous steps:
-- style - should be replaced with the value that you got from [Step 4](#step-4).
 - tileMatrixSetID - how can you get it? from Response from [Step 4](#step-4).
 - extent - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2]
-- url - should be replaced by the URL that you got from [Step 3](#step-3) or [Step 4](#step-4).
-- id - should be replaced with layer Product ID that you got from [Step 3](#step-3)
+- urlTemplate - should be replaced by the URL template that you got from [Step 3](#step-3) or [Step 4](#step-4).
+- id - should be replaced with layer identifier that you got from [Step 3](#step-3)
 
 
 ## Enrich Layer data (Step 6) <!-- {docsify-ignore} -->
