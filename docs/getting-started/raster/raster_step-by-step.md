@@ -347,7 +347,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
     //urlTemplate example: https://maps/api/raster/v1/wmts/test-orthophoto/{TileMatrixSet}/{TileMatrix}{TileCol}/{TileRow}.jpeg
-    const parser = (urlTemplate) =>{
+    const parser = (urlTemplate) => {
       return wmtsUrl
     .replace("{TileMatrixSet}", '<LAYER_TILE_MATRIX_SET_ID>')         // from Step_4          
     .replace("{TileMatrix}", "{z}")
@@ -360,8 +360,10 @@ Replace all `<>` place holders with the real values that we got from all previou
       [extent[3], extent[2]],                                         // from Step_2
     ]);
 
-    const urlTemplate = '<LAYER_WMTS_URL>'                                    // from Step_3 or Step_4
-    const parsedUrl = parser(urlTemplate)                                     
+    const urlTemplate = '<LAYER_WMTS_URL>'                            // from Step_3 or Step_4
+    const parsedUrl = parser(urlTemplate)                     
+    
+    const map = L.map("map", { crs: L.CRS.EPSG4326 }).setView([0, 0], 0);                
                                                                       //in case of queryParameter authentication:
     const layer = L.tileLayer(parsedUrl + 'token=${RASTER_TOKEN}',{   // received RASTER auth token
       id : '<desired_layer_identifier>',                              // from Step_3
