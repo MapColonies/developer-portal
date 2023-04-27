@@ -324,7 +324,6 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ...
 ...
-
     const parser = new WMTSCapabilities();
     const capabilitiesResponse = await fetch('CapabilitiesURL');              // from Step_4
     const capabilitiesText = await capabilitiesResponse.text();
@@ -340,6 +339,50 @@ Replace all `<>` place holders with the real values that we got from all previou
 ...
 ```
 - Note - **extent** taken from step 2 - where bbox is calculated.
+
+### Leaflet (1.x)
+```javascript
+  import L from "leaflet";
+...
+...
+...
+    //urlTemplate example: https://maps/api/raster/v1/wmts/test-orthophoto/{TileMatrixSet}/{TileMatrix}{TileCol}/{TileRow}.jpeg
+    const parser = (urlTemplate) => {
+      return wmtsUrl
+    .replace("{TileMatrixSet}", '<LAYER_TILE_MATRIX_SET_ID>')         // from Step_4          
+    .replace("{TileMatrix}", "{z}")
+    .replace("{TileRow}", "{y}")
+    .replace("{TileCol}", "{x}");
+    }
+
+    const bounds = L.latLngBounds([
+      [extent[1], extent[0]],                                         // from Step_2
+      [extent[3], extent[2]],                                         // from Step_2
+    ]);
+
+    const urlTemplate = '<LAYER_WMTS_URL>'                            // from Step_3 or Step_4
+    const parsedUrl = parser(urlTemplate)                     
+    
+    const map = L.map("map", { crs: L.CRS.EPSG4326 }).setView([0, 0], 0);                
+                                                                      //in case of queryParameter authentication:
+    const layer = L.tileLayer(parsedUrl + 'token=${RASTER_TOKEN}',{   // received RASTER auth token
+      id : '<desired_layer_identifier>',                              // from Step_3
+      bounds
+    })
+
+    map.addLayer(layer);   
+...
+...
+...
+```
+- **Note** - for **headers api key** see the following link: https://github.com/PaulLeCam/react-leaflet/issues/852#issuecomment-1495774676
+
+Replace all `<>` place holders with the real values that we got from all previous steps:
+- tileMatrixSetID - how can you get it? from Response from [Step 4](#step-4).
+- extent - value should be the BBOX ([extent](/usage-tips/README.md)) that you got from [Step 2]
+- urlTemplate - should be replaced by the URL template that you got from [Step 3](#step-3) or [Step 4](#step-4).
+- id - should be replaced with layer identifier that you got from [Step 3](#step-3)
+
 
 ## Enrich Layer data (Step 6) <!-- {docsify-ignore} -->
 In order to present catalog items in your system you can use following fields:
