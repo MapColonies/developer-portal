@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/MapColonies/developer-portal/compare/v2.4.2...v2.5.0) (2023-05-17)
+
+
+### Features
+
+* add browser compatability check ([17de854](https://github.com/MapColonies/developer-portal/commit/17de8548ad957c4e9453446fe6d9e2d978409634))
+* added WMTS_KVP link documentation (MAPCO-2927) ([#53](https://github.com/MapColonies/developer-portal/issues/53)) ([946d062](https://github.com/MapColonies/developer-portal/commit/946d0625b03242ed5e53654b79ad4b4c46b69c8a))
+* browser compatibility error page ([#54](https://github.com/MapColonies/developer-portal/issues/54)) ([c4e44ff](https://github.com/MapColonies/developer-portal/commit/c4e44ff5ff6d2e5771b231c29ad297fca81b6942))
+* release notes of V3 ([4634d30](https://github.com/MapColonies/developer-portal/commit/4634d3014323e57ef8c640a9f4cd752588f1fe0d))
+
+
+### Bug Fixes
+
+* no collapse of steps for 3d guide ([5a9143c](https://github.com/MapColonies/developer-portal/commit/5a9143ce395a9d8c4d4f32b6f0dbc6254f2cb7d4))
+
 ### [2.4.2](https://github.com/MapColonies/developer-portal/compare/v2.4.1...v2.4.2) (2023-03-05)
 
 
