@@ -5,27 +5,9 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-{{ $chartName }}-configmap
 data:
-  RASTER-CATALOG-SERVICE_URL: {{ quote .Values.env.RASTER_CATALOG_SERVICE_URL }}
-  RASTER-EXPORT-SERVICE_URL: {{ quote .Values.env.RASTER_EXPORT_SERVICE_URL }}
-  RASTER-RASTER-SERVING-SERVICE_URL: {{ quote .Values.env.RASTER_RASTER_SERVING_SERVICE_URL }}
-  D3-CATALOG-SERVICE_URL: {{ quote .Values.env.D3_CATALOG_SERVICE_URL}}
-  D3-TILES-SERVING-SERVICE_URL: {{ quote .Values.env.D3_TILES_SERVING_SERVICE_URL }}
-  DEM-CATALOG-SERVICE_URL: {{ quote .Values.env.DEM_CATALOG_SERVICE_URL }}
-  DEM-DEM-SERVING-SERVICE_URL: {{ quote .Values.env.DEM_DEM_SERVING_SERVICE_URL }}
-  DEM-SUPERIOR-SERVICE_URL: {{ quote .Values.env.DEM_SUPERIOR_SERVICE_URL }}
-  VECTOR-QUERY-SERVICE_URL: {{ quote .Values.env.VECTOR_QUERY_SERVICE_URL }}
-  VECTOR-REPLICATION-SERVICE_URL: {{ quote .Values.env.VECTOR_REPLICATION_SERVICE_URL }}
-  APP-CATALOG_URL: {{ quote .Values.env.APP_CATALOG_URL }}
-  INJECTION_TYPE: {{ quote .Values.env.INJECTION_TYPE }}
-  API_KEY: {{ quote .Values.env.API_KEY }}
-  EMOJI_CODE: {{ quote .Values.env.EMOJI_CODE }}
-  CLASSIFIED_REPO_URL: {{ quote .Values.env.CLASSIFIED_REPO_URL }}
-  R1-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R1_STAGE_DATE_SERVICE_URL }}
-  R1-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R1_PROD_DATE_SERVICE_URL }}
-  R2-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R2_STAGE_DATE_SERVICE_URL }}
-  R2-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R2_PROD_DATE_SERVICE_URL }}
-  R3-STAGE-DATE_SERVICE_URL: {{ quote .Values.env.R3_STAGE_DATE_SERVICE_URL }}
-  R3-PROD-DATE_SERVICE_URL: {{ quote .Values.env.R3_PROD_DATE_SERVICE_URL }}
+  PLAYGROUND_URL: {{ quote .Values.env.PLAYGROUND_URL }}
+  PUZZLE_URL: {{ quote .Values.env.PUZZLE_URL }}
+  CATALOG_APPLICATION_URL: {{ quote .Values.env.CATALOG_APPLICATION_URL }}
   npm_config_cache: /tmp/
 
 {{- end }}

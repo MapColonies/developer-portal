@@ -2,48 +2,24 @@ global:
   cloudProvider: {}
   environment: {}
 enabled: true
-environment: development
+environment: production
 replicaCount: 1
 initialDelaySeconds: 60
 nodePort: 30030
 resetOnConfigChange: true
-caSecretName: ''
-caPath: /usr/local/share/ca-certificates
-caKey: ca.crt
 cloudProvider:
   imagePullSecretName: my-registry-secret
-  flavor: minikube
+  flavor: openshift
 image:
-  repository: meow
-  tag: meow12
+  repository: developer-portal
+  tag: v3.0.1
   imagePullPolicy: IfNotPresent
 env:
-  port: 80
+  port: 8080
   targetPort: 8080
-  RASTER_CATALOG_SERVICE_URL: "https://catalog-raster.com"
-  RASTER_EXPORT_SERVICE_URL: "https://export_raster.com"
-  RASTER_RASTER_SERVING_SERVICE_URL: "https://map-server_raster.com"
-  D3_CATALOG_SERVICE_URL: "https://3d-catalog.com"
-  D3_TILES_SERVING_SERVICE_URL: "https://3d_model_server.com"
-  DEM_CATALOG_SERVICE_URL: "https://catalog-dem.com"
-  DEM_DEM_SERVING_SERVICE_URL: "https://map-server_dem.com"
-  DEM_SUPERIOR_SERVICE_URL: "https://dem_superior_service.com"
-  VECTOR_QUERY_SERVICE_URL: "https://wfs.com"
-  VECTOR_REPLICATION_SERVICE_URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-  VECTOR-NOMINATIM-SERVICE_URL: "https://www.youtube.com/watch?v=9jK-NcRmVcw"
-  VECTOR-NOMINATIM-UI_URL: "https://nominatim-ui.com"
-  APP_CATALOG_URL: "http://catalog_app.com"
-  API_KEY: "API_KEY"
-  EMOJI_CODE: "false"
-  INJECTION_TYPE: "queryParam"
-  CLASSIFIED_REPO_URL: "https://github.com/MapColonies/docs-test.git"
-  ## Releases
-  R1_STAGE_DATE_SERVICE_URL: "2022-10-20"
-  R1_PROD_DATE_SERVICE_URL: "2022-10-20"
-  R2_STAGE_DATE_SERVICE_URL: "2023-01-19"
-  R2_PROD_DATE_SERVICE_URL: "2023-01-19"
-  R3_STAGE_DATE_SERVICE_URL: "2023-01-19"
-  R3_PROD_DATE_SERVICE_URL: "2023-01-19"
+  PLAYGROUND_URL: https://PLAYGROUND_URL.com
+  PUZZLE_URL: https://PUZZLE_URL.com
+  CATALOG_APPLICATION_URL: https://CATALOG_APPLICATION_URL.com
 resources:
   enabled: true
   value:

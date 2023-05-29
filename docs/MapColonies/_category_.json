@@ -1,0 +1,8 @@
+{
+    "label": "Welcome to MapColonies",
+    "position": 4,
+    "link": {
+      "type": "generated-index",
+      "description": "View all Raster Services"
+    }
+}
