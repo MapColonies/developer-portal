@@ -11,7 +11,7 @@ const config = {
   tagline: 'Developer Portal',
   favicon: 'img/libot_logo.ico',
   // Set the production url of your site here
-  url: 'https://mapcolonies.github.io/,
+  url: 'https://mapcolonies.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: process.env.BASE_URL || '/',
