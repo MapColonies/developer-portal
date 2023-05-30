@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[8810],{91894:e=>{e.exports=JSON.parse('{"label":"production","permalink":"/blog/tags/production","allTagsPath":"/blog/tags","count":3}')}}]);
