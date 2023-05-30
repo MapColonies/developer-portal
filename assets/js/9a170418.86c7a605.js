@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[840],{79848:e=>{e.exports=JSON.parse('{"label":"openstreetmap","permalink":"/blog/tags/openstreetmap","allTagsPath":"/blog/tags","count":1}')}}]);
