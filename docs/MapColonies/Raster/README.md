@@ -8,11 +8,11 @@ tags:
  - overview
 ---
 
-## Raster Overview 
+## Raster Overview
 Orthophoto images are generated from satellite imagery or aerial photography. In the case of aerial photography, the raw frames are matched and resolved into photo blocks. Then, they and geometrically corrected (using DTM), anchored to well-known points, visually improved, and assembled into a homogeneous orthophoto mosaic, which can be combined of multiple files.
 A **discrete layer** represents a geographical region and is composed of multiple orthophoto mosaics with the same resolution, color scheme, and classification. A discrete layer can be included in the best **mosaic**, a universal map which is a fusion of multiple discrete layers.
 <figure>
-    <img src="/img/raster_mosaic.jpg" style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}}/>
+    <img src={require("/img/raster_mosaic.jpg").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}}/>
 </figure>
 
 

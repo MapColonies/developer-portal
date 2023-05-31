@@ -338,7 +338,7 @@ request=GetCapabilities
 
 This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** response (the following pictures contains the **dem__gt30e020n40** layer related sub-section).
 <figure>
-    <img src="/img/getcap_wcs_example.png" style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"80%"}} />
+    <img src={require("/img/getcap_wcs_example.png").default} style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"80%"}} />
 </figure>
 
 ## DescribeCoverage

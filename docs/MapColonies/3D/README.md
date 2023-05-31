@@ -14,7 +14,7 @@ The process of creating photo-realistic 3D models is based on photogrammetry, wh
 
 Each of these models represent a specific geographic region, building, facility or any other object.
 <figure>
-    <img src="/img/3Dtile.png" style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}} />
+    <img src={require("/img/3Dtile.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}} />
 </figure>
 
 ### Terms

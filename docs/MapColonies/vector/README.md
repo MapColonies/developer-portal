@@ -12,7 +12,7 @@ tags:
 Vector data structures represent specific features on the Earth’s surface, and assign attributes to those features. Vectors are composed of discrete geometric locations (x, y values) known as vertices that define the shape of the spatial object. The organization of the vertices determines the type of vector that we are working with: point, line or polygon.
 
 <figure>
-    <img src="/img/pnt_line_poly.png" style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"90%"}} />
+    <img src={require("/img/pnt_line_poly.png").default} style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"90%"}} />
 </figure>
 
 ### Types of vector objects
