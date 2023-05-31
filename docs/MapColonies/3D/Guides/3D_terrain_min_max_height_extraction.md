@@ -10,7 +10,7 @@ tags:
  - dem
 ---
 
-## Terrain Min-Max Height Extraction 
+## Terrain Min-Max Height Extraction
 The following example shows how to extract **min/max terrain height** value from a terrain provider at a selected area, area is defined by a bounding polygon.
 
 :::info
@@ -83,16 +83,13 @@ void Cesium.sampleTerrainMostDetailed(
 **Please note:<br/>Time increases with the amount of sampling points.<br/>Number of requests does not change however due to sampling points density which happen to correspond with the same tiles.<br/>This example was tested against Cesium World Terrain over the internet.<br/>Need to consider amount of sampling points against the resolution of the source height product.**
 :::
 
-
-**Distance between points<br/>(cellSide)** || **Number of<br/>Sampling Points** || **Number of<br/>Requests** || **Time to Sample<br/>(seconds)**
-:--- || :--- || :--- || :---
-30.0 || 1 || 1 || 0.53
-20.0 || 7 || 4 || 0.56
-15.0 || 9 || 2 || 0.59
-1.0 || 2,359 || 4 || 0.98
-0.5 || 9,427 || 4 || 1.15
-0.4 || 14,748 || 4 || 1.35
-0.3 || 26,225 || 4 || 1.59
-0.2 || 58,891 || 4 || 2.88
-
-
+|**Distance between points(cellSide)** | **Number of Sampling Points** | **Number of Requests** | **Time to Sample (seconds)** |
+---- | ---- | ---- | ----
+30.0 | 1 | 1 | 0.53
+20.0 | 7 | 4 | 0.56
+15.0 | 9 | 2 | 0.59
+1.0 | 2,359 | 4 | 0.98
+0.5 | 9,427 | 4 | 1.15
+0.4 | 14,748 | 4 | 1.35
+0.3 | 26,225 | 4 | 1.59
+0.2 | 58,891 | 4 | 2.88

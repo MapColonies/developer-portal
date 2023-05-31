@@ -166,8 +166,8 @@ In the Response, look for
 In the Response, look for
 
 ```xml title="Extract link for terrain provider"
-<mc:links scheme="TERRAIN_QMESH" name="srtm100"> <br/>
-  http://tiles.com/terrains/srtm100/layer.json` <br/>
+<mc:links scheme="TERRAIN_QMESH" name="srtm100">
+  http://tiles.com/terrains/srtm100/layer.json
 </mc:links>
 ```
 
@@ -177,7 +177,7 @@ In the Response, look for
 :::
 
 ## Step 3
-### Construct Client side Layer 
+### Construct Client side Layer
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 
 :::caution
