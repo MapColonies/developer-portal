@@ -48,4 +48,4 @@ tags:
 | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_RASTER***|
 | mc:insertDate | date | the date (UTC time) when item was added to catalog |
 | mc:keywords | text | list of key words relevant for product |
-| ows:boundingBox | BBOX | two points that represent the record extent for example:```<ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2"><ows:LowerCorner>31.9042863434239 34.8076891807199</ows:LowerCorner><ows:UpperCorner>31.9118071956932 34.816135996859</ows:UpperCorner></ows:BoundingBox>``` |
+| ows:BoundingBox | BBOX | two points that represent the record extent for example:```<ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2"><ows:LowerCorner>31.9042863434239 34.8076891807199</ows:LowerCorner><ows:UpperCorner>31.9118071956932 34.816135996859</ows:UpperCorner></ows:BoundingBox>``` |
