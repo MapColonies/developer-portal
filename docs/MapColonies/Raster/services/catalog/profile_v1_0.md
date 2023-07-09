@@ -25,10 +25,10 @@ tags:
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
-| mc:creationDateUTC | date | the date when raw product was created <br/> supported format: **dd/mm/yyyy** |
-| mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
-| mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
-| mc:imagingTimeEndUTC | date | end imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
+| mc:creationDateUTC | date | the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:updateDateUTC | date | date (UTC time) the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
+| mc:imagingTimeBeginUTC | date | start imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
+| mc:imagingTimeEndUTC | date | end imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
 | mc:maxResolutionDeg | double | the product resolution in degrees <br/> double unsigned valid: **0.00000009 to 0.072** |
 | mc:maxResolutionMeter | double | the product resolution in meters <br/> double unsigned valid: **0.01 to 8000** |
 | mc:minHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters <br/> float unsigned valid: **0.01 to 4000 (x.xx)** |
@@ -44,8 +44,8 @@ tags:
 | mc:RMS | double | tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
-| mc:ingestionDate | date | date when product was added to catalog |
+| mc:ingestionDate | date | date (UTC time) when product data was updated or added to catalog |
 | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_RASTER***|
-| mc:insertDate | date | the date when item was added to catalog |
+| mc:insertDate | date | the date (UTC time) when item was added to catalog |
 | mc:keywords | text | list of key words relevant for product |
-| ows:boundingBox | BBOX | two points that represent the record extent for example:```<ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2"><ows:LowerCorner>31.9042863434239 34.8076891807199</ows:LowerCorner><ows:UpperCorner>31.9118071956932 34.816135996859</ows:UpperCorner></ows:BoundingBox>``` |
+| ows:BoundingBox | BBOX | two points that represent the record extent for example:```<ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2"><ows:LowerCorner>31.9042863434239 34.8076891807199</ows:LowerCorner><ows:UpperCorner>31.9118071956932 34.816135996859</ows:UpperCorner></ows:BoundingBox>``` |
