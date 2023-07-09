@@ -44,7 +44,7 @@ tags:
 | mc:RMS | double | tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
-| mc:ingestionDate | date | date when product was added to catalog |
+| mc:ingestionDate | date | date when product data was updated or added to catalog |
 | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_RASTER***|
 | mc:insertDate | date | the date when item was added to catalog |
 | mc:keywords | text | list of key words relevant for product |
