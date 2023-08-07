@@ -36,11 +36,20 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
   },
+  {
+    title: 'DEM',
+    Svg: require('@site/static/img/dem.svg').default,
+    description: (
+      <>
+        <strong>A digital elevation model</strong> (DEM) is a representation of the topography of the Earth or another surface in digital format, that is, by coordinates and numerical descriptions of altitude
+      </>
+    ),
+  },
 ];
 
 function Feature({title, Svg, description}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx('col col--3')}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
