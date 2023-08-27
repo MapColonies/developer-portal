@@ -1,0 +1,9 @@
+{
+    "label": "Guides",
+    "position": 3,
+    "collapsed": "true",
+    "link": {
+        "type": "generated-index",
+        "description": "DEM Guides"
+    }
+}
