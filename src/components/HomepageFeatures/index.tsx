@@ -41,7 +41,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/dem.svg').default,
     description: (
       <>
-        <strong>A digital elevation model</strong> (DEM) is a representation of the topography of the Earth or another surface in digital format, that is, by coordinates and numerical descriptions of altitude
+        <strong>A Digital Elevation Model</strong> (DEM) is a representation of the topography of the Earth or another surface in digital format, that is, by coordinates and numerical descriptions of altitude
       </>
     ),
   },
