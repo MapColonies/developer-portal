@@ -4,12 +4,11 @@ slug: dem-catalog
 title: Catalog 🗃️
 tags:
   - DEM
+  - DTM
+  - DSM
   - catalog
-  - smart-reality
   - csw
   - API
-  - qmesh
-  - quantaized-mesh
 ---
 
 # Catalog Service 🗃️
