@@ -33,8 +33,11 @@ flowchart LR
     C -- constructed URI with<br/> coverage_id --> D1[STEP 3.1<br/>GetCoverage]
     C -- layer_WMTS_LAYER_URI --> D2[STEP 3.2 <br/>Optional<br/>Cesium visualization]
 ```
-> :no_entry: **Authentication must be integrated in order to communicate with CSW server.**<br/>
-> **See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
+
+:::info
+**Authentication must be integrated in order to communicate with CSW server.**<br/>
+**See the principles [here](/ogc-protocols/ogc-csw-auth.md)**
+:::
 
 1. Query **DEM CSW catalog** service to find item(s)  according to desired filter [example are here](catalog-information/query-examples.md)
 2. From relevant catalog item extract **coverage_id**
