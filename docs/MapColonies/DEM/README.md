@@ -8,7 +8,7 @@ tags:
  - overview
 ---
 
-## DEM (DTM / DSM)  <!-- {docsify-ignore} -->
+## DEM (DTM / DSM)
 A **Digital Elevation Model** is a representation of elevation data that maps the surface of the earth, above a certain datum. There are essentially 2 types of DEM:
 
 * The **Digital Terrain Model (DTM)** represents the raw elevation of the bare earth ground without considering any over-ground features like plants and buildings.
