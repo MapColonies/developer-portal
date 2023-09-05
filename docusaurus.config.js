@@ -142,6 +142,10 @@ const config = {
                 label: '3D',
                 to: '/docs/MapColonies/3D/3d-overview'
               },
+              {
+                label: 'DEM',
+                to: '/docs/MapColonies/DEM/dem-overview'
+              },
             ],
           },
           {

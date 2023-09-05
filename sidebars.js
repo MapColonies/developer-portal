@@ -65,6 +65,19 @@ const sidebars = {
             },
           ] 
         },
+        {
+          type: 'category',
+          label: 'DEM',
+          collapsed: false,
+          collapsible: true,
+          items: [
+            {
+              type: 'doc',
+              label: 'Getting Started',
+              id: 'MapColonies/DEM/Guides/dem-getting-started'
+            },
+          ] 
+        },
       ]
     }
   ]
