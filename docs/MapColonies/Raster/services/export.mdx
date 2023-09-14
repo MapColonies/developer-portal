@@ -31,16 +31,11 @@ You can create export tasks via the [Exporter-Trigger service API](/docs/MapColo
 
 You can see the full OpenAPI spec [here](<RASTER-EXPORT-SERVICE_URL>/docs/api)
 
-The API consists of several methods:
-1. create (deprecated) - you can create a new export task, if the requested task params were previously created they are returned in the response, else via provided webhook
-:::caution
-The create API is in use of GetMap. This use is now deprecated. Use `create/roi` instead.
-:::
-2. create/roi - you can create a new export task from ROI (region of intreset - GoeJson FeatureCollection), if the requested task params were previously created they are returned in the response, else via provided webhook
-3. taskStatus/{jobId} - Get status (and percentage) by the id that is returned from the create method
-4. storage - returns free and total existing size on export service storage
+The API currently consists of one method:
+1. POST /export-tasks - Create a new export task, if the requested task params were previously created they are returned in the response, else via provided webhook
 
 ## Files structure
+Under "artifacts" section in the response you will find the following artifacts
 
 #### GPKG
 SQLite DB file that contains all the necessary tiles
@@ -57,98 +52,163 @@ Our specification consists of the following:
 JSON file that contains the record metadata such as footprint and resolution
 - file extension: ".JSON"
 - provided fields follow the profile convention [here](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v1)
-**Note:** when using create/roi API the metadata link is returned via "links" response, while in create (deprecated) API the metadata can be reached only when replacing the GPKG link suffix from ".GPKG" to ".JSON"
 
 ### Important Notes
-1. The data is returned via callback request or on /create request response (structure in appendix 1)
-2. To download the data one needs to use authentication token
+1. The data is returned via callback request or on /export-tasks request response (structure in appendix 1)
 
 ### Appendix
 
 
 <Tabs>
-<TabItem value="appendix-1" label="Callback request structure (create/roi)">
+<TabItem value="appendix-1" label="Callback request structure (export-tasks)">
 
-- status: Enum - OperationStatus.IN_PROGRESS | OperationStatus.COMPLETED | OperationStatus.FAILED
-- links: Object - consist of download links for the exported GPKG and metadata file
-- expirationTime: string($date) - date when the exported file will be deleted
-- fileSize: number - GPKG file size in bytes
-- recordCatalogId: uuid - Raster Catalog Record DB ID - from orginal request
-- description: string - the description that was sent to the create method
+- catalogRecordID: uuid - Raster Catalog Record DB ID - from orginal request
+- domain: string - the export domain ("RASTER" / "DEM" / "3D", etc.)
 - roi: FeatureCollection - requested region of intrest
-- jobId: uuid - unique identifier for export request - the field that was returned from orginal create request
+- artifactCRS: artifact crs (for Example: "4326")
+- description: string - the description that was sent to the create method
+- keywords: Object - task metadata in key-value pair
+- parameters: Object - task parameters in key-value pair
+- webhook: Object - events registered to, and to what url to call when event executed
+- id: number - unique identifier for export request
+- estimatedSize: number - estimated size of the artifacts in bytes
+- estimatedTime: number - estimated time to finish the export task
+- status: Enum - IN_PROGRESS | COMPLETED | ABORTED | PAUSED | FAILED | PENDING | EXPIRED | ARCHIVED
 - errorReason: string - if export task was unsuccessful this field will describe the error
+- progress: number - minimum: 0, maximum: 100
+- artifacts: Object - Object that describes the task products and how to access them
+- createdAt: string($date) - creation task time - UTC format
+- expiredAt: string($date) - describes when the task will be expired at - UTC format
+- finishedAt: string($date) - describes when the task reached an end state - UTC format
 
 </TabItem>
-<TabItem value="appendix-2" label="Callback Request Example (create/roi)">
+<TabItem value="appendix-2" label="Callback Request Example (export-tasks)">
 
 
 ``` json title="Callback Request Example"
 {
-  "status": "Completed",
-  "links": {
-    "dataURI": "{downloadServiceURL}/{directory}/{GPKGFileName}.gpkg";
-    "metadataURI": "{downloadServiceURL}/{directory}/{GPKGFileName}.json";
-  },
-  "expirationTime": "1970-01-17T12:27:14.520Z",
-  "fileSize": "120000",
-  "recordCatalogId": "ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8",
-  "description": "This is an export task description",
-  "roi": {
+  "catalogRecordID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "domain": "RASTER",
+  "ROI": {
     "type": "FeatureCollection",
     "features": [
       {
         "type": "Feature",
         "properties": {
-          "maxResolutionDeg": 0.067
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
         },
         "geometry": {
+          "type": "Polygon",
           "coordinates": [
             [
               [
-                35.003280642044984,
-                31.951118514806808
-              ],
-              [
-                34.900854406671726,
-                31.951118514806808
-              ],
-              [
-                34.900854406671726,
-                31.930837592169695
-              ],
-              [
-                35.003280642044984,
-                31.930837592169695
-              ],
-              [
-                35.003280642044984,
-                31.951118514806808
+                0,
+                0
               ]
             ]
-          ],
-          "type": "Polygon"
+          ]
         }
       }
     ]
   },
-  "jobId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "errorReason": ""
+  "artifactCRS": "4326",
+  "description": "string",
+  "keywords": {
+    "foo": "kuku"
+  },
+  "parameters": {
+    "foo": "kuku"
+  },
+  "webhook": [
+    {
+      "events": [
+        "TASK_COMPLETED"
+      ],
+      "url": "https://webhook.com"
+    }
+  ],
+  "id": 0,
+  "estimatedSize": 0,
+  "estimatedTime": 0,
+  "status": "COMPLETED",
+  "errorReason": "",
+  "progress": 100,
+  "artifacts": [
+    {
+      "type": "GPKG",
+      "name": "string",
+      "size": 124215121,
+      "url": "https://download.com/file"
+    }
+  ],
+  "createdAt": "2023-09-14T09:28:05.315Z",
+  "expiredAt": "2023-09-14T09:28:05.315Z",
+  "finishedAt": "2023-09-14T09:28:05.315Z"
 }
 ```
 
 </TabItem>
 
-<TabItem value="appendix-3" label="/create and /create/roi response for In-Progress Export">
+<TabItem value="appendix-3" label="/export-tasks response for In-Progress Export">
 
 
 ``` json
 {
-  "status": "In-Progress",
-  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "taskIds": [
-    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-  ]
+  "catalogRecordID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "domain": "RASTER",
+  "ROI": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                0,
+                0
+              ]
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "artifactCRS": "4326",
+  "description": "string",
+  "keywords": {
+    "foo": "kuku"
+  },
+  "parameters": {
+    "foo": "kuku"
+  },
+  "webhook": [
+    {
+      "events": [
+        "TASK_COMPLETED"
+      ],
+      "url": "https://webhook.com"
+    }
+  ],
+  "id": 0,
+  "estimatedSize": 0,
+  "estimatedTime": 0,
+  "status": "IN_PROGRESS",
+  "errorReason": "",
+  "progress": 70,
+  "artifacts": [
+  ],
+  "createdAt": "2023-09-14T09:28:05.315Z",
+  "expiredAt": "2023-09-14T09:28:05.315Z",
+  "finishedAt": "2023-09-14T09:28:05.315Z"
 }
 ```
 </TabItem>
@@ -157,55 +217,65 @@ JSON file that contains the record metadata such as footprint and resolution
 
 ``` json
 {
-  "status": "Completed",
-  "links": {
-    "dataURI": "{downloadServiceURL}/{directory}/{GPKGFileName}.gpkg";
-    "metadataURI": "{downloadServiceURL}/{directory}/{GPKGFileName}.json";
-  },
-  "expirationTime": "1970-01-17T12:27:14.520Z",
-  "fileSize": "120000",
-  "recordCatalogId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "description": "This is an export task description",
-  "roi": {
+  "catalogRecordID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "domain": "RASTER",
+  "ROI": {
     "type": "FeatureCollection",
     "features": [
       {
         "type": "Feature",
         "properties": {
-          "maxResolutionDeg": 0.067
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
         },
         "geometry": {
+          "type": "Polygon",
           "coordinates": [
             [
               [
-                35.003280642044984,
-                31.951118514806808
-              ],
-              [
-                34.900854406671726,
-                31.951118514806808
-              ],
-              [
-                34.900854406671726,
-                31.930837592169695
-              ],
-              [
-                35.003280642044984,
-                31.930837592169695
-              ],
-              [
-                35.003280642044984,
-                31.951118514806808
+                0,
+                0
               ]
             ]
-          ],
-          "type": "Polygon"
+          ]
         }
       }
     ]
   },
-  "jobId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "errorReason": ""
+  "artifactCRS": "4326",
+  "description": "string",
+  "keywords": {
+    "foo": "kuku"
+  },
+  "parameters": {
+    "foo": "kuku"
+  },
+  "webhook": [
+    {
+      "events": [
+        "TASK_COMPLETED"
+      ],
+      "url": "https://webhook.com"
+    }
+  ],
+  "id": 0,
+  "estimatedSize": 0,
+  "estimatedTime": 0,
+  "status": "COMPLETED",
+  "errorReason": "",
+  "progress": 100,
+  "artifacts": [
+    {
+      "type": "GPKG",
+      "name": "string",
+      "size": 124215121,
+      "url": "https://download.com/file"
+    }
+  ],
+  "createdAt": "2023-09-14T09:28:05.315Z",
+  "expiredAt": "2023-09-14T09:28:05.315Z",
+  "finishedAt": "2023-09-14T09:28:05.315Z"
 }
 ```
 </TabItem>
