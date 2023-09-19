@@ -32,7 +32,7 @@ You can create export tasks via the [Exporter-Trigger service API](/docs/MapColo
 You can see the full OpenAPI spec [here](<RASTER-EXPORT-SERVICE_URL>/docs/api)
 
 The API currently consists of one method:
-1. POST /export-tasks - Create a new export task, if the requested task params were previously created they are returned in the response, else via provided webhook
+1. POST /export-tasks - Create a new export task. If the requested task params were previously created, they are returned in the response, otherwise they will be returned via the provided webhook.
 
 ## Files structure
 Under "artifacts" section in the response you will find the following artifacts
@@ -44,8 +44,8 @@ for more details view:
 - **https://www.sqlite.org/index.html**
 
 Our specification consists of the following:
-- terms [here](/docs/MapColonies/terms)
-- tiling scheme (World CRS84 TileMatrixSet) [here](/docs/MapColonies/Raster/overview#Raster Tiling scheme In Detail)
+- [terms](/docs/MapColonies/terms)
+- tiling scheme (World CRS84 TileMatrixSet) [here](/docs/MapColonies/Raster/overview/#raster-tiling-scheme-in-detail)
 - file extension: ".gpkg"
 
 #### Metadata
