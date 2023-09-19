@@ -32,7 +32,7 @@ flowchart LR
     end
     B -- xml --> c1
     B -- xml --> c2
-    c1 -. <i>IN DEVELOPMENT</i> <br/>metadata<br/>of ready for <b>export</b> data .-> E[STEP 3<br/>Your system]
+    c1 -. <i>IN DEVELOPMENT</i> <br/>metadata<br/>of available for <b>export</b> data .-> E[STEP 3<br/>Your system]
     c2 -- terrain_URI --> D[STEP 3.1<br/>Cesium]
 
     linkStyle 4 color:green,stroke:#f4cccc,stroke-width:5px %% Arrow 
@@ -114,7 +114,7 @@ You will get GetRecords XML Response with product **metadata**.
         </mc:MCDEMRecord>
         <mc:MCDEMRecord>
             <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
-            <mc:classification>6</mc:classification>
+            <mc:classification>5</mc:classification>
             <mc:creationDateUTC>2022-06-15</mc:creationDateUTC>
             <mc:description>srtm100</mc:description>
             <mc:footprint>{"type":"Polygon","coordinates":[[[35.2670012825,32.5856881598],[35.2670012825,32.6300363309],[35.3105702702,32.6300363309],[35.3105702702,32.5856881598],[35.2670012825,32.5856881598]]]}</mc:footprint>
@@ -155,8 +155,6 @@ You will get GetRecords XML Response with product **metadata**.
 
 ## Get DEM metadata (Step 2)
 In the Response, look for desired data according to profile definition.
-This data in further version might be exported from MapColonies.
-
 
 ## Get terrain provider URI (Step 2.1, optional)
 In the Response, look for
@@ -168,11 +166,11 @@ In the Response, look for
 ```
 
 :::info
-**You need to save `<mc:links>` <u>element</u> value as TERRAIN_URL, which is a terrain provider consumption URL.**
+**You should extract the `<mc:links>` <u>element</u> value as TERRAIN_URL variable, which is a terrain provider consumption URL for the following steps.**
 :::
 
 ## Using catalog data (Step 3)
-After filtering catalog data you'll be able in the future to export desired data.
+In the future, you'll be able to export catalog data( elevation raw data in TIFF format ) after filtering.
 
 ## Construct Client (Step 3.1)
 Now, after you got all product metadata that you need by querying our Catalog, lets actually use it in your client application.

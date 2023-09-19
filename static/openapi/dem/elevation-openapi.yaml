@@ -34,12 +34,6 @@ paths:
               schema:
                 type: string
                 format: binary
-        '400':
-          description: Points density is too low to compute
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
         '500':
           description: Service Error
           content:

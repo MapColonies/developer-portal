@@ -18,7 +18,7 @@ Click [here](/docs/MapColonies/dem/services/elevation/api) for the OpenAPI
 :::
 
 ## Purpose
-The service lets users to recieve elevation(height) info at a given location(s)/position(s) [lon,lat] with/without extra data eg. resolution, DTM/DSM, etc.
+Allows users to request elevation(height) information at a given location(s)/position(s) in [lon,lat] format with/without extra data eg. resolution, DTM/DSM, etc.
 
 ## Terminology
 
@@ -31,9 +31,9 @@ Elevation info might be returned from following materials:
 
 
 :::caution
-**- You can ask elevation values for top 250 points at once. If you need more points to process you should devide it to bulks**
-**- Coordinates order is not preserved**<br/>
-**- You will need an API token as part of the service authentication &nbsp;**<br/>
+**- You may request values for up to 250 points at once. In case you have more than that, you should divide it into bulks.**
+**- Coordinates order is not preserved.**<br/>
+**- You will need an API token as part of the service authentication. &nbsp;**<br/>
 **- When getting a time-out in a result of request, please try same API call again.**
 :::
 
