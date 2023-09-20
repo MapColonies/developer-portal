@@ -37,13 +37,6 @@ Elevation info might be returned from following materials:
 **- When getting a time-out in a result of request, please try same API call again.**
 :::
 
-
-The API in general is split to two parts:
-1. JSON payload - you can query the service with payload in JSON format.
-2. Comressed payload(protobuf) - you can query the the service with COMRESSED(protobuf) payload for performance reason. <br/>
-<i style={{color:'orange'}}>If you interested, contact us for explanation how to use it.</i>
-
-
 ### API parameters(payload) explanation
 The structure (JSON schema) is as follows:
 
@@ -81,9 +74,3 @@ Elevation info cotains following:<br/>
 :::caution
 You can discard fully or partial elevation info by mentioning irrelevant fields in API call
 :::
-
-### Expected response time
-* 1 point - 30ms
-* 10 points - 50ms
-* 100 points - 250ms 
-* 250 points - 700ms 
