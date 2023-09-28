@@ -19,11 +19,11 @@ The expansion service wraps the `route`, `isochrone` and `sources_to_targets` se
 
 **Note**, for even moderately long routes (or isochrones or few sources/targets) the `/expansion` action can produce gigantic GeoJSON responses of 100s of MB.
 
-![A 11 km isochrone expansion result in Vienna, Austria](../../../../../static/img/openstreetmap/valhalla/expansion_dijkstra.png)
+![A 11 km isochrone expansion result in Vienna, Austria](../../../../static/img/openstreetmap/valhalla/expansion_dijkstra.png)
 
 ## Inputs of the Expansion service
 
-Since this service wraps other services, the request format mostly follows the ones of the [route](../turn-by-turn/api-reference.md#inputs-of-a-route), [isochrone](../isochrone/api-reference.md#inputs-of-the-isochrone-service) and [matrix](../matrix/api-reference.md#inputs-of-the-matrix-service). Additionally, it accepts the following parameters:
+Since this service wraps other services, the request format mostly follows the ones of the [route](./turn-by-turn/api-reference.md#inputs-of-a-route), [isochrone](./isochrone.md#inputs-of-the-isochrone-service) and [matrix](./matrix.md#inputs-of-the-matrix-service). Additionally, it accepts the following parameters:
 
 | Parameter                         | Description                           |
 |:----------------------------------| :------------------------------------ |

@@ -56,7 +56,7 @@ A source and target must include a latitude and longitude in decimal degrees. Th
 | `lon` | Longitude of the source/target in degrees. |
 | `date_time` | Expected date/time for the user to be at the location using the ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival. `date_time` as location input offers more granularity over setting time than the global `date_time` object (see below). 
 
-You can refer to the [route location documentation](../turn-by-turn/api-reference.md#locations) for more information on specifying locations.  
+You can refer to the [route location documentation](./turn-by-turn/api-reference.md#locations) for more information on specifying locations.  
 
 **Note**: `date_time` strings behave differently for `sources_to_targets` than for `route`. If set on the `sources` **and** there's more `targets` than `sources`, it'll behave like a "Specified departure time" on the `sources`. If set on the `targets` **and** there's less `targets` than `sources`, it'll behave like a "Specified arrival time" on the `targets`.
 
@@ -64,7 +64,7 @@ Also, using `type` in addition to the `lat` and `lon` within the location parame
 
 ### Costing parameters
 
-The Time-Distance Matrix service uses the `auto`, `bicycle`, `pedestrian` and `bikeshare` and other costing models available in the route service. Exception: **multimodal costing is not supported** for the time-distance matrix service at this time.  Refer to the [route costing models](../turn-by-turn/api-reference.md#costing-models) and [costing options](../turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
+The Time-Distance Matrix service uses the `auto`, `bicycle`, `pedestrian` and `bikeshare` and other costing models available in the route service. Exception: **multimodal costing is not supported** for the time-distance matrix service at this time.  Refer to the [route costing models](./turn-by-turn/api-reference.md#costing-models) and [costing options](./turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
 
 ### Other request options
 
@@ -72,7 +72,7 @@ The Time-Distance Matrix service uses the `auto`, `bicycle`, `pedestrian` and `b
 | :------------------ | :----------- |
 | `id` | Name your matrix request. If `id` is specified, the naming will be sent thru to the response. |
 | `matrix_locations` | For one-to-many or many-to-one requests this specifies the minimum number of locations that satisfy the request. However, when specified, this option allows a partial result to be returned. This is basically equivalent to "find the closest/best `matrix_locations` locations out of the full location set". |
-| `date_time` | This is the local date and time at the location.<ul><li>`type`<ul><li>0 - Current departure time.</li><li>1 - Specified departure time</li><li>2 - Specified arrival time.</li></ul></li><li>`value` - the date and time is specified in ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival.  For example "2016-07-03T08:06"</li></ul><br>|
+| `date_time` | This is the local date and time at the location.<ul><li>`type`<ul><li>0 - Current departure time.</li><li>1 - Specified departure time</li><li>2 - Specified arrival time.</li></ul></li><li>`value` - the date and time is specified in ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival.  For example "2016-07-03T08:06"</li></ul><br></br>|
 | `verbose`   | If `true` it will output a flat list of objects for `distances` & `durations` explicitly specifying the source & target indices. If `false` will return more compact, nested row-major `distances` & `durations` arrays and not echo `sources` and `targets`. Default `true`. |
 
 ### Time-dependent matrices
@@ -101,4 +101,4 @@ These are the results of a request to the Time-Distance Matrix service.
 | `units` | Distance units for output. Allowable unit types are mi (miles) and km (kilometers). If no unit type is specified, the units default to kilometers. |
 | `warnings` (optional) | This array may contain warning objects informing about deprecated request parameters, clamped values etc. | 
 
-See the [HTTP return codes](../turn-by-turn/api-reference.md#http-status-codes-and-conditions) for more on messages you might receive from the service.
+See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-and-conditions) for more on messages you might receive from the service.

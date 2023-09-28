@@ -46,13 +46,15 @@ Valhalla is an open source routing engine and accompanying libraries for use wit
 Valhalla is an open-source toolkit for multimodal transportation, powered by open data. The APIs use the standard REST model of interaction with JSON serving as both the request and response formats. Please refer to a specific service's API documentation to learn about the various request/response properties. In addition to JSON request/response formats Valhalla also supports protocol buffers as request/response format.
 
 Its API has the following endpoints for querying the data:
-* __[route](/docs/MapColonies/openstreetmap/valhalla/route)__ - the service guides you between points by car, bike, foot, and multimodal combinations involving walking and riding public transit. Your apps can use the results from the route service to plan multimodal journeys with narratives to guide users by text and by voice. Valhalla draws data from OpenStreetMap for the main graph and from user-supplied GTFS feeds for multimodal routing. 
+* __[route](/docs/MapColonies/openstreetmap/valhalla/turn-by-turn/osm-valhalla-route)__ - the service guides you between points by car, bike, foot, and multimodal combinations involving walking and riding public transit. Your apps can use the results from the route service to plan multimodal journeys with narratives to guide users by text and by voice. Valhalla draws data from OpenStreetMap for the main graph and from user-supplied GTFS feeds for multimodal routing. 
+    
     #### "I am trying to run more than one errand in the day or start my own delivery service!" 🤷
-* __[optimized-route](/docs/MapColonies/openstreetmap/valhalla/optimized-route)__ - computes the times and distances between many origins and destinations and provides you with an optimized path between the locations.
-* __[matrix](/docs/MapColonies/openstreetmap/valhalla/matrix)__ - if you want only a table of the times and distances, start with the matrix service.
-* __[isochrone](/docs/MapColonies/openstreetmap/valhalla/isochrone)__ - get a computation of areas that are reachable within specified time periods from a location or set of locations
-* __[map-matching](/docs/MapColonies/openstreetmap/valhalla/map-matching)__ - matches coordinates to known roads so you can turn a path into a route with narrative instructions and get the attribute values from that matched line. 
-* __[expansion](/docs/MapColonies/openstreetmap/valhalla/expansion)__ - return a geojson representation of a graph traversal at a given location.
-* __[locate](/docs/MapColonies/openstreetmap/valhalla/locate)__ - get detailed metadata about the nodes and edges in the graph.
-* __[centroid](/docs/MapColonies/openstreetmap/valhalla/centroid)__ - allows you to find the least cost convergence point of routes from multiple locations.
+* __[optimized-route](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-optimized-route)__ - computes the times and distances between many origins and destinations and provides you with an optimized path between the locations.
+* __[matrix](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-matrix)__ - if you want only a table of the times and distances, start with the matrix service.
+* __[isochrone](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-isochrone)__ - get a computation of areas that are reachable within specified time periods from a location or set of locations
+* __[map-matching](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-map-matching)__ - matches coordinates to known roads so you can turn a path into a route with narrative instructions and get the attribute values from that matched line. 
+* __[expansion](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-expansion)__ - return a geojson representation of a graph traversal at a given location.
+* __[locate](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-locate)__ - get detailed metadata about the nodes and edges in the graph.
+
+* **centroid** - allows you to find the least cost convergence point of routes from multiple locations.
 

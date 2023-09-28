@@ -21,11 +21,11 @@ Isochrone maps share some of the same concepts and terminology with familiar top
 
 This is an example of 15, 30, 45 and 60 minute bicycle isochrones centered in Lancaster, PA.
 
-![Isochrones for travel times by walking in Lancaster, PA](../../../../../static/img/openstreetmap/valhalla/isochrone.png)
+![Isochrones for travel times by walking in Lancaster, PA](../../../../static/img/openstreetmap/valhalla/isochrone.png)
 
 ## Inputs of the Isochrone service
 
-An isochrone request run locally takes the form of `localhost:8002/isochrone?json={}`, where the JSON inputs inside the `{}` includes an array of at least one location and options for the [route costing model](../turn-by-turn/api-reference.md#costing-models).
+An isochrone request run locally takes the form of `localhost:8002/isochrone?json={}`, where the JSON inputs inside the `{}` includes an array of at least one location and options for the [route costing model](./turn-by-turn/api-reference.md#costing-models).
 
 For example, you can use the isochrone service to find out where you can travel within a 15-minute walk from your office building. The API request for this uses `isochrone?` as the request action, `pedestrian` costing, and a single contour for a 15-minute time interval. The response is GeoJSON, which you can display on a map to visualize where you might be able to walk.
 
@@ -44,11 +44,11 @@ The `locations` must include a latitude and longitude in decimal degrees. The co
 | `lat` | Latitude of the location in degrees. |
 | `lon` | Longitude of the location in degrees. |
 
-Refer to the [route location documentation](../turn-by-turn/api-reference.md#locations) for more information on specifying locations.
+Refer to the [route location documentation](./turn-by-turn/api-reference.md#locations) for more information on specifying locations.
 
 ### Costing parameters
 
-The isochrone service uses the `auto`, `bicycle`, `pedestrian`, and `multimodal` and all other costing models available in the Valhalla Turn-by-Turn service. Refer to the [route costing models](../turn-by-turn/api-reference.md#costing-models) and [costing options](../turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
+The isochrone service uses the `auto`, `bicycle`, `pedestrian`, and `multimodal` and all other costing models available in the Valhalla Turn-by-Turn service. Refer to the [route costing models](./turn-by-turn/api-reference.md#costing-models) and [costing options](./turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
 
 ### Other request parameters
 

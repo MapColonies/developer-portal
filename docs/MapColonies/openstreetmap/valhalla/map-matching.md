@@ -50,11 +50,11 @@ Note that the attributes that are returned are Valhalla routing attributes, not 
 
 ### Costing models and other options
 
-Valhalla Map Matching uses the `auto`, `auto_shorter`, `bicycle`, `bus`, and `pedestrian` costing models available in the Valhalla route service. Refer to the [route costing models](../turn-by-turn/api-reference.md#costing-models) and [costing options](../turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
+Valhalla Map Matching uses the `auto`, `auto_shorter`, `bicycle`, `bus`, and `pedestrian` costing models available in the Valhalla route service. Refer to the [route costing models](./turn-by-turn/api-reference.md#costing-models) and [costing options](./turn-by-turn/api-reference.md#costing-options) documentation for more on how to specify this input.
 
 Costing for `multimodal` is not supported for map matching because it would be difficult to get favorable GPS traces.
 
-You can also set `directions_options` to specify output units, language, and whether or not to return directions in a narrative form. Refer to the [route options](../turn-by-turn/api-reference.md#directions-options) documentation for examples.
+You can also set `directions_options` to specify output units, language, and whether or not to return directions in a narrative form. Refer to the [route options](./turn-by-turn/api-reference.md#directions-options) documentation for examples.
 
 `trace_route` has additional options that allow more flexibility in specifying timestamps (when using encoded polyline input for the trace) and for using timestamps when computing elapsed time along the matched path. These options are:
 
@@ -165,7 +165,7 @@ matched.distance_from_trace_point
 
 ### Outputs of `trace_route`
 
-The outputs of the `trace_route` action are the same as the [outputs of a route](../turn-by-turn/api-reference.md#outputs-of-a-route) action.
+The outputs of the `trace_route` action are the same as the [outputs of a route](./turn-by-turn/api-reference.md#outputs-of-a-route) action.
 
 ### Outputs of `trace_attributes`
 
@@ -176,7 +176,7 @@ The `trace_attributes` results contains a list of edges and, optionally, the fol
 | `edges` | List of edges associated with input shape. See the list of [edge items](#edge-items) for details. |
 | `osm_changeset` | Identifier of the OpenStreetMap base data version. |
 | `admins` | List of the administrative codes and names. See the list of [admin items](#admin-items) for details. |
-| `shape` | The [encoded polyline](../../decoding.md) of the matched path. |
+| `shape` | The encoded polyline of the matched path. |
 | `matched_points` | List of match results when using the `map_snap` shape match algorithm. There is a one-to-one correspondence with the input set of latitude, longitude coordinates and this list of match results. See the list of [matched point items](#matched-point-items) for details. |
 | `units` | The specified units with the request, in either kilometers or miles. |
 | `warnings`  | A warnings array. This array may contain descriptive text about notices of deprecated request parameters, clamped values etc. | 
@@ -223,7 +223,7 @@ Each `edge` may include:
 | `lane_count` | The number of lanes for this edge. |
 | `cycle_lane` | The type (if any) of bicycle lane along this edge. |
 | `bicycle_network` | The bike network for this edge. |
-| `sac_scale` | Classification of hiking trails based on difficulty. Values:<ul><li>`0 - No Sac Scale`</li><li>`1 - Hiking`</li><li>`2 - Mountain hiking`<li>`3 - Demanding mountain hiking`<li>`4 - Alpine hiking`<li>`5 - Demanding alpine hiking`<li>`6 - Difficult alpine hiking`</li></ul> |
+| `sac_scale` | Classification of hiking trails based on difficulty. Values:<ul><li>`0 - No Sac Scale`</li><li>`1 - Hiking`</li><li>`2 - Mountain hiking`</li><li>`3 - Demanding mountain hiking`</li><li>`4 - Alpine hiking`</li><li>`5 - Demanding alpine hiking`</li><li>`6 - Difficult alpine hiking`</li></ul> |
 | `shoulder` | True if the edge has a shoulder. |
 | `sidewalk` | Sidewalk values:<ul><li>`left`</li><li>`right`</li><li>`both`</li></ul> |
 | `density` | The relative density along the edge. |
