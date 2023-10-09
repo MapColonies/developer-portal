@@ -15,6 +15,8 @@ tags:
 
 Valhalla's time-distance matrix service provides a quick computation of time and distance between a set of locations and returns them to you in the resulting matrix table.
 
+![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-one-to-many.png)
+
 ## Matrix service
 
 The time distance matrix service takes a `sources` and `targets` to list locations. This allows you to set the source (origin) locations separately from the target (destination) locations. The set of origins may be disjoint (not overlapping) with the set of destinations. In other words, the target locations do not have to include any locations from source locations. The time-distance matrix can return a row matrix, a column matrix, or a general matrix of computed time and distance, depending on your input for the sources and targets parameters. The general case is a row ordered matrix with the time and distance from each source location to each target location. A row vector is considered a *one_to_many* time-distance matrix where there is one source location and multiple target locations. The time and distance from the source location to all target locations is returned. A column matrix represents a *many_to_one* time-distance matrix where there are many sources and one target. Another special case is when the source location list is the same as the target location list. Here, a diagonal (square matrix with [0,0.00] on the diagonal elements) matrix is returned. The is special case is often used as the input to optimized routing problems.
@@ -121,7 +123,6 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 ## Examples
 
 #### 'One To Many' request:
-![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-one-to-many.png)
 
 ```json
 <VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804}],"targets":[{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
@@ -185,7 +186,6 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 </details>
 
 #### 'Many To Many' request:
-![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-many-to-many.png)
 
 ```json
 <VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"targets":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
@@ -347,3 +347,5 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 }
 ```
 </details>
+
+![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-many-to-many.png)

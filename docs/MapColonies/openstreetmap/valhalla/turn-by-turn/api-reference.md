@@ -15,6 +15,8 @@ tags:
 
 Valhalla's routing service (a.k.a. turn-by-turn), is an open-source routing service that lets you integrate routing and navigation into a web or mobile application.
 
+![Routing settings](../../../../../static/img/openstreetmap/valhalla/route.png)
+
 ## Inputs of a route
 
 The route request run locally takes the form of `localhost:8002/route?json={}`, where the JSON inputs inside the `{}` include location information, name and options for the costing model, and output options. Here is the JSON payload for an example request:

@@ -15,6 +15,8 @@ tags:
 
 The Optimized Route service provides a quick computation of time and distance between a set of location sources and location targets and returns them in an optimized route order, along with the shape.
 
+![Routing settings](../../../../static/img/openstreetmap/valhalla/optimized-route-example.png)
+
 ## Features
 * Get to the shortest path. Get the shortest route for a large number of points. The service returns them in an optimized order, along with the shape.
 * Use different transportation modes. Analyze travel times and distances by car, bicycle, or foot.
@@ -78,7 +80,6 @@ These are the results of a request to the Optimized Route service.
 
 ## Examples
 
-![Routing settings](../../../../static/img/openstreetmap/valhalla/optimized-route-example.png)
 #### optimized route request
 
 ```json
