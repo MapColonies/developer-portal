@@ -318,7 +318,7 @@ A multimodal request with a filter for certain Onestop IDs:
 {"locations":[{"lat":40.730930,"lon":-73.991379,"street":"Wanamaker Place"},{"lat":40.749706,"lon":-73.991562,"street":"Penn Plaza"}],"costing":"multimodal","costing_options":{"transit":{"filters":{"routes":{"ids":["NYC_AUR"],"action":"exclude"},"operators":{"ids":["paris_CFG","berlin_VBB"],"action":"include"}}}},"units":"miles"}
 ```
 
-#### Directions options
+### Directions options
 
 Directions options should be specified at the top level of the JSON object.
 
