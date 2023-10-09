@@ -15,6 +15,11 @@ tags:
 
 The Optimized Route service provides a quick computation of time and distance between a set of location sources and location targets and returns them in an optimized route order, along with the shape.
 
+## Features
+* Get to the shortest path. Get the shortest route for a large number of points. The service returns them in an optimized order, along with the shape.
+* Use different transportation modes. Analyze travel times and distances by car, bicycle, or foot.
+* Take a trip or make a loop. Either return to the starting point, or end the trip at a different destination.
+
 ## Optimized route service action
 
 You can request the following action from the Optimized Route service: `/optimized_route?`. Since an optimized route is really an extension of the *many_to_many* matrix (where the source locations are the same as the target locations), the first step is to compute a cost matrix by sending a matrix request.  Then, we send our resulting cost matrix (resulting time or distance) to the optimizer which will return our optimized path.
@@ -71,13 +76,14 @@ These are the results of a request to the Optimized Route service.
 | `units` | Distance units for output. Allowable unit types are mi (miles) and km (kilometers). If no unit type is specified, the units default to kilometers. |
 | `warnings` (optional) | This array may contain warning objects informing about deprecated request parameters, clamped values etc. | 
 
-## Exapmles
+## Examples
 
 ![Routing settings](../../../../static/img/openstreetmap/valhalla/optimized-route-example.png)
 #### optimized route request
 
-`/optimized_route?json={"costing":"auto","locations":[{"lat":37.755545371651614,"lon":-122.49248879268177},{"lat":37.76378748950549,"lon":-122.48700002284123},{"lat":37.75980958653573,"lon":-122.48357478963833},{"lat":37.76223015859495,"lon":-122.4912040416903},{"lat":37.75921109492966,"lon":-122.49701367108483},{"lat":37.75514144886399,"lon":-122.50395875678804}]}`
-
+```json
+<VALHALLA BASE URL>/optimized_route?json={"costing":"auto","locations":[{"lat":37.755545371651614,"lon":-122.49248879268177},{"lat":37.76378748950549,"lon":-122.48700002284123},{"lat":37.75980958653573,"lon":-122.48357478963833},{"lat":37.76223015859495,"lon":-122.4912040416903},{"lat":37.75921109492966,"lon":-122.49701367108483},{"lat":37.75514144886399,"lon":-122.50395875678804}]}`
+```
 
 <details>
   <summary>Lookup Results in JSON Format</summary>

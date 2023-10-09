@@ -35,6 +35,9 @@ A location must include a latitude and longitude in decimal degrees. The coordin
 
 To build a route, you need to specify two `break` locations. In addition, you can include `through`, `via` or `break_through` locations to influence the route path.
 
+<details>
+  <summary>Location parameters description</summary>
+
 | Location parameters | Description |
 | :--------- | :----------- |
 | `lat` | Latitude of the location in degrees. This is assumed to be both the routing location and the display location if no `display_lat` and `display_lon` are provided. |
@@ -55,7 +58,9 @@ To build a route, you need to specify two `break` locations. In addition, you ca
 | `street_side_tolerance` | If your input coordinate is less than this tolerance away from the edge centerline then we set your side of street to none otherwise your side of street will be left or right depending on direction of travel. The default is 5 meters. |
 | `street_side_max_distance` | The max distance in meters that the input coordinates or display ll can be from the edge centerline for them to be used for determining the side of street. Beyond this distance the side of street is set to none. The default is 1000 meters. |
 | `street_side_cutoff` | Disables the `preferred_side` when set to `same` or `opposite` if the edge has a road class less than that provided by `street_side_cutoff`. The road class must be one of the following strings: motorway, trunk, primary, secondary, tertiary, unclassified, residential, service_other.  The default value is `service_other` so that `preferred_side` will not be disabled for any edges. |
-| `search_filter` | A set of optional filters to exclude candidate edges based on their attribution. The following exclusion filters are supported: <ul><li>`exclude_tunnel` (boolean, defaults to `false`): whether to exclude roads marked as tunnels</li><li>`exclude_bridge` (boolean, defaults to `false`): whether to exclude roads marked as bridges</li><li>`exclude_ramp` (boolean, defaults to `false`): whether to exclude link roads marked as ramps, note that some turn channels are also marked as ramps</li><li>`exclude_closures` (boolean, defaults to `true`): whether to exclude roads considered closed due to live traffic closure. **Note:** This option cannot be set if `costing_options.<costing>.ignore_closures` is also specified. An error is returned if both options are specified. **Note 2:** Ignoring closures at destination and source locations does NOT work for date_time type `0/1` & `2` respectively</li><li>`min_road_class` (string, defaults to `"service_other"`): lowest road class allowed</li><li>`max_road_class` (string, defaults to `"motorway"`): highest road class allowed</li></ul>Road classes from highest to lowest are: motorway, trunk, primary, secondary, tertiary, unclassified, residential, service_other.
+| `search_filter` | A set of optional filters to exclude candidate edges based on their attribution. The following exclusion filters are supported: <ul><li>`exclude_tunnel` (boolean, defaults to `false`): whether to exclude roads marked as tunnels</li><li>`exclude_bridge` (boolean, defaults to `false`): whether to exclude roads marked as bridges</li><li>`exclude_ramp` (boolean, defaults to `false`): whether to exclude link roads marked as ramps, note that some turn channels are also marked as ramps</li><li>`exclude_closures` (boolean, defaults to `true`): whether to exclude roads considered closed due to live traffic closure. **Note:** This option cannot be set if `costing_options.ignore_closures` is also specified. An error is returned if both options are specified. **Note 2:** Ignoring closures at destination and source locations does NOT work for date_time type `0/1` & `2` respectively</li><li>`min_road_class` (string, defaults to `"service_other"`): lowest road class allowed</li><li>`max_road_class` (string, defaults to `"motorway"`): highest road class allowed</li></ul>Road classes from highest to lowest are: motorway, trunk, primary, secondary, tertiary, unclassified, residential, service_other.
+
+</details>
 
 Optionally, you can include the following location information without impacting the routing. This information is carried through the request and returned as a convenience.
 
@@ -76,6 +81,9 @@ Future development work includes adding location options and information related
 
 Valhalla's routing service uses dynamic, run-time costing to generate the route path. The route request must include the name of the costing model and can include optional parameters available for the chosen costing model.
 
+<details>
+  <summary>Costing model description</summary>
+
 | Costing model | Description |
 | :----------------- | :----------- |
 | `auto` | Standard costing for driving routes by car, motorcycle, truck, and so on that obeys automobile driving rules, such as access and turn restrictions. `Auto` provides a short time path (though not guaranteed to be shortest time) and uses intersection costing to minimize turns and maneuvers or road name changes. Routes also tend to favor highways and higher classification roads, such as motorways and trunks. |
@@ -89,6 +97,8 @@ Valhalla's routing service uses dynamic, run-time costing to generate the route 
 | `motorcycle` | Standard costing for travel by motorcycle.  This costing model provides options to tune the route to take roadways (road touring) vs. tracks and trails (adventure motorcycling).|
 | `multimodal` | Currently supports pedestrian and transit. In the future, multimodal will support a combination of all of the above. |
 | `pedestrian` | Standard walking route that excludes roads without pedestrian access. In general, pedestrian routes are shortest distance with the following exceptions: walkways and footpaths are slightly favored, while steps or stairs and alleys are slightly avoided. |
+
+</details>
 
 #### Costing options
 
@@ -105,6 +115,9 @@ Another special case is `disable_hierarchy_pruning` costing option. As the name 
 ##### Automobile and bus costing options
 
 These options are available for `auto`, `bus`, and `truck` costing methods.
+
+<details>
+  <summary>Automobile options description</summary>
 
 | Automobile options | Description |
 | :-------------------------- | :----------- |
@@ -131,10 +144,15 @@ These options are available for `auto`, `bus`, and `truck` costing methods.
 | `ignore_closures` | If set to `true`, ignores all closures, marked due to live traffic closures, during routing. **Note:** This option cannot be set if `location.search_filter.exclude_closures` is also specified in the request and will return an error if it is |
 | `closure_factor` | A factor that penalizes the cost when traversing a closed edge (eg: if `search_filter.exclude_closures` is `false` for origin and/or destination location and the route starts/ends on closed edges). Its value can range from `1.0` - don't penalize closed edges, to `10.0` - apply high cost penalty to closed edges. Default value is `9.0`. **Note:** This factor is applicable only for motorized modes of transport, i.e `auto`, `motorcycle`, `motor_scooter`, `bus`, `truck` & `taxi`. |
 
+</details>
+
 ###### Other costing options
 The following options are available for `auto`, `bus`, `taxi`, and `truck` costing methods.
 
-| Vehicle Options | Description |
+<details>
+  <summary>Vehicle options description</summary>
+
+| Vehicle options | Description |
 | :-------------------------- | :----------- |
 | `height` | The height of the vehicle (in meters). Default 1.9 for car, bus, taxi and 4.11 for truck. |
 | `width` | The width of the vehicle (in meters). Default 1.6 for car, bus, taxi and 2.6 for truck. |
@@ -144,7 +162,12 @@ The following options are available for `auto`, `bus`, `taxi`, and `truck` costi
 | `include_hov3` | A boolean value which indicates the desire to include HOV roads with a 3-occupant requirement in the route when advantageous. Default false. |
 | `include_hot` | A boolean value which indicates the desire to include tolled HOV roads which require the driver to pay a toll if the occupant requirement isn't met. Default false. |
 
+</details>
+
 The following options are available for `truck` costing.
+
+<details>
+  <summary>Truck options description</summary>
 
 | Truck options | Description |
 | :-------------------------- | :----------- |
@@ -153,6 +176,7 @@ The following options are available for `truck` costing.
 | `axle_load` | The axle load of the truck (in metric tons). Default 9.07. |
 | `axle_count` | The axle count of the truck. Default 5. |
 | `hazmat` | A value indicating if the truck is carrying hazardous materials. Default false. |
+</details>
 
 ##### Bicycle costing options
 The default bicycle costing is tuned toward road bicycles with a slight preference for using cycleways or roads with bicycle lanes. Bicycle routes use regular roads where needed or where no direct bicycle lane options exist, but avoid roads without bicycle access. The costing model recognizes several factors unique to bicycle travel and offers several options for tuning bicycle routes. Several factors unique to travel by bicycle influence the resulting route.
@@ -166,6 +190,9 @@ The following options described above for autos also apply to bicycle costing me
 
 These additional options are available for bicycle costing methods.
 
+<details>
+  <summary>Bicycle options description</summary>
+
 | Bicycle options | Description |
 | :-------------------------- | :----------- |
 | `bicycle_type` | The type of bicycle. The default type is `Hybrid`. <ul><li>`Road`: a road-style bicycle with narrow tires that is generally lightweight and designed for speed on paved surfaces. </li><li>`Hybrid` or `City`: a bicycle made mostly for city riding or casual riding on roads and paths with good surfaces.</li><li>`Cross`: a cyclo-cross bicycle, which is similar to a road bicycle but with wider tires suitable to rougher surfaces.</li><li>`Mountain`: a mountain bicycle suitable for most surfaces but generally heavier and slower on paved surfaces.</li></ul> |
@@ -178,11 +205,15 @@ These additional options are available for bicycle costing methods.
 |`bss_return_cost`| This value is useful when `bikeshare` is chosen as travel mode. It is meant to give the time will be used to return a rental bike. This value will be displayed in the final directions and used to calculate the whole duation. The default value is 120 seconds.|
 |`bss_return_penalty`| This value is useful when `bikeshare` is chosen as travel mode. It is meant to describe the potential effort to return a rental bike. This value won't be displayed and used only inside of the algorithm.|
 | `shortest` | Changes the metric to quasi-shortest, i.e. purely distance-based costing. Note, this will disable all other costings & penalties. Also note, `shortest` will not disable hierarchy pruning, leading to potentially sub-optimal routes for some costing models. The default is `false`. |
+</details>
 
 ##### Motor_scooter costing options
 Standard costing for travel by motor scooter or moped.  By default, motor_scooter costing will avoid higher class roads unless the country overrides allows motor scooters on these roads.  Motor scooter routes follow regular roads when needed, but avoid roads without motor_scooter, moped, or mofa access. The costing model recognizes factors unique to motor_scooter travel and offers options for tuning motor_scooter routes. Factors unique to travel by motor_scooter influence the resulting route.
 
 All of the options described above for autos also apply to motor_scooter costing methods.  These additional options are available for motor_scooter costing methods.
+
+<details>
+  <summary>Motor_scooter options description</summary>
 
 | Motor_scooter options | Description |
 | :-------------------------- | :----------- |
@@ -192,11 +223,16 @@ All of the options described above for autos also apply to motor_scooter costing
 | `shortest` | Changes the metric to quasi-shortest, i.e. purely distance-based costing. Note, this will disable all other costings & penalties. Also note, `shortest` will not disable hierarchy pruning, leading to potentially sub-optimal routes for some costing models. The default is `false`. |
 | `disable_hierarchy_pruning` | Disable hierarchies to calculate the actual optimal route. The default is `false`. **Note:** This could be quite a performance drainer so there is a upper limit of distance. If the upper limit is exceeded, this option will always be `false`. |
 
+</details>
+
 ##### Motorcycle costing options 
 Standard costing for travel by motorcycle.  By default, motorcycle costing will default to higher class roads.  The costing model recognizes factors unique to motorcycle travel and offers options for tuning motorcycle routes.
 
 All of the options described above for autos also apply to motorcycle costing methods.
 The following options are available for motorcycle costing:
+
+<details>
+  <summary>Motorcycle options description</summary>
 
 | Motorcycle options | Description |
 | :-------------------------- | :----------- |
@@ -205,9 +241,14 @@ The following options are available for motorcycle costing:
 | `shortest` | Changes the metric to quasi-shortest, i.e. purely distance-based costing. Note, this will disable all other costings & penalties. Also note, `shortest` will not disable hierarchy pruning, leading to potentially sub-optimal routes for some costing models. The default is `false`. |
 | `disable_hierarchy_pruning` | Disable hierarchies to calculate the actual optimal route. The default is `false`. **Note:** This could be quite a performance drainer so there is a upper limit of distance. If the upper limit is exceeded, this option will always be `false`. |
 
+</details>
+
 ##### Pedestrian costing options
 
 These options are available for pedestrian costing methods.
+
+<details>
+  <summary>Pedestrian options description</summary>
 
 | Pedestrian options | Description |
 | :-------------------------- | :----------- |
@@ -231,9 +272,14 @@ These options are available for pedestrian costing methods.
 | `transit_start_end_max_distance` | A pedestrian option that can be added to the request to extend the defaults (2145 meters or approximately 1.5 miles). This is the maximum walking distance at the beginning or end of a route.|
 | `transit_transfer_max_distance` | A pedestrian option that can be added to the request to extend the defaults (800 meters or 0.5 miles). This is the maximum walking distance between transfers.|
 
+</details>
+
 ##### Transit costing options
 
 These options are available for transit costing when the multimodal costing model is used.
+
+<details>
+  <summary>Transit options description</summary>
 
 | Transit options | Description |
 | :-------------------------- | :----------- |
@@ -242,6 +288,7 @@ These options are available for transit costing when the multimodal costing mode
 | `use_transfers` |User's desire to favor transfers. Range of values from 0 (try to avoid transfers) to 1 (totally comfortable with transfers).|
 | `filters` | A way to filter for one or more ~~`stops`~~ (TODO: need to re-enable), `routes`, or `operators`. Filters must contain a list of so-called Onestop IDs, which is (supposed to be) a unique identifier for GTFS data, and an `action`. The OneStop ID is simply the feeds's directory name and the object's GTFS ID separated by an underscore, i.e. a route with `route_id: AUR` in `routes.txt` from the feed `NYC` would have the OneStop ID `NYC_AUR`, similar with operators/agencies. <ul><li>`ids`: any number of Onestop IDs</li><li>`action`: either `exclude` to exclude all of the `ids` listed in the filter or `include` to include only the `ids` listed in the filter</li></ul>
 
+</details>
 
 ##### Sample JSON payloads for multimodal requests with transit
 
@@ -273,7 +320,10 @@ A multimodal request with a filter for certain Onestop IDs:
 
 Directions options should be specified at the top level of the JSON object.
 
-| Options | Description |
+<details>
+  <summary>Directions options description</summary>
+
+| Directions options | Description |
 | :------------------ | :----------- |
 | `units` | Distance units for output. Allowable unit types are miles (or mi) and kilometers (or km). If no unit type is specified, the units default to kilometers. |
 | `language` | The language of the narration instructions based on the IETF BCP 47 language tag string. If no language is specified or the specified language is unsupported, United States-based English (en-US) is used. [Currently supported language list](#supported-language-tags) |
@@ -282,47 +332,18 @@ Directions options should be specified at the top level of the JSON object.
 | `banner_instructions` | If the format is `osrm`, this boolean indicates if each step should have the additional `bannerInstructions` attribute, which can be displayed in some navigation system SDKs. |
 | `alternates` |  A number denoting how many alternate routes should be provided. There may be no alternates or less alternates than the user specifies. Alternates are not yet supported on multipoint routes (that is, routes with more than 2 locations). They are also not supported on time dependent routes. |
 
+</details>
+
 For example a bus request with the result in Spanish using the OSRM (Open Source Routing Machine) format with the additional bannerInstructions in the steps would use the following json:
 
 ```json
 {"locations":[{"lat":40.730930,"lon":-73.991379},{"lat":40.749706,"lon":-73.991562}],"format":"osrm","costing":"bus","banner_instructions":true,"language":"es-ES"}
 ```
 
-##### Supported language tags
-
-| Language tag | Language alias | Description |
-| :------------------ | :----------- | :----------- |
-| `bg-BG` | `bg` | Bulgarian (Bulgaria) |
-| `ca-ES` | `ca` | Catalan (Spain) |
-| `cs-CZ` | `cs` | Czech (Czech Republic) |
-| `da-DK` | `da` | Danish (Denmark) |
-| `de-DE` | `de` | German (Germany) |
-| `el-GR` | `el` | Greek (Greece) |
-| `en-GB` | | English (United Kingdom) |
-| `en-US-x-pirate` | `en-x-pirate` | English (United States) Pirate |
-| `en-US` | `en` | English (United States) |
-| `es-ES` | `es` | Spanish (Spain) |
-| `et-EE` | `et` | Estonian (Estonia) |
-| `fi-FI` | `fi` | Finnish (Finland) |
-| `fr-FR` | `fr` | French (France) |
-| `hi-IN` | `hi` | Hindi (India) |
-| `hu-HU` | `hu` | Hungarian (Hungary) |
-| `it-IT` | `it` | Italian (Italy) |
-| `ja-JP` | `ja` | Japanese (Japan) |
-| `nb-NO` | `nb` | Bokmal (Norway) |
-| `nl-NL` | `nl` | Dutch (Netherlands) |
-| `pl-PL` | `pl` | Polish (Poland) |
-| `pt-BR` | | Portuguese (Brazil) |
-| `pt-PT` | `pt` | Portuguese (Portugal) |
-| `ro-RO` | `ro` | Romanian (Romania) |
-| `ru-RU` | `ru` | Russian (Russia) |
-| `sk-SK` | `sk` | Slovak (Slovakia) |
-| `sl-SI` | `sl` | Slovenian (Slovenia) |
-| `sv-SE` | `sv` | Swedish (Sweden) |
-| `tr-TR` | `tr` | Turkish (Turkey) |
-| `uk-UA` | `uk` | Ukrainian (Ukraine) |
-
 #### Other request options
+
+<details>
+  <summary>Other request options description</summary>
 
 | Options | Description |
 | :------------------ | :----------- |
@@ -334,6 +355,8 @@ For example a bus request with the result in Spanish using the OSRM (Open Source
 | `prioritize_bidirectional` | Prioritize `bidirectional a*` when `date_time.type = depart_at/current`. By default `time_dependent_forward a*` is used in these cases, but `bidirectional a*` is much faster. Currently it does not update the time (and speeds) when searching for the route path, but the ETA on that route is recalculated based on the time-dependent speeds |
 | `roundabout_exits` | A boolean indicating whether exit instructions at roundabouts should be added to the output or not. Default is true. |
 
+</details>
+
 ## Outputs of a route
 
 If a route has been named in the request using the optional `&id=` input, then the name will be returned as a string `id` on the JSON object.
@@ -341,6 +364,9 @@ If a route has been named in the request using the optional `&id=` input, then t
 The route results are returned as a `trip`. This is a JSON object that contains details about the trip, including locations, a summary with basic information about the entire trip, and a list of `legs`.
 
 Basic trip information includes:
+
+<details>
+  <summary>Trip item description</summary>
 
 | Trip item | Description |
 | :---- | :----------- |
@@ -351,7 +377,12 @@ Basic trip information includes:
 | `locations` | Location information is returned in the same form as it is entered with additional fields to indicate the side of the street. |
 | `warnings` (optional) | This array may contain warning objects informing about deprecated request parameters, clamped values etc. | 
 
+</details>
+
 The summary JSON object includes:
+
+<details>
+  <summary>Summary item description</summary>
 
 | Summary item | Description |
 | :---- | :----------- |
@@ -365,6 +396,7 @@ The summary JSON object includes:
 | `max_lat` | Maximum latitude of a bounding box containing the route. |
 | `max_lon` | Maximum longitude of a bounding box containing the route. |
 
+</details>
 
 ### Trip legs and maneuvers
 
@@ -373,6 +405,9 @@ A `trip` contains one or more `legs`. For *n* number of `break` locations, there
 Each leg of the trip includes a summary, which is comprised of the same information as a trip summary but applied to the single leg of the trip. It also includes a `shape`, which is an encoded polyline of the route path (with 6 digits decimal precision), and a list of `maneuvers` as a JSON array.
 
 Each maneuver includes:
+
+<details>
+  <summary>Maneuver item description</summary>
 
 | Maneuver item | Description |
 | :--------- | :---------- |
@@ -404,7 +439,12 @@ Each maneuver includes:
 | `travel_type` | Travel type for drive.<ul><li>"car"</li></ul>Travel type for pedestrian.<ul><li>"foot"</li></ul>Travel type for bicycle.<ul><li>"road"</li></ul>Travel type for transit.<ul><li>Tram or light rail = "tram"</li><li>Metro or subway = "metro"</li><li>Rail = "rail"</li><li>Bus = "bus"</li><li>Ferry = "ferry"</li><li>Cable car = "cable_car"</li><li>Gondola = "gondola"</li><li>Funicular = "funicular"</li></ul>|
 | `bss_maneuver_type` | Used when `travel_mode` is `bikeshare`. Describes bike share maneuver. The default value is "NoneAction <ul><li>"NoneAction"</li><li>"RentBikeAtBikeShare"</li><li>"ReturnBikeAtBikeShare"</li></ul> |
 
-For the maneuver `type`, the following are available:
+</details>
+
+
+<details>
+  <summary>For the maneuver type, the following are available:
+</summary>
 
 ```json
 kNone = 0;
@@ -447,6 +487,7 @@ kPostTransitConnectionDestination = 36;
 kMergeRight = 37;
 kMergeLeft = 38;
 ```
+</details>
 
 The maneuver `sign` may contain four lists of interchange sign elements as follows:
 
@@ -457,12 +498,20 @@ The maneuver `sign` may contain four lists of interchange sign elements as follo
 
 Each maneuver sign element includes:
 
+<details>
+  <summary>Maneuver sign element item description</summary>
+
 | Maneuver sign element item | Description |
 | :------------------ | :---------- |
 | `text` | Interchange sign text. <ul><li>exit number example: 91B.</li><li>exit branch example: I 95 North.</li><li>exit toward example: New York.</li><li>exit name example: Gettysburg Pike.</li></ul> |
 | `consecutive_count` | The frequency of this sign element within a set a consecutive signs. This item is optional. |
 
+</details>
+
 A maneuver `transit_info` includes:
+
+<details>
+  <summary>Maneuver transit route item description</summary>
 
 | Maneuver transit route item | Description |
 | :--------- | :---------- |
@@ -478,7 +527,12 @@ A maneuver `transit_info` includes:
 | `operator_url` | Operator/agency URL. For example, "http://web.mta.info/". |
 | `transit_stops` | A list of the stops/stations associated with a specific transit route. See below for details. |
 
+</details>
+
 A `transit_stop` includes:
+
+<details>
+  <summary>Transit stop item description</summary>
 
 | Transit stop item | Description |
 | :--------- | :---------- |
@@ -491,6 +545,8 @@ A `transit_stop` includes:
 | `lat` | Latitude of the transit stop in degrees. |
 | `lon` | Longitude of the transit stop in degrees. |
 
+</details>
+
 Continuing with the earlier routing example from the Detroit, Michigan area, a maneuver such as this one may be returned with that request: `{"begin_shape_index":0,"length":0.109,"end_shape_index":1,"instruction":"Go south on Appleton.","street_names":["Appleton"],"type":1,"time":0}`
 
 In the future, look for additional maneuver information to enhance navigation applications, including landmark usage.
@@ -498,6 +554,9 @@ In the future, look for additional maneuver information to enhance navigation ap
 ### HTTP status codes and conditions
 
 The following is a table of HTTP status error code conditions that may occur for a particular request. In general, the service follows the HTTP specification. That is to say that `5xx` returns are generally ephemeral server problems that should be resolved shortly or are the result of a bug. `4xx` returns are used to mark requests that cannot be carried out, generally due to bad input in the request or problems with the underlying data. A `2xx` return is expected when there is a successful route result or `trip`, as described above.
+
+<details>
+  <summary>Status Code description</summary>
 
 | Status Code | Status | Description |
 | :--------- | :---------- | :---------- |
@@ -523,9 +582,14 @@ The following is a table of HTTP status error code conditions that may occur for
 | 500 | Failed to parse TripDirections | Had a problem using the trip directions to serialize a json response |
 | 501 | Not implemented | Not Implemented |
 
+</details>
+
 ### Internal error codes and conditions
 
 The following is a table of exception internal error code conditions that may occur for a particular request. An error code utility header file can be included by any of the Valhalla service projects.
+
+<details>
+  <summary>Error code</summary>
 
 | Error code | Error |
 | :--------- | :---------- |
@@ -621,3 +685,5 @@ The following is a table of exception internal error code conditions that may oc
 |500 | Failed to parse intermediate request format |
 |501 | Failed to parse TripDirections |
 |599 | Unknown |
+
+</details>

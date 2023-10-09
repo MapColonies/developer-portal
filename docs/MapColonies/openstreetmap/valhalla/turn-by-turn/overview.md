@@ -27,13 +27,14 @@ The service [route results](api-reference.md#outputs-of-a-route) provide details
 
 The JSON returned from the route query can be drawn on a map and shown as instructions for maneuvers along the route.
 
-## Exapmles
+## Examples
 
 ![Routing settings](../../../../../static/img/openstreetmap/valhalla/route-example.png)
 #### route request
 
-`/route?json={"costing":"pedestrian","costing_options":{"pedestrian":{"exclude_polygons":[],"use_ferry":1,"use_living_streets":0.5,"use_tracks":0,"service_penalty":15,"service_factor":1,"shortest":false,"use_hills":0.5,"walking_speed":5.1,"walkway_factor":1,"sidewalk_factor":1,"alley_factor":2,"driveway_factor":5,"step_penalty":0,"max_hiking_difficulty":1,"use_lit":0,"transit_start_end_max_distance":2145,"transit_transfer_max_distance":800}},"exclude_polygons":[],"locations":[{"lon":35.0121459361267,"lat":31.800557317215137,"type":"break"},{"lon":35.01386761665345,"lat":31.803877333444206,"type":"break"}],"directions_options":{"units":"kilometers"},"id":"valhalla_directions"}`
-
+```json
+<VALHALLA BASE URL>/route?json={"costing":"pedestrian","costing_options":{"pedestrian":{"exclude_polygons":[],"use_ferry":1,"use_living_streets":0.5,"use_tracks":0,"service_penalty":15,"service_factor":1,"shortest":false,"use_hills":0.5,"walking_speed":5.1,"walkway_factor":1,"sidewalk_factor":1,"alley_factor":2,"driveway_factor":5,"step_penalty":0,"max_hiking_difficulty":1,"use_lit":0,"transit_start_end_max_distance":2145,"transit_transfer_max_distance":800}},"exclude_polygons":[],"locations":[{"lon":35.0121459361267,"lat":31.800557317215137,"type":"break"},{"lon":35.01386761665345,"lat":31.803877333444206,"type":"break"}],"directions_options":{"units":"kilometers"},"id":"valhalla_directions"}`
+```
 
 <details>
   <summary>Lookup Results in JSON Format</summary>

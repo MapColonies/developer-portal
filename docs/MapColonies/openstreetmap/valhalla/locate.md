@@ -45,7 +45,7 @@ The locate results are returned as a JSON array, with one JSON object per input 
 Here are some sample results with `verbose` set to `false`/ `true:`
 
 <details>
-  <summary>set to false</summary>
+  <summary>set to <b>false</b></summary>
 
 ```javascript
 [
@@ -83,7 +83,7 @@ Here are some sample results with `verbose` set to `false`/ `true:`
 </details>
 
 <details>
-  <summary>set to true</summary>
+  <summary>set to <b>true</b></summary>
 
 ```javascript
 [

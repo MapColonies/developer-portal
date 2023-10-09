@@ -52,6 +52,9 @@ The isochrone service uses the `auto`, `bicycle`, `pedestrian`, and `multimodal`
 
 ### Other request parameters
 
+<details>
+  <summary>Parameter description</summary>
+
 | Parameter | Description |
 | :------------------ | :----------- |
 | `date_time` | The local date and time at the location. <ul><li>`type`<ul><li>0 - Current departure time.</li><li>1 - Specified departure time.</li><li>2 - Specified arrival time. Note: This is not yet implemented for `multimodal`.</li></ul></li><li>`value` - the date and time specified in ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival. For example, "2016-07-03T08:06"</li></ul> |
@@ -61,6 +64,8 @@ The isochrone service uses the `auto`, `bicycle`, `pedestrian`, and `multimodal`
 | `denoise` | A floating point value from `0` to `1` (default of `1`) which can be used to remove smaller contours. A value of `1` will only return the largest contour for a given time value. A value of `0.5` drops any contours that are less than half the area of the largest contour in the set of contours for that same time value. |
 | `generalize` | A floating point value in meters used as the tolerance for Douglas-Peuckergeneralization. Note: Generalization of contours can lead to self-intersections, as well as intersections of adjacent contours. |
 | `show_locations` | A boolean indicating whether the input locations should be returned as MultiPoint features: one feature for the exact input coordinates and one feature for the coordinates of the network node it snapped to. Default false. 
+
+</details>
 
 ## Outputs of the Isochrone service
 
@@ -75,3 +80,165 @@ See the HTTP return codes for more on messages you might receive from the servic
 Most JavaScript-based GeoJSON renderers, including Leaflet, can use the isochrone styling information directly from the response. At present, you cannot control the opacity through the API.
 
 When making a map, drawing the isochrone contours as lines is more straightforward than polygons, and, therefore, currently is the default and recommended method. When deciding between the output as lines and polygons, consider your use case and the additional styling considerations involved with polygons. For example, fills should be rendered as semi-transparent over the other map layers so they are visible, although you may have more flexibility when using a vector-based map. In addition, polygons from multiple contour levels do not have overlapping areas cut out or removed. In other words, the outer contours include the areas of any inner contours, causing the colors and transparencies to blend when multiple contour polygons are drawn at the same time.
+
+## Examples
+![Routing settings](../../../../static/img/openstreetmap/valhalla/isochrone-example.png)
+
+```json
+<VALHALLA BASE URL>/isochrone?json={"costing":"pedestrian","costing_options":{"pedestrian":{"exclude_polygons":[],"use_ferry":1,"use_living_streets":0.5,"use_tracks":0,"service_penalty":15,"service_factor":1,"shortest":false,"use_hills":0.5,"walking_speed":5.1,"walkway_factor":1,"sidewalk_factor":1,"alley_factor":2,"driveway_factor":5,"step_penalty":0,"max_hiking_difficulty":1,"use_lit":0,"transit_start_end_max_distance":2145,"transit_transfer_max_distance":800}},"contours":[{"time":1},{"time":2},{"time":3}],"locations":[{"lon":35.208714008331306,"lat":31.78339608836721,"type":"break"}],"directions_options":{"units":"kilometers"},"id":"valhalla_isochrones_lonlat_35.208714008331306,31.78339608836721_range_3_interval_1"}`
+```
+
+<details>
+  <summary>Lookup 'Many To Many' Results in JSON Format</summary>
+
+```xml title="Lookup Results in JSON Format"
+{
+  "id": "valhalla_isochrones_lonlat_35.208714008331306,31.78339608836721_range_3_interval_1",
+  "type": "FeatureCollection",
+  "features": [
+      {
+          "properties": {
+              "fill": "#bf4040",
+              "fillOpacity": 0.33,
+              "fill-opacity": 0.33,
+              "fillColor": "#bf4040",
+              "color": "#bf4040",
+              "contour": 3,
+              "opacity": 0.33,
+              "metric": "time"
+          },
+          "geometry": {
+              "coordinates": [
+                  [
+                      35.209714,
+                      31.784679
+                  ],
+                  [
+                      35.208714,
+                      31.785037
+                  ],
+                  [
+                      35.207714,
+                      31.784796
+                  ],
+                  [
+                      35.207385,
+                      31.783726
+                  ],
+                  [
+                      35.206662,
+                      31.783396
+                  ],
+                  [
+                      35.206649,
+                      31.782396
+                  ],
+                  [
+                      35.207868,
+                      31.781550
+                  ],
+                  [
+                      35.208714,
+                      31.781309
+                  ],
+                  [
+                      35.210372,
+                      31.782396
+                  ],
+                  [
+                      35.210588,
+                      31.783396
+                  ],
+                  [
+                      35.209714,
+                      31.784679
+                  ]
+              ],
+              "type": "LineString"
+          },
+          "type": "Feature"
+      },
+      {
+          "properties": {
+              "fill": "#bfaa40",
+              "fillOpacity": 0.33,
+              "fill-opacity": 0.33,
+              "fillColor": "#bfaa40",
+              "color": "#bfaa40",
+              "contour": 2,
+              "opacity": 0.33,
+              "metric": "time"
+          },
+          "geometry": {
+              "coordinates": [
+                  [
+                      35.208714,
+                      31.784654
+                  ],
+                  [
+                      35.207428,
+                      31.783396
+                  ],
+                  [
+                      35.208714,
+                      31.781960
+                  ],
+                  [
+                      35.209848,
+                      31.782396
+                  ],
+                  [
+                      35.209991,
+                      31.783396
+                  ],
+                  [
+                      35.208714,
+                      31.784654
+                  ]
+              ],
+              "type": "LineString"
+          },
+          "type": "Feature"
+      },
+      {
+          "properties": {
+              "fill": "#6abf40",
+              "fillOpacity": 0.33,
+              "fill-opacity": 0.33,
+              "fillColor": "#6abf40",
+              "color": "#6abf40",
+              "contour": 1,
+              "opacity": 0.33,
+              "metric": "time"
+          },
+          "geometry": {
+              "coordinates": [
+                  [
+                      35.208714,
+                      31.784150
+                  ],
+                  [
+                      35.208124,
+                      31.783396
+                  ],
+                  [
+                      35.208714,
+                      31.782647
+                  ],
+                  [
+                      35.209365,
+                      31.783396
+                  ],
+                  [
+                      35.208714,
+                      31.784150
+                  ]
+              ],
+              "type": "LineString"
+          },
+          "type": "Feature"
+      }
+  ]
+}
+```
+</details>

@@ -50,11 +50,16 @@ When using the `sources_to_targets` action, you specify sources and targets as o
 
 A source and target must include a latitude and longitude in decimal degrees. The coordinates can come from many input sources, such as a GPS location, a point or a click on a map, a geocoding service, and so on.
 
+<details>
+  <summary>Source and target parameters description</summary>
+
 | Source and target parameters | Description |
 | :--------- | :----------- |
 | `lat` | Latitude of the source/target in degrees. |
 | `lon` | Longitude of the source/target in degrees. |
 | `date_time` | Expected date/time for the user to be at the location using the ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival. `date_time` as location input offers more granularity over setting time than the global `date_time` object (see below). 
+
+</details>
 
 You can refer to the [route location documentation](./turn-by-turn/api-reference.md#locations) for more information on specifying locations.  
 
@@ -68,12 +73,17 @@ The Time-Distance Matrix service uses the `auto`, `bicycle`, `pedestrian` and `b
 
 ### Other request options
 
+<details>
+  <summary>Options with description</summary>
+
 | Options | Description |
 | :------------------ | :----------- |
 | `id` | Name your matrix request. If `id` is specified, the naming will be sent thru to the response. |
 | `matrix_locations` | For one-to-many or many-to-one requests this specifies the minimum number of locations that satisfy the request. However, when specified, this option allows a partial result to be returned. This is basically equivalent to "find the closest/best `matrix_locations` locations out of the full location set". |
 | `date_time` | This is the local date and time at the location.<ul><li>`type`<ul><li>0 - Current departure time.</li><li>1 - Specified departure time</li><li>2 - Specified arrival time.</li></ul></li><li>`value` - the date and time is specified in ISO 8601 format (YYYY-MM-DDThh:mm) in the local time zone of departure or arrival.  For example "2016-07-03T08:06"</li></ul><br></br>|
 | `verbose`   | If `true` it will output a flat list of objects for `distances` & `durations` explicitly specifying the source & target indices. If `false` will return more compact, nested row-major `distances` & `durations` arrays and not echo `sources` and `targets`. Default `true`. |
+
+</details>
 
 ### Time-dependent matrices
 
@@ -89,6 +99,9 @@ If a matrix request has been named using the optional `&id=` input, then the nam
 
 These are the results of a request to the Time-Distance Matrix service.
 
+<details>
+  <summary>Item description</summary>
+
 | Item | Description |
 | :---- | :----------- |
 | `sources_to_targets` | Returns an array of time and distance between the sources and the targets. The array is **row-ordered**. This means that the time and distance from the first location to all others forms the first row of the array, followed by the time and distance from the second source location to all target locations, etc. |
@@ -101,4 +114,236 @@ These are the results of a request to the Time-Distance Matrix service.
 | `units` | Distance units for output. Allowable unit types are mi (miles) and km (kilometers). If no unit type is specified, the units default to kilometers. |
 | `warnings` (optional) | This array may contain warning objects informing about deprecated request parameters, clamped values etc. | 
 
+</details>
+
 See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-and-conditions) for more on messages you might receive from the service.
+
+## Examples
+
+#### 'One To Many' request:
+![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-one-to-many.png)
+
+```json
+<VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804}],"targets":[{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
+```
+
+<details>
+  <summary>Lookup 'One To Many' Results in JSON Format</summary>
+
+```xml title="Lookup Results in JSON Format"
+{
+  "algorithm": "costmatrix",
+  "units": "miles",
+  "sources": [
+      [
+          {
+              "lon": -73.995323,
+              "lat": 40.738804
+          }
+      ]
+  ],
+  "targets": [
+      [
+          {
+              "lon": -73.978844,
+              "lat": 40.767673
+          },
+          {
+              "lon": -73.948112,
+              "lat": 40.742577
+          },
+          {
+              "lon": -73.979706,
+              "lat": 40.729568
+          }
+      ]
+  ],
+  "sources_to_targets": [
+      [
+          {
+              "distance": 4.509,
+              "time": 831,
+              "to_index": 0,
+              "from_index": 0
+          },
+          {
+              "distance": 3.886,
+              "time": 581,
+              "to_index": 1,
+              "from_index": 0
+          },
+          {
+              "distance": 1.351,
+              "time": 246,
+              "to_index": 2,
+              "from_index": 0
+          }
+      ]
+  ]
+}
+```
+</details>
+
+#### 'Many To Many' request:
+![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-many-to-many.png)
+
+```json
+<VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"targets":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
+```
+
+<details>
+  <summary>Lookup 'Many To Many' Results in JSON Format</summary>
+
+```xml title="Lookup Results in JSON Format"
+{
+  "algorithm": "costmatrix",
+  "units": "miles",
+  "sources": [
+      [
+          {
+              "lon": -73.995323,
+              "lat": 40.738804
+          },
+          {
+              "lon": -73.978844,
+              "lat": 40.767673
+          },
+          {
+              "lon": -73.948112,
+              "lat": 40.742577
+          },
+          {
+              "lon": -73.979706,
+              "lat": 40.729568
+          }
+      ]
+  ],
+  "targets": [
+      [
+          {
+              "lon": -73.995323,
+              "lat": 40.738804
+          },
+          {
+              "lon": -73.978844,
+              "lat": 40.767673
+          },
+          {
+              "lon": -73.948112,
+              "lat": 40.742577
+          },
+          {
+              "lon": -73.979706,
+              "lat": 40.729568
+          }
+      ]
+  ],
+  "sources_to_targets": [
+      [
+          {
+              "distance": 0.000,
+              "time": 0,
+              "to_index": 0,
+              "from_index": 0
+          },
+          {
+              "distance": 4.509,
+              "time": 831,
+              "to_index": 1,
+              "from_index": 0
+          },
+          {
+              "distance": 3.886,
+              "time": 581,
+              "to_index": 2,
+              "from_index": 0
+          },
+          {
+              "distance": 1.351,
+              "time": 246,
+              "to_index": 3,
+              "from_index": 0
+          }
+      ],
+      [
+          {
+              "distance": 3.081,
+              "time": 513,
+              "to_index": 0,
+              "from_index": 1
+          },
+          {
+              "distance": 0.000,
+              "time": 0,
+              "to_index": 1,
+              "from_index": 1
+          },
+          {
+              "distance": 3.345,
+              "time": 422,
+              "to_index": 2,
+              "from_index": 1
+          },
+          {
+              "distance": 3.795,
+              "time": 587,
+              "to_index": 3,
+              "from_index": 1
+          }
+      ],
+      [
+          {
+              "distance": 3.572,
+              "time": 514,
+              "to_index": 0,
+              "from_index": 2
+          },
+          {
+              "distance": 4.498,
+              "time": 666,
+              "to_index": 1,
+              "from_index": 2
+          },
+          {
+              "distance": 0.000,
+              "time": 0,
+              "to_index": 2,
+              "from_index": 2
+          },
+          {
+              "distance": 3.467,
+              "time": 487,
+              "to_index": 3,
+              "from_index": 2
+          }
+      ],
+      [
+          {
+              "distance": 1.338,
+              "time": 252,
+              "to_index": 0,
+              "from_index": 3
+          },
+          {
+              "distance": 4.593,
+              "time": 820,
+              "to_index": 1,
+              "from_index": 3
+          },
+          {
+              "distance": 3.087,
+              "time": 436,
+              "to_index": 2,
+              "from_index": 3
+          },
+          {
+              "distance": 0.000,
+              "time": 0,
+              "to_index": 3,
+              "from_index": 3
+          }
+      ]
+    ]
+}
+```
+</details>
