@@ -47,3 +47,4 @@ RUN chmod +x /docker-entrypoint.d/init-urls.sh
 # Copy what we've installed/built from production
 COPY --from=production /home/node/app/build /usr/share/nginx/html/
 RUN chmod -R g+w /usr/share/nginx/html/
+COPY ./default.conf /etc/nginx/conf.d/default.conf
