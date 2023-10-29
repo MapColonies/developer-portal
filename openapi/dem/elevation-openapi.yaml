@@ -76,12 +76,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/productTypeEnum'
           default: MIXED
-        excludeFields:
-          type: array
-          uniqueItems: true
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/excludeFieldsEnum'
     pointsRes:
       type: object
       required:
@@ -106,18 +100,31 @@ components:
                 nullable: true
                 type: number
                 format: double
+              productId:
+                type: string
+        products:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              productType:
+                 oneOf:
+                  - $ref: '#/components/schemas/productTypeEnum'
+              resolutionMeter:
+                type: number
+                format: double
+              absoluteAccuracyLEP90:
+                type: number
+                format: double
+              updateDate:
+                type: string
+                format: date-time
     productTypeEnum:
       type: string
       enum:
         - DSM
         - DTM
         - MIXED
-    excludeFieldsEnum:
-      type: string
-      enum:
-        - productType
-        - updateDate
-        - resolutionMeter
     errorCodesEnum:
       type: string
       enum:
