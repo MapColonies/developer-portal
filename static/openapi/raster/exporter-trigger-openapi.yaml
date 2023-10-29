@@ -1,59 +1,52 @@
 openapi: 3.0.1
 info:
-  title: exporter-trigger
-  description: Service that responsible for activating the export geopackage process
-  version: 2.15.1
+  title: MapColonies Export Service
+  description: Export Service for DEM, Raster, 3D
+  version: 1.3.0
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
 paths:
-  /storage:
-    get:
-      tags:
-        - storage
-      summary: Get free and total storage size for exporting (in bytes)
-      operationId: getStorage
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StorageResponse'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-  /create:
+  /export-tasks:
     post:
+      operationId: createExportTask
+      summary: Create an export task
       tags:
-        - createGpkg
-      summary: Trigger export geopackage process
-      operationId: exportTilesToGpkg
-      deprecated: true
+        - Tasks
       requestBody:
-        $ref: '#/components/requestBodies/ExportGetmapBody'
+        description: task details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/taskCreate'
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/createGpkgJobResponse'
-                  - $ref: '#/components/schemas/naiveCacheJobResponse'
-                discriminator:
-                  propertyName: response
+                $ref: '#/components/schemas/task'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
         '404':
-          description: Could not find layer with matched dbId
+          description: Not Found
           content:
             application/json:
               schema:
@@ -63,401 +56,178 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/internalError'
-        '507':
-          description: Insufficient Storage on disk for exporting
+                $ref: '#/components/schemas/error'
+        '509':
+          description: Insufficient Storage
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /create/roi:
-    post:
-      tags:
-        - createGpkg
-      summary: >-
-        Trigger export geopackages based on providing Regions of interest
-        (multi-resolution)
-      operationId: byRoi
-      requestBody:
-        $ref: '#/components/requestBodies/ExportByRoiBody'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/createRoiGpkgJobResponse'
-                  - $ref: '#/components/schemas/exportNaiveCacheJobResponse'
-                discriminator:
-                  propertyName: response
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '404':
-          description: Could not find layer with matched dbId
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-        '507':
-          description: Insufficient Storage on disk for exporting
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-  /taskStatus/{jobId}:
-    get:
-      tags:
-        - tasks
-      summary: Get task status by job id
-      operationId: getTaskStatusByJobId
-      parameters:
-        - name: jobId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getTaskStatusResponse'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '404':
-          description: Could not find task with matched jobId
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
 components:
-  requestBodies:
-    ExportGetmapBody:
-      description: Export to gpkg via GetMap
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/exportGetMap'
-    ExportByRoiBody:
-      description: Export to gpkg via FeatureCollection
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/exportFromFeatures'
   schemas:
-    StorageResponse:
-      type: object
-      description: Response for storage request (in bytes)
-      required:
-        - free
-        - size
-      properties:
-        free:
-          type: number
-        size:
-          type: number
-    CommonResponse:
+    taskCreate:
       type: object
       required:
-        - status
+        - catalogRecordID
+        - domain
+        - artifactCRS
+        - webhook
       properties:
-        status:
-          type: string
-          enum:
-            - In-Progress
-            - Completed
-      discriminator:
-        propertyName: response
-    exportGetMap:
-      type: object
-      properties:
-        dbId:
+        catalogRecordID:
           type: string
           format: uuid
-          description: ID as the primary key from the Raster Catalog
-        bbox:
-          oneOf:
-            - $ref: '#/components/schemas/BBox'
-            - $ref: '#/components/schemas/Geometry'
-        targetResolution:
-          type: number
+        domain:
+          type: string
+          enum:
+            - DEM
+            - 3D
+            - RASTER
+        ROI:
+          $ref: '#/components/schemas/FeatureCollection'
+        artifactCRS:
+          type: string
+          enum:
+            - '4326'
+        description:
+          type: string
+        keywords:
+          type: object
+          description: task metadata in key-value pair
+          example:
+            foo: kuku
+        parameters:
+          type: object
+          description: task parameters in key-value pair
+          example:
+            foo: kuku
+        webhook:
           description: >-
-            The target resolution in which the tiles will be created - DEGREE to
-            PIXEL. If empty - original layer's resolution is taken.
-        callbackURLs:
+            describe one or more relevant events to receive the data once event
+            has been occurred
           type: array
           items:
-            type: string
-          description: The callback URL to notify the process if finished
-        crs:
-          $ref: '#/components/schemas/CRS'
-        priority:
-          type: number
-          description: The priority of the record. Maximum priority = most urgent.
-          minimum: 0
-          maximum: 999999999
-      required:
-        - dbId
-        - callbackURLs
-      example:
-        dbId: ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8
-        bbox:
-          - 34.811938017107494
-          - 31.95475033759175
-          - 34.82237261707599
-          - 31.96426962177354
-        targetResolution: 0.0000429153442382812
-        callbackURLs:
-          - http://example.getmap.com/callback
-          - http://example.getmap.com/callback2
-        crs: EPSG:4326
-        priority: 0
-    exportFromFeatures:
-      type: object
-      properties:
-        dbId:
-          type: string
-          format: uuid
-          description: ID as the primary key from the Raster Catalog
-        roi:
-          $ref: '#/components/schemas/FeatureCollection'
-        callbackURLs:
-          type: array
-          items:
-            type: string
-          description: The callback URL to notify the process if finished
-        crs:
-          $ref: '#/components/schemas/CRS'
-        priority:
-          type: number
-          description: The priority of the record. Maximum priority = most urgent.
-          minimum: 0
-          maximum: 999999999
-        description:
-          type: string
-          description: free test to describe the requested export
-      required:
-        - dbId
-      example:
-        dbId: ef03ca54-c68e-4ca8-8432-50ae5ad7a7f8
-        roi:
-          type: FeatureCollection
-          features:
-            - type: Feature
-              properties:
-                maxResolutionDeg: 0.0439453125
-                minResolutionDeg: 0.17578125
-              geometry:
-                type: Polygon
-                coordinates:
-                  - - - 34.82836896556114
-                      - 32.03918441418732
-                    - - 34.81210152170695
-                      - 32.03918441418732
-                    - - 34.81210152170695
-                      - 32.02539369969462
-                    - - 34.82836896556114
-                      - 32.02539369969462
-                    - - 34.82836896556114
-                      - 32.03918441418732
-        callbackURLs:
-          - http://example.getmap.com/callback
-          - http://example.getmap.com/callback2
-        crs: EPSG:4326
-        priority: 0
-        description: This is roi exporting example
-    createGpkgJobResponse:
+            type: object
+            required:
+              - events
+              - url
+            properties:
+              events:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: string
+                  enum:
+                    - TASK_COMPLETED
+                    - TASK_FAILED
+                  example: TASK_COMPLETED
+              url:
+                type: string
+                example: https://webhook.com
+      additionalProperties: false
+    task:
       allOf:
-        - $ref: '#/components/schemas/CommonResponse'
+        - $ref: '#/components/schemas/taskCreate'
+        - type: object
+          required:
+            - id
+            - status
+            - createdAt
+          properties:
+            id:
+              type: number
+              format: int32
+            estimatedSize:
+              type: number
+              format: int64
+              description: the estimated size of the artifacts in bytes
+            estimatedTime:
+              type: number
+              format: int64
+              description: the estimated time of the export task
+            status:
+              type: string
+              enum:
+                - IN_PROGRESS
+                - COMPLETED
+                - ABORTED
+                - PAUSED
+                - FAILED
+                - PENDING
+                - EXPIRED
+                - ARCHIVED
+            errorReason:
+              type: string
+            progress:
+              type: number
+              minimum: 0
+              maximum: 100
+            artifacts:
+              type: array
+              items:
+                $ref: '#/components/schemas/artifact'
+            createdAt:
+              type: string
+              format: date-time
+              description: creation task time - UTC format
+            expiredAt:
+              type: string
+              format: date-time
+              description: when the task will be expired at - UTC format
+            finishedAt:
+              type: string
+              format: date-time
+              description: when the task reached an end state - UTC format
+    artifact:
       type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        taskIds:
-          type: array
-          items:
-            type: string
-            format: uuid
+      description: GeoJson Feature Collection
       required:
-        - id
-        - taskIds
-    createRoiGpkgJobResponse:
-      allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-      type: object
-      properties:
-        jobId:
-          type: string
-          format: uuid
-        taskIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      required:
-        - jobId
-        - taskIds
-    naiveCacheJobResponse:
-      allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-            - Completed
-        fileUri:
-          type: string
-        expirationTime:
-          type: string
-          format: date
-        fileSize:
-          type: number
-        dbId:
-          type: string
-          format: uuid
-        packageName:
-          type: string
-        bbox:
-          oneOf:
-            - $ref: '#/components/schemas/BBox'
-            - $ref: '#/components/schemas/Geometry'
-        targetResolution:
-          type: number
-        requestId:
-          type: string
-        success:
-          type: boolean
-        errorReason:
-          type: string
-      required:
-        - fileUri
-        - expirationTime
-        - fileSize
-        - dbId
-        - packageName
-        - bbox
-        - targetResolution
-        - requestId
-        - success
-    exportNaiveCacheJobResponse:
-      allOf:
-        - $ref: '#/components/schemas/CommonResponse'
-      type: object
-      properties:
-        links:
-          $ref: '#/components/schemas/callbackLinks'
-        expirationTime:
-          type: string
-          format: date
-        fileSize:
-          type: number
-        recordCatalogId:
-          type: string
-          format: uuid
-        description:
-          type: string
-        roi:
-          $ref: '#/components/schemas/FeatureCollection'
-        jobId:
-          type: string
-          format: uuid
-        errorReason:
-          type: string
-      required:
-        - links
-        - expirationTime
-        - fileSize
-        - recordCatalogId
-        - roi
-        - jobId
-        - status
-    error:
-      type: object
-      required:
-        - message
-      properties:
-        message:
-          type: string
-    internalError:
-      type: object
-      required:
-        - message
-        - stacktrace
-      properties:
-        message:
-          type: string
-        stacktrace:
-          type: string
-    CRS:
-      type: string
-      description: List of supported
-      enum:
-        - EPSG:4326
-    Feature:
-      required:
+        - name
         - type
-        - properties
-        - geometry
       properties:
         type:
+          anyOf:
+            - $ref: '#/components/schemas/artifactRasterType'
+            - $ref: '#/components/schemas/artifact3DType'
+            - $ref: '#/components/schemas/artifactDEMType'
+        name:
           type: string
-          enum:
-            - Feature
-        properties:
-          type: object
-          required:
-            - maxResolutionDeg
-          properties:
-            maxResolutionDeg:
-              type: number
-              minimum: 3.35276126861572e-7
-              maximum: 0.703125
-              format: double
-              description: max resolution of layer in degrees/pixel
-            minResolutionDeg:
-              type: number
-              minimum: 3.35276126861572e-7
-              maximum: 0.703125
-              format: double
-              description: min resolution of layer in degrees/pixel
-        geometry:
-          type: object
-          nullable: true
-          oneOf:
-            - $ref: '#/components/schemas/GeometryCollection'
-            - $ref: '#/components/schemas/Geometry'
-        bbox:
-          $ref: '#/components/schemas/BBox'
+        size:
+          type: number
+          format: int64
+          example: 124215121
+          description: size of the artifacts in bytes
+        url:
+          type: string
+          format: uri
+          example: https://download.com/file
+    artifact3DType:
+      type: string
+      enum:
+        - 3D_MODEL
+        - METADATA
+        - THUMBNAILS_SMALL
+        - THUMBNAILS_MEDIUM
+        - THUMBNAILS_LARGE
+    artifactRasterType:
+      type: string
+      enum:
+        - GPKG
+        - LEGEND
+        - METADATA
+        - THUMBNAILS_SMALL
+        - THUMBNAILS_MEDIUM
+        - THUMBNAILS_LARGE
+    artifactDEMType:
+      type: string
+      enum:
+        - MODEL
+        - METADATA
+        - ROI
+        - LEGEND
     FeatureCollection:
       type: object
-      description: GeoJson Feature collection
+      description: GeoJson Feature Collection
       required:
         - type
         - features
@@ -470,52 +240,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Feature'
-        bbox:
-          $ref: '#/components/schemas/BBox'
-    BBox:
-      type: array
-      items:
-        type: number
-      minItems: 4
-      maxItems: 4
-      description: >-
-        Bounding box corners (lower left, upper right)=[minx,miny,maxx,maxy] in
-        crs units as array. If empty - original layer's bbox is taken.
-    getTaskStatusResponse:
+    Feature:
       type: object
-      properties:
-        percentage:
-          type: number
-          minimum: 0
-          maximum: 100
-          description: percentage of task by job id
-        status:
-          type: string
-          enum:
-            - Completed
-            - In-Progress
-            - Pending
-            - Failed
-            - Expired
-            - Aborted
-    GeometryCollection:
-      type: object
-      description: GeoJSon geometry collection
+      description: GeoJson Feature
       required:
         - type
-        - geometries
-      externalDocs:
-        url: http://geojson.org/geojson-spec.html#geometrycollection
+        - properties
+        - geometry
       properties:
         type:
           type: string
           enum:
-            - GeometryCollection
-          description: custom properties
-        geometries:
-          type: array
-          items:
-            $ref: '#/components/schemas/GeometryBase'
+            - Feature
+        properties:
+          type: object
+          $ref: '#/components/schemas/FeatureProperties'
+          discriminator:
+            propertyName: maxResolutionDeg
+        geometry:
+          type: object
+          nullable: true
+          $ref: '#/components/schemas/Geometry'
+    FeatureProperties:
+      additionalProperties: {}
+      description: define any additional properties fields for the feature
     Geometry:
       description: GeoJSon geometry
       type: object
@@ -566,19 +314,6 @@ components:
             - Polygon
             - MultiPolygon
           description: the geometry type
-    callbackLinks:
-      type: object
-      description: gpkg links - the geoPackage + metadata.json
-      required:
-        - dataURI
-        - metadataURI
-      properties:
-        dataURI:
-          type: string
-          description: Url to download the gpkg
-        metadataURI:
-          type: string
-          description: Url to download the gpkg's metadata.json
     Point2D:
       type: array
       maxItems: 2
@@ -595,3 +330,10 @@ components:
         - properties:
             coordinates:
               $ref: '#/components/schemas/Point2D'
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
