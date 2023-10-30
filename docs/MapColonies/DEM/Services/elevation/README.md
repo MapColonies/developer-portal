@@ -49,10 +49,7 @@ The structure (JSON schema) is as follows:
       "latitude": 0
     }
   ],
-  "productType": "MIXED",
-  "excludeFields": [
-    "productType"
-  ]
+  "productType": "MIXED"
 }
 ```
 #### 🔴 positions (required)
@@ -62,15 +59,26 @@ Limited up to **250** coordinates
 #### 🟡 productType (optional, MIXED is default)
 **String** one of <i>DTM | DSM | MIXED</i>
 
-#### 🟡 excludeFields (optional, empty by default)
-**Array**, possible values are <i>productType | updateDate | resolutionMeter </i><br/>
-By default you'll recieve coordinate respective elevation info along with returned **height**<br/>
-Elevation info cotains following:<br/>
+### API response explanation
+The structure (JSON schema) is as follows:
 
-* <i>productType</i> - from which type of material it's extracted (DTM or DSM)
-* <i>updateDate</i> - material update date
-* <i>resolutionMeter</i> - resolution in meters of material where from height was extracted
-
-:::caution
-You can discard fully or partial elevation info by mentioning irrelevant fields in API call
-:::
+```json title="JSON Schema of Response"
+{
+  "data": [
+    {
+      "longitude": 0,
+      "latitude": 0,
+      "height": 3,
+      "productId": "world_terrain"
+    }
+  ],
+  "products": {
+    "world_terrain": {
+      "productType": "DTM",
+      "resolutionMeter": 30,
+      "absoluteAccuracyLEP90": 17,
+      "updateDate": "2019-08-24T14:15:22Z"
+    }
+  }
+}
+```
