@@ -59,7 +59,5 @@ Valhalla is an open source routing engine and accompanying libraries for use wit
 * __[expansion](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-expansion)__ - return a geojson representation of a graph traversal at a given location.
 * __[locate](/docs/MapColonies/openstreetmap/valhalla/osm-valhalla-locate)__ - get detailed metadata about the nodes and edges in the graph.
 
-* **centroid** - allows you to find the least cost convergence point of routes from multiple locations.
-
 > 📝 **_Note:_** 
 Valhalla is an open-source toolkit for multimodal transportation, powered by open data. The APIs use the standard REST model of interaction with JSON serving as both the request and response formats. Please refer to a specific service's API documentation to learn about the various request/response properties. In addition to JSON request/response formats Valhalla also supports protocol buffers as request/response format.
