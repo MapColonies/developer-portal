@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: dem-heights
   description: map-colonies service for extracting elevations from DTM/DSM geotiffs
-  version: 1.2.6
+  version: 2.0.0
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -19,6 +19,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/pointsReq'
+            example:
+              positions:
+                - latitude: 32.80775333333333
+                  longitude: 35.21339666666667
+                - latitude: 32.80775333333333
+                  longitude: 35.22673
+              productType: 'MIXED'
           application/octet-stream:
             schema:
               type: string
@@ -30,6 +37,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/pointsRes'
+              example:
+                data:
+                  - latitude: 32.80775333333333
+                    longitude: 35.21339666666667
+                    height: 221.09576574778345
+                    productId: 'first_Product'
+                  - latitude: 32.80775333333333
+                    longitude: 35.22673
+                    height: 141.7940749310484
+                    productId: 'first_Product'
+                products:
+                    first_Product:
+                      productType: 'QUANTIZED_MESH_DTM_BEST'
+                      updateDate: '2023-05-08T17:44:01.000Z'
+                      resolutionMeter: 30
+                      absoluteAccuracyLEP90: 9e-7
+                    second_Product:
+                      productType: 'QUANTIZED_MESH_DTM_BEST'
+                      updateDate: '2023-05-08T17:44:01.000Z'
+                      resolutionMeter: 100
+                      absoluteAccuracyLEP90: 9e-7
             application/octet-stream:
               schema:
                 type: string
@@ -76,12 +104,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/productTypeEnum'
           default: MIXED
-        excludeFields:
-          type: array
-          uniqueItems: true
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/excludeFieldsEnum'
     pointsRes:
       type: object
       required:
@@ -106,18 +128,31 @@ components:
                 nullable: true
                 type: number
                 format: double
+              productId:
+                type: string
+        products:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              productType:
+                oneOf:
+                  - $ref: '#/components/schemas/productTypeEnum'
+              resolutionMeter:
+                type: number
+                format: double
+              absoluteAccuracyLEP90:
+                type: number
+                format: double
+              updateDate:
+                type: string
+                format: date-time
     productTypeEnum:
       type: string
       enum:
         - DSM
         - DTM
         - MIXED
-    excludeFieldsEnum:
-      type: string
-      enum:
-        - productType
-        - updateDate
-        - resolutionMeter
     errorCodesEnum:
       type: string
       enum:
