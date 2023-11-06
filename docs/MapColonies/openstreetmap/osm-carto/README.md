@@ -10,7 +10,7 @@ tags:
 ---
 
 # OpenStreetMap Carto
-![The openstreetmap website](/img/osm-carto/osm-carto.png)
+![The openstreetmap website](/img/openstreetmap/osm-carto/osm-carto.png)
 OpenStreetMap Carto (or OSM Carto or osm-carto for short) is an open-source stylesheet for rendering OpenStreetMap data to raster tiles. Since 2013, the main OpenStreetMap homepage has featured OSM Carto tiles as the default tile layer.
 
 ## How to use
