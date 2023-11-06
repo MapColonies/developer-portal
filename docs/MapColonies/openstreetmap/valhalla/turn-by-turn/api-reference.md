@@ -15,7 +15,7 @@ tags:
 
 Valhalla's routing service (a.k.a. turn-by-turn), is an open-source routing service that lets you integrate routing and navigation into a web or mobile application.
 
-![Routing settings](../../../../../static/img/openstreetmap/valhalla/route.png)
+![Route example](../../../../../static/img/openstreetmap/valhalla/route.png)
 
 ## Inputs of a route
 
@@ -58,7 +58,7 @@ To build a route, you need to specify two `break` locations. In addition, you ca
 | `search_cutoff` | The cutoff at which we will assume the input is too far away from civilisation to be worth correlating to the nearest graph elements. The default is 35 km. |
 | `node_snap_tolerance` | During edge correlation this is the tolerance used to determine whether or not to snap to the intersection rather than along the street, if the snap location is within this distance from the intersection the intersection is used instead. The default is 5 meters. |
 | `street_side_tolerance` | If your input coordinate is less than this tolerance away from the edge centerline then we set your side of street to none otherwise your side of street will be left or right depending on direction of travel. The default is 5 meters. |
-| `street_side_max_distance` | The max distance in meters that the input coordinates or display ll can be from the edge centerline for them to be used for determining the side of street. Beyond this distance the side of street is set to none. The default is 1000 meters. |
+| `street_side_max_distance` | The max distance in meters that the input coordinates can be from the edge centerline for them to be used for determining the side of street. Beyond this distance the side of street is set to none. The default is 1000 meters. |
 | `street_side_cutoff` | Disables the `preferred_side` when set to `same` or `opposite` if the edge has a road class less than that provided by `street_side_cutoff`. The road class must be one of the following strings: motorway, trunk, primary, secondary, tertiary, unclassified, residential, service_other.  The default value is `service_other` so that `preferred_side` will not be disabled for any edges. |
 | `search_filter` | A set of optional filters to exclude candidate edges based on their attribution. The following exclusion filters are supported: <ul><li>`exclude_tunnel` (boolean, defaults to `false`): whether to exclude roads marked as tunnels</li><li>`exclude_bridge` (boolean, defaults to `false`): whether to exclude roads marked as bridges</li><li>`exclude_ramp` (boolean, defaults to `false`): whether to exclude link roads marked as ramps, note that some turn channels are also marked as ramps</li><li>`exclude_closures` (boolean, defaults to `true`): whether to exclude roads considered closed due to live traffic closure. **Note:** This option cannot be set if `costing_options.ignore_closures` is also specified. An error is returned if both options are specified. **Note 2:** Ignoring closures at destination and source locations does NOT work for date_time type `0/1` & `2` respectively</li><li>`min_road_class` (string, defaults to `"service_other"`): lowest road class allowed</li><li>`max_road_class` (string, defaults to `"motorway"`): highest road class allowed</li></ul>Road classes from highest to lowest are: motorway, trunk, primary, secondary, tertiary, unclassified, residential, service_other.
 

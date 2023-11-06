@@ -15,7 +15,7 @@ tags:
 
 Valhalla's time-distance matrix service provides a quick computation of time and distance between a set of locations and returns them to you in the resulting matrix table.
 
-![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-one-to-many.png)
+![Matrix one to many example](../../../../static/img/openstreetmap/valhalla/matrix-one-to-many.png)
 
 ## Matrix service
 
@@ -348,4 +348,4 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 ```
 </details>
 
-![Routing settings](../../../../static/img/openstreetmap/valhalla/matrix-many-to-many.png)
+![Matrix many-to-many example](../../../../static/img/openstreetmap/valhalla/matrix-many-to-many.png)

@@ -17,7 +17,7 @@ The Valhalla route service (a.k.a. turn-by-turn) is an open-source routing servi
 
 ![Routing settings](../../../../../static/img/openstreetmap/valhalla/routing-settings.png)
 -
-![Routing settings](../../../../../static/img/openstreetmap/valhalla/routing-transport.png)
+![Routing transport](../../../../../static/img/openstreetmap/valhalla/routing-transport.png)
 
 ## Route requests and results
 
@@ -29,7 +29,7 @@ The JSON returned from the route query can be drawn on a map and shown as instru
 
 ## Examples
 
-![Routing settings](../../../../../static/img/openstreetmap/valhalla/route-example.png)
+![Routing example](../../../../../static/img/openstreetmap/valhalla/route-example.png)
 #### route request
 
 ```json

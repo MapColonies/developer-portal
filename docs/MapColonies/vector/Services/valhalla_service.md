@@ -61,3 +61,5 @@ Valhalla is an open source routing engine and accompanying libraries for use wit
 
 > 📝 **_Note:_** 
 Valhalla is an open-source toolkit for multimodal transportation, powered by open data. The APIs use the standard REST model of interaction with JSON serving as both the request and response formats. Please refer to a specific service's API documentation to learn about the various request/response properties. In addition to JSON request/response formats Valhalla also supports protocol buffers as request/response format.
+
+<font size="2"> Copyright © https://valhalla.github.io/valhalla/</font>
