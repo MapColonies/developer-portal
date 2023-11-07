@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 id: osm-nominatim-faq
 slug: osm-nominatim-faq
 title: FAQ
