@@ -58,7 +58,7 @@ function CustomColumnMenu(props: GridColumnMenuProps) {
 }
 
 
-export default function DataGridSpeicalPhrases() {
+export default function DataGridSpecialPhrases() {
   return (
     <Box sx={{ width: '100%'}}>
       <DataGrid
