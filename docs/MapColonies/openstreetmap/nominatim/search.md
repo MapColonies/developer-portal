@@ -31,12 +31,12 @@ The search term may be specified with two different sets of parameters:
 
 * `q=<query>`
 
-    Free-form query string to search for.
+    Free-form query string to search for. <br />
     Free-form queries are processed first left-to-right and then right-to-left if that fails. So you may search for
     [pilkington avenue, birmingham](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=pilkington+avenue,birmingham) as well as for
-    [birmingham, pilkington avenue](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=birmingham,+pilkington+avenue).
-    Commas are optional, but improve performance by reducing the complexity of the search.
-
+    [birmingham, pilkington avenue](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=birmingham,+pilkington+avenue). <br />
+    Commas are optional, but improve performance by reducing the complexity of the search. <br />
+    For searching with special phrases you can read more [here](/docs/MapColonies/openstreetmap/nominatim/special-phrases).
 
 * `street=<housenumber> <streetname>`
 * `city=<city>`

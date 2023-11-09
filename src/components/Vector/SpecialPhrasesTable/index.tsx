@@ -69,11 +69,11 @@ export default function DataGridSpecialPhrases() {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 25,
+                pageSize: 15,
               },
             },
           }}
-          pageSizeOptions={[25, 50, 100]}
+          pageSizeOptions={[15, 50, 100]}
           disableRowSelectionOnClick
       />
     </Box>
