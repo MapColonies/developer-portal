@@ -113,9 +113,9 @@ const config = {
             label: "Getting Started"
           },
           {to: '/blog', label: 'Release Notes', position: 'left'},
-          {to: process.env.PLAYGROUND_URL, label: 'Interactive Playground', position: 'right'},
-          {to: process.env.CATALOG_APPLICATION_URL, label: 'Catalog App', position: 'right'},
-          {to: process.env.PUZZLE_URL, label: 'Puzzle Game', position: 'right'},
+          // {to: process.env.PLAYGROUND_URL, label: 'Interactive Playground', position: 'right'},
+          // {to: process.env.CATALOG_APPLICATION_URL, label: 'Catalog App', position: 'right'},
+          // {to: process.env.PUZZLE_URL, label: 'Puzzle Game', position: 'right'},
           {
             type: 'docSidebar',
             sidebarId: 'ogcSidebar',
