@@ -56,7 +56,7 @@ body (XML):
 ``` bash 
  <3D-CATALOG-SERVICE_URL>
  ```
- - Replace `<token>`<t> with with the token you have.
+ - Replace `<token>` with with the token you have.
 ``` bash 
  <token>
  ```
