@@ -14,10 +14,10 @@ tags:
  ## Flow Diagram ⏭
 ```mermaid
 flowchart LR
-    A[Get Auth Token]-->|Token| C[STEP 1: Query CSW catalog]
-    B[Define Filter]--> |Filter| C
+    A[Get Auth Token]-->|?token| C[STEP 1: Query CSW catalog]
+    B[Define Filter]--> |filter| C
     C --> |XML| D[STEP 2: Get Layers Metadata]
-    D --> |Layers Metadata| E[STEP 3: MaKe a Tool Request]
+    D --> |Layers Metadata| E[STEP 3: Make a Tool Request]
 ```
 
 ## Quering 3D CSW catalog service (STEP ☝🏼)
@@ -176,54 +176,8 @@ Additionaly, the response contains other valuable attributes for your applicatio
 
 In the response, you can find other useful attributes that you can use for ypur application.
 
-This is the 3D metadata attributes:
-
-<details>
-<summary>3D profile</summary>
- 
-|  |    |  |
-|:-----|:--------:|------:|
-| mc:id| text | uniqe internal catalog item ID |
-| mc:productId   |  text |uniqe external product ID |
-| mc:productName   | text |    the product name |
-| mc:productVersion | int | the product version |
-| [mc:productType](#productType) | enum  | **Valid Values**: <br/> 3DPhotoRealistic / QuantizedMeshDTMBest / QuantizedMeshDSMBest <br/> default: 3DPhotoRealistic |
-| mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
-| mc:descriprion | text | the product description|
-| mc:creationDateUTC | date | the date when raw product was created |
-| mc:imagingTimeBeginUTC | date | start imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not later than "mc:imagingTimeEndUTC")** |
-| mc:imagingTimeEndUTC | date | end imaging date of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "mc:imagingTimeBeginUTC")** |
-| mc:minResolutionMeter | double | the product resolution in meters (not more than max res) <br/> double unsigned valid: **0.01 to 8000** |
-| mc:maxResolutionMeter | double | the product resolution in meters (not less than min res) <br/> double unsigned valid: **0.01 to 8000** |
-| mc:maxHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters <br/> double unsigned valid: **0 to 999 (999 = no data)** |
-| mc:accuracyLE90 | double | double unsigned valid: **0 to 999 (999 = no data)** |
-| mc:accuracySE90 | double | double unsigned valid: **0 to 250** |
-| mc:relativeAccuracySE90 | double | double unsigned valid: **0 to 100** |
-| mc:visualAccuracy | double | double unsigned valid: **0 to 100** |
-| mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
-| mc:footprint | geojson | geographical delineation of the product / model trace |
-| mc:heightRangeFrom | double | **minimum** height range in meters |
-| mc:heightRangeTo | double | **maximum** height range in meters |
-| mc:SRS | text | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
-| mc:SRSName | text | name of reference system |
-| mc:region | text | sector / countries <br/> comma separated list |
-| mc:classification | enum  | product classification / confidentiality <br /> Classification values |
-| mc:productionSystem | text | the production system |
-| mc:productionSystemVersion | text | the version of the production system <br/> maxLength: 20 |
-| mc:producerName | text | manufacturer / organization that produced / supplied the product |
-| mc:minFlightAlt | double | **minimum** flight height in meters |
-| mc:maxFlightAlt | double | **maximum** flight height in meters |
-| mc:geographicArea | text | the area inside the region |
-| mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
-| mc:productSource | text | the source of the product |
-| mc:productStatus | enum | Status of the product <br /> **Valid values**:  PUBLISHED / UNPUBLISHED <br /> default: ***UNPUBLISHED***|
-| mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_3D***|
-| mc:insertDate | date | the date when item was added to catalog <br/>  <br/> AUTO_GENERATED: ***CURRENT_TIME*** |
-| mc:boundingBox | wkt | currently stored footprint in wkt format <br/> AUTO_GENERATED |
-| mc:keywords | text | list of key words relevant for product <br/> AUTO_GENERATED |
-| mc:updateDate | date | the date when item was updated in catalog <br/>  <br/> AUTO_GENERATED: ***CURRENT_TIME*** in every update |
-|
-</details>
+3D profile v2 you can see here: 
+- [3D Profile v2](http://localhost:3000/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
 
 ### <ins>Usful and recommended attributes to use and display in your UI for the best user expirience:</ins>
 - <ins>product name</ins> attributes to display the records property.
@@ -249,7 +203,7 @@ url:
  ```
 
  In `<QUERY-PARAMS>`, you need to add there params:
- ### 1. model_ids - $\color{red}mandatory$
+ ### 1. model_ids - mandatory
  ID's of the desired modelsobtained from the CSW response.
  
  The convention is to list them as a comma-separated string:
@@ -258,7 +212,7 @@ url:
  ``` 
  If you only need one model, omit the comma.
 
- ### 2. token - - $\color{red}mandatory$
+ ### 2. token - mandatory
  Simply the token you have.
  
  This is the convention:
@@ -266,7 +220,7 @@ url:
  token=TOKEN
  ```
 
- ### 3. position - $\color{black}(optional)$
+ ### 3. position - (optional)
  A position if you want the viewer to fly to a specific position instead of the model itself. 
 
 **This is an optinal parameter.**
@@ -281,7 +235,7 @@ This is the convention:
 position=LON,LAT,HEIGHT
 ```
 
-### 4. show_extent - $\color{black}(optional)$
+### 4. show_extent - (optional)
 A boolean parameter that determines whether a 3D model will display its footprint or not in the viewer. 
 **This is an optional parameter**. The show_extent parameter can be “true” or “false”.
 
@@ -306,9 +260,13 @@ http://url-to-viewer/simple-catalog-viewer?model_ids=MODEL_ID1,MODEL_ID2&token=T
 
 
 
-Congratulations! You're now ready to view the model within a Cesium-based viewer.
+## Congratulations! 
+You're now ready to view the model within a Cesium-based viewer.
 
-![Afula model example]`(/home/helipr/Downloads/Screenshot from 2023-10-14 19-31-08.png)`
+<figure>
+    <img src={require("/img/afulla.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}} />
+</figure>
+
 
 ### Important Notes:
 - When the "model_ids" query parameter includes multiple models, the viewer will automatically center on the first model listed. If a "position" query parameter is provided, the viewer will prioritize navigating to the specified position.
