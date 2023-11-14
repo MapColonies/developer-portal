@@ -324,4 +324,40 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records ('maxRecords="10"') that their **BBOX includes  includes in the desired extent and their region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
+Response will contain up to 10 records ('maxRecords="10"') that their **BBOX includes in the desired extent and their region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
+
+
+## Query by ***productType***, ***ingestionDate*** and ***maxResolutionDeg*** ordered by DESC ***ingestionDate***
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" service="CSW" maxRecords="100"  startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+  <csw:Query typeNames="mc:MCRasterRecord">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <And>
+            <PropertyIsEqualTo>
+                <PropertyName>mc:productType</PropertyName>
+                <Literal>Orthophoto</Literal>
+            </PropertyIsEqualTo>
+             <PropertyIsGreaterThan>
+                <PropertyName>mc:ingestionDate</PropertyName>
+                <Literal>2023-10-15T00:00:01Z</Literal>
+             </PropertyIsGreaterThan>
+             <PropertyIsLessThanOrEqualTo>
+                <PropertyName>mc:maxResolutionDeg</PropertyName>
+                <Literal>5.36441E-06</Literal>
+             </PropertyIsLessThanOrEqualTo>
+        </And>
+      </Filter>
+    </csw:Constraint>
+    <ogc:SortBy>
+        <ogc:SortProperty>
+            <ogc:PropertyName>mc:ingestionDate</ogc:PropertyName>
+            <ogc:SortOrder>DESC</ogc:SortOrder>
+        </ogc:SortProperty>
+    </ogc:SortBy>
+  </csw:Query>
+</csw:GetRecords>
+```
+Response will contain up to 100 records ('maxRecords="100"') that their **productType is 'Orthophoto'**, **maxResolutionDeg is less than '5.36441E-06'** ordered by DESC **ingestionDate after '2023-10-15T00:00:01Z'**
