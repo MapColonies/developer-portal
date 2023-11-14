@@ -72,7 +72,7 @@ const config = {
             route: '/docs/MapColonies/vector/services/replication/api',
           },
           {
-            spec: 'static/openapi/raster/exporter-trigger-openapi.yaml',
+            spec: 'static/openapi/raster/exporter-management-openapi.yaml',
             route: '/docs/MapColonies/raster/services/export/api',
           },
           {
