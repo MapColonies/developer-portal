@@ -7,7 +7,7 @@ tags:
 ---
 
 ## 3D Model Viewer 🌍
- 3D Model Viewer is a tool that loading 3D tiles using cesium. It allows the client to send a request to this tool with model ID's and see the 3D model on the map.
+ 3D Model Viewer is a tool that laods 3D tiles using cesium. It allows the client to send a request to this tool with model ID's and see the 3D model on the map.
 
  The following guide will help you understand, **step by step** the best practices of how to work with the Map Colonies **3D Catalog Viewer!**
 
@@ -15,9 +15,9 @@ tags:
 ```mermaid
 flowchart LR
     A[Get Auth Token]-->|?token| C[STEP 1: Query CSW catalog]
-    B[Define Filter]--> |filter| C
-    C --> |XML| D[STEP 2: Get Layers Metadata]
-    D --> |Layers Metadata| E[STEP 3: Make a Tool Request]
+    B[Define Filter]--> |filter?| C
+    C --> |xml| D[STEP 2: Get Layers Metadata]
+    D --> |layers metadata| E[STEP 3: Make a Tool Request]
 ```
 
 ## Quering 3D CSW catalog service (STEP ☝🏼)
@@ -62,6 +62,7 @@ body (XML):
  ```
 
 Of course, you can also send a reqular request with no filter. 
+
 A good example is:
 ``` html
 POST Request
@@ -174,9 +175,9 @@ Within the response, locate the ID  attribute of the desired mode, represented a
 ```
 Additionaly, the response contains other valuable attributes for your application.
 
-In the response, you can find other useful attributes that you can use for ypur application.
+In the response, you can find other useful attributes that you can use for your application.
 
-3D profile v2 you can see here: 
+You can see here how to build a 3D profile (version 2):
 - [3D Profile v2](http://localhost:3000/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
 
 ### <ins>Usful and recommended attributes to use and display in your UI for the best user expirience:</ins>
@@ -190,7 +191,7 @@ Save the ID's of the models you wish to view as you will need them for the next 
 ## Creating a proper URL request for the tool (Step 3️⃣ )
 With the model ID's in hand, you can now create a request to the tool. 
 
-Use the the following request template:
+Use the following request template:
 ```bash
 GET Request
 
@@ -204,7 +205,7 @@ url:
 
  In `<QUERY-PARAMS>`, you need to add there params:
  ### 1. model_ids - mandatory
- ID's of the desired modelsobtained from the CSW response.
+ ID's of the desired models obtained from the CSW response.
  
  The convention is to list them as a comma-separated string:
  ```
@@ -236,8 +237,9 @@ position=LON,LAT,HEIGHT
 ```
 
 ### 4. show_extent - (optional)
-A boolean parameter that determines whether a 3D model will display its footprint or not in the viewer. 
-**This is an optional parameter**. The show_extent parameter can be “true” or “false”.
+A boolean parameter that determines whether a 3D model will display its footprint or not in the viewer. **This is an optional parameter!** 
+
+The show_extent parameter can be “true” or “false”.
 
 This is the convention:
 ```
