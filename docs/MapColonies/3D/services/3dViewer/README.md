@@ -7,7 +7,7 @@ tags:
 ---
 
 ## 3D Model Viewer 🌍
- 3D Model Viewer is a tool that laods 3D tiles using cesium. It allows the client to send a request to this tool with model ID's and see the 3D model on the map.
+ 3D Model Viewer is a tool that loads 3D tiles using cesium. It allows the client to send a request to this tool with model ID's and see the 3D model on the map.
 
  The following guide will help you understand, **step by step** the best practices of how to work with the Map Colonies **3D Catalog Viewer!**
 
@@ -52,7 +52,7 @@ body (XML):
     </csw:Query>
 </csw:GetRecords>
 ``` 
- - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW caralog URL.
+ - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW catalog URL.
 ``` bash 
  <3D-CATALOG-SERVICE_URL>
  ```
@@ -61,7 +61,7 @@ body (XML):
  <token>
  ```
 
-Of course, you can also send a reqular request with no filter. 
+Of course, you can also send a regular request with no filter. 
 
 A good example is:
 ``` html
@@ -87,7 +87,7 @@ xmlns:ogc="http://www.opengis.net/ogc">
     </csw:Query>
 </csw:GetRecords>
 ``` 
-You will get GetRecords XML Respons with the products **metadata**.
+You will get GetRecords XML Response with the products **metadata**.
 
 <details>
 <summary>XML Response</summary>
@@ -173,16 +173,16 @@ Within the response, locate the ID  attribute of the desired mode, represented a
 ``` bash
 <mc:id>MODEL_ID</mc:id>
 ```
-Additionaly, the response contains other valuable attributes for your application.
+Additionally, the response contains other valuable attributes for your application.
 
 In the response, you can find other useful attributes that you can use for your application.
 
 You can see here how to build a 3D profile (version 2):
 - [3D Profile v2](http://localhost:3000/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
 
-### <ins>Usful and recommended attributes to use and display in your UI for the best user expirience:</ins>
+### <ins>Useful and recommended attributes to use and display in your UI for the best user experience:</ins>
 - <ins>product name</ins> attributes to display the records property.
-- <ins>footprint/product_bbox</ins> attribute in order to dasplay the footprint of the model.
+- <ins>footprint/product_bbox</ins> attribute in order to display the footprint of the model.
 - <ins>imagingTimeBeginUTC</ins> attribute to order the 3D models by their footage creation time.
 - <ins>region</ins> attribute to group 3D models from the same region.
 
@@ -198,7 +198,7 @@ GET Request
 url:
 <CATALOG-VIEWER-URL>?<QUERY-PARAMS>
 ```
- - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW caralog URL.
+ - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW catalog URL.
 ``` bash 
  <3D-CATALOG-SERVICE_URL>
  ```
@@ -224,7 +224,7 @@ url:
  ### 3. position - (optional)
  A position if you want the viewer to fly to a specific position instead of the model itself. 
 
-**This is an optinal parameter.**
+**This is an optional parameter.**
 the potion has 3 attributes:
 
 1. longitude - double number between -180 and 180.
@@ -275,7 +275,7 @@ You're now ready to view the model within a Cesium-based viewer.
 
 - The viewer seamlessly incorporates a terrain layer, offering a comprehensive portrayal of diverse surface elevations.
 
-- To customise your experience, you can easily switch between various base maps (Raster layers) using the gear icon located in the upper-right corner of the viewer.
+- To customize your experience, you can easily switch between various base maps (Raster layers) using the gear icon located in the upper-right corner of the viewer.
 
 - Inside the viewer, you have the freedom to navigate the 3D space as you desire, providing a dynamic and immersive experience.
  
