@@ -1,6 +1,6 @@
 ---
 id: 3d-model-viewer
-slug: 3d_viewer 
+slug: 3d-viewer 
 title: 3D Model Viewer 🌍
 tags: 
  - 3D
