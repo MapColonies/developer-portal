@@ -222,7 +222,7 @@ url:
  token=TOKEN
  ```
 
- ### 3. position - (optional)
+ ### 3. position (optional)
  A position if you want the viewer to fly to a specific position instead of the model itself. 
 
 **This is an optional parameter.**
@@ -237,7 +237,7 @@ This is the convention:
 position=LON,LAT,HEIGHT
 ```
 
-### 4. show_extent - (optional)
+### 4. show_extent (optional)
 A boolean parameter that determines whether a 3D model will display its footprint or not in the viewer. **This is an optional parameter!** 
 
 The show_extent parameter can be “true” or “false”.
