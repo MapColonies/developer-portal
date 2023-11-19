@@ -204,7 +204,8 @@ url:
  ```
 
  In `<QUERY-PARAMS>`, you need to add there params:
- ### 1. model_ids - mandatory
+ ### 1. model_ids -<font color="red"> mandatory</font>
+
  ID's of the desired models obtained from the CSW response.
  
  The convention is to list them as a comma-separated string:
@@ -213,7 +214,7 @@ url:
  ``` 
  If you only need one model, omit the comma.
 
- ### 2. token - mandatory
+ ### 2. token - <font color="red"> mandatory</font>
  Simply the token you have.
  
  This is the convention:
