@@ -29,12 +29,7 @@ const sidebars = {
               type: 'doc',
               label: 'Raster',
               id: 'MapColonies/Raster/Guides/raster-getting-started'
-            },
-            {
-              type: 'doc',
-              label: 'Raster CSW Querys',
-              id: 'ogc/protocols/examples/ogc-csw-examples'
-            },
+            }
           ]
         },
         {
