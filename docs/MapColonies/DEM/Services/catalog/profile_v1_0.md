@@ -37,7 +37,7 @@ tags:
 | mc:SRSName | text | name of reference system |
 | mc:verticalDatum | enum  | **Valid Values**: <br/> WGS 1984 / WGS 1972 / Pulkovo 1942 / Palestine 1923 / MSL Height / Israel / ED 1950 IDF |
 | mc:region | text | sector / countries <br/> comma separated list |
-| mc:classification | enum  | product classification / confidentiality <br /> [Classification values](/classified/dem/classification_table.md) |
+| mc:classification | enum  | product classification / confidentiality <br /> Classification values |
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
 | mc:units | enum |  **Valid Values**: <br/> METER / DD / DMS / ARC_SECONDS / UNKNOWN |
 | mc:geographicArea | text | geographic area cities |
