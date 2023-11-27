@@ -111,7 +111,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-above example declare a query for `mc:productId` field in catalog and response with the full metadata of `MAS_6_ORT match` result.
+Above example declare a query for `mc:productId` field in catalog and response with the full metadata of `MAS_6_ORT match` result.
 
 `maxRecords` attribute in `<csw:GetRecords></csw:GetRecords>`element is equals to "1" means response will contain only 1 result.
 
