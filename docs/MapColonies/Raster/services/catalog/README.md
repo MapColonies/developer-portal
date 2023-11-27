@@ -12,7 +12,7 @@ tags:
 ---
 
 # Catalog Service 🗃️
- [Catalog Service for the Web (CSW)](/docs/ogc/protocols/ogc-csw/README.md) is a standard for exposing a catalog of geospatial records in XML on the Internet (over HTTP). The catalog is made up of records that describe geospatial data, geospatial services (e.g. [WMTS](/docs/ogc/protocols/ogc-wmts)), and related resources.
+ [Catalog Service for the Web (CSW)](/docs/ogc/protocols/ogc-csw/ogc-csw) is a standard for exposing a catalog of geospatial records in XML on the Internet (over HTTP). The catalog is made up of records that describe geospatial data, geospatial services (e.g. [WMTS](/docs/ogc/protocols/ogc-wmts)), and related resources.
 
 :::caution
 **Authentication must be integrated in order to communicate with map And catalog services.**<br/>
