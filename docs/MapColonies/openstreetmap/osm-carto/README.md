@@ -19,7 +19,7 @@ For more information check [Raster step by step guide](/docs/MapColonies/Raster/
 
 ## What did we do
 As this stylesheet is an open-source, we had to make a few minor changes compared to the original one.
-- We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/terms/terms?id=mapping).
+- We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/docs/MapColonies/terms#mapping).
 - We modified the database insertion script to prefer names in Hebrew and English when possible.
 - We imported data from the Natural Earth dataset in places where we didn't import OSM data.
 

@@ -30,7 +30,7 @@ In order to retrieve the records, You need to send a post request with XML descr
 
 Of course, you have to add the authentication stage in order to get answer.
 
-For more details, see: [Authentication](/docs/MapColonies/MapColonies-api-auth)
+For more details, see: [Authentication](/docs/MapColonies/authentication)
 
 An example of a post request's body:
 
