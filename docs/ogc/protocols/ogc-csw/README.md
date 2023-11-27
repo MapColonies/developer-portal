@@ -17,11 +17,11 @@ tags:
 Overview - source
 The CSW service exposes the metadata records in XML format using the [OGC CSW protocol](https://docs.pycsw.org/en/latest/introduction.html#csw-support) 🌐
 
-[CSW Registry Service (Offline)](../../../static/pdfs/manuals/07-110r4_CSW-ebRIM_Registry_Service_-_Part_1_ebRIM_profile_of_CSW_v1.0.1.pdf "download") 📚
+[CSW Registry Service (Offline)](../../../../static/pdfs/manuals/07-110r4_CSW-ebRIM_Registry_Service_-_Part_1_ebRIM_profile_of_CSW_v1.0.1.pdf "download") 📚
 
 Standard protocol supported [Operations](https://docs.pycsw.org/en/latest/introduction.html#supported-operations) 🌐
 
-[Examples](/docs/ogc/protocols/examples/csw-examples)
+[Examples](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
 MapColonies operations:
 
