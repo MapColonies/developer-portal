@@ -29,10 +29,9 @@ You can create export tasks via the [Export-Management service API](/docs/MapCol
 **See the principles [here](/docs/MapColonies/authentication)**
 :::
 
-You can see the full OpenAPI spec [here](<RASTER-EXPORT-SERVICE_URL>/docs/api)
-
-The API currently consists of one method:
+The API currently consists of two method:
 1. POST /export-tasks - Create a new export task. If the requested task params were previously created, they are returned in the response, otherwise they will be returned via the provided webhook.
+2. GET /export-tasks/{id} - Gets an existing export task data.
 
 ## Files structure
 Under "artifacts" section in the response you will find the following artifacts
@@ -44,8 +43,8 @@ for more details view:
 - **https://www.sqlite.org/index.html**
 
 Our specification consists of the following:
-- [terms](/docs/MapColonies/terms)
-- tiling scheme (World CRS84 TileMatrixSet) [here](/docs/MapColonies/Raster/overview/#raster-tiling-scheme-in-detail)
+- [Terms & Abbreviations](/docs/MapColonies/terms)
+- [Tiling scheme](/docs/MapColonies/Raster/overview/#raster-tiling-scheme-in-detail) (World CRS84 TileMatrixSet)
 - file extension: ".gpkg"
 
 #### Metadata
