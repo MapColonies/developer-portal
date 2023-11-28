@@ -267,7 +267,7 @@ http://url-to-viewer/simple-catalog-viewer?model_ids=MODEL_ID1,MODEL_ID2&token=T
 You're now ready to view the model within a Cesium-based viewer.
 
 <figure>
-    <img src={require("/img/rehovot.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}} />
+    <img src={require("/img/3d/rehovot-city.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"40%"}} />
 </figure>
 
 
