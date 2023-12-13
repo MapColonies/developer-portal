@@ -6,6 +6,8 @@ description: GeoCoding Service by OSM
 
 Nominatim (from the Latin, 'by name') is a tool to search OpenStreetMap data by name and address (geocoding) and to generate synthetic addresses of OSM points (reverse geocoding).
 
+![Nominatim Demo App](../../../../static/img/openstreetmap/nominatim/nominatim-demo.png)
+
 ## How to use
 Nominatim indexes named (or numbered) features within the OpenStreetMap (OSM) dataset and a subset of other unnamed features (pubs, hotels, churches, etc).
 
@@ -25,3 +27,5 @@ Please check the [FAQ page](/docs/MapColonies/openstreetmap/nominatim/osm-nomina
 First, we are sorry, but its not our fault 🤷
 
 We import the data as is from the internet, without any change or modification to maintain authenticity. Because OpenStreetMap is free and Open Source, you can go on their website at `openstreetmap.org`, and make the changes yourself. Be sure to read the guidelines before making any change to avoid it being removed.
+
+<font size="2"> Copyright © https://nominatim.org/</font>
