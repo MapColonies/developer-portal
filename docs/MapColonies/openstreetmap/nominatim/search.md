@@ -36,7 +36,7 @@ The search term may be specified with two different sets of parameters:
     [pilkington avenue, birmingham](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=pilkington+avenue,birmingham) as well as for
     [birmingham, pilkington avenue](<VECTOR-NOMINATIM-SERVICE_URL>/search?q=birmingham,+pilkington+avenue). <br />
     Commas are optional, but improve performance by reducing the complexity of the search. <br />
-    For searching with special phrases you can read more [here](/docs/MapColonies/openstreetmap/nominatim/special-phrases).
+    For searching with special phrases you can read more [here](/docs/MapColonies/openstreetmap/nominatim/Osm-special-phrases).
 
 * `street=<housenumber> <streetname>`
 * `city=<city>`
