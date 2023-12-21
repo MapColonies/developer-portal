@@ -72,9 +72,13 @@ const config = {
             route: '/docs/MapColonies/vector/services/replication/api',
           },
           {
-            spec: 'static/openapi/raster/exporter-trigger-openapi.yaml',
+            spec: 'static/openapi/raster/exporter-management-openapi.yaml',
             route: '/docs/MapColonies/raster/services/export/api',
           },
+          {
+            spec: 'static/openapi/dem/elevation-openapi.yaml',
+            route: '/docs/MapColonies/dem/services/elevation/api',
+          }
         ],
         // Theme Options for modifying how redoc renders them
         theme: {

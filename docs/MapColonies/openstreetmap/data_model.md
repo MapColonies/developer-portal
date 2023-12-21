@@ -14,7 +14,7 @@ The basic components of OpenStreetMap's conceptual data model of the physical wo
 All of the above can have one or more associated tags (which describe the meaning of a particular element).
 When Sharing or creating OSM entities, the most common way to describe said elements is XML.
 
-![OpenStreetMap Entities](./img/OpenStreetMap_entities.png)
+![OpenStreetMap Entities](../../../static/img/openstreetmap/general/OpenStreetMap_entities.png)
 ## Node
 A **node** represents a specific point on the earth's surface defined by its latitude and longitude, referred to the World Geodetic System 1984. Each node comprises at least an id number and a pair of coordinates.
 

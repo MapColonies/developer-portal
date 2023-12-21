@@ -36,6 +36,46 @@ GET request
 http://localhost:8080/csw?request=GetCapabilities&service=CSW
 ```
 
+## Query by ***IsEqualTo*** value
+How to query the catalog by **specific property** and his **value**
+```xml
+POST request
+
+Url:
+http://localhost:8080/csw
+
+Content-Type
+application/xml
+
+Request body:
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"
+outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[SUB-SYSTEM-MAIN-NAMESPACE]" >
+  <csw:Query typeNames="[SUB-SYSTEM-TYPENAME]">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <PropertyIsEqualTo matchCase="true">
+          <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
+          <PropertyName>mc:productId</PropertyName>
+          <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
+
+          <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
+          <Literal>MAS_6_ORT</Literal>
+          <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
+        </PropertyIsEqualTo>
+      </Filter>
+    </csw:Constraint>
+  </csw:Query>
+</csw:GetRecords>
+```
+Above example declare a query for `mc:productId` field in catalog and response with the full metadata of `MAS_6_ORT match` result.
+
+`maxRecords` attribute in `<csw:GetRecords></csw:GetRecords>`element is equals to "1" means response will contain only 1 result.
+
+`startPosition`  will display records from all result start from the first one to the `maxRecords` value
+***(1 to 1 in example)***.
+
 ## Query by field value
 How to query the catalog by **specific property** and his **value**
 ```xml
@@ -66,46 +106,6 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
           <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
 
         </PropertyIsLike>
-      </Filter>
-    </csw:Constraint>
-  </csw:Query>
-</csw:GetRecords>
-```
-above example declare a query for `mc:productId` field in catalog and response with the full metadata of `MAS_6_ORT match` result.
-
-`maxRecords` attribute in `<csw:GetRecords></csw:GetRecords>`element is equals to "1" means response will contain only 1 result.
-
-`startPosition`  will display records from all result start from the first one to the `maxRecords` value
-***(1 to 1 in example)***.
-
-## Query by ***IsEqualTo*** value
-How to query the catalog by **specific property** and his **value**
-```xml
-POST request
-
-Url:
-http://localhost:8080/csw
-
-Content-Type
-application/xml
-
-Request body:
-<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"
-outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[SUB-SYSTEM-MAIN-NAMESPACE]" >
-  <csw:Query typeNames="[SUB-SYSTEM-TYPENAME]">
-   <csw:ElementSetName>full</csw:ElementSetName>
-    <csw:Constraint version="1.1.0">
-      <Filter xmlns="http://www.opengis.net/ogc">
-        <PropertyIsEqualTo matchCase="true">
-          <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
-          <PropertyName>mc:productId</PropertyName>
-          <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
-
-          <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
-          <Literal>MAS_6_ORT</Literal>
-          <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
-        </PropertyIsEqualTo>
       </Filter>
     </csw:Constraint>
   </csw:Query>
@@ -216,7 +216,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (`maxRecords="10"`) that their ingestion date is Greater or Equal
+Response will contain up to 10 records (`maxRecords="10"`) that their **ingestion date** is Greater or Equal **2020-09-03T00:00:01Z**
 
 ```xml 
 <PropertyIsGreaterThanOrEqualTo></<PropertyIsGreaterThanOrEqualTo>
@@ -241,7 +241,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (maxRecords="10") that their ingestion date is Less or Equal
+Response will contain up to 10 records (maxRecords="10") that their **ingestion date** is Less or Equal **2022-09-03T00:00:01Z**
 ```xml
 <PropertyIsLessThanOrEqualTo></<PropertyIsLessThanOrEqualTo>
 ```
@@ -272,7 +272,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records (maxRecords="10") that includes product version `"4.0"` and their ingestion date is Less than the desired date.
+Response will contain up to 10 records (maxRecords="10") that includes product version `"4.0"` and their ingestion date is Less than the desired date **2022-09-03T00:00:01Z** .
 
 ## Query by ***BBOX***
 ```xml
@@ -295,7 +295,7 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records ('maxRecords="10"')  that their **BBOX** includes in the desired extent (in example:  -180, -190, 180, 90
+Response will contain up to 10 records ('maxRecords="10"')  that their **BBOX** includes in the desired extent (in example:  -180, -190, 180, 90)
 
 ## Query by ***BBOX*** and ***region***
 ```xml
@@ -324,4 +324,40 @@ outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="[S
   </csw:Query>
 </csw:GetRecords>
 ```
-Response will contain up to 10 records ('maxRecords="10"') that their **BBOX includes  includes in the desired extent and their region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
+Response will contain up to 10 records ('maxRecords="10"') that their **BBOX includes in the desired extent and their region is contains the word “ירדן”**  (`<Literal>%ירדן%</Literal>`)
+
+
+## Query by ***productType***, ***ingestionDate*** and ***maxResolutionDeg*** ordered by ***DESC ingestionDate***
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" service="CSW" maxRecords="100"  startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+  <csw:Query typeNames="mc:MCRasterRecord">
+   <csw:ElementSetName>full</csw:ElementSetName>
+    <csw:Constraint version="1.1.0">
+      <Filter xmlns="http://www.opengis.net/ogc">
+        <And>
+            <PropertyIsEqualTo>
+                <PropertyName>mc:productType</PropertyName>
+                <Literal>Orthophoto</Literal>
+            </PropertyIsEqualTo>
+             <PropertyIsGreaterThan>
+                <PropertyName>mc:ingestionDate</PropertyName>
+                <Literal>2023-10-15T00:00:01Z</Literal>
+             </PropertyIsGreaterThan>
+             <PropertyIsLessThanOrEqualTo>
+                <PropertyName>mc:maxResolutionDeg</PropertyName>
+                <Literal>5.36441E-06</Literal>
+             </PropertyIsLessThanOrEqualTo>
+        </And>
+      </Filter>
+    </csw:Constraint>
+    <ogc:SortBy>
+        <ogc:SortProperty>
+            <ogc:PropertyName>mc:ingestionDate</ogc:PropertyName>
+            <ogc:SortOrder>DESC</ogc:SortOrder>
+        </ogc:SortProperty>
+    </ogc:SortBy>
+  </csw:Query>
+</csw:GetRecords>
+```
+Response will contain up to 100 records ('maxRecords="100"') that their **productType** is **'Orthophoto'**, **maxResolutionDeg** is less than **'5.36441E-06'** ordered by **DESC ingestionDate** after **'2023-10-15T00:00:01Z'**

@@ -10,7 +10,7 @@ tags:
 ---
 
 # OpenStreetMap Carto
-![The openstreetmap website](/img/osm-carto/osm-carto.png)
+![The openstreetmap website](/img/openstreetmap/osm-carto/osm-carto.png)
 OpenStreetMap Carto (or OSM Carto or osm-carto for short) is an open-source stylesheet for rendering OpenStreetMap data to raster tiles. Since 2013, the main OpenStreetMap homepage has featured OSM Carto tiles as the default tile layer.
 
 ## How to use
@@ -19,7 +19,7 @@ For more information check [Raster step by step guide](/docs/MapColonies/Raster/
 
 ## What did we do
 As this stylesheet is an open-source, we had to make a few minor changes compared to the original one.
-- We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/terms/terms?id=mapping).
+- We changed the stylesheet projection from Web Mercator to WGS84. See [mapping terms](/docs/MapColonies/terms#mapping).
 - We modified the database insertion script to prefer names in Hebrew and English when possible.
 - We imported data from the Natural Earth dataset in places where we didn't import OSM data.
 

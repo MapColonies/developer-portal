@@ -9,7 +9,7 @@ tags:
 ---
 
 # OpenStreetMap
-![The openstreetmap website](./img/openstreetmap-website-2022.png)
+![The openstreetmap website](../../../static/img/openstreetmap/general/openstreetmap-website-2022.png)
 <div style={{"textAlign": "center"}}>The OpenStreetMap website</div>
 
 ## What is it?
