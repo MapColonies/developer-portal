@@ -22,13 +22,22 @@ Allows users to request elevation(height) information at a given location(s)/pos
 
 ## Terminology
 
-Elevation info might be returned from following materials:
+### Product types
+
+Elevation info might be returned from following material types:
 1. DTM - terrain materials.
 2. DSM - surface materials.
-3. MIXED - according to most detailed(best resolution) materials.
+3. MIXED - according to most detailed (best resolution) materials.
+
+### Confidence level
+
+Calculated for each product and is represented by two values:
+* `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `x` meters there is a value in the mesh
+* `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `x` and `height` + `x`)
+
+It is extremely important to provide the user with this information for each point you query in order to allow him to make the best decision based on the data.
 
 ## Usage
-
 
 :::caution
 **- You may request values for up to 250 points at once. In case you have more than that, you should divide it into bulks.**
@@ -82,3 +91,11 @@ The structure (JSON schema) is as follows:
   }
 }
 ```
+
+In the response, each point will have the `productId` field as a reference to the product it was returned from.
+
+Each product has the following information:
+* `productType` - the [type](#product-types) of the material
+* `resolutionMeter` - precision on the horizontal plane, see [confidence level](#confidence-level)
+* `absoluteAccuracyLEP90` - precision on the `z` axis, see [confidence level](#confidence-level)
+* `updateDate` - date when the product was updated
