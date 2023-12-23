@@ -22,7 +22,7 @@ Do not forget to change the url to our real host url
  - `mc:MC3DRecord`
  - `mc:MCDEMRecord`
  
- ***[SUB-SYSTEM-MAIN-NAMESPACE]:***
+***[SUB-SYSTEM-MAIN-NAMESPACE]:***
  - `http://schema.mapcolonies.com/raster`
  - `http://schema.mapcolonies.com/3d`
  - `http://schema.mapcolonies.com/dem`

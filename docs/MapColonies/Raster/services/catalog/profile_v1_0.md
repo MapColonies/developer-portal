@@ -21,7 +21,7 @@ tags:
 | mc:productId | text | unique external product id |
 | mc:productName | text | the product name |
 | mc:productVersion | text | the product version |
-| [mc:productType](#productType) | enum  | **Valid Values**: <br/> OrthophotoBest / Orthophoto / OrthophotoHistory / RasterMapBest / RasterMap / RasterAidBest / RasterAid / RasterVector / RasterVectorBest |
+| mc:productType | enum  | **Valid Values**: <br/> OrthophotoBest / Orthophoto / OrthophotoHistory / RasterMapBest / RasterMap / RasterAidBest / RasterAid / RasterVector / RasterVectorBest |
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
