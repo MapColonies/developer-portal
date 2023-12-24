@@ -1,0 +1,83 @@
+---
+sidebar_position: 5
+id: osm-nominatim-special-phrases
+slug: Osm-special-phrases
+title: Special Phrases
+tags:
+  - osm
+  - special phrases
+  - nominatim
+---
+
+import DataGridSpecialPhrases from '../../../../src/components/Vector/SpecialPhrasesTable/index.tsx'
+
+Special Phrases are common nouns or phrases that can be used in a search to identify a class of places. <br />
+Those are keywords that cause Nominatim to search for a specific key=value pair present in the OSM entity.
+
+## Special Phrases Options
+
+<DataGridSpecialPhrases></DataGridSpecialPhrases>
+
+## Examples
+
+``` xml title='Request in English'
+<VECTOR-NOMINATIM_URL>/search.php?format=jsonv2'&
+q=school in tel aviv
+```
+
+``` xml title='Request in Hebrew'
+<VECTOR-NOMINATIM_URL>/search.php?format=jsonv2'&
+q=בית ספר בתוך תל אביב
+```
+
+<details>
+  <summary>Response in jsonv2 format</summary>
+
+```
+[
+  {
+      "place_id": 371349364,
+      "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+      "osm_type": "way",
+      "osm_id": 405360284,
+      "lat": "32.0866755",
+      "lon": "34.78522392879019",
+      "category": "amenity",
+      "type": "school",
+      "place_rank": 30,
+      "importance": 0.3996636286275556,
+      "addresstype": "amenity",
+      "name": "גימנסיה הרצליה",
+      "display_name": "גימנסיה הרצליה, דוד רמז, הצפון החדש - סביבת ככר המדינה, תל אביב - יפו, הצפון החדש, תל אביב-יפו, נפת תל אביב, מחוז תל אביב, 6296802, ישראל",
+      "boundingbox": [
+          "32.0860104",
+          "32.0875880",
+          "34.7843618",
+          "34.7860641"
+      ]
+  },
+  {
+      "place_id": 371344929,
+      "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+      "osm_type": "way",
+      "osm_id": 140917803,
+      "lat": "32.09302495",
+      "lon": "34.79094265017193",
+      "category": "amenity",
+      "type": "school",
+      "place_rank": 30,
+      "importance": 0.23859140675544002,
+      "addresstype": "amenity",
+      "name": "בית ספר עירוני ד'",
+      "display_name": "בית ספר עירוני ד', רב צעיר, הצפון החדש - החלק הצפוני, תל אביב - יפו, הצפון החדש, תל אביב-יפו, נפת תל אביב, מחוז תל אביב, 6230231, ישראל",
+      "boundingbox": [
+          "32.0922268",
+          "32.0938329",
+          "34.7906316",
+          "34.7912568"
+      ]
+  }
+]
+```
+
+</details>
