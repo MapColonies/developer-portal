@@ -35,7 +35,7 @@ Calculated for each product and is represented by two values:
 * `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `x` meters there is a value in the mesh
 * `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `x` and `height` + `x`)
 
-It is extremely important to provide the user with this information for each point you query in order to allow him to make the best decision based on the data.
+It is extremely important to provide all of the information about the product which the height was extracted from, for each point you query, in order to allow the user to make the best decision based on the data.
 
 ## Usage
 
