@@ -29,7 +29,12 @@ const sidebars = {
               type: 'doc',
               label: 'Raster',
               id: 'MapColonies/Raster/Guides/raster-getting-started'
-            }
+            },
+            {
+              type: 'doc',
+              label: 'Raster Export',
+              id: 'MapColonies/Raster/Guides/raster-export-guide'
+            },
           ]
         },
         {

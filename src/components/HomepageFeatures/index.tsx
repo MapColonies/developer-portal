@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Vector',
-    Svg: require('@site/static/img/vector2.svg').default,
+    Svg: require('@site/static/img/vector/vector_logo.svg').default,
     description: (
       <>
         A coordinate-based data model that represents geographic features as points, lines, and polygons.
