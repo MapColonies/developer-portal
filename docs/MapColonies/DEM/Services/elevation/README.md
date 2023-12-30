@@ -35,7 +35,11 @@ Calculated for each product and is represented by two values:
 * `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `x` meters there is a value in the mesh
 * `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `x` and `height` + `x`)
 
-It is extremely important to provide all of the information about the product which the height was extracted from, for each point you query, in order to allow the user to make the best decision based on the data.
+It is extremely important to provide all of the information about the product which the height was extracted from for each point you query.
+
+:::info
+When using the API to **display** the heights, we require you to provide the `productType`, `resolutionMeter` and `absoluteAccuracyLEP90` values as well.
+:::
 
 ## Usage
 
@@ -46,7 +50,7 @@ It is extremely important to provide all of the information about the product wh
 **- When getting a time-out in a result of request, please try same API call again.**
 :::
 
-### API parameters(payload) explanation
+### API parameters (payload) explanation
 The structure (JSON schema) is as follows:
 
 
