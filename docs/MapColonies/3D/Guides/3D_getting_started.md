@@ -35,7 +35,7 @@ flowchart LR
 ```
 
 ## Query CSW catalog (Step 1)
-Query **3D CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/examples/ogc-csw-examples)
+Query **3D CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
 Filter should be based on [3D profile](/docs/MapColonies/3D/services/catalog/catalog-profile-v2)
 

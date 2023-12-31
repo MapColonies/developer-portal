@@ -32,11 +32,6 @@ const sidebars = {
             },
             {
               type: 'doc',
-              label: 'Raster CSW Querys',
-              id: 'ogc/protocols/examples/ogc-csw-examples'
-            },
-            {
-              type: 'doc',
               label: 'Raster Export',
               id: 'MapColonies/Raster/Guides/raster-export-guide'
             },
