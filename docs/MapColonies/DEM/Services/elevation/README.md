@@ -32,8 +32,8 @@ Elevation info might be returned from following material types:
 ### Confidence level
 
 Calculated for each product and is represented by two values:
-* `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `x` meters there is a value in the mesh
-* `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `x` and `height` + `x`)
+* `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `resolutionMeter` meters there is a value in the mesh
+* `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `absoluteAccuracyLEP90` and `height` + `absoluteAccuracyLEP90`)
 
 It is extremely important to provide all of the information about the product which the height was extracted from for each point you query.
 
