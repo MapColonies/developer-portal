@@ -80,10 +80,12 @@ The GetFeature request queries the server with a set of parameters describing th
 | outputFormat | No | Defines the scheme description language used to describe feature types (one of `gml2`, `gml3`, `shapefile`, `application/json`, `text/javascript`, `csv`)  | **gml2 for WFS v1.0.0** and **gml3 for WFS v1.1.0 and v2.0.0** |
 | featureId | No | The Id of a specific feature | - |
 | count | No | The maximum number of features to be returned. Use maxFeatures parameter for WFS versions earlier than 2.0.0 | - |
+| startIndex | No | The index from which the server shall begin presenting results in the response | - |
 | sortBy | No | An attribute to sort the features by (append a +A or +D to the request for ascending or descending order. Default sort is in ascending order.) | - |
 | propertyName | No | Select specific attributes to be retrieved from the feature. A single attribute, or multiple attributes separated by commas can be selected.  If some properties in the feature are not-nillable or if they have `minOccurs` greater than zero they will be included in the result even if not requested | - |
 | bbox | No | Search for features that are contained (or partially contained) inside a coordinates box. The format of the BBOX parameter is bbox=a1,b1,a2,b2,[crs] where a1, b1, a2, b2 represent the coordinate values. The optional crs parameter is used to name the CRS for the bbox coordinates. bottom corner coordinate (left or right) to be provided first | - |
 | srsName | No | The coordinate reference system for the returned features to be encoded in | - |
+| resultType | No | The possible values for this parameter are "results" and "hits". If the value is set to "results" the server shall generate a complete response document containing resources that satisfy the operation. If the value is set to "hits" the server shall generate an empty response document containing no resource instances and the root element of the response container shall contain the count of the total number of resources that the operation found and the value for the number of resources presented in the response document shall be set to zero. | - |
 
 The following GET request will get at most the top N features of feature type named `namespace:featuretype` sorted by attributeA, the response will be formatted in `application/json`
 
