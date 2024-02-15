@@ -121,7 +121,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:geographicArea>North</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>11111111-1111-1111-1111-111111111111</mc:id>
-            <mc:links scheme="TERRAIN_QMESH" name="" description="">http://terrain-server.com/terrains/srtm100/layer.json</mc:links>
+            <mc:links scheme="TERRAIN_QMESH" name="" description="">http://terrain-server.com/terrains/srtm100</mc:links>
             <mc:producerName>MIKI</mc:producerName>
             <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
             <mc:productId>11111111-1111-1111-1111-111111111111</mc:productId>
@@ -161,7 +161,7 @@ In the Response, look for
 
 ```xml title="Extract link for terrain provider"
 <mc:links scheme="TERRAIN_QMESH" name="srtm100">
-  http://terrain-server.com/terrains/srtm100/layer.json
+  http://terrain-server.com/terrains/srtm100
 </mc:links>
 ```
 
