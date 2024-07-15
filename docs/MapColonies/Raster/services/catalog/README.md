@@ -2,7 +2,7 @@
 id: raster-catalog-service
 slug: raster-catalog-service
 title: Catalog 🗃️
-description: Discover all availabale raster layers
+description: Discover all available raster layers
 tags:
   - catalog
   - raster

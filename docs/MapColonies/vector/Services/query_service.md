@@ -748,6 +748,7 @@ We'll invoke a request with the following body:
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="2" outputFormat="application/json">
     <wfs:Query typeNames="vector:buildings">
         <fes:Filter>
+            <And>
             <fes:PropertyIsGreaterThan>
                <fes:ValueReference>relative_feature_height</fes:ValueReference>
                <fes:Literal>10</fes:Literal>
@@ -756,6 +757,7 @@ We'll invoke a request with the following body:
                <fes:ValueReference>is_sensitive</fes:ValueReference>
                <fes:Literal>false</fes:Literal>
             </fes:PropertyIsEqualTo>
+            </And>
         </fes:Filter>
     </wfs:Query>
 </wfs:GetFeature>
