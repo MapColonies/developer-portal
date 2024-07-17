@@ -1,7 +1,7 @@
 ---
 id: raster-polygon-parts-service
 slug: polygon-parts
-title: PolygonParts 🧩
+title: Polygon Parts 🧩
 description: Search, Filter and Aggregate polygon parts (vectorial) layers
 tags:
   - wfs
@@ -54,6 +54,8 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
         F -->G((filtered features))
     end
 ```
+
+### List
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
