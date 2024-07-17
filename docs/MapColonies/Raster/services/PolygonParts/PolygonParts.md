@@ -33,7 +33,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 **See the principles [here](/docs/MapColonies/authentication)**
 :::
 
-## Example
+## Examples
 
 WFS protocol partitions the queryable features into different feature types.
 Each feature types actually represent other catalog layer [Raster Catalog](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v1).
