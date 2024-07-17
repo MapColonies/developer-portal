@@ -28,7 +28,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 **In polygon parts, each feature represent single polygon**
 :::
 
-:::caution
+:::caution Authentication
 **Authentication must be integrated in order to communicate with Map and Catalog services.**<br/>
 **See the principles [here](/docs/MapColonies/authentication)**
 :::
@@ -55,7 +55,7 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
     end
 ```
 
-### List
+### List  WFS capabilities and find available FeaturesTypes
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
@@ -102,7 +102,12 @@ To list all the available feature types use the `GetCapabilities` operation and 
 We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:orthophoto_mosaic_base_orthophoto_best_polygon_parts`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_orthophoto_best_polygon_parts is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type` + polygon_parts suffix. it is possible to query the FeatureType by its full name `polygon_parts:orthophoto_mosaic_base_orthophoto_best_polygon_parts` or short unique name `orthophoto_mosaic_base_orthophoto_best_polygon_parts`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
+
+### Use DescribeFeatureFeature & understand Feature's attributes
+
 If you would like to view the schema of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `orthophoto_mosaic_base_orthophoto_best_polygon_parts`
+
+The response is the XSD (in xml response) describing the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` `FeatureType`.
 
 For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
 
@@ -287,11 +292,16 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 
 </details>
 
-The response is the XSD (in xml response) describing the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` `FeatureType`.
+
 
 This is a description of a orthophoto_mosaic_base_orthophoto_best_polygon_parts feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties, each property has its own type, nillable flag value and min\max occurs - these describing the requireness of the property and possible repeatness.
 
+
+
 Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
+
+
+### GetFeature GET basic request with count restricts
 
 1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_orthophoto_best_polygon_parts`, that include actually total of 4 features:
 
@@ -449,6 +459,8 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 ```
 
 </details>
+
+### GetFeature GET request with sort params
 
 2. To get layer's polygon parts features sorted by some property such as `updatedInVersion` we can invoke the following request.
 
@@ -812,6 +824,9 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 
 </details>
 
+
+### GetFeature POST request with geographical intersection
+
 For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a POST GetFetures request consisting the filter as a XML body.
 
 3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's geometry describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
@@ -946,6 +961,8 @@ We'll invoke a POST GetFeature request with the following body:
 ```
 
 </details>
+
+### GetFeature POST request with multi-parameters combination
 
 4. if we'd like to filter parts by a set of multiple parameters we'll achieve that by a `GetFeature` **POST** request.
    Say we would like to retrieve only the polygon parts who's `resolutionDegree` is greater than **0.060** and their `sensors` type is **other**.
