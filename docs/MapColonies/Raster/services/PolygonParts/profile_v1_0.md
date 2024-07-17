@@ -2,7 +2,7 @@
 id: polygon-parts-profile-v1
 slug: polygon-parts-profile-v1
 description: v1 Profile for polygon parts attributes
-title: polygon-parts-profile-v1 🧩
+title: Profile v1
 tags:
   - raster
   - polygon parts
