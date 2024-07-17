@@ -15,7 +15,7 @@ tags:
 
 | **Polygon Part Queryable <br/> Attribute Name** | **Type** | **Description** | 
 | ----------- | ----------- | ----------- | 
-| geometry | GeoJson (geometry (Polygon,4326)) | Feature's geometry |
+| geometry | GeoJson (geometry (Polygon,4326)) | The feature's geometry |
 | partId | integer | Internal unique polygon part identifier (1-2147483647) |
 | recordId | UUID | The original record (layer) identifier in the catalog DB |
 | productId | text | Product id of the layer |
