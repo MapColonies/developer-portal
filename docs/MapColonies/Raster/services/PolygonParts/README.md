@@ -13,6 +13,36 @@ tags:
 
 # Polygon Parts Service 🧩
 
+## General 
+
+### Understanding Polygon Parts on Layer (records) management - Updates
+
+This system utilizes polygons and layers to represent the precise area of a product and track all updates received over time. Polygons define the exact boundaries, while layers provide a structured way to integrate these updates. Let's delve deeper into how this system functions.
+
+### Polygons
+
+Represent the precise area of a product and all its subsequent updates.
+Contain additional metadata like update date, accuracy, and photo sensor information.
+
+### Layers
+
+Composed of continuous geographic regions defined by several polygons.
+Each polygon holds its own metadata.
+Updates are merged with overlapping layers below.
+Polygons within existing layers that overlap the new update (completely or partially) are refreshed.
+
+
+<figure>
+    <img src={require("/img/raster/polygon_parts_example.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto"}}/>
+</figure>
+
+:::important Practical Example
+B is a new layer contains 3 polygon parts merged into an existing layer.
+As you can see in the “After” figure below, the new layer polygon parts field contains the merged polygon parts of A and B.
+Each part hold its own metadata and related attributes [PolygonParts attributes](/docs/PolygonParts/profile_v1_0.md)
+:::
+
+### Polygon Parts  with WFS implementation
 Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a READ-ONLY Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 
