@@ -30,7 +30,7 @@ tags:
 | mc:imagingTimeBeginUTC | date | start imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
 | mc:maxResolutionDeg | double | the product resolution in degrees <br/> double unsigned valid: **1.67638e-7 to 0.703125** |
-| mc:maxResolutionMeter | double | the product resolution in meters <br/> double unsigned valid: **0.0185 to 78273** |
+| mc:maxResolutionMeter | double | the product resolution in meters <br/> double unsigned valid: **0.0185 to 78271.52** |
 | mc:minHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters <br/> float unsigned valid: **0.01 to 4000 (x.xx)** |
 | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
 | mc:footprint | geojson | geographical delineation of the product / model trace |
@@ -99,6 +99,6 @@ tags:
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:maxHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters float unsigned valid: 0.01 to 4000 |
-| mc:minResolutionMeter | double | the min resolution of the “resolution part” product (max) resolution in meters double unsigned valid: 0.0185 to 78273 |
+| mc:minResolutionMeter | double | the min resolution of the “resolution part” product (max) resolution in meters double unsigned valid: 0.0185 to 78271.52 |
 | mc:minResolutionDeg | double | the min resolution of the “resolution part” product (max) resolution in degrees double unsigned valid: 1.67638e-7 to 0.703125 |
 mc:links | | will include a new link for 'polygon parts' WFS capabilities
