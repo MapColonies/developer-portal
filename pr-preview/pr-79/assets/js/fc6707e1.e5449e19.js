@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[6683],{9830:e=>{e.exports=JSON.parse('{"label":"release-notes","permalink":"/developer-portal/pr-preview/pr-refs/pull/79/merge/blog/tags/release-notes","allTagsPath":"/developer-portal/pr-preview/pr-refs/pull/79/merge/blog/tags","count":3}')}}]);
