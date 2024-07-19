@@ -8,13 +8,13 @@ on:
       - synchronize
       - closed
 
+concurrency: preview-${{ github.ref }}
+
 env:
   PUZZLE_URL: https://cptschnitz.github.io/map-tile-puzzle/
   CATALOG_APPLICATION_URL: https://github.com/MapColonies
   PLAYGROUND_URL: https://sandcastle.cesium.com/
-  BASE_URL: '/developer-portal/'
-
-concurrency: preview-${{ github.ref }}
+  BASE_URL: '/developer-portal/pr-preview/pr-${{ github.ref }}'
 
 jobs:
   deploy-preview:
