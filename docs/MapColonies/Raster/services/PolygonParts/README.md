@@ -340,7 +340,7 @@ This is a description of a `orthophoto_mosaic_base_orthophoto_best_polygon_parts
 Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
 
 
-### Pagination
+### Limit response feature count
 
 1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_orthophoto_best_polygon_parts`, that include actually total of 4 features using GET request:
 
