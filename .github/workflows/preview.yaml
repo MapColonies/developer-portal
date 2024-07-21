@@ -11,6 +11,8 @@ on:
       - 'docs/**'
       - 'src/**'
       - 'static/**'
+      - 'docusaurus.config.js'
+      - 'sidebars.js'
 
 concurrency: preview-${{ github.ref }}
 
