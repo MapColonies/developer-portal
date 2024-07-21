@@ -504,7 +504,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 let's get only part of the feature, using `count` to mention the amount for paging, and `startIndex` as the offset
 
 We'll invoke a POST GetFeature request with the following body:
-```
+```xml
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
     <wfs:Query typeNames="polygon_parts:orthophoto_mosaic_base_orthophoto_best_polygon_parts">
         <fes:Filter>
