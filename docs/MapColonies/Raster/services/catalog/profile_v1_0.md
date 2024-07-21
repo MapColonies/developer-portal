@@ -38,7 +38,7 @@ tags:
 | mc:SRSName | text | name of reference system |
 | mc:transparency | text | the record transparency <br /> **Valid values**:  TRANSPARENT / OPAQUE  |
 | mc:region | text | sector / countries <br/> comma separated list |
-| mc:classification | number  | product classification / confidentiality <br /> Classification values (3-6)
+| mc:classification | number | product classification / confidentiality <br /> Classification values (3-6)
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
 | mc:RMS | double | **(Deprecated - will be removed in the future)** tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
