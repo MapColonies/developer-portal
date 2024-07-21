@@ -15,6 +15,17 @@ tags:
 2. **main_namespace** = `http://schema.mapcolonies.com/raster` (This site doesn't exist)
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
+:::caution
+<p style={{color:"red"}}><b>The following parameters are depracted an will be removed in the future</b></p> 
+
+| **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
+| ----------- | ----------- | ----------- |
+| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:RMS | double | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> tolerance, standard deviation in % |
+
+
+:::
+
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:id | text | unique internal catalog item id |
@@ -25,7 +36,7 @@ tags:
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
-| mc:creationDateUTC | date | **(Deprecated - will be removed in the future)** the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
 | mc:updateDateUTC | date | date (UTC time) the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | mc:imagingTimeBeginUTC | date | start imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
@@ -40,7 +51,7 @@ tags:
 | mc:region | text | sector / countries <br/> comma separated list |
 | mc:classification | number  | product classification / confidentiality <br /> Classification values (3-6)
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
-| mc:RMS | double | **(Deprecated - will be removed in the future)** tolerance, standard deviation in % |
+| mc:RMS | double | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | mc:ingestionDate | date | date (UTC time) when product data was updated or added to catalog |
