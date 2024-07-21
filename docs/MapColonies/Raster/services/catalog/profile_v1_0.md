@@ -77,7 +77,7 @@ tags:
         <mc:productType>Orthophoto</mc:productType>
         <mc:productVersion>2.0</mc:productVersion>
         <mc:region>test</mc:region>
-        <mc:sensors>UNIDENTIFIED,BUG</mc:sensors>
+        <mc:sensors>UNIDENTIFIED,FEATURE</mc:sensors>
         <mc:imagingTimeEndUTC>2023-11-05T09:31:00Z</mc:imagingTimeEndUTC>
         <mc:imagingTimeBeginUTC>2023-11-01T09:31:00Z</mc:imagingTimeBeginUTC>
         <mc:SRS>4326</mc:SRS>
