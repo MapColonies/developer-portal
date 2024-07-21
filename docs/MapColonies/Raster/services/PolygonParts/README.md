@@ -499,7 +499,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 
 </details>
 
-### Full Pagination
+### Pagination
 
 let's get only part of the feature, using `count` to mention the amount for paging, and `startIndex` as the offset
 
