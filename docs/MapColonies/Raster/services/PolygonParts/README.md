@@ -39,9 +39,8 @@ Polygons within existing layers that overlap the new update (completely or parti
 :::important Practical Example
 B is a new layer containing 3 polygon parts about to be merged into an existing layer.
 As you can see in the “After” figure on the right, the new layer parts contains the merged polygon parts of A and B.
-Each part hold its own metadata and related attributes [PolygonParts attributes](/docs/PolygonParts/profile_v1_0.md)
+Each part hold its own metadata and related attributes [PolygonParts attributes](/docs/MapColonies/Raster/services/PolygonParts/profile_v1_0.md)
 :::
-
 ### WFS implementation
 Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a READ-ONLY Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
@@ -63,7 +62,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 **See the principles [here](/docs/MapColonies/authentication)**
 :::
 
-## Examples
+## Overview
 
 WFS protocol partitions the queryable features into different feature types.
 Each feature types actually represent other catalog layer [Raster Catalog](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v1).
@@ -85,9 +84,17 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
     end
 ```
 
+## GetCapabilities
 ### List WFS capabilities and find available FeaturesTypes
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
+
+```
+<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+    service=wfs&
+    version={WFS_SERVICE_VERSION}&
+    request=GetCapabilities
+```
 
 <details>
   <summary>Response</summary>
@@ -133,7 +140,9 @@ We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each 
 The default coordinate reference system and the containing features bounding box are also presented.
 
 
-### DescribeFeatureType
+## DescribeFeatureType
+
+### Explore featureType 'Orthophoto Best' layer
 
 If you would like to view the schema of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `orthophoto_mosaic_base_orthophoto_best_polygon_parts`
 
@@ -327,13 +336,13 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 This is a description of a `orthophoto_mosaic_base_orthophoto_best_polygon_parts` feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
 
 
-
+## GetFeature
 Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
 
 
-### GetFeature GET basic request with count restricts
+### Pagination
 
-1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_orthophoto_best_polygon_parts`, that include actually total of 4 features:
+1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_orthophoto_best_polygon_parts`, that include actually total of 4 features using GET request:
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
@@ -490,7 +499,237 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 
 </details>
 
-### GetFeature GET request with sort params
+### Full Pagination
+
+let's get only part of the feature, using `count` to mention the amount for paging, and `startIndex` as the offset
+
+We'll invoke a POST GetFeature request with the following body:
+```
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
+    <wfs:Query typeNames="polygon_parts:orthophoto_mosaic_base_orthophoto_best_polygon_parts">
+        <fes:Filter>
+            <fes:PropertyIsEqualTo>
+               <fes:ValueReference>productId</fes:ValueReference>
+               <fes:Literal>ORTHOPHOTO_BEST</fes:Literal>
+            </fes:PropertyIsEqualTo>
+ 
+        </fes:Filter>
+    </wfs:Query>
+</wfs:GetFeature>
+```
+
+<details>
+  <summary>Response</summary>
+
+```json
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest_polygon_parts.5",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            34.2117,
+                            31.2279
+                        ],
+                        [
+                            34.4294,
+                            31.2279
+                        ],
+                        [
+                            34.4294,
+                            31.4159
+                        ],
+                        [
+                            34.2117,
+                            31.4159
+                        ],
+                        [
+                            34.2117,
+                            31.2279
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "partId": 3,
+                "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "producType": "OrthophotoBest",
+                "id": "MAS_6_ORT_247568-26.0",
+                "name": "O_aza_w84geo_Tiff_10cm",
+                "updatedInVersion": "3",
+                "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
+                "imagingTimeBeginUTC": "2021-05-15T23:09:00Z",
+                "imagingTimeEndUTC": "2021-05-15T23:09:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.1,
+                "horizontalAccuracyCE90": 3,
+                "sensors": "OGEN_KRAV",
+                "countries": "ישראל, מצרים, ירדן, לבנון, סוריה",
+                "cities": "",
+                "description": "תשתית אורתופוטו בעזה עדכני למאי 2021"
+            },
+            "bbox": [
+                34.2117,
+                31.2279,
+                34.4294,
+                31.4159
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest_polygon_parts.7",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            35.3664,
+                            32.1381
+                        ],
+                        [
+                            35.1511,
+                            32.1381
+                        ],
+                        [
+                            35.1511,
+                            32.3249
+                        ],
+                        [
+                            35.3664,
+                            32.3249
+                        ],
+                        [
+                            35.3664,
+                            32.1381
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "partId": 4,
+                "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "producType": "OrthophotoBest",
+                "id": "MAS_5_ORT_240115-11.1",
+                "name": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.07",
+                "updatedInVersion": "4",
+                "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
+                "imagingTimeBeginUTC": "2021-06-11T02:00:00Z",
+                "imagingTimeEndUTC": "2021-06-11T02:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCE90": 4,
+                "sensors": "OTHER",
+                "countries": "ישראל",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני ליוני 2021"
+            },
+            "bbox": [
+                35.1511,
+                32.1381,
+                35.3664,
+                32.3249
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest_polygon_parts.9",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            35.2784,
+                            31.9323
+                        ],
+                        [
+                            35.0607,
+                            31.9323
+                        ],
+                        [
+                            35.0607,
+                            32.1202
+                        ],
+                        [
+                            35.2784,
+                            32.1202
+                        ],
+                        [
+                            35.2784,
+                            31.9323
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "geometry",
+            "properties": {
+                "partId": 5,
+                "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "producType": "OrthophotoBest",
+                "id": "MAS_5_ORT_240115-11.2",
+                "name": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.08",
+                "updatedInVersion": "5",
+                "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
+                "imagingTimeBeginUTC": "2021-05-12T04:00:00Z",
+                "imagingTimeEndUTC": "2021-05-12T04:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCE90": 4,
+                "sensors": "OTHER",
+                "countries": "ישראל",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני למאי 2021"
+            },
+            "bbox": [
+                35.0607,
+                31.9323,
+                35.2784,
+                32.1202
+            ]
+        }
+    ],
+    "totalFeatures": 7,
+    "numberMatched": 7,
+    "numberReturned": 3,
+    "timeStamp": "2024-07-21T12:38:40.254Z",
+    "links": [
+        {
+            "title": "previous page",
+            "type": "application/json",
+            "rel": "previous",
+            "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3Aorthophoto_best_orthophotobest_polygon_parts%29&SERVICE=WFS&COUNT=1&STARTINDEX=0"
+        }
+    ],
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
+    },
+    "bbox": [
+        34.2117,
+        31.2279,
+        35.3664,
+        32.3249
+    ]
+}
+```
+
+</details>
+
+### Sorting
 
 2. To get layer's polygon parts features sorted by some property such as `updatedInVersion` we can invoke the following request.
 
@@ -855,7 +1094,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 </details>
 
 
-### GetFeature POST request with geographical intersection
+### Query by geographical limits
 
 For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a POST GetFetures request consisting the filter as a XML body.
 
@@ -992,7 +1231,7 @@ We'll invoke a POST GetFeature request with the following body:
 
 </details>
 
-### GetFeature POST request with multi-parameters combination
+### Combining multiple filters
 
 4. if we'd like to filter parts by a set of multiple parameters we'll achieve that by a `GetFeature` **POST** request.
    Say we would like to retrieve only the polygon parts who's `resolutionDegree` is greater than **0.060** and their `sensors` type is **other**.
