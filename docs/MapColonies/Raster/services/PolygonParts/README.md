@@ -29,7 +29,7 @@ Contain additional metadata like update date, accuracy, and photo sensor informa
 Composed of continuous geographic regions defined by several polygons.
 Each polygon holds its own metadata.
 Updates are merged with overlapping layers below.
-Polygons within existing layers that overlap the new update (completely or partially) are refreshed.
+Polygons within existing layers that overlap the new update (completely or partially) are re-calculated.
 
 
 <figure>
@@ -37,12 +37,12 @@ Polygons within existing layers that overlap the new update (completely or parti
 </figure>
 
 :::important Practical Example
-B is a new layer contains 3 polygon parts merged into an existing layer.
-As you can see in the “After” figure below, the new layer polygon parts field contains the merged polygon parts of A and B.
+B is a new layer containing 3 polygon parts about to be merged into an existing layer.
+As you can see in the “After” figure on the right, the new layer parts contains the merged polygon parts of A and B.
 Each part hold its own metadata and related attributes [PolygonParts attributes](/docs/PolygonParts/profile_v1_0.md)
 :::
 
-### Polygon Parts  with WFS implementation
+### WFS implementation
 Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a READ-ONLY Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 
@@ -85,7 +85,7 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
     end
 ```
 
-### List  WFS capabilities and find available FeaturesTypes
+### List WFS capabilities and find available FeaturesTypes
 
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
@@ -133,7 +133,7 @@ We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each 
 The default coordinate reference system and the containing features bounding box are also presented.
 
 
-### Use DescribeFeatureFeature & understand Feature's attributes
+### DescribeFeatureType
 
 If you would like to view the schema of the `orthophoto_mosaic_base_orthophoto_best_polygon_parts` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `orthophoto_mosaic_base_orthophoto_best_polygon_parts`
 
@@ -324,7 +324,7 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 
 
 
-This is a description of a orthophoto_mosaic_base_orthophoto_best_polygon_parts feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties, each property has its own type, nillable flag value and min\max occurs - these describing the requireness of the property and possible repeatness.
+This is a description of a `orthophoto_mosaic_base_orthophoto_best_polygon_parts` feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
 
 
 
