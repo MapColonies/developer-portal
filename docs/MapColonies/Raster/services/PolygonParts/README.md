@@ -84,7 +84,23 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
         F -->G((filtered features))
     end
 ```
+## FeaturesTypes naming conventions
+:::caution typeNames Convention
+Each typeName represent Layer from catalog. The name string include several parts
+:::
 
+```
+<productId>_<productType>_<suffix>
+```
+1. Product id will be lower case string represent layer's productId, for example:
+>'ORTHOPHOTO_BEST' will become `orthophoto_best`
+2. Product type will be lower case stringrepresent layer's productType, for example:
+>'OrthophotoBest' will become `orthophotobest`
+3. Suffix will be agreed extention to string combination, for our example:
+> `polygon_parts`
+
+So the feature name will be:
+`orthophoto_best_orthophotobest_polygon_parts`
 ## GetCapabilities
 
 ### List WFS capabilities and find available FeaturesTypes
@@ -1299,19 +1315,4 @@ We'll invoke a request with the following body:
 
 </details>
 
-:::caution typeNames Convention
-Each typeName represent Layer from catalog. The name string include several parts
-:::
 
-```
-<productId>_<productType>_<suffix>
-```
-1. Product id will be lower case string represent layer's productId, for example:
->'ORTHOPHOTO_BEST' will become `orthophoto_best`
-2. Product type will be lower case stringrepresent layer's productType, for example:
->'OrthophotoBest' will become `orthophotobest`
-3. Suffix will be agreed extention to string combination, for our example:
-> `polygon_parts`
-
-So the feature name will be:
-`orthophoto_best_orthophotobest_polygon_parts`
