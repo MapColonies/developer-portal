@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[1437],{49095:e=>{e.exports=JSON.parse('{"label":"osm","permalink":"/developer-portal/pr-preview/pr-78/blog/tags/osm","allTagsPath":"/developer-portal/pr-preview/pr-78/blog/tags","count":1}')}}]);
