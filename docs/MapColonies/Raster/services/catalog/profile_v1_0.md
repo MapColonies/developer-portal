@@ -16,14 +16,13 @@ tags:
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
 :::caution
+New version [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2) is coming!
 <p style={{color:"red"}}><b>The following parameters are depracted an will be removed in v2</b></p> 
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
-| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
-| mc:RMS | double | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> tolerance, standard deviation in % |
-
-
+| mc:creationDateUTC | date | the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:RMS | double | tolerance, standard deviation in % |
 :::
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
@@ -36,7 +35,7 @@ tags:
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
-| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in</b> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2)</p> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2) the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
 | mc:updateDateUTC | date | date (UTC time) the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | mc:imagingTimeBeginUTC | date | start imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
@@ -51,7 +50,7 @@ tags:
 | mc:region | text | sector / countries <br/> comma separated list |
 | mc:classification | number | product classification / confidentiality <br /> Classification values (3-6)
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
-| mc:RMS | double | <p style={{color:"red"}}><b>Deprecated: will be removed in the future</b></p> tolerance, standard deviation in % |
+| mc:RMS | double | <p style={{color:"red"}}><b>Deprecated: will be removed in</b> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2)</p> tolerance, standard deviation in % |
 | mc:scale | integer | **Valid values**: 0 to 100000000 |
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | mc:ingestionDate | date | date (UTC time) when product data was updated or added to catalog |
@@ -103,13 +102,3 @@ tags:
     </mc:MCRasterRecord>
   ```
 </details>
-
-
-## Coming new parameters for v2
-
-| **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
-| ----------- | ----------- | ----------- |
-| mc:maxHorizontalAccuracyCE90 | double | EP90 / CE90 Maximum absolute plane accuracy range in meters float unsigned valid: 0.01 to 4000 |
-| mc:minResolutionMeter | double | the min resolution of the “resolution part” product (max) resolution in meters double unsigned valid: 0.0185 to 78271.52 |
-| mc:minResolutionDeg | double | the min resolution of the “resolution part” product (max) resolution in degrees double unsigned valid: 1.67638e-7 to 0.703125 |
-mc:links | | will include a new link for 'polygon parts' WFS capabilities
