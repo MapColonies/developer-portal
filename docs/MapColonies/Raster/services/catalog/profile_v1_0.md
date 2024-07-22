@@ -35,7 +35,7 @@ New version [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profil
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description |
-| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in</b> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2)</p> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2) the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
+| mc:creationDateUTC | date | <p style={{color:"red"}}><b>Deprecated: will be removed in</b> [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2)</p> the date (UTC time) when raw product was created <br/> supported format: **dd/mm/yyyy** |
 | mc:updateDateUTC | date | date (UTC time) the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | mc:imagingTimeBeginUTC | date | start imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not later than "End date")** |
 | mc:imagingTimeEndUTC | date | end imaging date (UTC time) of raw product <br/> supported format: **dd/mm/yyyy  (not earlier than "Begin date")** |
