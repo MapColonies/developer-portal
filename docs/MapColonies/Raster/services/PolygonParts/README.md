@@ -499,7 +499,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_orthophoto_best_po
 
 </details>
 
-### Full Pagination
+### Pagination
 
 let's get only part of the feature, using `count` to mention the amount for paging, and `startIndex` as the offset
 
@@ -734,7 +734,7 @@ We'll invoke a POST GetFeature request with the following body:
 2. To get layer's polygon parts features sorted by some property such as `updatedInVersion` we can invoke the following request.
 
 ```
-<VECTOR_QUERY_SERVICE_URL>/wfs?
+<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
