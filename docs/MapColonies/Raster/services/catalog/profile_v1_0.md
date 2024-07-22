@@ -16,7 +16,7 @@ tags:
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
 :::caution
-<p style={{color:"red"}}><b>The following parameters are depracted an will be removed in the future</b></p> 
+<p style={{color:"red"}}><b>The following parameters are depracted an will be removed in v2</b></p> 
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
