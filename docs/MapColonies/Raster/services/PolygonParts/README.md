@@ -87,7 +87,7 @@ A{Get Auth Token} -->|token| B[GetCapabilities]
 
 ### The typeNames Convention
 
-Each typeName represent a Layer from the catalog. The name string includes several parts similar to Serving layer conventions:
+Each typeName represent a Layer from the catalog. The name string includes several parts as in the layer conventions:
 
 ```
 <productId>-<productType>
