@@ -14,9 +14,6 @@ tags:
 1. **typename** = `mc:MCRasterRecord`
 2. **main_namespace** = `http://schema.mapcolonies.com/raster` (This site doesn't exist)
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
-
-
-
 :::tip
 <p style={{color:"red", }}><b>Important: New version is comming soon!</b></p>
 :::
