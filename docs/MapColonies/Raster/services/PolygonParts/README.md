@@ -96,7 +96,7 @@ Each typeName represent a Layer from the catalog. The name string includes sever
 1. `productId` represent a layer's product id, for example: `ORTHOPHOTO_MOSAIC_BASE`
 1. `productType` represent layer's product type, for example: `OrthophotoBest`
 
-So, for our example, the feature name will be: `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
+So, for our example, the feature type name will be: `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
 
 ## GetCapabilities
 
