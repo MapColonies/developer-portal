@@ -93,10 +93,10 @@ Each typeName represent a Layer from the catalog. The name string includes sever
 <productId>-<productType>
 ```
 
-1. `productId` represent a layer's product id, for example: `ORTHOPHOTO_MOSAIC_BEST`
+1. `productId` represent a layer's product id, for example: `ORTHOPHOTO_MOSAIC_BASE`
 1. `productType` represent layer's product type, for example: `OrthophotoBest`
 
-So, for our example, the feature name will be: `ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest`.
+So, for our example, the feature name will be: `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
 
 ## GetCapabilities
 
@@ -131,8 +131,8 @@ To list all the available feature types use the `GetCapabilities` operation and 
             </ows:WGS84BoundingBox>
         </FeatureType>
         <FeatureType xmlns:polygon_parts="http://polygon_parts">
-            <Name>polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest</Name>
-            <Title>mosaic_base_ORTHOPHOTO_MOSAIC_BEST</Title>
+            <Name>polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest</Name>
+            <Title>mosaic_base_ORTHOPHOTO_MOSAIC_BASE</Title>
             <Abstract/>
             <ows:Keywords>
                 <ows:Keyword>features</ows:Keyword>
@@ -151,16 +151,16 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 <br/>
 
-We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BEST is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type` + polygon_parts suffix. it is possible to query the FeatureType by its full name `polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest` or short unique name `ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest`.
+We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type` + polygon_parts suffix. it is possible to query the FeatureType by its full name `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` or short unique name `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
 ## DescribeFeatureType
 
 ### Explore featureType 'Orthophoto Best' layer
 
-If you would like to view the schema of the `ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest`
+If you would like to view the schema of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`
 
-The response is the XSD (in xml response) describing the `ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest` `FeatureType`.
+The response is the XSD (in xml response) describing the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` `FeatureType`.
 
 For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
 
@@ -169,7 +169,7 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=DescribeFeatureType&
-    typeName=ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest&
+    typeName=ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest&
     outputFormat=application/json
 ```
 
@@ -183,7 +183,7 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
   "targetPrefix": "polygon_parts",
   "featureTypes": [
     {
-      "typeName": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest",
+      "typeName": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest",
       "properties": [
         {
           "name": "partId",
@@ -345,15 +345,15 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 
 </details>
 
-This is a description of a `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BEST` feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
+This is a description of a `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE` feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
 
 ## GetFeature
 
-Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BEST` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
+Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
 
 ### Limit response feature count
 
-1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BEST`, that include actually total of 4 features using GET request:
+1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE`, that include actually total of 4 features using GET request:
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
@@ -361,7 +361,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
     count=2&
-    typeName=orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BEST&
+    typeName=orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE&
     outputFormat=application/json
 ```
 
@@ -374,7 +374,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
   "features": [
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.12",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.12",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -433,7 +433,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
       "properties": {
         "partId": 1,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "BlueMarble",
         "name": "O_BlueMarble_rgb_2km",
@@ -454,7 +454,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.3",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.3",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -471,7 +471,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
       "properties": {
         "partId": 2,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247568-26.0",
         "name": "O_south_w84geo_Tiff_10cm",
@@ -518,11 +518,11 @@ We'll invoke a POST GetFeature request with the following body:
 
 ```xml
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
         <fes:Filter>
             <fes:PropertyIsEqualTo>
                <fes:ValueReference>productId</fes:ValueReference>
-               <fes:Literal>ORTHOPHOTO_MOSAIC_BEST</fes:Literal>
+               <fes:Literal>ORTHOPHOTO_MOSAIC_BASE</fes:Literal>
             </fes:PropertyIsEqualTo>
 
         </fes:Filter>
@@ -539,7 +539,7 @@ We'll invoke a POST GetFeature request with the following body:
   "features": [
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.5",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.5",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -556,7 +556,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 3,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247568-26.0",
         "name": "O_center_w84geo_Tiff_10cm",
@@ -580,7 +580,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.7",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -597,7 +597,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 4,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115",
         "name": "O_center_w84geo_Apr17_gpkg_0.07",
@@ -621,7 +621,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.9",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -638,7 +638,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 5,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.2",
         "name": "O_w84geo_Apr17-Jun22_gpkg_0.08",
@@ -670,7 +670,7 @@ We'll invoke a POST GetFeature request with the following body:
       "title": "previous page",
       "type": "application/json",
       "rel": "previous",
-      "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_MOSAIC_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_MOSAIC_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=1&STARTINDEX=0"
+      "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_MOSAIC_BASE%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_MOSAIC_BASE-OrthophotoBest%29&SERVICE=WFS&COUNT=1&STARTINDEX=0"
     }
   ],
   "crs": {
@@ -696,7 +696,7 @@ We'll invoke a POST GetFeature request with the following body:
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
-    typeNames=ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest&
+    typeNames=ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest&
     sortBy=updatedInVersion&
     outputFormat=application/json
 ```
@@ -710,7 +710,7 @@ We'll invoke a POST GetFeature request with the following body:
   "features": [
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.12",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.12",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -741,7 +741,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 1,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "BlueMarble",
         "name": "O_BlueMarble_rgb_2km",
@@ -762,7 +762,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.3",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.3",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -779,7 +779,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 2,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247568-26.0",
         "name": "O_south_w84geo_Tiff_10cm",
@@ -803,7 +803,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.5",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.5",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -820,7 +820,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 3,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247568-26.0",
         "name": "O_south_w84geo_Tiff_10cm",
@@ -844,7 +844,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.7",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -861,7 +861,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 4,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.1",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
@@ -885,7 +885,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.9",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -902,7 +902,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 5,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.2",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
@@ -926,7 +926,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.11",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.11",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -943,7 +943,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 6,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247268-6.0",
         "name": "O_north_w84geo_rgb_Tiff_30cm",
@@ -967,7 +967,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.13",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.13",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -984,7 +984,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 7,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_6_ORT_247268-6.0",
         "name": "O_north_w84geo_rgb_Tiff_30cm",
@@ -1035,7 +1035,7 @@ We'll invoke a POST GetFeature request with the following body:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.openplans.org/spearfish" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" count="2" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
         <fes:Filter>
             <fes:Intersects>
                 <fes:ValueReference>geometry</fes:ValueReference>
@@ -1063,7 +1063,7 @@ We'll invoke a POST GetFeature request with the following body:
   "features": [
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.7",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1080,7 +1080,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 4,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.1",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
@@ -1104,7 +1104,7 @@ We'll invoke a POST GetFeature request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.9",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1121,7 +1121,7 @@ We'll invoke a POST GetFeature request with the following body:
       "properties": {
         "partId": 5,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.2",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
@@ -1169,7 +1169,7 @@ We'll invoke a request with the following body:
 
 ```xml title="Query with 2 filters"
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
         <fes:Filter>
             <And>
             <fes:PropertyIsEqualTo>
@@ -1195,7 +1195,7 @@ We'll invoke a request with the following body:
   "features": [
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.7",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1212,7 +1212,7 @@ We'll invoke a request with the following body:
       "properties": {
         "partId": 4,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.1",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
@@ -1236,7 +1236,7 @@ We'll invoke a request with the following body:
     },
     {
       "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BEST-OrthophotoBest.9",
+      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1253,7 +1253,7 @@ We'll invoke a request with the following body:
       "properties": {
         "partId": 5,
         "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BEST",
+        "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "producType": "OrthophotoBest",
         "id": "MAS_5_ORT_240115-11.2",
         "name": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
