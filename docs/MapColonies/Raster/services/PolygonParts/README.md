@@ -151,7 +151,7 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 <br/>
 
-We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type` + polygon_parts suffix. it is possible to query the FeatureType by its full name `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` or short unique name `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
+We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type`. it is possible to query the FeatureType by its full name `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` or short unique name `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
 ## DescribeFeatureType
