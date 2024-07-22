@@ -1299,92 +1299,19 @@ We'll invoke a request with the following body:
 
 </details>
 
-### Query by Product Id & Product Type
+:::caution typeNames Convention
+Each typeName represent Layer from catalog. The name string include several parts
+:::
 
-5. if we'd like to filter parts by their unique product details: `productId` and `productType`. for this example we will use `productId` is equal **ORTHOPHOTO_BEST** and `productType` is equal **OrthophotoBest**.
-
-We'll invoke a request with the following body:
-
-```xml title="Query with 2 filters"
-<wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="1" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest_polygon_parts">
-        <fes:Filter>
-            <And>
-            <fes:PropertyIsEqualTo>
-               <fes:ValueReference>productId</fes:ValueReference>
-               <fes:Literal>ORTHOPHOTO_BEST</fes:Literal>
-            </fes:PropertyIsEqualTo>
-            <fes:PropertyIsEqualTo>
-               <fes:ValueReference>producType</fes:ValueReference>
-               <fes:Literal>OrthophotoBest</fes:Literal>
-            </fes:PropertyIsEqualTo>
-            </And>
-        </fes:Filter>
-    </wfs:Query>
-</wfs:GetFeature>
 ```
-
-<details>
-  <summary>Response</summary>
-
-```json title="Reponse in GeoJSON"
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "orthophoto_best_orthophotobest_polygon_parts.3",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.86972277637517, 32.019564407769835],
-            [34.762249171646715, 32.019564407769835],
-            [34.762249171646715, 31.955123269803096],
-            [34.86972277637517, 31.955123269803096],
-            [34.86972277637517, 32.019564407769835]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "partId": 2,
-        "recordId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_BEST",
-        "producType": "OrthophotoBest",
-        "id": "ORTH_1_TEST",
-        "name": "O_center_w84geo_Apr17",
-        "updatedInVersion": "2",
-        "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
-        "imagingTimeBeginUTC": "2022-08-20T23:08:10Z",
-        "imagingTimeEndUTC": "2022-08-20T23:08:10Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.1,
-        "horizontalAccuracyCE90": 5,
-        "sensors": "TEST_SENSOR",
-        "countries": "World",
-        "cities": "",
-        "description": "תשתית אורתופוטו עולמית 2022"
-      },
-      "bbox": [34.3887, 31.4354, 34.6064, 31.6234]
-    }
-  ],
-  "totalFeatures": 7,
-  "numberMatched": 7,
-  "numberReturned": 1,
-  "timeStamp": "2024-07-22T06:41:18.059Z",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [
-    34.762249171646715, 31.955123269803096, 34.86972277637517,
-    32.019564407769835
-  ]
-}
+<productId>_<productType>_<suffix>
 ```
+1. Product id will be lower case string represent layer's productId, for example:
+>'ORTHOPHOTO_BEST' will become `orthophoto_best`
+2. Product type will be lower case stringrepresent layer's productType, for example:
+>'OrthophotoBest' will become `orthophotobest`
+3. Suffix will be agreed extention to string combination, for our example:
+> `polygon_parts`
 
-</details>
+So the feature name will be:
+`orthophoto_best_orthophotobest_polygon_parts`
