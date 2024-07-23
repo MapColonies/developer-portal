@@ -19,7 +19,7 @@ tags:
 
 This system utilizes polygons and layers to represent the precise area of a product and track all updates received over time. Polygons define the exact boundaries, while layers provide a structured way to integrate these updates. Let's delve deeper into how this system functions.
 
-### Polygons
+### Polygon
 
 Represent the precise area of a product and all its subsequent updates.
 Contain additional metadata like update date, accuracy, and photo sensor information.
