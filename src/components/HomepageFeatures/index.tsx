@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
     link: '/docs/MapColonies/Raster/overview',
     description: (
       <>
-        An image worth a thousand words, A map worths a thousand of <strong>images</strong>
+        An image is worth a thousand words, A map is worth a thousand <strong>images</strong>
       </>
     ),
   },
@@ -36,7 +36,8 @@ const FeatureList: FeatureItem[] = [
     link: '/docs/MapColonies/3D/3d-overview',
     description: (
       <>
-        Worths a thousand of rasters
+        A photorealistic 3D model<br/>
+        Worth a thousand rasters
       </>
     ),
   },
