@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import Link from '@docusaurus/Link';
 
 type FeatureItem = {
   title: string;
@@ -60,7 +61,7 @@ function Feature({title, Svg, link, description}: FeatureItem) {
         <Svg className={styles.featureSvg} role="img"/>
       </div>
       <div className="text--center padding-horiz--md">
-        <h3><a href={link}>{title}</a></h3>
+      <h3><Link to={link}>{title}</Link></h3>
         <p>{description}</p>
       </div>
     </div>
