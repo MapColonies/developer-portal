@@ -194,14 +194,6 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
           "localType": "string"
         },
         {
-          "name": "partId",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
           "name": "catalogId",
           "maxOccurs": 1,
           "minOccurs": 0,
@@ -440,7 +432,6 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
       "geometry_name": "geometry",
       "properties": {
         "id": "b3dd85c1-7a4b-4031-8da2-0d5229572547",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60a",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -479,7 +470,6 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
       "geometry_name": "geometry",
       "properties": {
         "id": "f7885a03-b669-40cb-8ba7-9410fb644011",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60b",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -565,7 +555,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "5e6ba296-d65a-4024-8ad7-e3a7089c5961",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60c",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -607,7 +596,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60d",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -649,7 +637,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60e",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -753,7 +740,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60f",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -792,7 +778,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60y",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -834,7 +819,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60w",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -876,7 +860,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "5e870b46-5b7f-4b81-91f6-f22fc39ab60a",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -918,7 +901,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab66a",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -960,7 +942,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60p",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -1002,7 +983,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60q",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -1099,7 +1079,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60s",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -1141,7 +1120,6 @@ We'll invoke a POST GetFeature request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60x",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -1233,7 +1211,6 @@ We'll invoke a request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60n",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",
@@ -1275,7 +1252,6 @@ We'll invoke a request with the following body:
       "geometry_name": "geometry",
       "properties": {
         "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "partId": "6e870b46-5b7f-4b81-91f6-f22fc39ab60l",
         "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
         "productId": "ORTHOPHOTO_MOSAIC_BASE",
         "productType": "OrthophotoBest",

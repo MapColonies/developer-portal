@@ -17,7 +17,6 @@ tags:
 | ----------- | ----------- | ----------- | 
 | geometry | GeoJson (geometry (Polygon,4326)) | The feature's geometry |
 | id | UUID | Internal unique identifier |
-| partId | UUID | Part identifier |
 | catalogId | UUID | Mapcolonies raster catalog identifier for the layer |
 | productId | text | Mapcolonies raster layer identifier |
 | productType | text | Mapcolonies raster layer type |
