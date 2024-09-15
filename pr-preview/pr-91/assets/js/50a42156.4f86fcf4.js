@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[6214],{82484:e=>{e.exports=JSON.parse('{"label":"raster","permalink":"/developer-portal/pr-preview/pr-91/blog/tags/raster","allTagsPath":"/developer-portal/pr-preview/pr-91/blog/tags","count":3}')}}]);
