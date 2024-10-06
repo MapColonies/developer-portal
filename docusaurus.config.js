@@ -72,6 +72,10 @@ const config = {
             route: '/docs/MapColonies/vector/services/replication/api',
           },
           {
+            spec: 'static/openapi/vector/geocoding-openapi.yaml',
+            route: '/docs/MapColonies/vector/services/geocoding/api',
+          },
+          {
             spec: 'static/openapi/raster/exporter-management-openapi.yaml',
             route: '/docs/MapColonies/raster/services/export/api',
           },
