@@ -272,7 +272,7 @@ Items are simply buildings \ items in the field. An item's name is a 4-digit num
 Check [`Location Search request examples`](#location-search-examples).
 :::
 
-We have created a location search engine. In the query parameter simple search a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
+We have created a location search engine. In the query parameter simply search for a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
 You can also search for supported regions and sources so you can filter the results for a specific region/ specific source (it will result results from all regions and sources by default). <br/>
 
 <details>
