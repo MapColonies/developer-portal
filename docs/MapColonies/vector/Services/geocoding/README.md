@@ -273,7 +273,7 @@ Check [`Location Search request examples`](#location-search-examples).
 :::
 
 We have created a location search engine. In the query parameter simply search for a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
-You can also search for supported regions and sources so you can filter the results for a specific region/ specific source (it will result results from all regions and sources by default). <br/>
+You can also search for supported regions and sources in order to filter the results for a specific region or source (by default it will return all regions and sources). <br/>
 
 <details>
     <summary>JSON Schema of Route Response</summary>
