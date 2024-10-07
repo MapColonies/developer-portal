@@ -34,6 +34,8 @@ A tile's name is exactly 3-letters, while a Sub-Tile is a 2-digit number. <br/>
 <details>
     <summary>JSON Schema of Tile Response</summary>
 
+The following is a Tile search response. See [`these Control Tile search examples`](#tile-examples) for more info.
+
 ```json
 {
     "type": "FeatureCollection",
@@ -78,6 +80,8 @@ A tile's name is exactly 3-letters, while a Sub-Tile is a 2-digit number. <br/>
 <details>
     <summary>JSON Schema of Sub Tile Response</summary>
 
+The following is a Sub-Tile search response. See [`this Control Sub-Tile search example`](#sub-tile-search) for more info.
+
 ```json
 {
     "type": "FeatureCollection",
@@ -118,13 +122,12 @@ A tile's name is exactly 3-letters, while a Sub-Tile is a 2-digit number. <br/>
         }
     ]
 }
-```
+Routes are roads and streams. Each Route has Control Points. Control Points are points scattered on the route. They are usefull when an end-user reports his location on the route. It is used to "pin-point" the end-user's location.<br/>
 </details>
 
 ### Understanding the Control language
-Routes are roads and streams. Each Route has Control Points. Control Points are points scattered on the route. They are usefull when end-user reports it's location on the route. Its used to "pin-point" end-user location.<br/>
-Route name is just a string (in any length). For main roads, the route's name will be unique. For minor roads the name might be reused in other areas of interest. <br/>
-Route's Control point is a 3-digit number.
+Routes are roads and streams. Each Route has Control Points. Control Points are points scattered on the route. They are usefull when an end-user reports his location on the route. It is used to "pin-point" the end-user's location.<br/>  
+A route's name is a string (in any length). For main roads, the route's name will be unique. For minor roads the name might be reused in other areas of interest. <br/> Route's Control point is a 3-digit number.
 
 <details>
     <summary>JSON Schema of Route Response</summary>
@@ -356,7 +359,7 @@ You can also search for supported regions and sources so you can filter the resu
 Check [`Conversions request examples`](#conversions-1).
 :::
 
-You can convert WGS84 coordinates to 2 grids: Mapcolonies Control Grid/ US Army MGRS. In order to choose your target grid you pass `target_grid` query parameter.<br/>
+You can convert `WGS84` coordinates to two grids, the `Mapcolonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
 <details>
     <summary>Conversion example</summary>
 
@@ -402,10 +405,10 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 
 ## Common Query Params
 
-Almost all of our routes consists the same common query params: geo_context, geo_context_mode, limit & disable_fuzziness. <br/>
-* `geo_context`: via this param you can give the search engine the geo context of the search.
-* `geo_context_mode`: via this param you tell the search engine what to do with `geo_context`. You can filter results (which will result with every feature that matches the query and intersects with `geo_context` shape) or you can bias the results. So features that intersects with `geo_context` will appear first.
-* `limit`: by default, we will return our top 5 features that matches the query. You can change the limit and set it anything from 1 to 15 maximum results. We might return less than `limit`, but we limit the returned amount.
+Almost all of our routes consists of the same common query parameters: `geo_context`, `geo_context_mode`, `limit` and `disable_fuzziness`. <br/>
+* `geo_context`: via this param you can provide the search engine for geo context of the search.
+* `geo_context_mode`: via this param you tell the search engine what to do with `geo_context`. You can filter results (which will result with every feature that matches the query and intersects with `geo_context` shape) or you can bias the results. So features that intersect with the `geo_context` will appear first.
+* `limit`: by default, we will return our top 5 features that match the query. You can change the limit and set it from 1 to 15 maximum results. If there are few results, the response may contain less than `limit`, but the importance is limiting the maximum returned values.
 * `disable_fuzziness`: fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. 
 
 ## Usage
@@ -423,10 +426,11 @@ Almost all of our routes consists the same common query params: geo_context, geo
 **All returned responses by Geocoding API are valid GeoJSON documents &nbsp;**
 :::
 
-### Control Examples
+## Control Examples
 
-<details>
-    <summary>Tile examples</summary>
+## Tile examples 
+
+### Simple Tile Search
 
 ```curl title="Tile Search Request"
 curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
@@ -473,10 +477,108 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
     ]
 }
 ```
-</details>
 
-<details>
-    <summary>Route examples</summary>
+### Tile search via MGRS value
+
+```curl title="Tile Search Request"
+curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+
+```json title="Tile Response"
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "0.1.0",
+        "query": {
+            "mgrs": "33TTG9574836243",
+            "disable_fuzziness": false,
+            "limit": 5
+        },
+        "response": {
+            "results_count": 1,
+            "max_score": 2.0481892,
+            "match_latency_ms": 77
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "coordinates": [ [ [ 12.539507865186607, 41.851751203650096 ],
+                        [ 12.536787075186538, 41.94185043165008 ],
+                        [ 12.42879133518656, 41.93952837265009 ],
+                        [ 12.431625055186686, 41.84943698365008 ],
+                        [ 12.539507865186607, 41.851751203650096] ] ],
+                "type": "Polygon"
+            },
+            "properties": {
+                "TILE_NAME": "RIT",
+                "LAYER_NAME": "CONTROL.TILES",
+                "TYPE": "TILE",
+                "matches": [ { "layer": "CONTROL.TILES", "source": "control_gil_v5_test", "source_id": [] } ],
+                "names": { "default": [ "RIT" ], "display": "Tile RIT" },
+                "score": 2.0481892
+            }
+        }
+    ]
+}
+```
+
+### Sub Tile Search
+
+```curl title="Sub-Tile Search Request"
+curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disable_fuzziness=true' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+
+```json title="Sub-Tile Response"
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "0.1.0",
+        "query": {
+            "tile": "RIT",
+            "sub_tile": "65",
+            "disable_fuzziness": true,
+            "limit": 5
+        },
+        "response": {
+            "results_count": 1,
+            "max_score": 3.588634,
+            "match_latency_ms": 5
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "coordinates": [ [ [ 12.439530324602458, 41.93031190061167 ],
+                        [12.439646505602468, 41.9393328566117 ],
+                        [ 12.429158378602494, 41.939432381611695 ],
+                        [ 12.429043189602453, 41.930411390611695 ],
+                        [ 12.439530324602458, 41.93031190061167 ] ] ],
+                "type": "Polygon"
+            },
+            "properties": {
+                "SUB_TILE_ID": "65",
+                "TILE_NAME": "RIT",
+                "LAYER_NAME": "CONTROL.SUB_TILES",
+                "TYPE": "SUB_TILE",
+                "matches": [ { "layer": "CONTROL.SUB_TILES", "source": "control_gil_v5_test", "source_id": [] } ],
+                "names": { "default": [ "65" ], "display": "Tile RIT Sub Tile 65" },
+                "score": 3.588634
+            }
+        }
+    ]
+}
+```
+
+## Route examples
+
+### Simple Route search
 
 ```curl title="Route Search Request"
 curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
@@ -522,11 +624,14 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 }
 ```
 
+### Route's Control Point search
+
 ```curl title="Route Search Request"
 curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&disable_fuzziness=true&control_point=111' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
+
 
 ```json title="Route's Control Point Response"
 {
@@ -566,11 +671,9 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
     ]
 }
 ```
-</details>
 
-
-<details>
-    <summary>Item examples</summary>
+## Item examples
+### Item search
 
 ```curl title="Item Search Request"
 curl --location '<geocoding_url>/search/control/items?command_name=1234&disable_fuzziness=true' \
@@ -624,12 +727,9 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&disable_
     ]
 }
 ```
-</details>
 
-### Location Search Examples 
-
-<details>
-    <summary>query example</summary>
+## Location Search Examples 
+### Simple Query example
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=school' \
@@ -709,10 +809,8 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
     ]
 }
 ```
-</details>
 
-<details>
-    <summary>query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`</summary>
+### query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -773,10 +871,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
     ]
 }
 ```
-</details>
 
-<details>
-    <summary>query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`</summary>
+### query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -862,10 +958,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
     ]
 }
 ```
-</details>
 
-<details>
-    <summary>query example (port search) only from "google" as the data source</summary>
+### query example (port search) only from "google" as the data source
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=port&source=google' \
@@ -937,12 +1031,10 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
     ]
 }
 ```
-</details>
 
-### Conversions
 
-<details>
-    <summary>WGS84 to Mapcolonies Control Grid example</summary>
+## Conversions
+### WGS84 to Mapcolonies Control Grid example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -982,10 +1074,8 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
     }
 }
 ```
-</details>
 
-<details>
-    <summary>WGS84 to US Army MGRS example</summary>
+### WGS84 to US Army MGRS example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -1021,4 +1111,3 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
     }
 }
 ```
-</details>
