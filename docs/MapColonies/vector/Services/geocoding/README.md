@@ -214,7 +214,7 @@ A route's name is a string (in any length). For main roads, the route's name wil
 ```
 </details>
 
-Items are simply buildings\ items in the field. Item's name consists 4-digit number. It might be reused in different tiles! <br/>
+Items are simply buildings \ items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles!<br/>
 
 <details>
     <summary>JSON Schema of Item Response</summary>
