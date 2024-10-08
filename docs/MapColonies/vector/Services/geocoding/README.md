@@ -413,7 +413,7 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 
 ## Usage
 :::caution
-**You will need an API token as part of the service authentication &nbsp;**
+**You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
 :::caution
