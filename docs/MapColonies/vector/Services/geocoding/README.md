@@ -406,10 +406,13 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 ## Common Query Params
 
 Almost all of our routes consists of the same common query parameters: `geo_context`, `geo_context_mode`, `limit` and `disable_fuzziness`. <br/>
-* `geo_context`: via this param you can provide the search engine for geo context of the search.
-* `geo_context_mode`: via this param you tell the search engine what to do with `geo_context`. You can filter results (which will result with every feature that matches the query and intersects with `geo_context` shape) or you can bias the results. So features that intersect with the `geo_context` will appear first.
-* `limit`: by default, we will return our top 5 features that match the query. You can change the limit and set it from 1 to 15 maximum results. If there are few results, the response may contain less than `limit`, but the importance is limiting the maximum returned values.
-* `disable_fuzziness`: fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. 
+
+| Query Parameter | Type | Default Value | Usage Example | Usage Explanation |
+| --- | --- | --- | --- | --- |
+| geo_context | Bounding Box, WGS84 Circle, UTM Circle | `undefined` | [Click here](#query-example-with-geo_context-bbox-and-geo_context_mode-bias) | Via this param you can provide the search engine for geo context of the search. |
+| geo_context_mode | Enum(`filter`,`bias`)  | `undefined` | [`filter` value example](#query-example-with-geo_context-bbox-and-geo_context_mode-filter) <br/> [`bias` value example](#query-example-with-geo_context-bbox-and-geo_context_mode-bias)| Via this param you tell the search engine what to do with `geo_context`. You can filter results (which will result with every feature that matches the query and intersects with `geo_context` shape) or you can bias the results. So features that intersect with the `geo_context` will appear first. |
+| limit | Number | 5 | [Click here](#item-search)  | By default, we will return our top 5 features that match the query. You can change the limit and set it from 1 to 15 maximum results. If there are few results, the response may contain less than limit, but the importance is limiting the maximum returned values. |
+| disable_fuzziness | Boolean  | false | [Click here](#exact-tile-search) | Fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. |
 
 ## Usage
 :::caution
