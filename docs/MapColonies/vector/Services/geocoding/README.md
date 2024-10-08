@@ -423,7 +423,8 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 :::
 
 :::note
-**All returned responses by Geocoding API are valid GeoJSON documents &nbsp;**
+**All returned responses by Geocoding API are valid GeoJSON documents. <br/> 
+See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc7946)🌐 for more info about the GeoJSON specification. &nbsp;**
 :::
 
 ## Control Examples
