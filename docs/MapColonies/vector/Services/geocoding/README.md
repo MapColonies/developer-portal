@@ -80,7 +80,7 @@ The following is a Tile search response. See [`these Control Tile search example
 <details>
     <summary>JSON Schema of Sub Tile Response</summary>
 
-The following is a Sub-Tile search response. See [`this Control Sub-Tile search example`](#sub-tile-search) for more info.
+The following is a Sub-Tile search response. See [`this Control Sub-Tile search example`](#exact-sub-tile-search) for more info.
 
 ```json
 {
@@ -434,7 +434,7 @@ See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc79
 
 ## Tile examples 
 
-### Simple Tile Search
+### Exact Tile Search
 
 ```curl title="Tile Search Request"
 curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
@@ -530,7 +530,10 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 }
 ```
 
-### Sub Tile Search
+### Exact Sub Tile Search
+
+> 📝 **_Note:_** 
+`disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
 
 ```curl title="Sub-Tile Search Request"
 curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disable_fuzziness=true' \
@@ -628,7 +631,10 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 }
 ```
 
-### Route's Control Point search
+### Exact Route's Control Point search
+
+> 📝 **_Note:_** 
+`disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
 
 ```curl title="Route Search Request"
 curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&disable_fuzziness=true&control_point=111' \
@@ -678,9 +684,11 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 
 ## Item examples
 ### Item search
+> 📝 **_Note:_** 
+`limit` query parameter is set to `1`. This is just for example purpose. You may remove it.
 
 ```curl title="Item Search Request"
-curl --location '<geocoding_url>/search/control/items?command_name=1234&disable_fuzziness=true' \
+curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
@@ -692,8 +700,8 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&disable_
         "version": "0.1.0",
         "query": {
             "command_name": "1234",
-            "limit": 5,
-            "disable_fuzziness": true
+            "limit": 1,
+            "disable_fuzziness": false
         },
         "response": {
             "results_count": 1,
@@ -752,7 +760,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
             "limit": 5
         },
         "response": {
-            "results_count": 1,
+            "results_count": 2,
             "max_score": 1.2880917,
             "match_latency_ms": 7,
             "name": "",
@@ -832,19 +840,17 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
         "query": {
             "query": "school",
             "disable_fuzziness": false,
+            "geo_context": { "bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925] },
+            "geo_context_mode": "filter",
             "limit": 5
         },
         "response": {
-            "results_count": 2,
+            "results_count": 1,
             "max_score": 1.2880917,
             "match_latency_ms": 7,
             "name": "",
-            "place_types": [
-                "education"
-            ],
-            "sub_place_types": [
-                "school"
-            ],
+            "place_types": [ "education" ],
+            "sub_place_types": [ "school" ],
             "hierarchies": []
         }
     },
@@ -898,6 +904,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
         "query": {
             "query": "school",
             "disable_fuzziness": false,
+            "geo_context": { "bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925] },
+            "geo_context_mode": "bias",
             "limit": 5
         },
         "response": {
@@ -905,12 +913,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
             "max_score": 1.2880917,
             "match_latency_ms": 7,
             "name": "",
-            "place_types": [
-                "education"
-            ],
-            "sub_place_types": [
-                "school"
-            ],
+            "place_types": [ "education" ],
+            "sub_place_types": [ "school" ],
             "hierarchies": []
         }
     },
