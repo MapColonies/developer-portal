@@ -749,7 +749,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
             "limit": 5
         },
         "response": {
-            "results_count": 2,
+            "results_count": 1,
             "max_score": 1.2880917,
             "match_latency_ms": 7,
             "name": "",
@@ -811,7 +811,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 }
 ```
 
-### query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
+### Query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -873,7 +873,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 }
 ```
 
-### query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
+### Query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -960,7 +960,17 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 }
 ```
 
-### query example (port search) only from "google" as the data source
+### Query example (port search) only from "google" as the data source
+
+:::tip
+You may see the available sources by sending this request: <br/>
+```curl
+curl --location '<geocoding_url>/search/location/sources' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+:::
+
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=port&source=google' \
@@ -1033,9 +1043,99 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 }
 ```
 
+### Query example (school search) only in "france" region
+:::tip
+You may see the available regions by sending this request: <br/>
+```curl
+curl --location '<geocoding_url>/search/location/regions' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+:::
+
+```curl title="Query Search Request"
+curl --location '<geocoding_url>/search/location/query?query=school&region=france' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+
+```json title="Query Response"
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "0.1.0",
+        "query": {
+            "query": "school",
+            "region": ["france"],
+            "disable_fuzziness": false,
+            "limit": 5
+        },
+        "response": {
+            "results_count": 1,
+            "max_score": 1.2880917,
+            "match_latency_ms": 7,
+            "name": "",
+            "place_types": [
+                "education"
+            ],
+            "sub_place_types": [
+                "school"
+            ],
+            "hierarchies": []
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "coordinates": [ [ [ -118.30812263653988, 33.71684417247593 ],
+                        [ -118.30861990876181, 33.71674433152869 ],
+                        [ -118.30879709771484, 33.71635922964194 ],
+                        [ -118.30619642115158, 33.71550819588987 ],
+                        [ -118.30586490633668, 33.715921827872904 ],
+                        [ -118.30587062210924, 33.716183318328746 ],
+                        [ -118.30812263653988, 33.71684417247593 ]
+                    ]
+                ],
+                "type": "Polygon"
+            },
+            "properties": {
+                "score": 1.2880917,
+                "matches": [ { "layer": "osm_schools", "source": "OSM", "source_id": [ "1a5b981b-bb0e-44dd-b9e2-424b92f2de49" ] } ],
+                "names": { "en": [ "White Point Elementary School" ], "fr": [ "Escuela Primaria White Point" ], "default": [ "White Point Elementary School" ], "display": "White Point Elementary School" },
+                "placetype": "education",
+                "sub_placetype": "school",
+                "regions": [ { "region": "USA", "sub_region_names": [ "Los Angeles" ] } ]
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "coordinates": [ [
+                        [ 2.346441270696971, 48.88088750665477 ],
+                        [ 2.3462780852304945, 48.88018258877358 ],
+                        [ 2.347503576087604, 48.87999951892243 ],
+                        [ 2.347737155284733, 48.88070864783427 ],
+                        [ 2.346441270696971, 48.88088750665477 ] ] ],
+                "type": "Polygon"
+            },
+            "properties": {
+                "score": 1.2880917,
+                "matches": [
+                    { "layer": "osm_schools", "source": "OSM", "source_id": [ "dc02a3f9-156a-4f61-85bd-fd040cd322a3" ] } ],
+                "names": { "en": [ "Wi School Paris 9" ], "fr": [ "Ecole Wi Paris 9" ], "default": [ "Wi School Paris 9" ], "display": "Wi School Paris 9" },
+                "placetype": "education",
+                "sub_placetype": "school",
+                "regions": [ { "region": "FRANCE", "sub_region_names": [ "Paris" ] } ]
+            }
+        }
+    ]
+}
+```
+
 
 ## Conversions
-### WGS84 to Mapcolonies Control Grid example
+### `WGS84` to Mapcolonies Control Grid Tile example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -1076,7 +1176,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 }
 ```
 
-### WGS84 to US Army MGRS example
+### `WGS84` to US Army MGRS example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
