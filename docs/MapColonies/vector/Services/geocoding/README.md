@@ -23,10 +23,6 @@ Search for places, control tiles, routes and items. Ability to convert from WGS 
 
 ### What is the Control layer?
 
-:::tip
-Check [`Control Search request examples`](#control-examples).
-:::
-
 MapColonies has its own Control Reference System. Like the US Army MGRS, we divided our user's area of interest to Tiles. Each tile is 10kmX10km and has Sub-Tiles which are 1kmX1km. Each tile has 100 sub-tiles. <br/>
 A tile's name is exactly 3-letters, while a Sub-Tile is a 2-digit number. <br/>
 
@@ -171,49 +167,6 @@ A route's name is a string (in any length). For main roads, the route's name wil
 ```
 </details>
 
-<details>
-    <summary>JSON Schema of Route's Control Point Response</summary>
-
-```json
-{
-    "type": "FeatureCollection",
-    "geocoding": {
-        "version": "0.1.0",
-        "query": {
-            "command_name": "olimpiade",
-            "control_point": "111",
-            "disable_fuzziness": true,
-            "limit": 5
-        },
-        "response": {
-            "results_count": 1,
-            "max_score": 1.89712,
-            "match_latency_ms": 7
-        }
-    },
-    "features": [
-        {
-            "type": "Feature",
-            "geometry": {
-                "coordinates": [ 12.475638293442415, 41.932360642739155 ],
-                "type": "Point"
-            },
-            "properties": {
-                "OBJECT_COMMAND_NAME": "111",
-                "TIED_TO": "olimpiade",
-                "ENTITY_HEB": "control point",
-                "LAYER_NAME": "CONTROL_GIL_GDB.CTR_CONTROL_POINT_CROSS_N",
-                "TYPE": "ITEM",
-                "matches": [ { "layer": "CONTROL_GIL_GDB.CTR_CONTROL_POINT_CROSS_N", "source": "control_gil_v5_test", "source_id": [] } ],
-                "names": { "default": [ "111" ], "display": "Route olimpiade Control Point 111" },
-                "score": 1.89712
-            }
-        }
-    ]
-}
-```
-</details>
-
 Items are simply buildings \ items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles!<br/>
 
 <details>
@@ -267,10 +220,11 @@ Items are simply buildings \ items in the field. An item's name is a 4-digit num
 ```
 </details>
 
-## Location Name Based Search: 
 :::tip
-Check [`Location Search request examples`](#location-search-examples).
+Check [`Control Search request examples`](#control-examples).
 :::
+
+## Location Name Based Search: 
 
 We have created a location search engine. In the query parameter simply search for a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
 You can also search for supported regions and sources in order to filter the results for a specific region or source (by default it will return all regions and sources). <br/>
@@ -353,11 +307,54 @@ You can also search for supported regions and sources in order to filter the res
 ```
 </details>
 
-## Conversions
+<details>
+    <summary>JSON Schema of Route's Control Point Response</summary>
+
+```json
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "0.1.0",
+        "query": {
+            "command_name": "olimpiade",
+            "control_point": "111",
+            "disable_fuzziness": true,
+            "limit": 5
+        },
+        "response": {
+            "results_count": 1,
+            "max_score": 1.89712,
+            "match_latency_ms": 7
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "coordinates": [ 12.475638293442415, 41.932360642739155 ],
+                "type": "Point"
+            },
+            "properties": {
+                "OBJECT_COMMAND_NAME": "111",
+                "TIED_TO": "olimpiade",
+                "ENTITY_HEB": "control point",
+                "LAYER_NAME": "CONTROL_GIL_GDB.CTR_CONTROL_POINT_CROSS_N",
+                "TYPE": "ITEM",
+                "matches": [ { "layer": "CONTROL_GIL_GDB.CTR_CONTROL_POINT_CROSS_N", "source": "control_gil_v5_test", "source_id": [] } ],
+                "names": { "default": [ "111" ], "display": "Route olimpiade Control Point 111" },
+                "score": 1.89712
+            }
+        }
+    ]
+}
+```
+</details>
 
 :::tip
-Check [`Conversions request examples`](#conversions-1).
+Check [`Location Search request examples`](#location-search-examples).
 :::
+
+## Conversions
 
 You can convert `WGS84` coordinates to two grids, the `Mapcolonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
 <details>
@@ -402,6 +399,10 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 }
 ```
 </details>
+
+:::tip
+Check [`Conversions request examples`](#conversions-1).
+:::
 
 ## Common Query Params
 
