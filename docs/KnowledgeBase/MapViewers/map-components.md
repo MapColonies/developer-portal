@@ -102,3 +102,33 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Mapbox v2 | ❌ | ✅ | |
 | deck.gl | ❌ | ✅ | |
 | Maplibre-gl-js | | ✅ | |
+
+## Vector
+
+### Supported data types and protocols
+
+| **Viewer** | **WFS** | **GeoJSON** | **Features** | **Drawing** |
+| ----------- | ----------- | ----------- | ----------- |
+| Cesium | ❌ No native support but feasible | ✅ | ✅ | ✅ |
+| Leaflet | ❌ No native support but feasible | ✅ | ✅ 2D<br/>❌ 3D | ✅ |
+| OpenLayers | ✅ | ✅ | ✅ 2D<br/>❌ 3D<br/>✅ OpenLayers symbology<br/>✅ Mapbox symbology adapter | ✅ With complex symbology |
+| EsriJS | ✅ | ✅ | | |
+| iTowns | ✅ | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ Simple symbolog |
+| Mapbox v1 | | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ With complex symbolog |
+| Mapbox v2 | | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ With complex symbolog |
+| deck.gl | ❌ | ✅ | | |
+| Maplibre-gl-js | | | | |
+
+### Vector Tiles
+
+| **Viewer** | **Query** | **Symbology** | **OGC Vector Tiles** |
+| ----------- | ----------- | ----------- | ----------- |
+| Cesium | ❌ | ❌ | ❌ |
+| Leaflet | ❌ | | ❌ |
+| OpenLayers | ✅ | ❌ | ✅ |
+| EsriJS | ✅ | ✅ | ❌ |
+| iTowns | ✅ | ❌ | ❌ |
+| Mapbox v1 | ✅ | ✅ But for v1 | ❌ |
+| Mapbox v2 | ✅ | ✅ | ❌ |
+| deck.gl | ✅ | ❌ | ❌ |
+| Maplibre-gl-js | | ✅ | |
