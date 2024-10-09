@@ -442,7 +442,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Tile Response 👇</summary>
 
 ```json
@@ -494,7 +494,7 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Tile Response 👇</summary>
 
 ```json
@@ -550,7 +550,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Sub-Tile Response 👇</summary>
 
 ```json
@@ -606,7 +606,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Route Response 👇</summary>
 
 ```json
@@ -659,7 +659,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Route's Control Point Response 👇</summary>
 
 ```json
@@ -713,7 +713,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Item Response 👇</summary>
 
 ```json
@@ -773,7 +773,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Query Response 👇</summary>
 
 ```json
@@ -860,7 +860,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Query Response 👇</summary>
 
 ```json
@@ -928,7 +928,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 **Notice how "Wi School Paris" appears before "White Point Elementary School" &nbsp;**
 :::
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Query Response 👇</summary>
 
 ```json
@@ -1021,7 +1021,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Query Response 👇</summary>
 
 ```json
@@ -1106,7 +1106,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Query Response 👇</summary>
 
 ```json
@@ -1193,7 +1193,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 --header 'x-user-id: <x-user-id>'
 ```
 
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
 
 ```json
@@ -1237,7 +1237,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
-<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Tile Response 👇</summary>
 
 ```json
