@@ -356,7 +356,7 @@ Check [`Location Search request examples`](#location-search-examples).
 
 ## Conversions
 
-You can convert `WGS84` coordinates to two grids, the `Mapcolonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
+You can convert `WGS84` coordinates to two grids, the `MapColonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
 <details>
     <summary>Conversion example</summary>
 
@@ -442,8 +442,10 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Tile Response 👇</summary>
 
-```json title="Tile Response"
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -482,6 +484,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
     ]
 }
 ```
+</details>
 
 ### Tile search via MGRS value
 
@@ -491,7 +494,10 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Tile Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Tile Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -531,6 +537,8 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 }
 ```
 
+</details>
+
 ### Exact Sub Tile Search
 
 > 📝 **_Note:_** 
@@ -542,7 +550,10 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Sub-Tile Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Sub-Tile Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -583,6 +594,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
     ]
 }
 ```
+</details>
 
 ## Route examples
 
@@ -594,7 +606,10 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Route Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Route Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -631,6 +646,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
     ]
 }
 ```
+</details>
 
 ### Exact Route's Control Point search
 
@@ -643,8 +659,10 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 --header 'x-user-id: <x-user-id>'
 ```
 
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Route's Control Point Response 👇</summary>
 
-```json title="Route's Control Point Response"
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -682,6 +700,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
     ]
 }
 ```
+</details>
 
 ## Item examples
 ### Item search
@@ -694,7 +713,10 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Item Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Item Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -740,6 +762,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
     ]
 }
 ```
+</details>
 
 ## Location Search Examples 
 ### Simple Query example
@@ -750,7 +773,10 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Query Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Query Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -822,6 +848,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
     ]
 }
 ```
+</details>
 
 ### Query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
 
@@ -833,7 +860,10 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Query Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Query Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -882,6 +912,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
     ]
 }
 ```
+</details>
 
 ### Query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
 
@@ -897,7 +928,10 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 **Notice how "Wi School Paris" appears before "White Point Elementary School" &nbsp;**
 :::
 
-```json title="Query Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Query Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -967,6 +1001,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
     ]
 }
 ```
+</details>
 
 ### Query example (port search) only from "google" as the data source
 
@@ -986,7 +1021,10 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Query Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Query Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -1050,6 +1088,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
     ]
 }
 ```
+</details>
 
 ### Query example (school search) only in "france" region
 :::tip
@@ -1067,7 +1106,10 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Query Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Query Response 👇</summary>
+
+```json
 {
     "type": "FeatureCollection",
     "geocoding": {
@@ -1140,10 +1182,10 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
     ]
 }
 ```
-
+</details>
 
 ## Conversions
-### `WGS84` to Mapcolonies Control Grid Tile example
+### `WGS84` to MapColonies `Control Grid` Tile example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -1151,7 +1193,10 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 --header 'x-user-id: <x-user-id>'
 ```
 
-```json title="Response"
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Response 👇</summary>
+
+```json
 {
     "type": "Feature",
     "geocoding": {
@@ -1183,16 +1228,19 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
     }
 }
 ```
+</details>
 
-### `WGS84` to US Army MGRS example
+### `WGS84` to US Army `MGRS` example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)"}}> 
+<summary>Tile Response 👇</summary>
 
-```json title="Response"
+```json
 {
     "type": "Feature",
     "geocoding": {
@@ -1220,3 +1268,4 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
     }
 }
 ```
+</details>
