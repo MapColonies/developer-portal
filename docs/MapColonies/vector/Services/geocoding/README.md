@@ -452,10 +452,10 @@ See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc79
 
 | Type | Links | 
 | --- | --- |
-| [Location](#location-search-examples) | - [Simple Query](#simple-query-example)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'filter'`](#query-example-with-geo_context-bbox-and-geo_context_mode-filter)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'bias'`](#query-example-with-geo_context-bbox-and-geo_context_mode-bias)<br/>- [Filter response to specific source](#query-example-port-search-only-from-google-as-the-data-source)<br/>- [Filter response to specific region](#query-example-school-search-only-in-france-region) |
 | [Control Tiles](#tile-examples) | - [Exact tile search](#exact-tile-search)<br/>- [Tile search by MGRS tile](#tile-search-by-mgrs-tile)<br/>- [Exact Sub-Tile Search](#exact-sub-tile-search) |
 | [Control Routes](#route-examples) | - [Simple route search](#simple-route-search)<br/>- [Exact Route's Control Point search](#exact-routes-control-point-search) |
 | [Control Item](#item-examples) | - [Item search](#item-search) |
+| [Location](#location-search-examples) | - [Simple Query](#simple-query-example)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'filter'`](#query-example-with-geo_context-bbox-and-geo_context_mode-filter)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'bias'`](#query-example-with-geo_context-bbox-and-geo_context_mode-bias)<br/>- [Filter response to specific source](#query-example-port-search-only-from-google-as-the-data-source)<br/>- [Filter response to specific region](#query-example-school-search-only-in-france-region) |
 | [Conversion](#conversion-examples) | - [`WGS84` to MapColonies `Control Grid` Tile example](#wgs84-to-mapcolonies-control-grid-tile-example)<br/>- [`WGS84` to US Army `MGRS` example](#wgs84-to-us-army-mgrs-example) | 
 | [MGRS](#mgrs-shape-conversion) | [MGRS shape conversion](#mgrs-shape-conversion) |
 
