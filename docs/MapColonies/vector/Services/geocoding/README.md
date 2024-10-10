@@ -15,6 +15,10 @@ tags:
 Click [here](/docs/MapColonies/vector/Services/geocoding/api) for the OpenAPI
 :::
 
+:::tip
+Check out our API [Request-Response examples](#examples).  
+:::
+
 ## TL;DR
 
 Search for places, control tiles, routes and items. Ability to convert from WGS 84 Coordinates to Control Tile/ US Army MGRS. 
@@ -219,10 +223,6 @@ Items are simply buildings \ items in the field. An item's name is a 4-digit num
 ```
 </details>
 
-:::tip
-Check [`Control Search request examples`](#control-examples).
-:::
-
 ## Location Name Based Search: 
 
 We have created a location search engine. In the query parameter simply search for a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
@@ -349,10 +349,6 @@ You can also search for supported regions and sources in order to filter the res
 ```
 </details>
 
-:::tip
-Check [`Location Search request examples`](#location-search-examples).
-:::
-
 ## Conversions
 
 You can convert `WGS84` coordinates to two grids, the `MapColonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
@@ -399,9 +395,28 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 ```
 </details>
 
+#### Military Grid Reference System (MGRS)
+
+<p>
+<i>
+The Military Grid Reference System (MGRS) is the geocoordinate standard used by NATO militaries for locating points on Earth. ... The MGRS is used as geocode for the entire Earth.
+
+An example of an MGRS coordinate, or grid reference, would be 4QFJ12345678, which consists of three parts:
+
+* 4Q (grid zone designator, GZD)
+* FJ (the 100,000-meter square identifier)
+* 1234 5678 (numerical location; easting is 1234 and northing is 5678, in this case specifying a location with 10 m resolution)
+
+</i>
+(Source: Wikipedia - Military Grid Reference System)
+</p> 
+
+In Geocoding API, you can convert a US Army Military Grid Reference System (MGRS) tile string to its GeoJSON Geometry.
+
 :::tip
-Check [`Conversions request examples`](#conversions-1).
+You can read more about [MGRS here](https://en.wikipedia.org/wiki/Military_Grid_Reference_System).
 :::
+
 
 ## Common Query Params
 
@@ -430,11 +445,20 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc7946)🌐 for more info about the GeoJSON specification. &nbsp;**
 :::
 
-## Control Examples
+## Examples
 
-## Tile examples 
+| Type | Links | 
+| --- | --- |
+| [Location](#location-search-examples) | - [Simple Query](#simple-query-example)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'filter'`](#query-example-with-geo_context-bbox-and-geo_context_mode-filter)<br/>- [`geo_context: [bbox]` and `geo_context_mode: 'bias'`](#query-example-with-geo_context-bbox-and-geo_context_mode-bias)<br/>- [Filter response to specific source](#query-example-port-search-only-from-google-as-the-data-source)<br/>- [Filter response to specific region](#query-example-school-search-only-in-france-region) |
+| [Control Tiles](#tile-examples) | - [Exact tile search](#exact-tile-search)<br/>- [Tile search by MGRS tile](#tile-search-by-mgrs-tile)<br/>- [Exact Sub-Tile Search](#exact-sub-tile-search) |
+| [Control Routes](#route-examples) | - [Simple route search](#simple-route-search)<br/>- [Exact Route's Control Point search](#exact-routes-control-point-search) |
+| [Control Item](#item-examples) | - [Item search](#item-search) |
+| [Conversion](#conversion-examples) | - [`WGS84` to MapColonies `Control Grid` Tile example](#wgs84-to-mapcolonies-control-grid-tile-example)<br/>- [`WGS84` to US Army `MGRS` example](#wgs84-to-us-army-mgrs-example) | 
+| [MGRS](#mgrs-shape-conversion) | [MGRS shape conversion](#mgrs-shape-conversion) |
 
-### Exact Tile Search
+#### Tile examples 
+
+#### Exact Tile Search
 
 ```curl title="Tile Search Request"
 curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
@@ -442,7 +466,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 --header 'x-user-id: <x-user-id>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Tile Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -485,7 +509,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 ```
 </details>
 
-### Tile search via MGRS value
+#### Tile search by MGRS tile
 
 ```curl title="Tile Search Request"
 curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
@@ -494,7 +518,7 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Tile Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -538,7 +562,7 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 
 </details>
 
-### Exact Sub Tile Search
+#### Exact Sub Tile Search
 
 > 📝 **_Note:_** 
 `disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
@@ -550,7 +574,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Sub-Tile Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -595,9 +619,9 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 ```
 </details>
 
-## Route examples
+#### Route examples
 
-### Simple Route search
+#### Simple Route search
 
 ```curl title="Route Search Request"
 curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
@@ -606,7 +630,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Route Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -647,7 +671,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 ```
 </details>
 
-### Exact Route's Control Point search
+#### Exact Route's Control Point search
 
 > 📝 **_Note:_** 
 `disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
@@ -659,7 +683,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Route's Control Point Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -701,8 +725,8 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 ```
 </details>
 
-## Item examples
-### Item search
+#### Item examples
+#### Item search
 > 📝 **_Note:_** 
 `limit` query parameter is set to `1`. This is just for example purpose. You may remove it.
 
@@ -713,7 +737,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Item Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -763,8 +787,8 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 ```
 </details>
 
-## Location Search Examples 
-### Simple Query example
+#### Location Search Examples 
+#### Simple Query example
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=school' \
@@ -773,7 +797,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Query Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -849,7 +873,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 ```
 </details>
 
-### Query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
+#### Query example with `geo_context: [bbox]` and `geo_context_mode: 'filter'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -860,7 +884,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Query Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -913,7 +937,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 ```
 </details>
 
-### Query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
+#### Query example with `geo_context: [bbox]` and `geo_context_mode: 'bias'`
 
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
@@ -928,7 +952,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 :::
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Query Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -1002,7 +1026,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 ```
 </details>
 
-### Query example (port search) only from "google" as the data source
+#### Query example (port search) only from "google" as the data source
 
 :::tip
 You may see the available sources by sending this request: <br/>
@@ -1021,7 +1045,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Query Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -1089,7 +1113,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 ```
 </details>
 
-### Query example (school search) only in "france" region
+#### Query example (school search) only in "france" region
 :::tip
 You may see the available regions by sending this request: <br/>
 ```curl
@@ -1106,7 +1130,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Query Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -1183,8 +1207,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 ```
 </details>
 
-## Conversions
-### `WGS84` to MapColonies `Control Grid` Tile example
+#### Conversion examples
+#### `WGS84` to MapColonies `Control Grid` Tile example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -1229,7 +1253,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 ```
 </details>
 
-### `WGS84` to US Army `MGRS` example
+#### `WGS84` to US Army `MGRS` example
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
@@ -1237,7 +1261,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 --header 'x-user-id: <x-user-id>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
-<summary>Tile Response 👇</summary>
+<summary>Response 👇</summary>
 
 ```json
 {
@@ -1265,6 +1289,51 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
         "accuracy": "1m",
         "mgrs": "33UUU6099626777"
     }
+}
+```
+</details>
+
+#### MGRS shape conversion
+
+Convert a MGRS string to its geometry in GeoJSON.
+
+```curl title="Request"
+curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+<summary>Response 👇</summary>
+
+```json
+{
+    "type": "Feature",
+    "geocoding": {
+        "version": "0.1.0",
+        "query": {
+            "tile": "33UUU6099626777"
+        },
+        "response": {
+            "max_score": 1,
+            "results_count": 1,
+            "match_latency_ms": 0
+        }
+    },
+    "bbox": [  12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [ 12.948777289238832, 52.57325754975297 ],
+                [ 12.948777289238832, 52.57326678960368 ],
+                [ 12.948791616108007, 52.57326678960368 ],
+                [ 12.948791616108007, 52.57325754975297 ],
+                [ 12.948777289238832, 52.57325754975297 ]
+            ]
+        ]
+    },
+    "properties": { }
 }
 ```
 </details>
