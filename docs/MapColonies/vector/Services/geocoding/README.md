@@ -26,9 +26,8 @@ Search for places, control tiles, routes and items. Ability to convert from WGS 
 MapColonies has its own Control Reference System. Like the US Army MGRS, we divided our user's area of interest to Tiles. Each tile is 10kmX10km and has Sub-Tiles which are 1kmX1km. Each tile has 100 sub-tiles. <br/>
 A tile's name is exactly 3-letters, while a Sub-Tile is a 2-digit number. <br/>
 
-
-<details>
-    <summary>JSON Schema of Tile Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Tile Response 👇</summary>
 
 The following is a Tile search response. See [`these Control Tile search examples`](#tile-examples) for more info.
 
@@ -73,8 +72,8 @@ The following is a Tile search response. See [`these Control Tile search example
 ```
 </details>
 
-<details>
-    <summary>JSON Schema of Sub Tile Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Sub Tile Response 👇</summary>
 
 The following is a Sub-Tile search response. See [`this Control Sub-Tile search example`](#exact-sub-tile-search) for more info.
 
@@ -125,8 +124,8 @@ Routes are roads and streams. Each Route has Control Points. Control Points are 
 Routes are roads and streams. Each Route has Control Points. Control Points are points scattered on the route. They are usefull when an end-user reports his location on the route. It is used to "pin-point" the end-user's location.<br/>  
 A route's name is a string (in any length). For main roads, the route's name will be unique. For minor roads the name might be reused in other areas of interest. <br/> Route's Control point is a 3-digit number.
 
-<details>
-    <summary>JSON Schema of Route Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Route Response 👇</summary>
 
 ```json
 {
@@ -169,8 +168,8 @@ A route's name is a string (in any length). For main roads, the route's name wil
 
 Items are simply buildings \ items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles! Though, it is unique in the current viewed Control Tile.<br/>
 
-<details>
-    <summary>JSON Schema of Item Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Item Response 👇</summary>
 
 ```json
 {
@@ -229,8 +228,8 @@ Check [`Control Search request examples`](#control-examples).
 We have created a location search engine. In the query parameter simply search for a place that you want to find. For example, if you search for `White House, Washington DC` you will get matching results for your query. <br/>
 You can also search for supported regions and sources in order to filter the results for a specific region or source (by default it will return all regions and sources). <br/>
 
-<details>
-    <summary>JSON Schema of Route Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Route Response 👇</summary>
 
 ```json
 {
@@ -307,8 +306,8 @@ You can also search for supported regions and sources in order to filter the res
 ```
 </details>
 
-<details>
-    <summary>JSON Schema of Route's Control Point Response</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>JSON Route's Control Point Response 👇</summary>
 
 ```json
 {
@@ -357,8 +356,8 @@ Check [`Location Search request examples`](#location-search-examples).
 ## Conversions
 
 You can convert `WGS84` coordinates to two grids, the `MapColonies Control Grid` and `US Army MGRS`. In order to choose your target grid you pass the `target_grid` query parameter.<br/>
-<details>
-    <summary>Conversion example</summary>
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>Conversion example 👇</summary>
 
 ```curl title="Request"
 curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
