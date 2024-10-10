@@ -126,6 +126,12 @@ const config = {
             position: 'left',
             label: 'OGC',
           },
+          {
+            type: 'docSidebar',
+            sidebarId: 'knowledgeBaseSidebar',
+            position: 'left',
+            label: 'Knowledge base',
+          },
         ],
       },
       footer: {
