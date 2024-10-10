@@ -41,7 +41,7 @@ The API in general is split to two parts:
 
 ## Files structure
 
-#### Snapsho
+#### Snapshot
 When receiving a response from the replication service API for snapshot, The response will contain an array of files to download.
 
 Each downloaded file is a zip.
