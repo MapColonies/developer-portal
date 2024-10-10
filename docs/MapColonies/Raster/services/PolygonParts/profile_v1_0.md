@@ -16,13 +16,13 @@ tags:
 | **Polygon Part Queryable <br/> Attribute Name** | **Type** | **Description** | 
 | ----------- | ----------- | ----------- | 
 | geometry | GeoJson (geometry (Polygon,4326)) | The feature's geometry |
-| partId | integer | Internal unique part identifier (1-2147483647) |
-| recordId | UUID | Mapcolonies reaster catalog identifier for the layer |
+| id | UUID | Internal unique identifier |
+| catalogId | UUID | Mapcolonies raster catalog identifier for the layer |
 | productId | text | Mapcolonies raster layer identifier |
 | productType | text | Mapcolonies raster layer type |
-| id | text | External Id of the part |
-| name | text | Part name |
-| updatedInVersion | text | Mapcolonies raster layer version |
+| sourceId | text | External Id of the part |
+| sourceName | text | External Name of the part |
+| productVersion | text | Mapcolonies raster layer version |
 | ingestionDateUTC | date | The time the part was ingested |
 | imagingTimeBeginUTC | date | Start imaging date (UTC time) of  part |
 | imagingTimeEndUTC | date | End imaging date (UTC time) of part |

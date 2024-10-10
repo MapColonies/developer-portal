@@ -1,0 +1,21 @@
+name: Build and push artifacts
+
+on:
+  push:
+    tags:
+      - "v*"
+
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release_on_tag_push:
+    uses: MapColonies/shared-workflows/.github/workflows/build-and-push-docker.yaml@v2
+    secrets: inherit
