@@ -397,9 +397,13 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 
 #### Military Grid Reference System (MGRS)
 
+In Geocoding API, you can convert a Military Grid Reference System (MGRS) tile string to its GeoJSON Geometry.
+
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+    <summary>MGRS Wikipedia definition 👇</summary>
 <p>
 <i>
-The Military Grid Reference System (MGRS) is the geocoordinate standard used by NATO militaries for locating points on Earth. ... The MGRS is used as geocode for the entire Earth.
+The Military Grid Reference System (MGRS) is the geocoordinate standard used by NATO militaries for locating points on Earth. ...The MGRS is used as geocode for the entire Earth.
 
 An example of an MGRS coordinate, or grid reference, would be 4QFJ12345678, which consists of three parts:
 
@@ -408,14 +412,13 @@ An example of an MGRS coordinate, or grid reference, would be 4QFJ12345678, whic
 * 1234 5678 (numerical location; easting is 1234 and northing is 5678, in this case specifying a location with 10 m resolution)
 
 </i>
-(Source: Wikipedia - Military Grid Reference System)
-</p> 
+</p>
 
-In Geocoding API, you can convert a US Army Military Grid Reference System (MGRS) tile string to its GeoJSON Geometry.
+definition is right to October 10th, 2024. <br/>
+Read more in [Wikipedia - Military Grid Reference System](https://en.wikipedia.org/wiki/Military_Grid_Reference_System)<br/>
 
-:::tip
-You can read more about [MGRS here](https://en.wikipedia.org/wiki/Military_Grid_Reference_System).
-:::
+</details>
+
 
 
 ## Common Query Params
@@ -456,7 +459,7 @@ See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc79
 | [Conversion](#conversion-examples) | - [`WGS84` to MapColonies `Control Grid` Tile example](#wgs84-to-mapcolonies-control-grid-tile-example)<br/>- [`WGS84` to US Army `MGRS` example](#wgs84-to-us-army-mgrs-example) | 
 | [MGRS](#mgrs-shape-conversion) | [MGRS shape conversion](#mgrs-shape-conversion) |
 
-#### Tile examples 
+### Tile examples 
 
 #### Exact Tile Search
 
@@ -619,7 +622,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 ```
 </details>
 
-#### Route examples
+### Route examples
 
 #### Simple Route search
 
@@ -725,7 +728,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 ```
 </details>
 
-#### Item examples
+### Item examples
 #### Item search
 > 📝 **_Note:_** 
 `limit` query parameter is set to `1`. This is just for example purpose. You may remove it.
@@ -787,7 +790,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 ```
 </details>
 
-#### Location Search Examples 
+### Location Search Examples 
 #### Simple Query example
 
 ```curl title="Query Search Request"
@@ -1207,7 +1210,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 ```
 </details>
 
-#### Conversion examples
+### Conversion examples
 #### `WGS84` to MapColonies `Control Grid` Tile example
 
 ```curl title="Request"
@@ -1293,7 +1296,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 ```
 </details>
 
-#### MGRS shape conversion
+### MGRS shape conversion
 
 Convert a MGRS string to its geometry in GeoJSON.
 
