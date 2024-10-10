@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[6075],{16915:e=>{e.exports=JSON.parse('{"label":"vector","permalink":"/developer-portal/pr-preview/pr-97/blog/tags/vector","allTagsPath":"/developer-portal/pr-preview/pr-97/blog/tags","count":3}')}}]);
