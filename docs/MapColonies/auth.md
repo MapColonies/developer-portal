@@ -37,6 +37,7 @@ When making any request, you need to add a special **header** or **query paramet
 
 ## Using the token as a query parameter
 
+
 ```
 <SERVICE_URL>/SUB/PATH?token=<token>
 ```
@@ -44,5 +45,5 @@ When making any request, you need to add a special **header** or **query paramet
 ## Using the token as a header
 
 ```curl
-curl --location --request GET '<SERVICE_URL>' --header 'x-api-key: <token>'
+curl --location --request <http_method> '<SERVICE_URL>' --header 'x-api-key: <token>'
 ```
