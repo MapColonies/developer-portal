@@ -10,7 +10,7 @@ tags:
 ---
 
 There are so many map viewers out there, how do you choose the best one for your needs?
-Here we attempt to help you make this desicion.
+Here we attempt to help you make this decision.
 
 Disclaimer:
 Everything written in this knowledge base is based on our research of selected well known map viewers. We do not attempt to recommend one as the best, but give you all the information we believe you need in order to make a better desicion based on your use case.
