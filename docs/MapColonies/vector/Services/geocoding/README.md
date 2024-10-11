@@ -433,11 +433,11 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 | disable_fuzziness | Boolean  | false | [Click here](#exact-tile-search) | Fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. |
 
 ## Usage
-:::caution
+:::warning
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
-:::caution
+:::warning
 **All routes require `x-api-key` and `x-user-id`.<br/> 
 `x-api-key`'s value should be the token provided by our team. <br/>
 `x-user-id`'s value should be the user's id that queried our service. &nbsp;**

@@ -58,7 +58,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 **In polygon parts, each feature represent single polygon**
 :::
 
-:::caution Authentication
+:::warning Authentication
 **Authentication must be integrated in order to communicate with Map and Catalog services.**<br/>
 **See the principles [here](/docs/MapColonies/authentication)**
 :::

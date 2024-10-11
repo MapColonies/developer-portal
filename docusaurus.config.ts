@@ -1,12 +1,12 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+import {themes as prismThemes} from 'prism-react-renderer';
+import type { Config, ReportingSeverity } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
+import type { PresetEntry } from 'redocusaurus';
 
-
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: Config = {
   title: 'MapColonies Developer Portal',
   tagline: 'Developer Portal',
   favicon: 'img/libot_logo.ico',
@@ -19,8 +19,8 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'MapColonies', // Usually your GitHub org/user name.
   projectName: 'developer-portal', // Usually your repo name.
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'warn' as ReportingSeverity,
+  onBrokenMarkdownLinks: 'warn' as ReportingSeverity,
   themes: ['@docusaurus/theme-mermaid'],
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -60,7 +60,7 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }),
+      }) satisfies Preset.Options,
     ],
     [
       'redocusaurus',
@@ -90,7 +90,7 @@ const config = {
           primaryColor: '#1890ff',
         },
       },
-    ],
+    ] satisfies PresetEntry,
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -169,8 +169,8 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} MapColonies, Inc. Built with Docusaurus with love ❤️`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
       },
       mermaid: {
         theme: { light: 'neutral', dark: 'forest' },
@@ -182,6 +182,6 @@ const config = {
     plugins: [
       [require.resolve('@cmfcmf/docusaurus-search-local'), {}],
     ],
-};
+} satisfies Preset.ThemeConfig;
 
-module.exports = config;
+export default config;

@@ -38,9 +38,9 @@ SERVICE=WMTS
 
 `<MAP_SERVER-RASTER_URL>/wmts/{Layer}/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
 
-**{Layer}** - the name of the layer (ex. ***Ortho_25cm***)
+**\{Layer\}** - the name of the layer (ex. ***Ortho_25cm***)
 
-**{TileMatrixSet}** - define the grid name of the layer,
+**\{TileMatrixSet\}** - define the grid name of the layer,
 
 :::tip
 **How to get Grid name?** Grid name (`TileMatrixSet`) can be reached by **GetCapabilities** response [Raster - Get Started / Step 4](/docs/MapColonies/Raster/Guides/raster-getting-started#get-layer-capabilities-step-4)
@@ -51,11 +51,11 @@ SERVICE=WMTS
 
 See `<TileMatrixSetLink>` element for supported Grid names.
 
-**{TileMatrix}** - define the zoom level (Z)
+**\{TileMatrix\}** - define the zoom level (Z)
 
-**{TileCol}** - define the column (X)
+**\{TileCol\}** - define the column (X)
 
-**{TileRow}** - define the row (Y)
+**\{TileRow\}** - define the row (Y)
 
 Final request example:
 `<MAP_SERVER-RASTER_URL>/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png`
