@@ -1,8 +1,8 @@
 ---
 id: vector-feedback-api-service
 slug: info
-title: Geocoding's Feedback Api ⚙️
-description: Feedback of Geocoding's responses
+title: Feedback Api ⚙️
+description: Feedback for Geocoding responses
 tags:
   - vector
   - API
@@ -10,17 +10,17 @@ tags:
   - Geocoding
 ---
 
-# Geocoding's Feedback Api ⚙️
+# Feedback Api ⚙️
 
 :::info
 Click [here](/docs/MapColonies/vector/services/feedback-api/api) for the OpenAPI
 :::
 
 :::note
-If you're not familier with Geocoding API, [read first here](/docs/MapColonies/vector/Services/geocoding/README.md).
+If you're not familier with Geocoding API, [read more here](/docs/MapColonies/vector/Services/geocoding/README.md).
 :::
 
-Geocoding's feedback api is an API that gets from the user of [Geocoding API](/docs/MapColonies/vector/Services/geocoding/README.md) the response and and puts it in redis for BI purposes.
+Geocoding's feedback `API` collects `usage data` from the [Geocoding API](/docs/MapColonies/vector/Services/geocoding/README.md) user's response and stores it for BI purposes. We use this `data` to better understand and measure the relevance of our responses and adjust the `data` and `algorithm` accordingly.
 
 ## Usage
 
@@ -28,7 +28,7 @@ Geocoding's feedback api is an API that gets from the user of [Geocoding API](/d
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
-Once a user gets a response from Geocoding, the system that uses Geocoding will send the request ID and the chosen response ID back to us using the API.
+Once a user gets a response from `Geocoding`, the requesting system will send the `request ID` and the chosen `response ID` back to us.
 
 ## Example
 
@@ -116,9 +116,9 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 </details>
 
 Notice this response listed 2 features.<br/><br/>
-When sending the response to the feedback api you need to fill 2 parameters:<br/>
+When sending the response to the `feedback API`, you need to provide two parameters:<br/>
 📍 Request ID - from the header `'x-request-id'`<br/>
-📍 Chosen Response ID - from what the user chose out of the options from the response. <br/><br/>
+📍 Chosen Response ID - the ID of the user's selected response (corresponding index of the result). <br/><br/>
 
 Lets think of the current response as the actual response in this case:<br/>
 📍 If the user chose `"White Point Elementary School"`, the Chosen Response ID would be `0`.<br/>
@@ -131,8 +131,13 @@ curl --location '<feedback_api_url>/feedback' \
 --header 'x-user-id: <x-user-id>'
 ```
 
+Then our request to the `feedback API` would look like this: <br/>
+
+
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
+
+And we will receive:<br/>
 
 ```json
 204     Feedback has been sent succesfully
