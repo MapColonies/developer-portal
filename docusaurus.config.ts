@@ -180,7 +180,7 @@ const config: Config = {
       mermaid: true
     },
     plugins: [
-      [require.resolve('@cmfcmf/docusaurus-search-local'), {}],
+      [require.resolve('docusaurus-lunr-search'), {}],
     ],
 } satisfies Preset.ThemeConfig;
 
