@@ -16,6 +16,11 @@ $ npm start
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
+In order for the search bar to be visible run:
+```
+$ npm run build && npm start
+```
+
 ### Build
 
 ```
