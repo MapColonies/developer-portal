@@ -1,10 +1,19 @@
 ---
-id: map-viewers-features
-slug: map-viewers-features
-title: Map viewers Features
+id: map-viewers-comparison
+slug: map-viewers-comparison
+title: Map viewers comparison
 sidebar_position: 2
 tags:
   - map-viewers
+  - map-components
+  - cesium
+  - leaflet
+  - openlayers
+  - arcgis
+  - itowns
+  - mapbox
+  - deck.gl
+  - maplibre
 ---
 
 In this page we list some features that you may be interested in and show which map viewers support them.
