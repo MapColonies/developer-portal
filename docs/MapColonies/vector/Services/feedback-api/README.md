@@ -1,7 +1,7 @@
 ---
 id: vector-feedback-api-service
-slug: feedback-api ⚙️
-title: Geocoding's Feedback Api
+slug: info
+title: Geocoding's Feedback Api ⚙️
 description: Feedback of Geocoding's responses
 tags:
   - vector
@@ -116,6 +116,25 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 </details>
 
 Notice this response listed 2 features.<br/><br/>
-When sending the response to the feedback api you get the request ID from the header 'x-request-id', and the response ID you get from what the user chose out of the options. <br/>
--> If the user chose "White Point Elementary School", the chosen response ID would be 0 in this case.<br/>
--> If the user chose "Wi School Paris 9", the chosen response ID would be 1 in this case.<br/>
+When sending the response to the feedback api you need to fill 2 parameters:<br/>
+📍 Request ID - from the header `'x-request-id'`<br/>
+📍 Chosen Response ID - from what the user chose out of the options from the response. <br/><br/>
+
+Lets think of the current response as the actual response in this case:<br/>
+📍 If the user chose `"White Point Elementary School"`, the Chosen Response ID would be `0`.<br/>
+📍 If the user chose `"Wi School Paris 9"`, the Chosen Response ID would be `1`.<br/><br/>
+
+
+```curl title="Geocoding's Feedback Api Request"
+curl --location '<feedback_api_url>/feedback' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+
+<details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
+<summary>Response 👇</summary>
+
+```json
+204     Feedback has been sent succesfully
+```
+</details>
