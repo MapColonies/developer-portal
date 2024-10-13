@@ -169,6 +169,10 @@ const config = {
                 label: 'Blog',
                 to: '/blog',
               },
+              {
+                label: 'Knowledge base',
+                to: '/docs/KnowledgeBase/terms',
+              },
             ],
           },
         ],
