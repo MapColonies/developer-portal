@@ -51,13 +51,13 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Cesium | ✅ | ❌ | ✅ | ❌ | ✅ | | |
 | Leaflet | ✅ | ❌ | ✅ | ➖ Possible with package or TileLayer Hack | ✅ | | |
-| OpenLayers | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| ArcGIS JS SDK | ✅ | | ✅ | ✅ | | |
-| iTowns | ✅ | | ✅ | ❌ | | |
-| Mapbox v1 | ✅ | | | | | |
-| Mapbox v2 | ✅ | | | | | |
-| deck.gl | ✅ | | ➖ With package or TileLayer Hack | | | |
-| Maplibre-gl-js | ✅ | | ➖ Through templating | | | |
+| OpenLayers | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ArcGIS JS SDK | ✅ | | ✅ | ✅ | ✅ | | |
+| iTowns | ✅ | | ✅ | ❌ | ✅ | | |
+| Mapbox v1 | ✅ | | | | | | |
+| Mapbox v2 | ✅ | | | | | | |
+| deck.gl | ✅ | | ➖ With package or TileLayer Hack | | | | |
+| Maplibre-gl-js | ✅ | | ➖ Through templating | | | | |
 
 ### Features
 
