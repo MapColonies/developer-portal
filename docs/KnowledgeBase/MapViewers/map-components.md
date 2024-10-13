@@ -9,24 +9,6 @@ tags:
 
 In this page we list some features that you may be interested in and show which map viewers support them.
 
-## Most commonly used map viewers
-
-Cesium - [Docs](https://cesium.com/learn/cesiumjs-learn/), [Playground](https://sandcastle.cesium.com/)
-
-Leaflet - [Docs](https://leafletjs.com/reference.html), [Examples](https://leafletjs.com/examples.html), [Playground](https://codesandbox.io/s/leaflet-playground-8riog)
-
-OpenLayers - [Docs](https://openlayers.org/en/latest/apidoc/), [Examples](https://openlayers.org/en/latest/examples/), [Playground](https://codesandbox.io/examples/package/openlayers)
-
-ArcGIS JS SDK - [Docs](https://developers.arcgis.com/javascript/latest/), [Examples](https://developers.arcgis.com/javascript/latest/sample-code/), [Playground](https://developers.arcgis.com/javascript/3/samples/playground/)
-
-iTowns - [Docs](https://www.itowns-project.org/), [Examples](http://www.itowns-project.org/itowns/examples/index.html)
-
-Mapbox - [Docs](https://docs.mapbox.com/mapbox-gl-js/guides/), [Examples](https://docs.mapbox.com/mapbox-gl-js/example/), [Playground](https://docs.mapbox.com/playground/)
-
-deck.gl - [Docs](https://deck.gl/docs), [Examples](https://deck.gl/examples)
-
-Maplibre-gl-js - [Docs](https://maplibre.org/maplibre-gl-js/docs/API/), [Examples](https://maplibre.org/maplibre-gl-js/docs/examples/)
-
 ## Projections
 
 If you don't know what a `projection` is, please read more [here](/docs/KnowledgeBase/terms#mapping), or on [wikipedia 🌐](https://en.wikipedia.org/wiki/Map_projection).
