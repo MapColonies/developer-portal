@@ -17,7 +17,7 @@ Leaflet - [Docs](https://leafletjs.com/reference.html), [Examples](https://leafl
 
 OpenLayers - [Docs](https://openlayers.org/en/latest/apidoc/), [Examples](https://openlayers.org/en/latest/examples/), [Playground](https://codesandbox.io/examples/package/openlayers)
 
-EsriJS - [Docs](https://developers.arcgis.com/javascript/latest/), [Examples](https://developers.arcgis.com/javascript/latest/sample-code/), [Playground](https://developers.arcgis.com/javascript/3/samples/playground/)
+ArcGIS JS SDK - [Docs](https://developers.arcgis.com/javascript/latest/), [Examples](https://developers.arcgis.com/javascript/latest/sample-code/), [Playground](https://developers.arcgis.com/javascript/3/samples/playground/)
 
 iTowns - [Docs](https://www.itowns-project.org/), [Examples](http://www.itowns-project.org/itowns/examples/index.html)
 
@@ -36,7 +36,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ✅ | ✅ | [Projections](https://cesium.com/learn/cesiumjs/ref-doc/MapProjection.html) | ✅ | |
 | Leaflet | ✅ | ✅ | [Projections](https://leafletjs.com/reference.html#projection) | ❌ | |
 | OpenLayers | ✅ | ✅ | [Projections](https://openlayers.org/en/latest/apidoc/module-ol_proj_Projection-Projection.html) | ✅ | Supports all EPSG |
-| EsriJS | ✅ | ✅ | [Projections](https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/list-of-supported-map-projections.htm) | ✅ | Supports all EPSG |
+| ArcGIS JS SDK | ✅ | ✅ | [Projections](https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/list-of-supported-map-projections.htm) | ✅ | Supports all EPSG |
 | iTowns | ✅ | ❌ | [Projections](https://www.itowns-project.org/itowns/docs/tutorials/Fundamentals.html) | | |
 | Mapbox v1 | ❌ | ✅ | [Projections](https://docs.mapbox.com/mapbox-gl-js/guides/projections/) | | |
 | Mapbox v2 | ➖ Not tested yet go to projection https://docs.mapbox.com/mapbox-gl-js/api/map/ | ✅ | [Projections](https://docs.mapbox.com/mapbox-gl-js/guides/projections/) | ❌ | |
@@ -52,7 +52,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ✅ | ❌ | ✅ | ❌ | ✅ | | |
 | Leaflet | ✅ | ❌ | ✅ | ➖ Possible with package or TileLayer Hack | ✅ | | |
 | OpenLayers | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| EsriJS | ✅ | | ✅ | ✅ | | |
+| ArcGIS JS SDK | ✅ | | ✅ | ✅ | | |
 | iTowns | ✅ | | ✅ | ❌ | | |
 | Mapbox v1 | ✅ | | | | | |
 | Mapbox v2 | ✅ | | | | | |
@@ -66,7 +66,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ✅ (By defining the layer's rectangle) | ➖ Supports opacity (Alpha) | ✅ GPUable |
 | Leaflet | ❌ | ➖ Supports opacity (Alpha) | ✅ GPUable (only via CSS animations) |
 | OpenLayers | ✅ (BBOX extent) | ✅ | ✅ Preload tiles <br/> ✅ GPUable |
-| EsriJS | ✅ (BBOX extent) | ➖ Supports opacity (Alpha) | |
+| ArcGIS JS SDK | ✅ (BBOX extent) | ➖ Supports opacity (Alpha) | |
 | iTowns | | ❌ | ✅ Immersive view (Street view) <br/> ✅ GPUable |
 | Mapbox v1 | | | ✅ GPUable |
 | Mapbox v2 | | | ✅ GPUable |
@@ -80,7 +80,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ✅ | ✅ | ✅ | - Control sun and atmosphere<br/>- Custom lightings |
 | Leaflet | ❌ | ❌ | ❌ | |
 | OpenLayers | ❌ | ❌ | ❌ | |
-| EsriJS | ❌ | ✅ | ✅ | Custom lightings |
+| ArcGIS JS SDK | ❌ | ✅ | ✅ | Custom lightings |
 | iTowns | ✅ | ❌ | ✅ | Sun simulation |
 | Mapbox v1 | ❌ | ❌ | ❌ | |
 | Mapbox v2 | ❌ | ❌ | ❌ | |
@@ -96,7 +96,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ✅ | ❌ | ✅ (With plugin) |
 | Leaflet | ❌ | ❌ | |
 | OpenLayers | ❌ | ❌ | |
-| EsriJS | ❌ | ➖ (ESRI format) | |
+| ArcGIS JS SDK | ❌ | ➖ (ESRI format) | |
 | iTowns | ❌ | ✅ | |
 | Mapbox v1 | ❌ | | |
 | Mapbox v2 | ❌ | ✅ | |
@@ -112,7 +112,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ❌ No native support but feasible | ✅ | ✅ | ✅ |
 | Leaflet | ❌ No native support but feasible | ✅ | ✅ 2D<br/>❌ 3D | ✅ |
 | OpenLayers | ✅ | ✅ | ✅ 2D<br/>❌ 3D<br/>✅ OpenLayers symbology<br/>✅ Mapbox symbology adapter | ✅ With complex symbology |
-| EsriJS | ✅ | ✅ | | |
+| ArcGIS JS SDK | ✅ | ✅ | | |
 | iTowns | ✅ | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ Simple symbolog |
 | Mapbox v1 | | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ With complex symbolog |
 | Mapbox v2 | | ✅ | ✅ 2D<br/>✅ 2.5D<br/>❌ 3 | ✅ With complex symbolog |
@@ -126,7 +126,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | Cesium | ❌ | ❌ | ❌ |
 | Leaflet | ❌ | | ❌ |
 | OpenLayers | ✅ | ❌ | ✅ |
-| EsriJS | ✅ | ✅ | ❌ |
+| ArcGIS JS SDK | ✅ | ✅ | ❌ |
 | iTowns | ✅ | ❌ | ❌ |
 | Mapbox v1 | ✅ | ✅ But for v1 | ❌ |
 | Mapbox v2 | ✅ | ✅ | ❌ |
