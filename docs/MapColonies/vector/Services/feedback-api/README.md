@@ -20,15 +20,15 @@ Click [here](/docs/MapColonies/vector/services/feedback-api/api) for the OpenAPI
 If you're not familier with Geocoding API, [read more here](/docs/MapColonies/vector/Services/geocoding/README.md).
 :::
 
-Geocoding's feedback `API` collects `usage data` from the [Geocoding API](/docs/MapColonies/vector/Services/geocoding/README.md) user's response and stores it for BI purposes. We use this `data` to better understand and measure the relevance of our responses and adjust the `data` and `algorithm` accordingly.
+Geocoding's feedback `API` collects `usage data` from the [Geocoding API](/docs/MapColonies/vector/Services/geocoding/README.md) user's response and stores it for BI purposes. We use this `data` to better understand and measure the relevance of our responses and adjust the `data` and `algorithm` accordingly.<br/><br/>
 
-## Usage
+Once a user gets a response from `Geocoding`, the requesting system will send the `request ID` and the chosen `response ID` back to us.<br/>
 
 :::caution
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
-Once a user gets a response from `Geocoding`, the requesting system will send the `request ID` and the chosen `response ID` back to us.
+
 
 ## Example
 
@@ -124,6 +124,7 @@ Lets think of the current response as the actual response in this case:<br/>
 📍 If the user chose `"White Point Elementary School"`, the Chosen Response ID would be `0`.<br/>
 📍 If the user chose `"Wi School Paris 9"`, the Chosen Response ID would be `1`.<br/><br/>
 
+Then our request to the `feedback API` would look like this: <br/>
 
 ```curl title="Geocoding's Feedback Api Request"
 curl --location '<feedback_api_url>/feedback' \
@@ -131,13 +132,11 @@ curl --location '<feedback_api_url>/feedback' \
 --header 'x-user-id: <x-user-id>'
 ```
 
-Then our request to the `feedback API` would look like this: <br/>
-
+And we will receive:<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
 
-And we will receive:<br/>
 
 ```json
 204     Feedback has been sent succesfully
