@@ -9,7 +9,7 @@ tags:
 
 In this page we list some features that you may be interested in and show which map viewers support them.
 
-## Map viewers reviewed in this page
+## Most commonly used map viewers
 
 Cesium - [Docs](https://cesium.com/learn/cesiumjs-learn/), [Playground](https://sandcastle.cesium.com/)
 
