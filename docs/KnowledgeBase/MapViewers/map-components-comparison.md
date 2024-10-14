@@ -80,8 +80,6 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 
 ## DEM
 
-### Terrain
-
 | **Viewer** | **QMesh** | **Raster DEM** | **Skyline terrain** |
 | ----------- | ----------- | ----------- | ----------- |
 | Cesium | ✅ | ❌ | ✅ (With plugin) |
