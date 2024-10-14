@@ -143,7 +143,7 @@ curl --location --request POST '<feedback_api_url>/feedback' \
 }'
 ```
 
-And we will receive (given the `request_id` and `chosen_response_id` actually exist):<br/>
+And we will receive (in case `request_id` and `chosen_response_id` actually exist):<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
