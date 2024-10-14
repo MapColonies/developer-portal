@@ -41,6 +41,12 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
 
+##### Response headers
+```json
+"x-request-id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c"
+```
+
+##### Response payload
 ```json
 {
     "type": "FeatureCollection",
@@ -117,7 +123,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 
 Notice this response listed 2 features.<br/><br/>
 When sending the response to the `feedback API`, you need to provide two parameters:<br/>
-📍 Request ID - from the header `'x-request-id'`<br/>
+📍 Request ID - from the header `'x-request-id'`.<br/>
 📍 Chosen Response ID - the ID of the user's selected response (corresponding index of the result). <br/><br/>
 
 Lets think of the current response as the actual response in this case:<br/>
@@ -127,12 +133,17 @@ Lets think of the current response as the actual response in this case:<br/>
 Then our request to the `feedback API` would look like this: <br/>
 
 ```curl title="Geocoding's Feedback Api Request"
-curl --location '<feedback_api_url>/feedback' \
+curl --location --request POST '<feedback_api_url>/feedback' \
 --header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+--header 'x-user-id: <x-user-id>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "request_id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c",
+    "chosen_response_id": 1
+}'
 ```
 
-And we will receive:<br/>
+And we will receive (given the `request_id` and `chosen_response_id` actually exist):<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
