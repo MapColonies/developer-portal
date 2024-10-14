@@ -99,7 +99,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 ### Supported data types and protocols
 
 | **Viewer** | **WFS** | **GeoJSON** | **Features** | **Drawing** |
-| ----------- | ----------- | ----------- | ----------- |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
 | Cesium | ❌ No native support but feasible | ✅ | ✅ | ✅ |
 | Leaflet | ❌ No native support but feasible | ✅ | ✅ 2D<br/>❌ 3D | ✅ |
 | OpenLayers | ✅ | ✅ | ✅ 2D<br/>❌ 3D<br/>✅ OpenLayers symbology<br/>✅ Mapbox symbology adapter | ✅ With complex symbology |
