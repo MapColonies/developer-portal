@@ -30,7 +30,7 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | ArcGIS JS SDK | ✅ | ✅ | [Projections](https://pro.arcgis.com/en/pro-app/latest/help/mapping/properties/list-of-supported-map-projections.htm) | ✅ | Supports all EPSG |
 | iTowns | ✅ | ❌ | [Projections](https://www.itowns-project.org/itowns/docs/tutorials/Fundamentals.html) | | |
 | Mapbox v1 | ❌ | ✅ | [Projections](https://docs.mapbox.com/mapbox-gl-js/guides/projections/) | | |
-| Mapbox v2 | ➖ Not tested yet go to projection https://docs.mapbox.com/mapbox-gl-js/api/map/ | ✅ | [Projections](https://docs.mapbox.com/mapbox-gl-js/guides/projections/) | ❌ | |
+| Mapbox v2 | ➖ Not tested yet | ✅ | [Projections](https://docs.mapbox.com/mapbox-gl-js/guides/projections/) | ❌ | |
 | deck.gl | ❌ | ✅ | [Projections](https://deck.gl/docs/developer-guide/views) | | |
 | Maplibre-gl-js | ❌ | ✅ | | | |
 
@@ -54,15 +54,15 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 
 | **Viewer** | **Bounds** | **Image Bands** | **Features** |
 | ----------- | ----------- | ----------- | ----------- |
-| Cesium | ✅ (By defining the layer's rectangle) | ➖ Supports opacity (Alpha) | ✅ GPUable |
-| Leaflet | ❌ | ➖ Supports opacity (Alpha) | ✅ GPUable (only via CSS animations) |
-| OpenLayers | ✅ (BBOX extent) | ✅ | ✅ Preload tiles <br/> ✅ GPUable |
-| ArcGIS JS SDK | ✅ (BBOX extent) | ➖ Supports opacity (Alpha) | |
-| iTowns | | ❌ | ✅ Immersive view (Street view) <br/> ✅ GPUable |
-| Mapbox v1 | | | ✅ GPUable |
-| Mapbox v2 | | | ✅ GPUable |
-| deck.gl | | | ✅ GPUable |
-| Maplibre-gl-js | ✅ (Array of numbers) | ➖ Supports opacity (Alpha) | ✅ GPUable |
+| Cesium | ✅ | ➖ Supports opacity (Alpha) | GPUable |
+| Leaflet | ❌ | ➖ Supports opacity (Alpha) | GPUable (only via CSS animations) |
+| OpenLayers | ✅ | ✅ | - Preload tiles <br/>- GPUable |
+| ArcGIS JS SDK | ✅ | ➖ Supports opacity (Alpha) | |
+| iTowns | | ❌ | - Immersive view (Street view) <br/>- GPUable |
+| Mapbox v1 | | | GPUable |
+| Mapbox v2 | | | GPUable |
+| deck.gl | | | GPUable |
+| Maplibre-gl-js | ✅ | ➖ Supports opacity (Alpha) | GPUable |
 
 ## 3D
 
