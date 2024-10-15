@@ -135,7 +135,6 @@ Then our request to the `feedback API` would look like this: <br/>
 ```curl title="Geocoding's Feedback Api Request"
 curl --location --request POST '<feedback_api_url>/feedback' \
 --header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "request_id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c",
