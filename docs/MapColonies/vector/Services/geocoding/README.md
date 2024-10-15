@@ -432,6 +432,51 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 | limit | Number | 5 | [Click here](#item-search)  | By default, we will return our top 5 features that match the query. You can change the limit and set it from 1 to 15 maximum results. If there are few results, the response may contain less than limit, but the importance is limiting the maximum returned values. |
 | disable_fuzziness | Boolean  | false | [Click here](#exact-tile-search) | Fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. |
 
+## Generic Response Object
+
+As part of Geocoding's architecture, we created a generic response object. All `/search` routes will return the same expected response object and properties. <br/>
+📝 **_Note:_** Responses in the different routes may have more properties than described in the generic response object.
+
+```json
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "string", // Geocoding current Version
+        "query": { // params sent to the API as part of the request
+            "limit": 5, // example
+            "disable_fuzziness": false // example
+        },
+        "response": {
+            "results_count": "number", // amount of returned results
+            "max_score": "number", // max score for query match
+            "match_latency_ms": "number", // latancy until match
+        }
+    },
+    "features": [ //array of valid GeoJSON feature
+        {
+            "type": "Feature",
+            "geometry": {
+                
+            },
+            "properties": {
+                "matches": [ // Data's origin. From where we got the data.
+                    { 
+                        "layer": "string", 
+                        "source": "string", 
+                        "source_id": [ "string" ] 
+                    } 
+                ],
+                "names": { //names of the feature.
+                    "default": [ "string" ],  // Feature may have multiple names.
+                    "display": "string" // Our display name recommandation.
+                },
+                "score": "number" // match score to the query.
+            }
+        }
+    ]
+}
+```
+
 ## Usage
 :::caution
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
@@ -447,6 +492,13 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 **All returned responses by Geocoding API are valid GeoJSON documents. <br/> 
 See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc7946)🌐 for more info about the GeoJSON specification. &nbsp;**
 :::
+
+:::danger
+For BI purposes and to better understand our users's needs and interests, for each response sent from Geocoding API, we require the users to provide 'feedback' on our response by using Geocoding's Feedback API. <br/>
+If you're not familiar with Geocoding's Feedback API, [read more here](/docs/MapColonies/vector/Services/feedback-api/README.md). <br/>
+Users that won't comply are at risk of being blocked from using Geocoding API service.
+:::
+
 
 ## Examples
 
