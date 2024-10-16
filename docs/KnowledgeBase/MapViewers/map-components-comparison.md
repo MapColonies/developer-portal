@@ -20,7 +20,7 @@ In this page we list some features that you may be interested in and show which 
 
 ## Projections
 
-If you don't know what a `projection` is, please read more [here](/docs/KnowledgeBase/terms#mapping), or on [wikipedia 🌐](https://en.wikipedia.org/wiki/Map_projection).
+If you don't know what a `projection` is, you can find the defenition [here](../terms#mapping), or on [wikipedia 🌐](https://en.wikipedia.org/wiki/Map_projection).
 
 | **Viewer** | **EPGS:4326** | **EPSG:3857** | **Supported projections** | **Can reproject** | **Notes** |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
