@@ -180,7 +180,7 @@ In the Response, look for
 ### Construct Client side Layer
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 
-:::caution
+:::warning
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 :::
 

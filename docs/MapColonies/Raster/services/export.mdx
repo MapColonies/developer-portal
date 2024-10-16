@@ -24,14 +24,14 @@ The export service is responsible for packaging mapping data that can be downloa
 ## Usage
 You can create export tasks via the [Export-Management service API](/docs/MapColonies/raster/services/export/api).
 
-:::caution
+:::warning
 **Authentication must be integrated in order to communicate with export service.**<br/>
 **See the principles [here](/docs/MapColonies/authentication)**
 :::
 
 The API currently consists of two method:
 1. POST /export-tasks - Create a new export task. If the requested task params were previously created, they are returned in the response, otherwise they will be returned via the provided webhook.
-2. GET /export-tasks/{id} - Gets an existing export task data.
+2. GET /export-tasks/\{id\} - Gets an existing export task data.
 
 ## Files structure
 Under "artifacts" section in the response you will find the following artifacts

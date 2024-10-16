@@ -29,7 +29,7 @@ There are two types of replicas:
 ## Usage
 You can query for replicas via the replication service API.
 
-:::caution
+:::warning
 **You will need an API token as part of the service authentication &nbsp;**
 :::
 

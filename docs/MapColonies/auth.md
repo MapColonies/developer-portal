@@ -16,7 +16,7 @@ tags:
 In order to make requests either as a service or a client, you will need to identify yourself with a token.
 The token, should be used in **every** request to our services and will enable you to access our services in accordance to the permissions that were given to you. <br/>
 
-:::caution
+:::warning
 The token might have an **expiration date**
 :::
 

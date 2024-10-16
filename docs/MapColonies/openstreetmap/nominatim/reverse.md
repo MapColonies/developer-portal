@@ -45,7 +45,7 @@ projection. The API returns exactly one result or an error when the coordinate
 is in an area with no OSM data coverage.
 Additional parameters are accepted as listed below.
 
-:::caution
+:::warning
 The reverse API used to allow address lookup for a single OSM object by
   its OSM id. This use is now deprecated. Use the [Address Lookup API](/docs/MapColonies/openstreetmap/nominatim/Osm-AddressLookup-API)
   instead.
