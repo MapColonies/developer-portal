@@ -52,17 +52,17 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 
 ### Features
 
-| **Viewer** | **Bounds** | **Image Bands** | **Features** |
-| ----------- | ----------- | ----------- | ----------- |
-| Cesium | ✅ | ➖ Supports opacity (Alpha) | GPUable |
-| Leaflet | ❌ | ➖ Supports opacity (Alpha) | GPUable (only via CSS animations) |
-| OpenLayers | ✅ | ✅ | - Preload tiles <br/>- GPUable |
-| ArcGIS JS SDK | ✅ | ➖ Supports opacity (Alpha) | |
-| iTowns | | ❌ | - Immersive view (Street view) <br/>- GPUable |
-| Mapbox v1 | | | GPUable |
-| Mapbox v2 | | | GPUable |
-| deck.gl | | | GPUable |
-| Maplibre-gl-js | ✅ | ➖ Supports opacity (Alpha) | GPUable |
+| **Viewer** | **Bounds** | **Image Bands** | **Alpha** | **GPU** | **Features** |
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| Cesium | ✅ | ❌ | ✅ | ✅ | |
+| Leaflet | ❌ | ❌ | ✅ | ✅ | |
+| OpenLayers | ✅ | ✅ | | ✅ | Preload tiles |
+| ArcGIS JS SDK | ✅ | ❌ | ✅ | ✅ | |
+| iTowns | | ❌ | | ✅ | Immersive view (Street view) |
+| Mapbox v1 | | | | ✅ | |
+| Mapbox v2 | | | | ✅ | |
+| deck.gl | | | | ✅ | |
+| Maplibre-gl-js | ✅ | ❌ | ✅ | ✅ | |
 
 ## 3D
 
