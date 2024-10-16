@@ -3,7 +3,7 @@
 
 import {themes as prismThemes} from 'prism-react-renderer';
 import type { Config, ReportingSeverity } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
+import type { Option, ThemeConfig } from '@docusaurus/preset-classic';
 import type { PresetEntry } from 'redocusaurus';
 
 const config: Config = {
