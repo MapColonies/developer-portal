@@ -64,6 +64,10 @@ If you don't know what a `projection` is, please read more [here](/docs/Knowledg
 | deck.gl | | | | ✅ | |
 | Maplibre-gl-js | ✅ | ❌ | ✅ | ✅ | |
 
+:::info
+Image bands means that the map viewer let's us control the RGB scales of the displayed layers.
+:::
+
 ## 3D
 
 | **Viewer** | **3D Tiles** | **I3S** | **Point cloud** | **Features** |
