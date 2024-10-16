@@ -1,7 +1,7 @@
 ---
 id: vector-feedback-api-service
 slug: feedback
-title: Feedback Api ⚙️
+title: Feedback Api 💌
 description: Feedback for Geocoding responses
 tags:
   - vector
@@ -10,7 +10,7 @@ tags:
   - Geocoding
 ---
 
-# Feedback Api ⚙️
+# Feedback Api 💌
 
 :::info
 Click [here](/docs/MapColonies/vector/services/feedback-api/api) for the OpenAPI
