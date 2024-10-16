@@ -1,6 +1,6 @@
 ---
 id: vector-feedback-api-service
-slug: info
+slug: feedback
 title: Feedback Api ⚙️
 description: Feedback for Geocoding responses
 tags:
