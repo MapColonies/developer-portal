@@ -13,7 +13,7 @@ tags:
 
 A map viewer is a visual component to help us display `geographic` data such as raster, vector, 3D and DEM. It does all of the heavy-lifting in fetching, calculating and displaying the data correctly.
 
-There are many features that a map viewer could implement, please read more about the different libraries and features [here](/docs/KnowledgeBase/MapViewers/map-components.md).
+There are many features that a map viewer could implement, please read more about the different libraries and features [here](./map-components-comparison.md).
 
 ## Choosing a map viewer
 
