@@ -493,9 +493,10 @@ As part of Geocoding's architecture, we created a generic response object. All `
 See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc7946)🌐 for more info about the GeoJSON specification. &nbsp;**
 :::
 
+While interacting with Geocoding API, for BI purposes and to better understand our users's needs and interests, for each response sent from Geocoding API, we require the users to provide 'feedback' on our response by using Geocoding's Feedback API. <br/>
+If you're not familiar with Geocoding's Feedback API, [please read here](/docs/MapColonies/vector/Services/geocoding/feedback). <br/>
+
 :::danger
-For BI purposes and to better understand our users's needs and interests, for each response sent from Geocoding API, we require the users to provide 'feedback' on our response by using Geocoding's Feedback API. <br/>
-If you're not familiar with Geocoding's Feedback API, [read more here](/docs/MapColonies/vector/Services/feedback-api/README.md). <br/>
 Users that won't comply are at risk of being blocked from using Geocoding API service.
 :::
 
