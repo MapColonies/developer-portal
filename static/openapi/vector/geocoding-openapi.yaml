@@ -12,6 +12,52 @@ tags:
   - name: Control
   - name: Convertions
 paths:
+  /search/query:
+    get:
+      operationId: GetSmartQuery
+      summary: 'Search anything'
+      description: |-
+        This is for general queries. the services will make a sophisticated guess.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 100
+            title: 'Query'
+          description: Text to search
+          allowReserved: true
+        - $ref: '#/components/parameters/geo_context'
+        - $ref: '#/components/parameters/geo_context_mode'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/disable_fuzziness'
+      responses:
+        200:
+          description: 'OK </br> Will return valid GeoJSON FeatureCollection'
+          headers:
+            x-request-id:
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 36
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genericGeocodingResponse'
+        400:
+          '$ref': '#/components/responses/BadRequest'
+        401:
+          '$ref': '#/components/responses/Unauthorized'
+        403:
+          '$ref': '#/components/responses/Forbidden'
+        500:
+          '$ref': '#/components/responses/InternalError'
+      security:
+        - x-api-key: []
+          x-user-id: []
+
   /search/location/query:
     get:
       operationId: locationGetQuery
@@ -66,32 +112,32 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - "$ref": "#/components/schemas/genericGeocodingResponse"
-                  - type: "object"
+                  - '$ref': '#/components/schemas/genericGeocodingResponse'
+                  - type: 'object'
                     required:
-                      - "type"
-                      - "features"
+                      - 'type'
+                      - 'features'
                     properties:
                       type:
-                        type: "string"
+                        type: 'string'
                         enum:
-                          - "FeatureCollection"
+                          - 'FeatureCollection'
                       features:
-                        type: "array"
+                        type: 'array'
                         items:
-                          type: "object"
+                          type: 'object'
                           properties:
                             geometry:
                               oneOf:
-                                - $ref: "#/components/schemas/Point"
-                                - $ref: "#/components/schemas/Polygon"
+                                - $ref: '#/components/schemas/Point'
+                                - $ref: '#/components/schemas/Polygon'
                             properties:
-                              type: "object"
+                              type: 'object'
                               properties:
                                 placetype:
-                                  type: "string"
+                                  type: 'string'
                                 sub_placetype:
-                                  type: "string"
+                                  type: 'string'
         400:
           '$ref': '#/components/responses/BadRequest'
         401:
@@ -377,21 +423,21 @@ paths:
                 type: object
                 properties:
                   type:
-                    type: "string"
+                    type: 'string'
                     enum:
-                      - "Feature"
+                      - 'Feature'
                   geocoding:
-                    type: "object"
+                    type: 'object'
                     properties:
                       query:
-                        type: "object"
+                        type: 'object'
                         properties:
                           lat:
                             type: number
                           lon:
                             type: number
                       response:
-                        type: "object"
+                        type: 'object'
                         properties:
                           max_score:
                             type: number
@@ -400,11 +446,11 @@ paths:
                           match_latency_ms:
                             type: number
                   bbox:
-                    $ref: "#/components/schemas/BoundingBox"
+                    $ref: '#/components/schemas/BoundingBox'
                   geometry:
                     oneOf:
-                      - $ref: "#/components/schemas/Point"
-                      - $ref: "#/components/schemas/Polygon"
+                      - $ref: '#/components/schemas/Point'
+                      - $ref: '#/components/schemas/Polygon'
                   properties:
                     type: object
                     properties:
@@ -492,9 +538,7 @@ components:
       in: 'query'
       description: 'Choose whether geo_context query parameter will be a filter or a bias value'
       schema:
-        type: string
-        enum: ['filter', 'bias']
-
+        $ref: '#/components/schemas/geo_context_mode'
   schemas:
     errorSchema:
       type: 'object'
@@ -554,20 +598,20 @@ components:
       type: 'object'
       properties:
         type:
-          type: "string"
+          type: 'string'
           enum:
-            - "Feature"
+            - 'Feature'
         geocoding:
-          type: "object"
+          type: 'object'
           properties:
             query:
-              type: "object"
+              type: 'object'
               properties:
                 tile:
                   type: string
-                  example: "18SUJ2339007393"
+                  example: '18SUJ2339007393'
             response:
-              type: "object"
+              type: 'object'
               properties:
                 max_score:
                   type: number
@@ -577,11 +621,11 @@ components:
                   type: number
 
         bbox:
-          $ref: "#/components/schemas/BoundingBox"
+          $ref: '#/components/schemas/BoundingBox'
         geometry:
           oneOf:
-            - $ref: "#/components/schemas/Point"
-            - $ref: "#/components/schemas/Polygon"
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/Polygon'
         properties:
           type: object
           properties:
@@ -589,98 +633,98 @@ components:
               type: number
     tilesSchema:
       allOf:
-        - $ref: "#/components/schemas/genericGeocodingResponse"
-        - type: "object"
-          description: "GeoJson feature collection representing a tile (Polygon)"
+        - $ref: '#/components/schemas/genericGeocodingResponse'
+        - type: 'object'
+          description: 'GeoJson feature collection representing a tile (Polygon)'
           required:
-            - "type"
-            - "features"
+            - 'type'
+            - 'features'
           properties:
             type:
-              type: "string"
+              type: 'string'
               enum:
-                - "FeatureCollection"
+                - 'FeatureCollection'
             features:
-              type: "array"
+              type: 'array'
               items:
-                $ref: "#/components/schemas/tileSchema"
+                $ref: '#/components/schemas/tileSchema'
     itemsSchema:
       allOf:
-        - $ref: "#/components/schemas/genericGeocodingResponse"
-        - type: "object"
-          description: "GeoJson feature collection representing an item"
+        - $ref: '#/components/schemas/genericGeocodingResponse'
+        - type: 'object'
+          description: 'GeoJson feature collection representing an item'
           required:
-            - "type"
-            - "features"
+            - 'type'
+            - 'features'
           properties:
             type:
-              type: "string"
+              type: 'string'
               enum:
-                - "FeatureCollection"
+                - 'FeatureCollection'
             features:
-              type: "array"
+              type: 'array'
               items:
-                type: "object"
+                type: 'object'
                 properties:
                   geometry:
                     oneOf:
-                      - $ref: "#/components/schemas/Point"
-                      - $ref: "#/components/schemas/Polygon"
+                      - $ref: '#/components/schemas/Point'
+                      - $ref: '#/components/schemas/Polygon'
                   properties:
-                    type: "object"
+                    type: 'object'
                     required:
-                      - "TYPE"
-                      - "object_command_name"
-                      - "entity_heb"
-                      - "sub_tile_id"
+                      - 'TYPE'
+                      - 'object_command_name'
+                      - 'entity_heb'
+                      - 'sub_tile_id'
                     properties:
                       TYPE:
-                        type: "string"
+                        type: 'string'
                       object_command_name:
-                        type: "string"
+                        type: 'string'
                       entity_heb:
-                        type: "string"
+                        type: 'string'
                       tile_name:
-                        type: "string"
+                        type: 'string'
                       sub_tile_id:
-                        type: "string"
+                        type: 'string'
     routesSchema:
       allOf:
-        - $ref: "#/components/schemas/genericGeocodingResponse"
-        - type: "object"
-          description: "GeoJson feature collection representing a route (MultiLineString, LineString)"
+        - $ref: '#/components/schemas/genericGeocodingResponse'
+        - type: 'object'
+          description: 'GeoJson feature collection representing a route (MultiLineString, LineString)'
           required:
-            - "type"
-            - "features"
+            - 'type'
+            - 'features'
           properties:
             type:
-              type: "string"
+              type: 'string'
               enum:
-                - "FeatureCollection"
+                - 'FeatureCollection'
             features:
-              type: "array"
+              type: 'array'
               items:
-                type: "object"
+                type: 'object'
                 properties:
                   geometry:
                     oneOf:
-                      - $ref: "#/components/schemas/LineString"
-                      - $ref: "#/components/schemas/MultiLineString"
+                      - $ref: '#/components/schemas/LineString'
+                      - $ref: '#/components/schemas/MultiLineString'
                   properties:
-                    type: "object"
+                    type: 'object'
                     required:
-                      - "TYPE"
-                      - "object_command_name"
-                      - "entity_heb"
+                      - 'TYPE'
+                      - 'object_command_name'
+                      - 'entity_heb'
                     properties:
                       TYPE:
-                        type: "string"
+                        type: 'string'
                       object_command_name:
-                        type: "string"
+                        type: 'string'
                       entity_heb:
-                        type: "string"
+                        type: 'string'
                       SECTION:
-                        type: "string"
+                        type: 'string'
     genericGeocodingResponse: # we need discriminator for Control and Location
       type: 'object'
       description: 'GeoJson feature collection representing an item'
@@ -711,16 +755,14 @@ components:
                 - 'geo_context'
                 - 'disable_fuzziness'
               properties:
-                text:
-                  type: string
-                  minLength: 1
-                  maxLength: 100
                 limit:
                   type: integer
                   minimum: 1
                   maximum: 10
                 geo_context:
                   $ref: '#/components/schemas/geo_context'
+                geo_context_mode:
+                  $ref: '#/components/schemas/geo_context_mode'
                 disable_fuzziness:
                   $ref: '#/components/schemas/disable_fuzziness'
             response:
@@ -975,6 +1017,9 @@ components:
               $ref: '#/components/schemas/BoundingBox'
         - $ref: '#/components/schemas/WGS84Circle'
         - $ref: '#/components/schemas/UTMCircle'
+    geo_context_mode:
+      type: string
+      enum: ['filter', 'bias']
     disable_fuzziness:
       type: boolean
       default: false
