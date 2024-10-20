@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[6813],{63339:e=>{e.exports=JSON.parse('{"label":"release-notes","permalink":"/developer-portal/pr-preview/pr-98/blog/tags/release-notes","allTagsPath":"/developer-portal/pr-preview/pr-98/blog/tags","count":3}')}}]);
