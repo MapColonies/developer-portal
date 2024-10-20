@@ -15,6 +15,52 @@ tags:
   - name: Control
   - name: Convertions
 paths:
+  /search/query:
+    get:
+      operationId: GetSmartQuery
+      summary: Search anything
+      description: >-
+        This is for general queries. the services will make a sophisticated
+        guess.
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 100
+            title: Query
+          description: Text to search
+          allowReserved: true
+        - $ref: '#/components/parameters/geo_context'
+        - $ref: '#/components/parameters/geo_context_mode'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/disable_fuzziness'
+      responses:
+        '200':
+          description: OK </br> Will return valid GeoJSON FeatureCollection
+          headers:
+            x-request-id:
+              schema:
+                type: string
+                minLength: 1
+                maxLength: 36
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genericGeocodingResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - x-api-key: []
+          x-user-id: []
   /search/location/query:
     get:
       operationId: locationGetQuery
@@ -501,10 +547,7 @@ components:
         Choose whether geo_context query parameter will be a filter or a bias
         value
       schema:
-        type: string
-        enum:
-          - filter
-          - bias
+        $ref: '#/components/schemas/geo_context_mode'
   schemas:
     errorSchema:
       type: object
@@ -730,7 +773,7 @@ components:
                 geo_context:
                   $ref: '#/components/schemas/geo_context'
                 geo_context_mode:
-                  $ref: '#/components/parameters/geo_context_mode'
+                  $ref: '#/components/schemas/geo_context_mode'
                 disable_fuzziness:
                   $ref: '#/components/schemas/disable_fuzziness'
             response:
@@ -983,6 +1026,11 @@ components:
               $ref: '#/components/schemas/BoundingBox'
         - $ref: '#/components/schemas/WGS84Circle'
         - $ref: '#/components/schemas/UTMCircle'
+    geo_context_mode:
+      type: string
+      enum:
+        - filter
+        - bias
     disable_fuzziness:
       type: boolean
       default: false
