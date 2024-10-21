@@ -24,7 +24,7 @@ Removed unnecessary properties and added two properties: source and status of th
 | mc:productId | text | unique external product id <br/> AUTO_GENERATED |
 | mc:productName | text | the product name <br/> maxLength: 50 |
 | mc:productVersion | int | the product version <br/> AUTO_GENERATED |
-| [mc:productType](#productType) | enum  | **Valid Values**: <br/> 3DPhotoRealistic / QuantizedMeshDTMBest / QuantizedMeshDSMBest <br/> default: 3DPhotoRealistic |
+| mc:productType | enum  | **Valid Values**: <br/> 3DPhotoRealistic / QuantizedMeshDTMBest / QuantizedMeshDSMBest <br/> default: 3DPhotoRealistic |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:description | text | the product description <br/> maxLength: 250 |
 | mc:creationDateUTC | date | the date when raw product was created <br/> supported format: **dd/mm/yyyy** |
