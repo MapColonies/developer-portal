@@ -39,7 +39,7 @@ flowchart LR
 ```
 
 ## Query CSW catalog (Step 1)
-Query **DEM CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/examples/ogc-csw-examples)
+Query **DEM CSW catalog** service to find item(s) according to desired filter [examples are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
 Filter should be based on [DEM profile](/docs/MapColonies/DEM/Services/catalog/catalog-profile-v1)
 
