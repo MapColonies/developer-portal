@@ -21,7 +21,7 @@ Check out our API [Request-Response examples](#examples).
 
 ## TL;DR
 
-Search for places, control tiles, routes and items. Ability to convert from WGS 84 Coordinates to Control Tile/ US Army MGRS. 
+Search for places, control tiles, routes and items. Ability to convert from WGS 84 Coordinates to Control Tile or US Army MGRS. 
 
 ## Terminology
 
@@ -170,7 +170,7 @@ A route's name is a string (in any length). For main roads, the route's name wil
 ```
 </details>
 
-Items are simply buildings \ items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles! Though, it is unique in the current viewed Control Tile.<br/>
+Items are simply buildings or Control items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles! Though, it is unique in the current viewed Control Tile.<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
     <summary>JSON Item Response 👇</summary>
@@ -1084,16 +1084,6 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 
 #### Query example (port search) only from "google" as the data source
 
-:::tip
-You may see the available sources by sending this request: <br/>
-```curl
-curl --location '<geocoding_url>/search/location/sources' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
-```
-:::
-
-
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=port&source=google' \
 --header 'x-api-key: <x-api-key>' \
@@ -1169,15 +1159,16 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 ```
 </details>
 
-#### Query example (school search) only in "france" region
 :::tip
-You may see the available regions by sending this request: <br/>
+You may see the available sources by sending this request: <br/>
 ```curl
-curl --location '<geocoding_url>/search/location/regions' \
+curl --location '<geocoding_url>/search/location/sources' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
 :::
+
+#### Query example (school search) only in "france" region
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=school&region=france' \
@@ -1262,6 +1253,15 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 }
 ```
 </details>
+
+:::tip
+You may see the available regions by sending this request: <br/>
+```curl
+curl --location '<geocoding_url>/search/location/regions' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+:::
 
 ### Conversion examples
 #### `WGS84` to MapColonies `Control Grid` Tile example
