@@ -1385,7 +1385,7 @@ curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
             "match_latency_ms": 0
         }
     },
-    "bbox": [ 12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368],
+    "bbox": [ 12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
     "geometry": {
         "type": "Polygon",
         "coordinates": [
