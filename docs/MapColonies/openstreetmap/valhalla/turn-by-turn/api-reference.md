@@ -445,8 +445,7 @@ Each maneuver includes:
 
 
 <details>
-  <summary>For the maneuver type, the following are available:
-</summary>
+  <summary>For the maneuver type, the following are available:</summary>
 
 ```json
 kNone = 0;

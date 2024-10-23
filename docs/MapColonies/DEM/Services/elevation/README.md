@@ -43,7 +43,7 @@ When using the API to **display** the heights, we require you to provide the `pr
 
 ## Usage
 
-:::caution
+:::warning
 **- You may request values for up to 250 points at once. In case you have more than that, you should divide it into bulks.**
 **- Coordinates order is not preserved.**<br/>
 **- You will need an API token as part of the service authentication. &nbsp;**<br/>
