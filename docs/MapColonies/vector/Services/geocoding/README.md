@@ -1301,9 +1301,13 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
                 [ 12.93694771534361, 52.51211561266182 ] ] ]
     },
     "properties": {
-        "name": "BRN",
+        "matches": [ { "layer": "convertionTable", "source": "mapcolonies", "source_id": [] } ],
+        "names": {
+            "default": ["BRN"],
+            "display": "BRN"
+        },
         "tileName": "BRN",
-        "subTileNumber": [ "06", "97", "97" ]
+        "subTileNumber": ["06", "97", "97"]
     }
 }
 ```
@@ -1312,7 +1316,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 #### `WGS84` to US Army `MGRS` example
 
 ```curl title="Request"
-curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=MGRS' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
@@ -1341,9 +1345,14 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
         "coordinates": [ 12.948781146422107, 52.57326537485767 ]
     },
     "properties": {
-        "name": "33UUU6099626777",
+        "matches": [ { "layer": "MGRS", "source": "npm/MGRS", "source_id": [] } ],
+        "names": {
+            "default": ["33UUU6099626777"],
+            "display": "33UUU6099626777"
+        },
         "accuracy": "1m",
-        "mgrs": "33UUU6099626777"
+        "mgrs": "33UUU6099626777",
+        "score": 1
     }
 }
 ```
@@ -1376,7 +1385,7 @@ curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
             "match_latency_ms": 0
         }
     },
-    "bbox": [  12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
+    "bbox": [ 12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
     "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1389,7 +1398,14 @@ curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
             ]
         ]
     },
-    "properties": { }
+    "properties": {
+        "matches": [ { "layer": "MGRS", "source": "npm/mgrs", "source_id": [] } ],
+        "names": {
+            "default": [ "33UUU6099626777" ],
+            "display": "33UUU6099626777"
+        },
+        "score": 1
+    }
 }
 ```
 </details>
