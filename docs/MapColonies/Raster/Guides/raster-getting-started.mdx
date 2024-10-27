@@ -20,7 +20,7 @@ The following guide will help you understand, ***Step-by-step*** the best practi
 
 **Note:** In order to get the layer details (Product_ID, region, etc.) you have the following options:
 1. Open map-colonies catalog application and locate the required layer
-2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](/docs/ogc/protocols/ogc-csw/ogc-csw-examples#getrecords)
+2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](/docs/ogc/protocols/ogc-csw/ogc-csw-examples#query-by-field-value)
 
 ## Flow diagram
 
@@ -48,7 +48,7 @@ flowchart LR
     C -- layer_params --> D
 ```
 
-## Query Catalog Service (Step 1)
+## Query Catalog Service (Step 1) {#step-1}
 Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples).
 
 :::caution
@@ -177,7 +177,7 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
-## Extract product Bounding Box (Step 2)
+## Extract product Bounding Box (Step 2) {#step-2}
 Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
 In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
 
@@ -202,7 +202,7 @@ export const generateLayerRectangle = (layer: LayerRasterRecord): Rectangle => {
 ```
 After you’ve got your product bounding box lets move to the next step…
 
-## Get layer URI (Step 3)
+## Get layer URI (Step 3) {#step-3}
 In the Response, look for
 
 :::note
@@ -226,7 +226,7 @@ You need to save `[desired_layer_identifier]` value for later use.
 **You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
 :::
 
-## Get Layer Capabilities (Step 4)
+## Get Layer Capabilities (Step 4) {#step-4}
 Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
 First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
 
@@ -260,7 +260,7 @@ You need to **save** the following values in order to consume the layer later on
 `<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well
 :::
 
-## Construct Client side layer (Step 5)
+## Construct Client side layer (Step 5) {#step-5}
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
 :::caution
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
@@ -389,7 +389,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 For **headers api key** see the following link: https://github.com/PaulLeCam/react-leaflet/issues/852#issuecomment-1495774676
 :::
 
-## Enrich Layer data (Step 6)
+## Enrich Layer data (Step 6) {#step-6}
 In order to present catalog items in your system you can use following fields:
 
 - **mc:productName**
