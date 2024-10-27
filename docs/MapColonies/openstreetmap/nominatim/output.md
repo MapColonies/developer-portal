@@ -295,7 +295,7 @@ with a designation label. Per default the following labels may appear:
 
  * continent
  * country, country_code
- * region, state, state_district, county, ISO3166-2-lvl<admin_level>
+ * region, state, state_district, county, ISO3166-2-lvl\<admin_level\>
  * municipality, city, town, village
  * city_district, district, borough, suburb, subdivision
  * hamlet, croft, isolated_dwelling

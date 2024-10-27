@@ -18,7 +18,7 @@ The `token` should be used in **every** request to our services and will allow y
 
 **All services** will require an `API Token`, it will be specified in each service description.
 
-:::caution
+:::warning
 The token might have an **expiration date**
 :::
 

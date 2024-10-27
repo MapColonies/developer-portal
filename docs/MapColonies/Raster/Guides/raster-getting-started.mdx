@@ -51,7 +51,7 @@ flowchart LR
 ## Query Catalog Service (Step 1) {#step-1}
 Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples).
 
-:::caution
+:::warning
 Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
 :::
 
@@ -262,11 +262,11 @@ You need to **save** the following values in order to consume the layer later on
 
 ## Construct Client side layer (Step 5) {#step-5}
 Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
-:::caution
+:::warning
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 :::
 
-:::caution
+:::warning
 **Important:** only **query parameter** `token` is currently supported
 :::
 

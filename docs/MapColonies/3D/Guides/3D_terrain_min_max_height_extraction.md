@@ -78,7 +78,7 @@ void Cesium.sampleTerrainMostDetailed(
   ...
 });
 ```
-:::caution
+:::warning
 **Above example is based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 **Please note:<br/>Time increases with the amount of sampling points.<br/>Number of requests does not change however due to sampling points density which happen to correspond with the same tiles.<br/>This example was tested against Cesium World Terrain over the internet.<br/>Need to consider amount of sampling points against the resolution of the source height product.**
 :::

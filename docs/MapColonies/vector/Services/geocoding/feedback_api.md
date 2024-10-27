@@ -24,7 +24,7 @@ Geocoding's feedback `API` collects `usage data` from the [Geocoding API](/docs/
 
 Once a user gets a response from `Geocoding`, the requesting system will send the `request ID` and the chosen `response ID` back to us.<br/>
 
-:::caution
+:::warning
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
