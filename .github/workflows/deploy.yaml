@@ -17,6 +17,7 @@ on:
 env:
   PUZZLE_URL: https://cptschnitz.github.io/map-tile-puzzle/
   CATALOG_APPLICATION_URL: https://github.com/MapColonies
+  YAHALOM_APPLICATION_URL: https://placeholder.com
   PLAYGROUND_URL: https://sandcastle.cesium.com/
   BASE_URL: '/developer-portal/'
 
