@@ -117,7 +117,7 @@ Image bands means that the map viewer let's us control the RGB scales of the dis
 | **Viewer** | **Query** | **Symbology** | **OGC Vector Tiles** |
 | ----------- | ----------- | ----------- | ----------- |
 | Cesium | ❌ | ❌ | ❌ |
-| Leaflet | ❌ | | ❌ |
+| Leaflet | ➖ With [plugins](https://leafletjs.com/plugins.html#vector-tiles) | | ❌ |
 | OpenLayers | ✅ | ❌ | ✅ |
 | ArcGIS JS SDK | ✅ | ✅ | ❌ |
 | iTowns | ✅ | ❌ | ❌ |
