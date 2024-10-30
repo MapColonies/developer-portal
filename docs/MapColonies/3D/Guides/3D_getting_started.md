@@ -86,7 +86,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:geographicArea>ישראל</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
-            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/15211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
+            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/15211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
             <mc:producerName>DAVID</mc:producerName>
             <mc:productBBox>31.2603,33.4345,32.3353,34.4888</mc:productBBox>
             <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
@@ -153,7 +153,7 @@ You will get GetRecords XML Response with product **metadata**.
 In the Response, look for
 
 ```xml title="Extract link for desired 3D model"
-<mc:links scheme="**3D_LAYER" name="">
+<mc:links scheme="**3DTiles" name="">
   http://3d-model-server.com/path-to-tileset.json
 </mc:links>
 ```
