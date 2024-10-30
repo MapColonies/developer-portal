@@ -131,3 +131,8 @@ Image bands means that the map viewer let's us control the RGB scales of the dis
 | Mapbox v2 | ✅ | ✅ | ❌ |
 | deck.gl | ✅ | ❌ | ❌ |
 | Maplibre-gl-js | | ✅ | |
+
+:::info
+OGC added `vector tiles` support in their [OGC Tiles API 🌐](https://ogcapi.ogc.org/tiles/) (still in it's early stages).<br/>
+Read more about [clients supporting Tiles API 🌐](https://github.com/opengeospatial/ogcapi-tiles/blob/master/implementations.adoc#clients).
+:::
