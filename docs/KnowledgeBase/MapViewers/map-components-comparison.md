@@ -18,9 +18,15 @@ tags:
 
 In this page we list some features that you may be interested in and show which map viewers support them.
 
-## Projections
+## Projections and Coordinate Systems
 
-If you don't know what a `projection` is, you can find the defenition [here](../terms#mapping), or on [wikipedia 🌐](https://en.wikipedia.org/wiki/Map_projection).
+:::danger
+The only supported `Coordinate System` in our project is `WGS84` (`EPSG:4326`) with a `tiling scheme` of `1x2`.
+:::
+
+:::info
+If you don't know what a `Coordinate System` or `projection` is, you can find the defenition [here](../terms#mapping), or on [wikipedia 🌐](https://en.wikipedia.org/wiki/Map_projection).
+:::
 
 | **Viewer** | **EPGS:4326** | **EPSG:3857** | **Supported projections** | **Can reproject** | **Notes** |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
