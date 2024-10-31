@@ -12,7 +12,7 @@ on:
       - 'src/**'
       - 'static/**'
       - 'blog/**'
-      - 'docusaurus.config.js'
+      - 'docusaurus.config.ts'
       - 'sidebars.js'
 
 concurrency: preview-${{ github.ref }}

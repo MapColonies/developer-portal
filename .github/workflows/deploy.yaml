@@ -8,7 +8,7 @@ on:
       - 'src/**'
       - 'static/**'
       - 'blog/**'
-      - 'docusaurus.config.js'
+      - 'docusaurus.config.ts'
       - 'sidebars.js'
 
   # Allows you to run this workflow manually from the Actions tab
