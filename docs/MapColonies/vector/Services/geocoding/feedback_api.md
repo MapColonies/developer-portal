@@ -138,11 +138,11 @@ curl --location --request POST '<feedback_api_url>/feedback' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "request_id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c",
-    "chosen_response_id": 1
+    "chosen_result_id": 1
 }'
 ```
 
-And we will receive (in case `request_id` and `chosen_response_id` actually exist):<br/>
+And we will receive (in case `request_id` and `chosen_result_id` actually exist):<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
