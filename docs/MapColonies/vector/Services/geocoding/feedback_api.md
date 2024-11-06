@@ -22,7 +22,7 @@ If you're not familier with Geocoding API, [read more here](/docs/MapColonies/ve
 
 Geocoding's feedback `API` collects `usage data` from the [Geocoding API](/docs/MapColonies/vector/Services/geocoding/README.md) user's response and stores it for BI purposes. We use this `data` to better understand and measure the relevance of our responses and adjust the `data` and `algorithm` accordingly.<br/><br/>
 
-Once a user gets a response from `Geocoding`, the requesting system will send the `request ID` and the chosen `response ID` back to us.<br/>
+Once a user gets a response from `Geocoding`, the requesting system will send the `request_id` and the chosen `chosen_result_id` back to us.<br/>
 
 :::warning
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
@@ -123,12 +123,12 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 
 Notice this response listed 2 features.<br/><br/>
 When sending the response to the `feedback API`, you need to provide two parameters:<br/>
-📍 Request ID - from the header `'x-request-id'`.<br/>
-📍 Chosen Response ID - the ID of the user's selected response (corresponding index of the result). <br/><br/>
+📍 `request_id` - from the header `'x-request-id'`.<br/>
+📍 `chosen_result_id` - the ID of the user's selected result (corresponding index of the result). <br/><br/>
 
 Lets think of the current response as the actual response in this case:<br/>
-📍 If the user chose `"White Point Elementary School"`, the Chosen Response ID would be `0`.<br/>
-📍 If the user chose `"Wi School Paris 9"`, the Chosen Response ID would be `1`.<br/><br/>
+📍 If the user chose `"White Point Elementary School"`, the `chosen_result_id` would be `0`.<br/>
+📍 If the user chose `"Wi School Paris 9"`, the `chosen_result_id` would be `1`.<br/><br/>
 
 Then our request to the `feedback API` would look like this: <br/>
 
