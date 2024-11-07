@@ -54,3 +54,5 @@ components:
         chosen_result_id:
           type: number
           format: int64
+        user_id:
+          type: string
