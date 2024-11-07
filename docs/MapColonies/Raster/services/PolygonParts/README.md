@@ -43,7 +43,7 @@ Each part hold its own metadata and related attributes [PolygonParts attributes]
 
 ### WFS implementation
 
-Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a READ-ONLY Web Feature Service.
+Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a **READ-ONLY** Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 
 For the full capabilities provided by the service see [GetCapabilities](/docs/ogc/protocols/ogc-wfs#getcapabilities)
@@ -55,7 +55,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 <br/>
 
 :::important
-**In polygon parts, each feature represent single polygon**
+**In polygon parts, each feature represents a single polygon**
 :::
 
 :::warning Authentication
@@ -115,30 +115,16 @@ To list all the available feature types use the `GetCapabilities` operation and 
   <summary>Response</summary>
 
 ```xml title="Response"
-<FeatureTypeList>
-        <FeatureType xmlns:polygon_parts="http://polygon_parts">
-            <Name>polygon_parts:BLUEMARBLE-Orthophoto</Name>
-            <Title>BLUEMARBLE-Orthophoto</Title>
+    <FeatureTypeList>
+        <FeatureType xmlns:polygonParts="http://polygonParts">
+            <Name>polygonParts:orthophoto_best_orthophotobest</Name>
+            <Title>orthophoto_best_orthophotobest</Title>
             <Abstract/>
             <ows:Keywords>
                 <ows:Keyword>features</ows:Keyword>
-                <ows:Keyword>polygon_parts</ows:Keyword>
+                <ows:Keyword>orthophoto_best_orthophotobest</ows:Keyword>
             </ows:Keywords>
-            <DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
-            <ows:WGS84BoundingBox>
-                <ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
-                <ows:UpperCorner>180.0 90.0</ows:UpperCorner>
-            </ows:WGS84BoundingBox>
-        </FeatureType>
-        <FeatureType xmlns:polygon_parts="http://polygon_parts">
-            <Name>polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest</Name>
-            <Title>mosaic_base_ORTHOPHOTO_MOSAIC_BASE</Title>
-            <Abstract/>
-            <ows:Keywords>
-                <ows:Keyword>features</ows:Keyword>
-                <ows:Keyword>polygon_parts</ows:Keyword>
-            </ows:Keywords>
-            <DefaultCRS>urn:ogc:def:crs:EPSG::4326</DefaultCRS>
+            <DefaultCRS>urn:ogc:def:crs:EPSG::urn:ogc:def:crs:EPSG::4326</DefaultCRS>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
                 <ows:UpperCorner>180.0 90.0</ows:UpperCorner>
@@ -151,14 +137,14 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 <br/>
 
-We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.`FeatureType` where polygon_parts is the namespace and the orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE is the unique `FeatureType` name under the polygon_parts namespace - it include layer's `product_name` + `product_type`. it is possible to query the FeatureType by its full name `polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` or short unique name `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`.
+We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygonParts:orthophoto_best_orthophotobest`.`FeatureType` where polygonParts is the namespace and the orthophoto_best_orthophotobest is the unique `FeatureType` name under the polygonParts namespace - it include layer's `product_name` + `product_type`. it is possible to query the FeatureType by its full name `polygonParts:orthophoto_best_orthophotobest` or short unique name `orthophoto_best_orthophotobest`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
 ## DescribeFeatureType
 
 ### Explore featureType 'Orthophoto Best' layer
 
-If you would like to view the schema of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`
+If you would like to view the schema of the `orthophoto_best_orthophotobest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`
 
 The response is the XSD (in xml response) describing the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` `FeatureType`.
 
@@ -178,168 +164,168 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 
 ```json title="Response in JSON"
 {
-  "elementFormDefault": "qualified",
-  "targetNamespace": "http://polygon_parts",
-  "targetPrefix": "polygon_parts",
-  "featureTypes": [
-    {
-      "typeName": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest",
-      "properties": [
+    "elementFormDefault": "qualified",
+    "targetNamespace": "http://polygonParts",
+    "targetPrefix": "polygonParts",
+    "featureTypes": [
         {
-          "name": "id",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "catalogId",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "productId",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "productType",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "sourceId",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "sourceName",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "productVersion",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "ingestionDateUTC",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:date-time",
-          "localType": "date-time"
-        },
-        {
-          "name": "imagingTimeBeginUTC",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:date-time",
-          "localType": "date-time"
-        },
-        {
-          "name": "imagingTimeEndUTC",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:date-time",
-          "localType": "date-time"
-        },
-        {
-          "name": "resolutionDegree",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:number",
-          "localType": "number"
-        },
-        {
-          "name": "resolutionMeter",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:number",
-          "localType": "number"
-        },
-        {
-          "name": "sourceResolutionMeter",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:number",
-          "localType": "number"
-        },
-        {
-          "name": "horizontalAccuracyCE90",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:number",
-          "localType": "number"
-        },
-        {
-          "name": "sensors",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "countries",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "cities",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "description",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "xsd:string",
-          "localType": "string"
-        },
-        {
-          "name": "geometry",
-          "maxOccurs": 1,
-          "minOccurs": 0,
-          "nillable": true,
-          "type": "gml:Polygon",
-          "localType": "Polygon"
+            "typeName": "orthophoto_best_orthophotobest",
+            "properties": [
+                {
+                    "name": "id",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "catalogId",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "productId",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "productType",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "sourceId",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "sourceName",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "productVersion",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "ingestionDateUtc",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:date-time",
+                    "localType": "date-time"
+                },
+                {
+                    "name": "imagingTimeBeginUtc",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:date-time",
+                    "localType": "date-time"
+                },
+                {
+                    "name": "imagingTimeEndUtc",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:date-time",
+                    "localType": "date-time"
+                },
+                {
+                    "name": "resolutionDegree",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:number",
+                    "localType": "number"
+                },
+                {
+                    "name": "resolutionMeter",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:number",
+                    "localType": "number"
+                },
+                {
+                    "name": "sourceResolutionMeter",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:number",
+                    "localType": "number"
+                },
+                {
+                    "name": "horizontalAccuracyCe90",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:number",
+                    "localType": "number"
+                },
+                {
+                    "name": "sensors",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "countries",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "cities",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "description",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "xsd:string",
+                    "localType": "string"
+                },
+                {
+                    "name": "footprint",
+                    "maxOccurs": 1,
+                    "minOccurs": 0,
+                    "nillable": true,
+                    "type": "gml:Polygon",
+                    "localType": "Polygon"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
 ```
 
@@ -370,141 +356,273 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
 
 ```json
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.12",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [180, 90],
-            [180, -90],
-            [-180, -90],
-            [-180, 90],
-            [180, 90]
-          ],
-          [
-            [34.6064, 31.6234],
-            [34.3887, 31.6234],
-            [34.3887, 31.4354],
-            [34.6064, 31.4354],
-            [34.6064, 31.6234]
-          ],
-          [
-            [34.4294, 31.2279],
-            [34.4294, 31.4159],
-            [34.2117, 31.4159],
-            [34.2117, 31.2279],
-            [34.4294, 31.2279]
-          ],
-          [
-            [35.3664, 32.1381],
-            [35.3664, 32.3249],
-            [35.1511, 32.3249],
-            [35.1511, 32.1381],
-            [35.3664, 32.1381]
-          ],
-          [
-            [35.0607, 31.9323],
-            [35.2784, 31.9323],
-            [35.2784, 32.1202],
-            [35.0607, 32.1202],
-            [35.0607, 31.9323]
-          ],
-          [
-            [35.7645, 33.9586],
-            [35.7645, 33.7706],
-            [35.9822, 33.7706],
-            [35.9822, 33.9586],
-            [35.7645, 33.9586]
-          ],
-          [
-            [35.9166, 33.7644],
-            [35.6989, 33.7644],
-            [35.6989, 33.5765],
-            [35.9166, 33.5765],
-            [35.9166, 33.7644]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "b3dd85c1-7a4b-4031-8da2-0d5229572547",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "BlueMarble",
-        "sourceName": "O_BlueMarble_rgb_2km",
-        "productVersion": "1.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2001-01-01T05:00:00Z",
-        "imagingTimeEndUTC": "2001-01-01T05:00:00Z",
-        "resolutionDegree": 0.02197265625,
-        "resolutionMeter": 2000,
-        "sourceResolutionMeter": 2500,
-        "horizontalAccuracyCE90": 2000,
-        "sensors": "MAXAR",
-        "countries": "עולמי",
-        "cities": "",
-        "description": ""
-      },
-      "bbox": [-180, -90, 180, 90]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            90,
+                            -180
+                        ],
+                        [
+                            90,
+                            180
+                        ],
+                        [
+                            -90,
+                            180
+                        ],
+                        [
+                            -90,
+                            -180
+                        ],
+                        [
+                            90,
+                            -180
+                        ]
+                    ],
+                    [
+                        [
+                            31.4159,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.2117
+                        ]
+                    ],
+                    [
+                        [
+                            31.6234,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.6064
+                        ]
+                    ],
+                    [
+                        [
+                            32.1202,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.0607
+                        ]
+                    ],
+                    [
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ]
+                    ],
+                    [
+                        [
+                            33.7644,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.6989
+                        ]
+                    ],
+                    [
+                        [
+                            33.9586,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.7645
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "30210f5d-ba98-480f-b13a-01705890eb8f",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "BlueMarble",
+                "sourceName": "O_BlueMarble_rgb_2km",
+                "productVersion": "1.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2001-01-01T05:00:00Z",
+                "imagingTimeEndUtc": "2001-01-01T05:00:00Z",
+                "resolutionDegree": 0.02197265625,
+                "resolutionMeter": 2000,
+                "sourceResolutionMeter": 2500,
+                "horizontalAccuracyCe90": 2000,
+                "sensors": "MAXAR",
+                "countries": "עולמי",
+                "cities": "",
+                "description": ""
+            },
+            "bbox": [
+                -90,
+                -180,
+                90,
+                180
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.d8017862-26a8-4747-a503-2096ffaf36ee",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            31.4354,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.3887
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "d8017862-26a8-4747-a503-2096ffaf36ee",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_6_ORT_247568-26.0",
+                "sourceName": "O_aza_w84geo_Tiff_10cm",
+                "productVersion": "2.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2022-08-20T23:08:10Z",
+                "imagingTimeEndUtc": "2022-08-20T23:08:10Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.1,
+                "horizontalAccuracyCe90": 1.5,
+                "sensors": "ישראל, מצרים, ירדן, לבנון, סוריה, ערב הסעודית",
+                "countries": "עולמי",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיזור צפון עזה עדכנית לאוגוסט 2022"
+            },
+            "bbox": [
+                31.4354,
+                34.3887,
+                31.6234,
+                34.6064
+            ]
+        }
+    ],
+    "totalFeatures": 7,
+    "numberMatched": 7,
+    "numberReturned": 2,
+    "timeStamp": "2024-11-06T15:26:22.794Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
     },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.3",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [35.017272438849716, 29.9596406497117],
-            [34.890572098923826, 29.9596406497117],
-            [34.890572098923826, 29.819712060693362],
-            [35.017272438849716, 29.819712060693362],
-            [35.017272438849716, 29.9596406497117]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "f7885a03-b669-40cb-8ba7-9410fb644011",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247568-26.0",
-        "sourceName": "O_south_w84geo_Tiff_10cm",
-        "productVersion": "2.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2022-08-20T23:08:10Z",
-        "imagingTimeEndUTC": "2022-08-20T23:08:10Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.1,
-        "horizontalAccuracyCE90": 1.5,
-        "sensors": "TEST_SENSOR_2",
-        "countries": "ישראל, דרום הארץ, דרום",
-        "cities": "",
-        "description": "תשתית אורתופוטו באיזור דרום עדכנית לאוגוסט 2022"
-      },
-      "bbox": [
-        34.890572098923826, 29.819712060693362, 35.017272438849716,
-        29.9596406497117
-      ]
-    }
-  ],
-  "totalFeatures": 7,
-  "numberMatched": 7,
-  "numberReturned": 2,
-  "timeStamp": "2024-07-11T08:23:42.502Z",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [-180, -90, 180, 90]
+    "bbox": [
+        -90,
+        -180,
+        90,
+        180
+    ]
 }
 ```
 
@@ -514,15 +632,19 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
 
 let's get only part of the feature, using `count` to mention the amount for paging, and `startIndex` as the offset
 
-We'll invoke a POST GetFeature request with the following body:
+We'll invoke a POST GetFeature request
+```
+<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs
+```
+with the following body:
 
 ```xml
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
         <fes:Filter>
             <fes:PropertyIsEqualTo>
                <fes:ValueReference>productId</fes:ValueReference>
-               <fes:Literal>ORTHOPHOTO_MOSAIC_BASE</fes:Literal>
+               <fes:Literal>ORTHOPHOTO_BEST</fes:Literal>
             </fes:PropertyIsEqualTo>
 
         </fes:Filter>
@@ -535,153 +657,91 @@ We'll invoke a POST GetFeature request with the following body:
 
 ```json
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.5",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [35.017272438849716, 29.9596406497117],
-            [34.890572098923826, 29.9596406497117],
-            [34.890572098923826, 29.819712060693362],
-            [35.017272438849716, 29.819712060693362],
-            [35.017272438849716, 29.9596406497117]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "5e6ba296-d65a-4024-8ad7-e3a7089c5961",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247568-26.0",
-        "sourceName": "O_center_w84geo_Tiff_10cm",
-        "productVersion": "3.0",
-        "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
-        "imagingTimeBeginUTC": "2021-05-15T23:09:00Z",
-        "imagingTimeEndUTC": "2021-05-15T23:09:00Z",
-        "resolutionDegree": 0.052,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.1,
-        "horizontalAccuracyCE90": 3,
-        "sensors": "TEST_SENSOR3",
-        "countries": "ישראל, מרכז",
-        "cities": "",
-        "description": "תשתית אורתופוטו עדכני למאי 2021"
-      },
-      "bbox": [
-        34.890572098923826, 29.819712060693362, 35.017272438849716,
-        29.9596406497117
-      ]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_5_ORT_240115-11.1",
+                "sourceName": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.07",
+                "productVersion": "4.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-06-11T02:00:00Z",
+                "imagingTimeEndUtc": "2021-06-11T02:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.7,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCe90": 4,
+                "sensors": "OTHER",
+                "countries": "",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני ליוני 2021"
+            },
+            "bbox": [
+                32.1381,
+                35.1511,
+                32.3249,
+                35.3664
+            ]
+        }
+    ],
+    "totalFeatures": 7,
+    "numberMatched": 7,
+    "numberReturned": 1,
+    "timeStamp": "2024-11-06T15:33:59.638Z",
+    "links": [
+        {
+            "title": "previous page",
+            "type": "application/json",
+            "rel": "previous",
+            "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3Aorthophoto_best_orthophotobest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
+        }
+    ],
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
     },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115",
-        "sourceName": "O_center_w84geo_Apr17_gpkg_0.07",
-        "productVersion": "4.0",
-        "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
-        "imagingTimeBeginUTC": "2021-06-11T02:00:00Z",
-        "imagingTimeEndUTC": "2021-06-11T02:00:00Z",
-        "resolutionDegree": 0.62,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל, צפון",
-        "cities": "",
-        "description": "תשתית עדכני 2021"
-      },
-      "bbox": [
-        34.890572098923826, 29.819712060693362, 35.017272438849716,
-        29.9596406497117
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.2",
-        "SourceName": "O_w84geo_Apr17-Jun22_gpkg_0.08",
-        "productVersion": "5.0",
-        "ingestionDateUTC": "2024-07-15T12:49:28.597Z",
-        "imagingTimeBeginUTC": "2021-05-12T04:00:00Z",
-        "imagingTimeEndUTC": "2021-05-12T04:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו עדכני למאי 2021"
-      },
-      "bbox": [
-        34.90115724749933, 29.672690878996704, 34.98549473145019,
-        29.782811797130847
-      ]
-    }
-  ],
-  "totalFeatures": 7,
-  "numberMatched": 7,
-  "numberReturned": 3,
-  "timeStamp": "2024-07-21T12:38:40.254Z",
-  "links": [
-    {
-      "title": "previous page",
-      "type": "application/json",
-      "rel": "previous",
-      "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_MOSAIC_BASE%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_MOSAIC_BASE-OrthophotoBest%29&SERVICE=WFS&COUNT=1&STARTINDEX=0"
-    }
-  ],
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [
-    34.90115724749933, 29.672690878996704, 34.98549473145019, 29.782811797130847
-  ]
+    "bbox": [
+        -90,
+        -180,
+        90,
+        180
+    ]
 }
 ```
 
@@ -689,14 +749,14 @@ We'll invoke a POST GetFeature request with the following body:
 
 ### Sorting
 
-2. To get layer's polygon parts features sorted by some property such as `productVersion` we can invoke the following request.
+2. To get layer's polygon parts features sorted by some property such as `productVersion` we can invoke the following GET request.
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version={WFS_SERVICE_VERSION}&
     request=GetFeature&
-    typeNames=ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest&
+    typeNames=orthophoto_best_orthophotobest&
     sortBy=productVersion&
     outputFormat=application/json
 ```
@@ -706,318 +766,563 @@ We'll invoke a POST GetFeature request with the following body:
 
 ```json
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.12",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [180, 90],
-            [180, -90],
-            [-180, -90],
-            [-180, 90],
-            [180, 90]
-          ],
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ],
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "BlueMarble",
-        "sourceName": "O_BlueMarble_rgb_2km",
-        "productVersion": "1.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2001-01-01T05:00:00Z",
-        "imagingTimeEndUTC": "2001-01-01T05:00:00Z",
-        "resolutionDegree": 0.02197265625,
-        "resolutionMeter": 2000,
-        "sourceResolutionMeter": 2500,
-        "horizontalAccuracyCE90": 2000,
-        "sensors": "MAXAR",
-        "countries": "עולמי",
-        "cities": "",
-        "description": ""
-      },
-      "bbox": [-180, -90, 180, 90]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            90,
+                            -180
+                        ],
+                        [
+                            90,
+                            180
+                        ],
+                        [
+                            -90,
+                            180
+                        ],
+                        [
+                            -90,
+                            -180
+                        ],
+                        [
+                            90,
+                            -180
+                        ]
+                    ],
+                    [
+                        [
+                            31.4159,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.2117
+                        ]
+                    ],
+                    [
+                        [
+                            31.6234,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.6064
+                        ]
+                    ],
+                    [
+                        [
+                            32.1202,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.0607
+                        ]
+                    ],
+                    [
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ]
+                    ],
+                    [
+                        [
+                            33.7644,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.6989
+                        ]
+                    ],
+                    [
+                        [
+                            33.9586,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.7645
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "30210f5d-ba98-480f-b13a-01705890eb8f",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "BlueMarble",
+                "sourceName": "O_BlueMarble_rgb_2km",
+                "productVersion": "1.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2001-01-01T05:00:00Z",
+                "imagingTimeEndUtc": "2001-01-01T05:00:00Z",
+                "resolutionDegree": 0.02197265625,
+                "resolutionMeter": 2000,
+                "sourceResolutionMeter": 2500,
+                "horizontalAccuracyCe90": 2000,
+                "sensors": "MAXAR",
+                "countries": "עולמי",
+                "cities": "",
+                "description": ""
+            },
+            "bbox": [
+                -90,
+                -180,
+                90,
+                180
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.d8017862-26a8-4747-a503-2096ffaf36ee",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            31.4354,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.3887
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "d8017862-26a8-4747-a503-2096ffaf36ee",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_6_ORT_247568-26.0",
+                "sourceName": "O_aza_w84geo_Tiff_10cm",
+                "productVersion": "2.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2022-08-20T23:08:10Z",
+                "imagingTimeEndUtc": "2022-08-20T23:08:10Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.1,
+                "horizontalAccuracyCe90": 1.5,
+                "sensors": "ישראל, מצרים, ירדן, לבנון, סוריה, ערב הסעודית",
+                "countries": "עולמי",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיזור צפון עזה עדכנית לאוגוסט 2022"
+            },
+            "bbox": [
+                31.4354,
+                34.3887,
+                31.6234,
+                34.6064
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.ba8a77d6-e022-4922-9c87-0098e84f9bc9",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            31.2279,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.2117
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "ba8a77d6-e022-4922-9c87-0098e84f9bc9",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_6_ORT_247568-26.0",
+                "sourceName": "O_aza_w84geo_Tiff_10cm",
+                "productVersion": "3.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-05-15T23:09:00Z",
+                "imagingTimeEndUtc": "2021-05-15T23:09:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.1,
+                "horizontalAccuracyCe90": 0.6,
+                "sensors": "OGEN_KRAV",
+                "countries": "ישראל, מצרים, ירדן, לבנון, סוריה",
+                "cities": "",
+                "description": "ישראל, מצרים, ירדן, לבנון, סוריה"
+            },
+            "bbox": [1.0
+                31.2279,
+                34.2117,
+                31.4159,
+                34.4294
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_5_ORT_240115-11.1",
+                "sourceName": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.07",
+                "productVersion": "4.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-06-11T02:00:00Z",
+                "imagingTimeEndUtc": "2021-06-11T02:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.7,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCe90": 4,
+                "sensors": "OTHER",
+                "countries": "",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני ליוני 2021"
+            },
+            "bbox": [
+                32.1381,
+                35.1511,
+                32.3249,
+                35.3664
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.791358a5-a19b-4164-80cb-4408403f1ab2",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            31.9323,
+                            35.2784
+                        ],
+                        [
+                            31.9323,
+                            35.0607
+                        ],
+                        [
+                            32.1202,
+                            35.0607
+                        ],
+                        [
+                            32.1202,
+                            35.2784
+                        ],
+                        [
+                            31.9323,
+                            35.2784
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "791358a5-a19b-4164-80cb-4408403f1ab2",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_5_ORT_240115-11.2",
+                "sourceName": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.08",
+                "productVersion": "5.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-05-12T04:00:00Z",
+                "imagingTimeEndUtc": "2021-05-12T04:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.7,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCe90": 4,
+                "sensors": "OTHER",
+                "countries": "",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני למאי 2021"
+            },
+            "bbox": [
+                31.9323,
+                35.0607,
+                32.1202,
+                35.2784
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.c87a6448-c9b8-42e5-8b94-5d988c1732be",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            33.7706,
+                            35.9822
+                        ],
+                        [
+                            33.7706,
+                            35.7645
+                        ],
+                        [
+                            33.9586,
+                            35.7645
+                        ],
+                        [
+                            33.9586,
+                            35.9822
+                        ],
+                        [
+                            33.7706,
+                            35.9822
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "c87a6448-c9b8-42e5-8b94-5d988c1732be",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_6_ORT_247268-6.0",
+                "sourceName": "O_lebnon_w84geo_rgb_Tiff_30cm",
+                "productVersion": "6.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-07-11T04:00:00Z",
+                "imagingTimeEndUtc": "2021-07-11T04:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.3,
+                "horizontalAccuracyCe90": 6,
+                "sensors": "WORLDVIEW2",
+                "countries": "",
+                "cities": "",
+                "description": ""
+            },
+            "bbox": [
+                33.7706,
+                35.7645,
+                33.9586,
+                35.9822
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.d1b24130-1b9c-4daa-aa23-093bb58b0814",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            33.5765,
+                            35.9166
+                        ],
+                        [
+                            33.5765,
+                            35.6989
+                        ],
+                        [
+                            33.7644,
+                            35.6989
+                        ],
+                        [
+                            33.7644,
+                            35.9166
+                        ],
+                        [
+                            33.5765,
+                            35.9166
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "d1b24130-1b9c-4daa-aa23-093bb58b0814",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_6_ORT_247268-6.0",
+                "sourceName": "O_lebnon_w84geo_rgb_Tiff_30cm",
+                "productVersion": "7.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-09-01T04:00:00Z",
+                "imagingTimeEndUtc": "2021-09-01T04:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.6,
+                "sourceResolutionMeter": 0.03,
+                "horizontalAccuracyCe90": 8.5,
+                "sensors": "OGEN_CHAD",
+                "countries": "",
+                "cities": "",
+                "description": ""
+            },
+            "bbox": [
+                33.5765,
+                35.6989,
+                33.7644,
+                35.9166
+            ]
+        }
+    ],
+    "totalFeatures": 7,
+    "numberMatched": 7,
+    "numberReturned": 7,
+    "timeStamp": "2024-11-06T15:38:00.704Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
     },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.3",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247568-26.0",
-        "sourceName": "O_south_w84geo_Tiff_10cm",
-        "productVersion": "2.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2022-08-20T23:08:10Z",
-        "imagingTimeEndUTC": "2022-08-20T23:08:10Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.1,
-        "horizontalAccuracyCE90": 1.5,
-        "sensors": "TEST_SENSOR_2",
-        "countries": "ישראל, דרום הארץ, דרום",
-        "cities": "",
-        "description": "תשתית אורתופוטו באיזור דרום עדכנית לאוגוסט 2022"
-      },
-      "bbox": [
-        34.90115724749933, 29.672690878996704, 34.98549473145019,
-        29.782811797130847
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.5",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.98549473145019, 29.782811797130847],
-            [34.90115724749933, 29.782811797130847],
-            [34.90115724749933, 29.672690878996704],
-            [34.98549473145019, 29.672690878996704],
-            [34.98549473145019, 29.782811797130847]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247568-26.0",
-        "sourceName": "O_south_w84geo_Tiff_10cm",
-        "productVersion": "3.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-05-15T23:09:00Z",
-        "imagingTimeEndUTC": "2021-05-15T23:09:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.1,
-        "horizontalAccuracyCE90": 3,
-        "sensors": "TEST_SENSOR_1",
-        "countries": "ישראל, דרום",
-        "cities": "",
-        "description": "תשתית אורתופוטו בדרום הארץ עדכני למאי 2021"
-      },
-      "bbox": [
-        34.90115724749933, 29.672690878996704, 34.98549473145019,
-        29.782811797130847
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.784517383368296, 32.09026061257954],
-            [34.784517383368296, 32.02584851078221],
-            [34.87342700067666, 32.02584851078221],
-            [34.87342700067666, 32.09026061257954],
-            [34.784517383368296, 32.09026061257954]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.1",
-        "sourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
-        "productVersion": "4.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-06-11T02:00:00Z",
-        "imagingTimeEndUTC": "2021-06-11T02:00:00Z",
-        "resolutionDegree": 0.062,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו  במרכז  הארץ עדכני ליוני 2021"
-      },
-      "bbox": [
-        34.784517383368296, 32.02584851078221, 34.87342700067666,
-        32.09026061257954
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.784517383368296, 32.09026061257954],
-            [34.784517383368296, 32.02584851078221],
-            [34.87342700067666, 32.02584851078221],
-            [34.87342700067666, 32.09026061257954],
-            [34.784517383368296, 32.09026061257954]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.2",
-        "sourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
-        "productVersion": "5.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-05-12T04:00:00Z",
-        "imagingTimeEndUTC": "2021-05-12T04:00:00Z",
-        "resolutionDegree": 0.062,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו במרכז המדינה עדכני למאי 2021"
-      },
-      "bbox": [
-        34.784517383368296, 32.02584851078221, 34.87342700067666,
-        32.09026061257954
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.11",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [35.064814353455404, 32.85094300562277],
-            [35.064814353455404, 32.808880172316066],
-            [35.09637711939874, 32.808880172316066],
-            [35.09637711939874, 32.85094300562277],
-            [35.064814353455404, 32.85094300562277]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247268-6.0",
-        "sourceName": "O_north_w84geo_rgb_Tiff_30cm",
-        "productVersion": "6.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-07-11T04:00:00Z",
-        "imagingTimeEndUTC": "2021-07-11T04:00:00Z",
-        "resolutionDegree": 0.052,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.3,
-        "horizontalAccuracyCE90": 6,
-        "sensors": "WORLDVIEW2",
-        "countries": "",
-        "cities": "",
-        "description": "10300100C2411D00"
-      },
-      "bbox": [
-        35.064814353455404, 32.808880172316066, 35.09637711939874,
-        32.85094300562277
-      ]
-    },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.13",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.988118558230155, 32.817028819163966],
-            [34.988118558230155, 32.79262878072221],
-            [35.054288443470284, 32.79262878072221],
-            [35.054288443470284, 32.817028819163966],
-            [34.988118558230155, 32.817028819163966]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_6_ORT_247268-6.0",
-        "sourceName": "O_north_w84geo_rgb_Tiff_30cm",
-        "productVersion": "7.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-09-01T04:00:00Z",
-        "imagingTimeEndUTC": "2021-09-01T04:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.3,
-        "horizontalAccuracyCE90": 8.5,
-        "sensors": "TEST_SENSOR_2",
-        "countries": "",
-        "cities": "",
-        "description": "38225114-2021090108361457WV03038225"
-      },
-      "bbox": [
-        34.988118558230155, 32.79262878072221, 35.054288443470284,
-        32.817028819163966
-      ]
-    }
-  ],
-  "totalFeatures": 7,
-  "numberMatched": 7,
-  "numberReturned": 7,
-  "timeStamp": "2024-07-11T08:22:41.924Z",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [-180, -90, 180, 90]
+    "bbox": [
+        -90,
+        -180,
+        90,
+        180
+    ]
 }
 ```
 
@@ -1027,7 +1332,7 @@ We'll invoke a POST GetFeature request with the following body:
 
 For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a POST GetFetures request consisting the filter as a XML body.
 
-3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's geometry describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
+3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's footprint describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
    the polygon is a list of latitude-longitude pair coordinates.
 
 We'll invoke a POST GetFeature request with the following body:
@@ -1035,10 +1340,10 @@ We'll invoke a POST GetFeature request with the following body:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.openplans.org/spearfish" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" count="2" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
         <fes:Filter>
             <fes:Intersects>
-                <fes:ValueReference>geometry</fes:ValueReference>
+                <fes:ValueReference>footprint</fes:ValueReference>
                 <gml:Polygon gml:id="polygon.1" srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
                     <gml:exterior>
                         <gml:LinearRing>
@@ -1059,102 +1364,215 @@ We'll invoke a POST GetFeature request with the following body:
 
 ```json
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.86972277637517, 32.019564407769835],
-            [34.762249171646715, 32.019564407769835],
-            [34.762249171646715, 31.955123269803096],
-            [34.86972277637517, 31.955123269803096],
-            [34.86972277637517, 32.019564407769835]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.1",
-        "SourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
-        "productVersion": "4.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-06-11T02:00:00Z",
-        "imagingTimeEndUTC": "2021-06-11T02:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו במרכז הארץ עדכני ליוני 2021"
-      },
-      "bbox": [
-        34.762249171646715, 31.955123269803096, 34.86972277637517,
-        32.019564407769835
-      ]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            90,
+                            -180
+                        ],
+                        [
+                            90,
+                            180
+                        ],
+                        [
+                            -90,
+                            180
+                        ],
+                        [
+                            -90,
+                            -180
+                        ],
+                        [
+                            90,
+                            -180
+                        ]
+                    ],
+                    [
+                        [
+                            31.4159,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.2117
+                        ],
+                        [
+                            31.2279,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.4294
+                        ],
+                        [
+                            31.4159,
+                            34.2117
+                        ]
+                    ],
+                    [
+                        [
+                            31.6234,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.3887
+                        ],
+                        [
+                            31.4354,
+                            34.6064
+                        ],
+                        [
+                            31.6234,
+                            34.6064
+                        ]
+                    ],
+                    [
+                        [
+                            32.1202,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.0607
+                        ],
+                        [
+                            31.9323,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.2784
+                        ],
+                        [
+                            32.1202,
+                            35.0607
+                        ]
+                    ],
+                    [
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ]
+                    ],
+                    [
+                        [
+                            33.7644,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.6989
+                        ],
+                        [
+                            33.5765,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.9166
+                        ],
+                        [
+                            33.7644,
+                            35.6989
+                        ]
+                    ],
+                    [
+                        [
+                            33.9586,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.7645
+                        ],
+                        [
+                            33.7706,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.9822
+                        ],
+                        [
+                            33.9586,
+                            35.7645
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "30210f5d-ba98-480f-b13a-01705890eb8f",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "BlueMarble",
+                "sourceName": "O_BlueMarble_rgb_2km",
+                "productVersion": "1.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2001-01-01T05:00:00Z",
+                "imagingTimeEndUtc": "2001-01-01T05:00:00Z",
+                "resolutionDegree": 0.02197265625,
+                "resolutionMeter": 2000,
+                "sourceResolutionMeter": 2500,
+                "horizontalAccuracyCe90": 2000,
+                "sensors": "MAXAR",
+                "countries": "עולמי",
+                "cities": "",
+                "description": ""
+            },
+            "bbox": [
+                -90,
+                -180,
+                90,
+                180
+            ]
+        }
+    ],
+    "totalFeatures": 1,
+    "numberMatched": 1,
+    "numberReturned": 1,
+    "timeStamp": "2024-11-06T15:46:35.783Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
     },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.86972277637517, 32.019564407769835],
-            [34.762249171646715, 32.019564407769835],
-            [34.762249171646715, 31.955123269803096],
-            [34.86972277637517, 31.955123269803096],
-            [34.86972277637517, 32.019564407769835]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.2",
-        "sourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
-        "productVersion": "5.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-05-12T04:00:00Z",
-        "imagingTimeEndUTC": "2021-05-12T04:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו במרכז המדינה עדכני למאי 2021"
-      },
-      "bbox": [
-        34.762249171646715, 31.955123269803096, 34.86972277637517,
-        32.019564407769835
-      ]
-    }
-  ],
-  "totalFeatures": 3,
-  "numberMatched": 3,
-  "numberReturned": 2,
-  "timeStamp": "2024-07-11T08:19:13.094Z",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [35.0607, 31.9323, 35.3664, 32.3249]
+    "bbox": [
+        -90,
+        -180,
+        90,
+        180
+    ]
 }
 ```
 
@@ -1169,7 +1587,7 @@ We'll invoke a request with the following body:
 
 ```xml title="Query with 2 filters"
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest">
+    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
         <fes:Filter>
             <And>
             <fes:PropertyIsEqualTo>
@@ -1191,105 +1609,141 @@ We'll invoke a request with the following body:
 
 ```json title="Reponse in GeoJSON"
 {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.7",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.86972277637517, 32.019564407769835],
-            [34.762249171646715, 32.019564407769835],
-            [34.762249171646715, 31.955123269803096],
-            [34.86972277637517, 31.955123269803096],
-            [34.86972277637517, 32.019564407769835]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.1",
-        "sourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.07",
-        "productVersion": "4.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-06-11T02:00:00Z",
-        "imagingTimeEndUTC": "2021-06-11T02:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו  במרכז  הארץ עדכני ליוני 2021"
-      },
-      "bbox": [
-        34.762249171646715, 31.955123269803096, 34.86972277637517,
-        32.019564407769835
-      ]
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            32.1381,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.1511
+                        ],
+                        [
+                            32.3249,
+                            35.3664
+                        ],
+                        [
+                            32.1381,
+                            35.3664
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_5_ORT_240115-11.1",
+                "sourceName": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.07",
+                "productVersion": "4.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-06-11T02:00:00Z",
+                "imagingTimeEndUtc": "2021-06-11T02:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.7,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCe90": 4,
+                "sensors": "OTHER",
+                "countries": "",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני ליוני 2021"
+            },
+            "bbox": [
+                32.1381,
+                35.1511,
+                32.3249,
+                35.3664
+            ]
+        },
+        {
+            "type": "Feature",
+            "id": "orthophoto_best_orthophotobest.791358a5-a19b-4164-80cb-4408403f1ab2",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            31.9323,
+                            35.2784
+                        ],
+                        [
+                            31.9323,
+                            35.0607
+                        ],
+                        [
+                            32.1202,
+                            35.0607
+                        ],
+                        [
+                            32.1202,
+                            35.2784
+                        ],
+                        [
+                            31.9323,
+                            35.2784
+                        ]
+                    ]
+                ]
+            },
+            "geometry_name": "footprint",
+            "properties": {
+                "id": "791358a5-a19b-4164-80cb-4408403f1ab2",
+                "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
+                "productId": "ORTHOPHOTO_BEST",
+                "productType": "OrthophotoBest",
+                "sourceId": "MAS_5_ORT_240115-11.2",
+                "sourceName": "O_ayosh_w84geo_Apr17-Jun22_gpkg_0.08",
+                "productVersion": "5.0",
+                "ingestionDateUtc": "2024-09-15T12:27:40.974Z",
+                "imagingTimeBeginUtc": "2021-05-12T04:00:00Z",
+                "imagingTimeEndUtc": "2021-05-12T04:00:00Z",
+                "resolutionDegree": 0.00000536441802978516,
+                "resolutionMeter": 0.7,
+                "sourceResolutionMeter": 0.07,
+                "horizontalAccuracyCe90": 4,
+                "sensors": "OTHER",
+                "countries": "",
+                "cities": "",
+                "description": "תשתית אורתופוטו באיו\"ש עדכני למאי 2021"
+            },
+            "bbox": [
+                31.9323,
+                35.0607,
+                32.1202,
+                35.2784
+            ]
+        }
+    ],
+    "totalFeatures": 2,
+    "numberMatched": 2,
+    "numberReturned": 2,
+    "timeStamp": "2024-11-06T15:57:20.246Z",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:EPSG::4326"
+        }
     },
-    {
-      "type": "Feature",
-      "id": "ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest.9",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [34.86972277637517, 32.019564407769835],
-            [34.762249171646715, 32.019564407769835],
-            [34.762249171646715, 31.955123269803096],
-            [34.86972277637517, 31.955123269803096],
-            [34.86972277637517, 32.019564407769835]
-          ]
-        ]
-      },
-      "geometry_name": "geometry",
-      "properties": {
-        "id": "9f227f63-da2d-4e40-a7ae-63ff1612b4bc",
-        "catalogId": "a1b6dd1c-c77c-42e6-a00a-306b67bcdebf",
-        "productId": "ORTHOPHOTO_MOSAIC_BASE",
-        "productType": "OrthophotoBest",
-        "sourceId": "MAS_5_ORT_240115-11.2",
-        "sourceName": "O_center_w84geo_Apr17-Jun22_gpkg_0.08",
-        "productVersion": "5.0",
-        "ingestionDateUTC": "2024-07-11T06:27:49.757Z",
-        "imagingTimeBeginUTC": "2021-05-12T04:00:00Z",
-        "imagingTimeEndUTC": "2021-05-12T04:00:00Z",
-        "resolutionDegree": 0.072,
-        "resolutionMeter": 0.6,
-        "sourceResolutionMeter": 0.07,
-        "horizontalAccuracyCE90": 4,
-        "sensors": "OTHER",
-        "countries": "ישראל",
-        "cities": "",
-        "description": "תשתית אורתופוטו במרכז המדינה עדכני למאי 2021"
-      },
-      "bbox": [
-        34.762249171646715, 31.955123269803096, 34.86972277637517,
-        32.019564407769835
-      ]
-    }
-  ],
-  "totalFeatures": 2,
-  "numberMatched": 2,
-  "numberReturned": 2,
-  "timeStamp": "2024-07-11T08:17:33.255Z",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:EPSG::4326"
-    }
-  },
-  "bbox": [
-    34.762249171646715, 31.955123269803096, 34.86972277637517,
-    32.019564407769835
-  ]
+    "bbox": [
+        31.9323,
+        35.0607,
+        32.3249,
+        35.3664
+    ]
 }
 ```
 
