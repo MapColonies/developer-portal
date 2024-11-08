@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/MapColonies/developer-portal/compare/v3.2.0...v3.2.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* changed chosen_response_id to chosen_result_id ([#118](https://github.com/MapColonies/developer-portal/issues/118)) ([f5d19f2](https://github.com/MapColonies/developer-portal/commit/f5d19f2f29a326d8c86ef8ff667b44af2441ed91))
+* links scheme field ([#115](https://github.com/MapColonies/developer-portal/issues/115)) ([4a63856](https://github.com/MapColonies/developer-portal/commit/4a6385648eee16f87f5ba5c6e18ed5d369eedf37))
+
 ## [3.2.0](https://github.com/MapColonies/developer-portal/compare/v3.1.0...v3.2.0) (2024-10-27)
 
 
