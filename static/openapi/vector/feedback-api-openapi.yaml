@@ -48,9 +48,12 @@ components:
       required:
         - request_id
         - chosen_result_id
+        - user_id
       properties:
         request_id:
           type: string
         chosen_result_id:
           type: number
           format: int64
+        user_id:
+          type: string
