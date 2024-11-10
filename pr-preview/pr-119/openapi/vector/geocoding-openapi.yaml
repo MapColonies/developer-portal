@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  version: 0.1.5
+  version: 0.1.6
   title: Geocoding
   description: >-
     MapColonies Vector Geocoding api provides custom geodata search engine
@@ -24,6 +24,7 @@ paths:
         guess.
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -70,6 +71,7 @@ paths:
         - Location Name Based Search
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -158,6 +160,7 @@ paths:
       summary: Get all available regions to filter on using location query
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All regions
@@ -183,6 +186,7 @@ paths:
       summary: Get all available sources to filter on using location query
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All sources
@@ -216,6 +220,7 @@ paths:
         You may also search tile based on 1 meter precision MGRS tile.
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: Tile name
@@ -263,6 +268,7 @@ paths:
       description: ''
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -314,6 +320,7 @@ paths:
         (full name of it) you can query the control points associated with it.
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -355,6 +362,7 @@ paths:
       summary: Convert a MGRS string to Geometry in GeoJSON
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: MGRS tile string
@@ -384,6 +392,7 @@ paths:
       summary: Convert a WGS84 coordinate to US Army MGRS / Control Grid
       parameters:
         - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: lat
           in: query
           description: Latitude of the coordinate
@@ -494,6 +503,12 @@ components:
           schema:
             $ref: '#/components/schemas/errorSchema'
   parameters:
+    xApiKey:
+      name: 'x-api-key'
+      in: header
+      description: JWT authentication token provided by our team
+      schema:
+        type: string
     token:
       name: token
       in: query
