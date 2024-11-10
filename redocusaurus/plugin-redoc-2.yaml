@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  version: 0.1.0
+  version: 0.1.6
   title: Geocoding
   description: >-
     MapColonies Vector Geocoding api provides custom geodata search engine
@@ -23,6 +23,8 @@ paths:
         This is for general queries. the services will make a sophisticated
         guess.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -58,9 +60,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/query:
     get:
       operationId: locationGetQuery
@@ -71,6 +70,8 @@ paths:
       tags:
         - Location Name Based Search
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -151,15 +152,15 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/regions:
     get:
       operationId: locationGetRegions
       tags:
         - Location Name Based Search
       summary: Get all available regions to filter on using location query
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All regions
@@ -177,15 +178,15 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/sources:
     get:
       operationId: locationGetSources
       tags:
         - Location Name Based Search
       summary: Get all available sources to filter on using location query
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All sources
@@ -203,9 +204,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/tiles:
     get:
       operationId: controlGetTilesByQueryParams
@@ -221,6 +219,8 @@ paths:
 
         You may also search tile based on 1 meter precision MGRS tile.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: Tile name
@@ -259,9 +259,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/items:
     get:
       operationId: controlGetItemsByQueryParams
@@ -270,6 +267,8 @@ paths:
       summary: Search control items
       description: ''
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -310,9 +309,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/routes:
     get:
       operationId: controlGetRoutesByQueryParams
@@ -321,9 +317,10 @@ paths:
       summary: Search routes and report control points
       description: >-
         You can query and get control routes.   <br><br> If you define a route
-        (full name of it) you can query the control points associated with
-        it.   
+        (full name of it) you can query the control points associated with it.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -357,9 +354,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/MGRS/tiles:
     get:
       operationId: getMGRSToGeom
@@ -367,6 +361,8 @@ paths:
         - MGRS
       summary: Convert a MGRS string to Geometry in GeoJSON
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: MGRS tile string
@@ -388,9 +384,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /lookup/coordinates:
     get:
       operationId: convertionGetLatLonToMgrs
@@ -398,6 +391,8 @@ paths:
         - Convertions
       summary: Convert a WGS84 coordinate to US Army MGRS / Control Grid
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: lat
           in: query
           description: Latitude of the coordinate
@@ -475,9 +470,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
 components:
   responses:
     BadRequest:
@@ -511,6 +503,18 @@ components:
           schema:
             $ref: '#/components/schemas/errorSchema'
   parameters:
+    xApiKey:
+      name: x-api-key
+      in: header
+      description: JWT authentication token provided by our team
+      schema:
+        type: string
+    token:
+      name: token
+      in: query
+      description: JWT authentication token provided by our team
+      schema:
+        type: string
     disable_fuzziness:
       name: disable_fuzziness
       in: query
@@ -1039,6 +1043,10 @@ components:
       type: apiKey
       name: x-api-key
       in: header
+    token:
+      type: apiKey
+      name: token
+      in: query
     x-user-id:
       type: apiKey
       name: x-user-id
