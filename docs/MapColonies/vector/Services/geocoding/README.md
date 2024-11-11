@@ -830,7 +830,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
             "match_latency_ms": 5
         }
     },
-     "bbox": [12.432648028923637, 41.93189198298137, 12.43637599267521, 41.93386161853829],
+    "bbox": [12.432648028923637, 41.93189198298137, 12.43637599267521, 41.93386161853829],
     "features": [
         {
             "type": "Feature",
