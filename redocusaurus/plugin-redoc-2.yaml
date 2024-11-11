@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  version: 0.1.6
+  version: 0.2.0
   title: Geocoding
   description: >-
     MapColonies Vector Geocoding api provides custom geodata search engine
@@ -799,6 +799,8 @@ components:
                   type: integer
                   minimum: 0
                   maximum: 5000
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
         features:
           type: array
           items:
@@ -999,7 +1001,7 @@ components:
       items:
         type: number
       minLength: 4
-      maxLength: 4
+      maxLength: 6
     WGS84Circle:
       type: object
       properties:
