@@ -107,7 +107,7 @@ To list all the available feature types use the `GetCapabilities` operation and 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=2.0.0&
     request=GetCapabilities
 ```
 
@@ -115,9 +115,9 @@ To list all the available feature types use the `GetCapabilities` operation and 
   <summary>Response</summary>
 
 ```xml title="Response"
-    <FeatureTypeList>
+       <FeatureTypeList>
         <FeatureType xmlns:polygonParts="http://polygonParts">
-            <Name>polygonParts:orthophoto_best_orthophotobest</Name>
+            <Name>polygonParts:ORTHOPHOTO_BEST-OrthophotoBest</Name>
             <Title>orthophoto_best_orthophotobest</Title>
             <Abstract/>
             <ows:Keywords>
@@ -137,25 +137,25 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 <br/>
 
-We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygonParts:orthophoto_best_orthophotobest`.`FeatureType` where polygonParts is the namespace and the orthophoto_best_orthophotobest is the unique `FeatureType` name under the polygonParts namespace - it include layer's `product_name` + `product_type`. it is possible to query the FeatureType by its full name `polygonParts:orthophoto_best_orthophotobest` or short unique name `orthophoto_best_orthophotobest`.
+We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygonParts:ORTHOPHOTO_BEST-OrthophotoBest`.`FeatureType` where polygonParts is the namespace and the ORTHOPHOTO_BEST-OrthophotoBest is the unique `FeatureType` name under the polygonParts namespace - it include layer's `productId` + `productType`. it is possible to query the FeatureType by its full name `polygonParts:ORTHOPHOTO_BEST-OrthophotoBest` or short unique name `ORTHOPHOTO_BEST-OrthophotoBest`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
 ## DescribeFeatureType
 
-### Explore featureType 'Orthophoto Best' layer
+### Explore featureType 'ORTHOPHOTO_BEST-OrthophotoBest' layer
 
-If you would like to view the schema of the `orthophoto_best_orthophotobest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest`
+If you would like to view the schema of the `ORTHOPHOTO_BEST-OrthophotoBest` `FeatureType`, we could invoke the `DescribeFeatureType` request with `typeName` of `ORTHOPHOTO_BEST-OrthophotoBest`
 
-The response is the XSD (in xml response) describing the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` `FeatureType`.
+The response is the XSD (in xml response) describing the `ORTHOPHOTO_BEST-OrthophotoBest` `FeatureType`.
 
 For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=2.0.0&
     request=DescribeFeatureType&
-    typeName=ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest&
+    typeName=ORTHOPHOTO_BEST-OrthophotoBest&
     outputFormat=application/json
 ```
 
@@ -169,7 +169,7 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
     "targetPrefix": "polygonParts",
     "featureTypes": [
         {
-            "typeName": "orthophoto_best_orthophotobest",
+            "typeName": "ORTHOPHOTO_BEST-OrthophotoBest",
             "properties": [
                 {
                     "name": "id",
@@ -331,23 +331,23 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 
 </details>
 
-This is a description of a `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE` feature that include all polygon parts of the `ORTHOPHOTO_MOSAIC_BASE-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
+This is a description of a `ORTHOPHOTO_BEST-OrthophotoBest` feature that include all polygon parts of the `ORTHOPHOTO_BEST-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
 
 ## GetFeature
 
-Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
+Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
 
 ### Limit response feature count
 
-1. let's retrieve 2 of polygon parts for provided featureType `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE`, that include actually total of 4 features using GET request:
+1. let's retrieve 2 of polygon parts for provided featureType `ORTHOPHOTO_BEST-OrthophotoBest`, that include actually total of 4 features using GET request:
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=2.0.0&
     request=GetFeature&
     count=2&
-    typeName=orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_BASE&
+    typeName=ORTHOPHOTO_BEST-OrthophotoBest&
     outputFormat=application/json
 ```
 
@@ -360,7 +360,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
     "features": [
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.30210f5d-ba98-480f-b13a-01705890eb8f",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -550,7 +550,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.d8017862-26a8-4747-a503-2096ffaf36ee",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.d8017862-26a8-4747-a503-2096ffaf36ee",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -610,7 +610,7 @@ Now that we hold the structure of the `orthophoto_mosaic_base_ORTHOPHOTO_MOSAIC_
     "totalFeatures": 7,
     "numberMatched": 7,
     "numberReturned": 2,
-    "timeStamp": "2024-11-06T15:26:22.794Z",
+    "timeStamp": "2024-11-11T08:23:27.593Z",
     "crs": {
         "type": "name",
         "properties": {
@@ -640,7 +640,7 @@ with the following body:
 
 ```xml
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <fes:PropertyIsEqualTo>
                <fes:ValueReference>productId</fes:ValueReference>
@@ -661,7 +661,7 @@ with the following body:
     "features": [
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -721,13 +721,13 @@ with the following body:
     "totalFeatures": 7,
     "numberMatched": 7,
     "numberReturned": 1,
-    "timeStamp": "2024-11-06T15:33:59.638Z",
+    "timeStamp": "2024-11-11T08:25:39.397Z",
     "links": [
         {
             "title": "previous page",
             "type": "application/json",
             "rel": "previous",
-            "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3Aorthophoto_best_orthophotobest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
+            "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
         }
     ],
     "crs": {
@@ -754,9 +754,9 @@ with the following body:
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=2.0.0&
     request=GetFeature&
-    typeNames=orthophoto_best_orthophotobest&
+    typeNames=ORTHOPHOTO_BEST-OrthophotoBest&
     sortBy=productVersion&
     outputFormat=application/json
 ```
@@ -770,7 +770,7 @@ with the following body:
     "features": [
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.30210f5d-ba98-480f-b13a-01705890eb8f",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -960,7 +960,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.d8017862-26a8-4747-a503-2096ffaf36ee",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.d8017862-26a8-4747-a503-2096ffaf36ee",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1018,7 +1018,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.ba8a77d6-e022-4922-9c87-0098e84f9bc9",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.ba8a77d6-e022-4922-9c87-0098e84f9bc9",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1067,7 +1067,7 @@ with the following body:
                 "cities": "",
                 "description": "ישראל, מצרים, ירדן, לבנון, סוריה"
             },
-            "bbox": [1.0
+            "bbox": [
                 31.2279,
                 34.2117,
                 31.4159,
@@ -1076,7 +1076,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1134,7 +1134,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.791358a5-a19b-4164-80cb-4408403f1ab2",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.791358a5-a19b-4164-80cb-4408403f1ab2",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1192,7 +1192,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.c87a6448-c9b8-42e5-8b94-5d988c1732be",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.c87a6448-c9b8-42e5-8b94-5d988c1732be",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1250,7 +1250,7 @@ with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.d1b24130-1b9c-4daa-aa23-093bb58b0814",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.d1b24130-1b9c-4daa-aa23-093bb58b0814",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1310,7 +1310,7 @@ with the following body:
     "totalFeatures": 7,
     "numberMatched": 7,
     "numberReturned": 7,
-    "timeStamp": "2024-11-06T15:38:00.704Z",
+    "timeStamp": "2024-11-11T09:09:32.361Z",
     "crs": {
         "type": "name",
         "properties": {
@@ -1330,7 +1330,7 @@ with the following body:
 
 ### Query by geographical limits
 
-For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a POST GetFetures request consisting the filter as a XML body.
+For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a **POST** GetFetures request consisting the filter as a XML body.
 
 3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's footprint describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
    the polygon is a list of latitude-longitude pair coordinates.
@@ -1340,7 +1340,7 @@ We'll invoke a POST GetFeature request with the following body:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.openplans.org/spearfish" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" count="2" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <fes:Intersects>
                 <fes:ValueReference>footprint</fes:ValueReference>
@@ -1368,7 +1368,7 @@ We'll invoke a POST GetFeature request with the following body:
     "features": [
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.30210f5d-ba98-480f-b13a-01705890eb8f",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.30210f5d-ba98-480f-b13a-01705890eb8f",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1560,7 +1560,7 @@ We'll invoke a POST GetFeature request with the following body:
     "totalFeatures": 1,
     "numberMatched": 1,
     "numberReturned": 1,
-    "timeStamp": "2024-11-06T15:46:35.783Z",
+    "timeStamp": "2024-11-11T09:12:35.198Z",
     "crs": {
         "type": "name",
         "properties": {
@@ -1587,7 +1587,7 @@ We'll invoke a request with the following body:
 
 ```xml title="Query with 2 filters"
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:orthophoto_best_orthophotobest">
+    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <And>
             <fes:PropertyIsEqualTo>
@@ -1613,7 +1613,7 @@ We'll invoke a request with the following body:
     "features": [
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.ce2c1c30-6f0f-46cf-a2d1-b14b52088ad0",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1671,7 +1671,7 @@ We'll invoke a request with the following body:
         },
         {
             "type": "Feature",
-            "id": "orthophoto_best_orthophotobest.791358a5-a19b-4164-80cb-4408403f1ab2",
+            "id": "ORTHOPHOTO_BEST-OrthophotoBest.791358a5-a19b-4164-80cb-4408403f1ab2",
             "geometry": {
                 "type": "Polygon",
                 "coordinates": [
@@ -1731,7 +1731,7 @@ We'll invoke a request with the following body:
     "totalFeatures": 2,
     "numberMatched": 2,
     "numberReturned": 2,
-    "timeStamp": "2024-11-06T15:57:20.246Z",
+    "timeStamp": "2024-11-11T09:15:52.521Z",
     "crs": {
         "type": "name",
         "properties": {
