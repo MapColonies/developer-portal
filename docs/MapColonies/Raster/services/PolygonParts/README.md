@@ -148,7 +148,7 @@ If you would like to view the schema of the `ORTHOPHOTO_BEST-OrthophotoBest` `Fe
 
 The response is the XSD (in xml response) describing the `ORTHOPHOTO_BEST-OrthophotoBest` `FeatureType`.
 
-For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
+For convenience we'll add `outputFormat` parameter as `application/json` to each of our requests for a json formatted response
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
