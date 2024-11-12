@@ -537,7 +537,7 @@ Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureTy
                 "sourceResolutionMeter": 2500,
                 "horizontalAccuracyCe90": 2000,
                 "sensors": "MAXAR",
-                "countries": "עולמי",
+                "countries": "ITALY",
                 "cities": "",
                 "description": ""
             },
@@ -595,7 +595,7 @@ Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureTy
                 "sourceResolutionMeter": 0.1,
                 "horizontalAccuracyCe90": 1.5,
                 "sensors": "OTHER",
-                "countries": "עולמי",
+                "countries": "ICELAND",
                 "cities": "",
                 "description": "some description"
             },
@@ -947,7 +947,7 @@ with the following body:
                 "sourceResolutionMeter": 2500,
                 "horizontalAccuracyCe90": 2000,
                 "sensors": "MAXAR",
-                "countries": "עולמי",
+                "countries": "MEXICO",
                 "cities": "",
                 "description": ""
             },
@@ -1005,7 +1005,7 @@ with the following body:
                 "sourceResolutionMeter": 0.1,
                 "horizontalAccuracyCe90": 1.5,
                 "sensors": "OTHER",
-                "countries": "עולמי",
+                "countries": "POLAND",
                 "cities": "",
                 "description": "some description"
             },
@@ -1545,7 +1545,7 @@ We'll invoke a POST GetFeature request with the following body:
                 "sourceResolutionMeter": 2500,
                 "horizontalAccuracyCe90": 2000,
                 "sensors": "MAXAR",
-                "countries": "עולמי",
+                "countries": "FRANCE",
                 "cities": "",
                 "description": ""
             },
