@@ -148,7 +148,7 @@ If you would like to view the schema of the `ORTHOPHOTO_BEST-OrthophotoBest` `Fe
 
 The response is the XSD (in xml response) describing the `ORTHOPHOTO_BEST-OrthophotoBest` `FeatureType`.
 
-For convenience we'll add outputFormat parameter as `application/json` to each of our requests for a json formatted response
+For convenience we'll add `outputFormat` parameter as `application/json` to each of our requests for a json formatted response
 
 ```
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
@@ -1332,7 +1332,7 @@ with the following body:
 
 For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a **POST** GetFetures request consisting the filter as a XML body.
 
-3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's footprint describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
+3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's `footprint` describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
    the polygon is a list of latitude-longitude pair coordinates.
 
 We'll invoke a POST GetFeature request with the following body:
