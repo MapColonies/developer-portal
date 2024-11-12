@@ -1237,7 +1237,7 @@ with the following body:
                 "sourceResolutionMeter": 0.3,
                 "horizontalAccuracyCe90": 6,
                 "sensors": "WORLDVIEW2",
-                "countries": "",
+                "countries": "LITHUANIA",
                 "cities": "",
                 "description": ""
             },
@@ -1295,7 +1295,7 @@ with the following body:
                 "sourceResolutionMeter": 0.03,
                 "horizontalAccuracyCe90": 8.5,
                 "sensors": "OTHER",
-                "countries": "",
+                "countries": "GREECE",
                 "cities": "",
                 "description": ""
             },
@@ -1603,7 +1603,7 @@ We'll invoke a POST GetFeature request with the following body:
                 "sourceResolutionMeter": 0.07,
                 "horizontalAccuracyCe90": 4,
                 "sensors": "OTHER",
-                "countries": "",
+                "countries": "UNITED STATES",
                 "cities": "",
                 "description": "some description"
             },
