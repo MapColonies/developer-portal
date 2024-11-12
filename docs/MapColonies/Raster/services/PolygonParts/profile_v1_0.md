@@ -15,11 +15,11 @@ tags:
 
 | **Polygon Part Queryable <br/> Attribute Name** | **Type** | **Description** | 
 | ----------- | ----------- | ----------- | 
-| geometry | GeoJson (geometry (Polygon,4326)) | The feature's geometry |
 | id | UUID | Internal unique identifier |
 | catalogId | UUID | Mapcolonies raster catalog identifier for the layer |
 | productId | text | Mapcolonies raster layer identifier |
 | productType | text | Mapcolonies raster layer type |
+| footprint | GeoJson (geometry (Polygon,4326)) | The feature's footprint |
 | sourceId | text | External Id of the part |
 | sourceName | text | External Name of the part |
 | productVersion | text | Mapcolonies raster layer version |
