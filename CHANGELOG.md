@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.2](https://github.com/MapColonies/developer-portal/compare/v3.2.1...v3.2.2) (2024-11-14)
+
+
+### Documentation
+
+* update bbox in geocoding responses ([#122](https://github.com/MapColonies/developer-portal/issues/122)) ([66ee15b](https://github.com/MapColonies/developer-portal/commit/66ee15b2a4a4be060916b07dc9b11a2b7acd0175))
+* updated PolygonParts examples and profile(MAPCO-5170) ([#121](https://github.com/MapColonies/developer-portal/issues/121)) ([7532e4b](https://github.com/MapColonies/developer-portal/commit/7532e4b508879981977a4498b3459f03dab38685))
+
 ## [3.2.1](https://github.com/MapColonies/developer-portal/compare/v3.2.0...v3.2.1) (2024-11-08)
 
 
