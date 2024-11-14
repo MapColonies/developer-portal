@@ -1,6 +1,6 @@
 {
   "name": "@map-colonies/developer-portal",
-  "version": "3.2.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
