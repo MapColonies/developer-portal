@@ -20,7 +20,7 @@ paths:
               $ref: '#/components/schemas/feedback'
       responses:
         '204':
-          description: Feedback has been sent succesfully
+          description: Feedback has been sent successfully
         '400':
           description: Bad Request
           content:
