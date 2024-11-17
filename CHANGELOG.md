@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.3](https://github.com/MapColonies/developer-portal/compare/v3.2.2...v3.2.3) (2024-11-17)
+
+
+### Documentation
+
+* add user-id to feedback API request ([#126](https://github.com/MapColonies/developer-portal/issues/126)) ([964cf7e](https://github.com/MapColonies/developer-portal/commit/964cf7e3103b1ecc6560b872ec119a10b61a18a5))
+
 ## [3.2.2](https://github.com/MapColonies/developer-portal/compare/v3.2.1...v3.2.2) (2024-11-14)
 
 
