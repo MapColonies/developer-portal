@@ -123,7 +123,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 
 Notice this response listed 2 features.<br/><br/>
 When sending the response to the `feedback API`, you need to provide two parameters:<br/>
-📍 `request_id` - from the header `'x-request-id'`.<br/>
+📍 `request_id` - from the headdback Aer `'x-request-id'`.<br/>
 📍 `chosen_result_id` - the ID of the user's selected result (corresponding index of the result). <br/>
 📍 `user_id` - the ID of the end user. <br/><br/>
 
@@ -151,6 +151,6 @@ And we will receive (in case `request_id` and `chosen_result_id` actually exist)
 
 
 ```json
-204     Feedback has been sent succesfully
+204     
 ```
 </details>
