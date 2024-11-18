@@ -18,6 +18,11 @@ tags:
 
 In this page we list some features that you may be interested in and show which map viewers support them.
 
+:::caution
+Not all mentioned featuresare supported by MapColonies.
+To see supported features please browse the documentation.
+:::
+
 ## Projections and Coordinate Systems
 
 :::danger
