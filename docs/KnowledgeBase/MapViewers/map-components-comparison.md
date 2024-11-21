@@ -34,7 +34,7 @@ If you don't know what a `Coordinate System` or `projection` is, you can find th
 :::
 
 | **Viewer** | **EPGS:4326** | **EPSG:3857** | **Supported projections** | **Can reproject** | **Notes** |
-| ----------- | ----------- | ----------- | ----------- | ----------- |
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Cesium | ✅ | ✅ | [Projections](https://cesium.com/learn/cesiumjs/ref-doc/MapProjection.html) | ✅ | |
 | Leaflet | ✅ | ✅ | [Projections](https://leafletjs.com/reference.html#projection) | ❌ | |
 | OpenLayers | ✅ | ✅ | [Projections](https://openlayers.org/en/latest/apidoc/module-ol_proj_Projection-Projection.html) | ✅ | Supports all EPSG |
