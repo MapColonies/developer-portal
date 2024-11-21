@@ -130,6 +130,12 @@ const config: Config = {
             position: 'left',
             label: 'OGC',
           },
+          {
+            type: 'docSidebar',
+            sidebarId: 'knowledgeBaseSidebar',
+            position: 'left',
+            label: 'Knowledge base',
+          },
         ],
       },
       footer: {
@@ -166,6 +172,10 @@ const config: Config = {
               {
                 label: 'Blog',
                 to: '/blog',
+              },
+              {
+                label: 'Knowledge base',
+                to: '/docs/KnowledgeBase/terms',
               },
             ],
           },
