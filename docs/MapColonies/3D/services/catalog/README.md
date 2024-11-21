@@ -77,7 +77,7 @@ After sending the request, you will get a response with all the records matched 
             <mc:geographicArea>ישראל</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
-            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/path/to/file/tileset.json</mc:links>
+            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/path/to/file/tileset.json</mc:links>
             <mc:producerName>TZAHAL</mc:producerName>
             <mc:productBBox>31.2603,33.4345,32.3353,34.4888</mc:productBBox>
             <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
@@ -106,7 +106,7 @@ After sending the request, you will get a response with all the records matched 
             <mc:geographicArea>ישראל</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
-            <mc:links scheme="3D_LAYER" name="" description="">http://model-server-3d/path/to/file/tileset.json</mc:links>
+            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/path/to/file/tileset.json</mc:links>
             <mc:producerName>TZAHAL</mc:producerName>
             <mc:productBBox>32.2603,34.4345,33.3353,35.4888</mc:productBBox>
             <mc:productId>c2bb5433ee-6081-4e69-918c-287f48ea244d</mc:productId>

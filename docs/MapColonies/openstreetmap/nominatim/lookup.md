@@ -104,7 +104,7 @@ This overrides the specified machine readable format. (Default: 0)
 
 ##### XML
 
-[<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821](<VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=R7116646,W551414758,N4976386821)
+[\<VECTOR-NOMINATIM-SERVICE_URL\>/lookup?osm_ids=R7116646,W551414758,N4976386821](\<VECTOR-NOMINATIM-SERVICE_URL\>/lookup?osm_ids=R7116646,W551414758,N4976386821)
 
 ```xml title="Lookup Results in XML Format"
   <lookupresults timestamp="Tue, 24 Jan 23 06:41:19 +0000"

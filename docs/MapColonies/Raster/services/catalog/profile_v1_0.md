@@ -15,7 +15,7 @@ tags:
 2. **main_namespace** = `http://schema.mapcolonies.com/raster` (This site doesn't exist)
 3. The **Raster** sub-system Catalog profile fields with information of each of them:
 
-:::caution
+:::warning
 New version [v2](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v2) is coming!
 <p style={{color:"red"}}><b>The following parameters are depracted an will be removed in v2</b></p> 
 

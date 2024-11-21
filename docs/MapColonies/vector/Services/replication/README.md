@@ -29,7 +29,7 @@ There are two types of replicas:
 ## Usage
 You can query for replicas via the replication service API.
 
-:::caution
+:::warning
 **You will need an API token as part of the service authentication &nbsp;**
 :::
 
@@ -41,7 +41,7 @@ The API in general is split to two parts:
 
 ## Files structure
 
-#### Snapsho
+#### Snapshot
 When receiving a response from the replication service API for snapshot, The response will contain an array of files to download.
 
 Each downloaded file is a zip.

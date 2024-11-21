@@ -39,7 +39,7 @@ flowchart LR
 ```
 
 ## Query CSW catalog (Step 1)
-Query **DEM CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/examples/ogc-csw-examples)
+Query **DEM CSW catalog** service to find item(s) according to desired filter [examples are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
 Filter should be based on [DEM profile](/docs/MapColonies/DEM/Services/catalog/catalog-profile-v1)
 
@@ -175,7 +175,7 @@ In the future, you'll be able to export catalog data( elevation raw data in TIFF
 ## Construct Client (Step 3.1)
 Now, after you got all product metadata that you need by querying our Catalog, lets actually use it in your client application.
 
-:::caution
+:::warning
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 :::
 

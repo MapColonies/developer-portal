@@ -21,7 +21,7 @@ Check out our API [Request-Response examples](#examples).
 
 ## TL;DR
 
-Search for places, control tiles, routes and items. Ability to convert from WGS 84 Coordinates to Control Tile/ US Army MGRS. 
+Search for places, control tiles, routes and items. Ability to convert from WGS 84 Coordinates to Control Tile or US Army MGRS. 
 
 ## Terminology
 
@@ -39,7 +39,7 @@ The following is a Tile search response. See [`these Control Tile search example
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "tile": "RIT",
             "disable_fuzziness": true,
@@ -51,6 +51,7 @@ The following is a Tile search response. See [`these Control Tile search example
             "match_latency_ms": 77
         }
     },
+    "bbox": [12.42879133518656, 41.84943698365008, 12.539507865186607, 41.94185043165008],
     "features": [
         {
             "type": "Feature",
@@ -85,7 +86,7 @@ The following is a Sub-Tile search response. See [`this Control Sub-Tile search 
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "tile": "RIT",
             "sub_tile": "65",
@@ -98,6 +99,7 @@ The following is a Sub-Tile search response. See [`this Control Sub-Tile search 
             "match_latency_ms": 5
         }
     },
+    "bbox": [12.429043189602453, 41.93031190061167, 12.439646505602468, 41.939432381611695],
     "features": [
         {
             "type": "Feature",
@@ -121,7 +123,8 @@ The following is a Sub-Tile search response. See [`this Control Sub-Tile search 
         }
     ]
 }
-Routes are roads and streams. Each Route has Control Points. Control Points are points scattered on the route. They are usefull when an end-user reports his location on the route. It is used to "pin-point" the end-user's location.<br/>
+```
+<br/>
 </details>
 
 ### Understanding the Control language
@@ -135,7 +138,7 @@ A route's name is a string (in any length). For main roads, the route's name wil
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "command_name": "olimpiade",
             "disable_fuzziness": false,
@@ -147,6 +150,7 @@ A route's name is a string (in any length). For main roads, the route's name wil
             "match_latency_ms": 16
         }
     },
+    "bbox": [12.472759211857749, 41.932073169074016, 12.475880836863752, 41.93239148035457],
     "features": [
         {
             "type": "Feature",
@@ -170,7 +174,7 @@ A route's name is a string (in any length). For main roads, the route's name wil
 ```
 </details>
 
-Items are simply buildings \ items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles! Though, it is unique in the current viewed Control Tile.<br/>
+Items are simply buildings or Control items in the field. An item's name is a 4-digit number. Notice that it is not unique and might be reused in different tiles! Though, it is unique in the current viewed Control Tile.<br/>
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
     <summary>JSON Item Response 👇</summary>
@@ -179,7 +183,7 @@ Items are simply buildings \ items in the field. An item's name is a 4-digit num
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "command_name": "1234",
             "limit": 5,
@@ -191,6 +195,7 @@ Items are simply buildings \ items in the field. An item's name is a 4-digit num
             "match_latency_ms": 5
         }
     },
+    "bbox": [12.432648028923637, 41.93189198298137, 12.43637599267521, 41.93386161853829],
     "features": [
         {
             "type": "Feature",
@@ -235,9 +240,9 @@ You can also search for supported regions and sources in order to filter the res
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0-prealpha.5",
+        "version": "0.2.0",
         "query": {
-            "query": "JFK new york",
+            "query": "JFK Airport New York",
             "disable_fuzziness": false,
             "limit": 1
         },
@@ -245,7 +250,10 @@ You can also search for supported regions and sources in order to filter the res
             "results_count": 1,
             "max_score": 2.2699702,
             "match_latency_ms": 18,
-            "name": "york",
+            "nlp_anlyser_latency_ms": 4,
+            "place_type_latency_ms": 1,
+            "hierarchies_latency_ms": 0,
+            "name": "New York",
             "place_types": [
                 "transportation"
             ],
@@ -255,6 +263,7 @@ You can also search for supported regions and sources in order to filter the res
             "hierarchies": []
         }
     },
+    "bbox": [-73.82407909454082, 40.61908910045176, -73.7467963777506, 40.665205399216404],
     "features": [
         {
             "type": "Feature",
@@ -293,9 +302,14 @@ You can also search for supported regions and sources in order to filter the res
                         [ -73.81278266814672, 40.66039916690434 ] ] ]
             },
             "properties": {
-                "score": 2.2699702,
-                "matches": [ { "layer": "osm_airports", "source": "OSM", "source_id": [ "03ed6d97-fc81-4340-b68a-11993554eef1" ] } ],
-                "names": { "en": [ "JFK Airport" ], "fr": [ "Aeropuerto JFK" ], "default": [ "JFK" ], "display": "JFK Airport" },
+                "score": 2.6857595,
+                "matches": [ { "layer": "osm_airports", "source": "OSM", "source_id": ["03ed6d97-fc81-4340-b68a-11993554eef1"] } ],
+                "names": {
+                    "en": ["JFK International Airport", "John F Kennedy International Airport"],
+                    "fr": ["Aeropuerto JFK"],
+                    "default": ["JFK International Airport"],
+                    "display": "JFK International Airport"
+                },
                 "placetype": "transportation",
                 "sub_placetype": "airport",
                 "regions": [ { "region": "USA", "sub_region_names": [ "New York" ] } ]
@@ -313,7 +327,7 @@ You can also search for supported regions and sources in order to filter the res
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "command_name": "olimpiade",
             "control_point": "111",
@@ -326,6 +340,7 @@ You can also search for supported regions and sources in order to filter the res
             "match_latency_ms": 7
         }
     },
+    "bbox": [12.475638293442415, 41.932360642739155, 12.475638293442415, 41.932360642739155],
     "features": [
         {
             "type": "Feature",
@@ -377,7 +392,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
             "match_latency_ms": 0
         }
     },
-    "bbox": [ 12.93694771534361, 52.51211561266182, 13.080296161196031, 52.60444267653175 ],
+    "bbox": [12.93694771534361, 52.51211561266182, 13.080296161196031, 52.60444267653175],
     "geometry": {
         "type": "Polygon",
         "coordinates": [ [ [ 12.93694771534361, 52.51211561266182 ],
@@ -432,14 +447,58 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 | limit | Number | 5 | [Click here](#item-search)  | By default, we will return our top 5 features that match the query. You can change the limit and set it from 1 to 15 maximum results. If there are few results, the response may contain less than limit, but the importance is limiting the maximum returned values. |
 | disable_fuzziness | Boolean  | false | [Click here](#exact-tile-search) | Fuzziness is on by default. If you want exact match, you may set `disable_fuzziness: true`. |
 
+## Generic Response Object
+
+As part of Geocoding's architecture, we created a generic response object. All `/search` routes will return the same expected response object and properties. <br/>
+📝 **_Note:_** Responses in the different routes may have more properties than described in the generic response object.
+
+```json
+{
+    "type": "FeatureCollection",
+    "geocoding": {
+        "version": "string", // Geocoding current Version
+        "query": { // params sent to the API as part of the request
+            "limit": 5, // limit the amount of returned results. (5 by default)
+            "disable_fuzziness": false // disable the search with fuzziness (false by default)
+        },
+        "response": {
+            "results_count": "number", // amount of returned results
+            "max_score": "number", // max score for query match
+            "match_latency_ms": "number", // latancy until match
+        }
+    },
+    "bbox": ["number", "number", "number", "number"], //the bounding box of the returned results
+    "features": [ //array of valid GeoJSON feature
+        {
+            "type": "Feature",
+            "geometry": {...}, //valid GeoJSON geometry
+            "properties": {
+                "matches": [ // Data's origin. From where we got the data
+                    { 
+                        "layer": "string", 
+                        "source": "string", 
+                        "source_id": [ "string" ] 
+                    } 
+                ],
+                "names": { //names of the feature.
+                    "default": [ "string" ],  // Feature may have multiple names
+                    "display": "string" // Our display name recommandation
+                },
+                "score": "number" // match score to the query
+            }
+        }
+    ]
+}
+```
+
 ## Usage
-:::caution
+:::warning
 **You will need an API token as part of the [service authentication](/docs/MapColonies/authentication). &nbsp;**
 :::
 
-:::caution
+:::warning
 **All routes require `x-api-key` and `x-user-id`.<br/> 
-`x-api-key`'s value should be the token provided by our team. <br/>
+`x-api-key`'s value should be the token provided by our team. You may also send `token` query parameter.<br/>
 `x-user-id`'s value should be the user's id that queried our service. &nbsp;**
 :::
 
@@ -447,6 +506,14 @@ Almost all of our routes consists of the same common query parameters: `geo_cont
 **All returned responses by Geocoding API are valid GeoJSON documents. <br/> 
 See [`RFC 7946: The GeoJSON Format`](https://datatracker.ietf.org/doc/html/rfc7946)🌐 for more info about the GeoJSON specification. &nbsp;**
 :::
+
+While interacting with Geocoding API, for BI purposes and to better understand our users's needs and interests, for each response sent from Geocoding API, we require the users to provide 'feedback' on our response by using Geocoding's Feedback API. <br/>
+If you're not familiar with Geocoding's Feedback API, [please read here](/docs/MapColonies/vector/Services/geocoding/feedback). <br/>
+
+:::danger
+Users that won't comply are at risk of being blocked from using Geocoding API service.
+:::
+
 
 ## Examples
 
@@ -475,7 +542,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "tile": "RIT",
             "disable_fuzziness": true,
@@ -487,6 +554,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
             "match_latency_ms": 77
         }
     },
+    "bbox": [12.42879133518656, 41.84943698365008, 12.539507865186607, 41.94185043165008],
     "features": [
         {
             "type": "Feature",
@@ -527,7 +595,7 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "mgrs": "33TTG9574836243",
             "disable_fuzziness": false,
@@ -539,6 +607,7 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
             "match_latency_ms": 77
         }
     },
+    "bbox": [12.42879133518656, 41.84943698365008, 12.539507865186607, 41.94185043165008],
     "features": [
         {
             "type": "Feature",
@@ -583,7 +652,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "tile": "RIT",
             "sub_tile": "65",
@@ -596,6 +665,7 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
             "match_latency_ms": 5
         }
     },
+    "bbox": [12.429043189602453, 41.93031190061167, 12.439646505602468, 41.939432381611695],
     "features": [
         {
             "type": "Feature",
@@ -639,7 +709,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "command_name": "olimpiade",
             "disable_fuzziness": false,
@@ -651,6 +721,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
             "match_latency_ms": 16
         }
     },
+    "bbox": [12.472759211857749, 41.932073169074016, 12.475880836863752, 41.93239148035457],
     "features": [
         {
             "type": "Feature",
@@ -692,7 +763,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "command_name": "olimpiade",
             "control_point": "111",
@@ -705,6 +776,7 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
             "match_latency_ms": 7
         }
     },
+    "bbox": [12.475638293442415, 41.932360642739155, 12.475638293442415, 41.932360642739155],
     "features": [
         {
             "type": "Feature",
@@ -758,6 +830,7 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
             "match_latency_ms": 5
         }
     },
+    "bbox": [12.432648028923637, 41.93189198298137, 12.43637599267521, 41.93386161853829],
     "features": [
         {
             "type": "Feature",
@@ -806,7 +879,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "query": "school",
             "disable_fuzziness": false,
@@ -826,6 +899,7 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
             "hierarchies": []
         }
     },
+    "bbox": [-118.30879709771484, 33.71550819588987, 2.347737155284733, 48.88088750665477],
     "features": [
         {
             "type": "Feature",
@@ -893,7 +967,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "query": "school",
             "disable_fuzziness": false,
@@ -911,6 +985,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
             "hierarchies": []
         }
     },
+    "bbox": [2.3462780852304945, 48.87999951892243, 2.347737155284733, 48.88088750665477],
     "features": [
         {
             "type": "Feature",
@@ -961,7 +1036,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "query": "school",
             "disable_fuzziness": false,
@@ -979,6 +1054,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
             "hierarchies": []
         }
     },
+    "bbox": [-118.30879709771484, 33.71550819588987, 2.347737155284733, 48.88088750665477],
     "features": [
         {
             "type": "Feature",
@@ -1031,16 +1107,6 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 
 #### Query example (port search) only from "google" as the data source
 
-:::tip
-You may see the available sources by sending this request: <br/>
-```curl
-curl --location '<geocoding_url>/search/location/sources' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
-```
-:::
-
-
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=port&source=google' \
 --header 'x-api-key: <x-api-key>' \
@@ -1054,7 +1120,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "query": "port",
             "source": [ "google" ],
@@ -1071,6 +1137,7 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
             "hierarchies": []
         }
     },
+    "bbox": [-118.27503083555426, 33.720881194108856, -118.2431463824787, 33.76075151051916],
     "features": [
         {
             "type": "Feature",
@@ -1116,15 +1183,16 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 ```
 </details>
 
-#### Query example (school search) only in "france" region
 :::tip
-You may see the available regions by sending this request: <br/>
+You may see the available sources by sending this request: <br/>
 ```curl
-curl --location '<geocoding_url>/search/location/regions' \
+curl --location '<geocoding_url>/search/location/sources' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
 :::
+
+#### Query example (school search) only in "france" region
 
 ```curl title="Query Search Request"
 curl --location '<geocoding_url>/search/location/query?query=school&region=france' \
@@ -1139,7 +1207,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 {
     "type": "FeatureCollection",
     "geocoding": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "query": {
             "query": "school",
             "region": ["france"],
@@ -1160,6 +1228,7 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
             "hierarchies": []
         }
     },
+    "bbox": [2.3462780852304945, 48.87999951892243, 2.347737155284733, 48.88088750665477],
     "features": [
         {
             "type": "Feature",
@@ -1210,6 +1279,15 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 ```
 </details>
 
+:::tip
+You may see the available regions by sending this request: <br/>
+```curl
+curl --location '<geocoding_url>/search/location/regions' \
+--header 'x-api-key: <x-api-key>' \
+--header 'x-user-id: <x-user-id>'
+```
+:::
+
 ### Conversion examples
 #### `WGS84` to MapColonies `Control Grid` Tile example
 
@@ -1238,7 +1316,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
             "match_latency_ms": 0
         }
     },
-    "bbox": [ 12.93694771534361, 52.51211561266182, 13.080296161196031, 52.60444267653175 ],
+    "bbox": [12.93694771534361, 52.51211561266182, 13.080296161196031, 52.60444267653175],
     "geometry": {
         "type": "Polygon",
         "coordinates": [ [ [ 12.93694771534361, 52.51211561266182 ],
@@ -1248,9 +1326,13 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
                 [ 12.93694771534361, 52.51211561266182 ] ] ]
     },
     "properties": {
-        "name": "BRN",
+        "matches": [ { "layer": "convertionTable", "source": "mapcolonies", "source_id": [] } ],
+        "names": {
+            "default": ["BRN"],
+            "display": "BRN"
+        },
         "tileName": "BRN",
-        "subTileNumber": [ "06", "97", "97" ]
+        "subTileNumber": ["06", "97", "97"]
     }
 }
 ```
@@ -1259,7 +1341,7 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 #### `WGS84` to US Army `MGRS` example
 
 ```curl title="Request"
-curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=MGRS' \
 --header 'x-api-key: <x-api-key>' \
 --header 'x-user-id: <x-user-id>'
 ```
@@ -1282,15 +1364,20 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
             "match_latency_ms": 0
         }
     },
-    "bbox": [ 12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
+    "bbox": [12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368],
     "geometry": {
         "type": "Point",
         "coordinates": [ 12.948781146422107, 52.57326537485767 ]
     },
     "properties": {
-        "name": "33UUU6099626777",
+        "matches": [ { "layer": "MGRS", "source": "npm/MGRS", "source_id": [] } ],
+        "names": {
+            "default": ["33UUU6099626777"],
+            "display": "33UUU6099626777"
+        },
         "accuracy": "1m",
-        "mgrs": "33UUU6099626777"
+        "mgrs": "33UUU6099626777",
+        "score": 1
     }
 }
 ```
@@ -1323,7 +1410,7 @@ curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
             "match_latency_ms": 0
         }
     },
-    "bbox": [  12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368 ],
+    "bbox": [12.948777289238832, 52.57325754975297, 12.948791616108007, 52.57326678960368],
     "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -1336,7 +1423,14 @@ curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
             ]
         ]
     },
-    "properties": { }
+    "properties": {
+        "matches": [ { "layer": "MGRS", "source": "npm/mgrs", "source_id": [] } ],
+        "names": {
+            "default": [ "33UUU6099626777" ],
+            "display": "33UUU6099626777"
+        },
+        "score": 1
+    }
 }
 ```
 </details>
