@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.3.0](https://github.com/MapColonies/developer-portal/compare/v3.2.3...v3.3.0) (2024-11-21)
+
+
+### Features
+
+* add map components documentation ([#97](https://github.com/MapColonies/developer-portal/issues/97)) ([55de8fd](https://github.com/MapColonies/developer-portal/commit/55de8fd7c60d32ca78dcd42faceacdcb57f07b79))
+
+
+### Documentation
+
+* **geocoding:** update openapi ([#135](https://github.com/MapColonies/developer-portal/issues/135)) ([605809b](https://github.com/MapColonies/developer-portal/commit/605809b1c42486dde71375c1a6d218deef0ac687))
+
 ## [3.2.3](https://github.com/MapColonies/developer-portal/compare/v3.2.2...v3.2.3) (2024-11-17)
 
 
