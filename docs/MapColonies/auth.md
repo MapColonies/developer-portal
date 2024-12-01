@@ -22,10 +22,6 @@ The `token` should be used in **every** request to our services and will allow y
 The token might have an **expiration date**
 :::
 
-:::info
-**Important:** only **query parameter** `token` is currently supported
-:::
-
 ## Supplying the token
 
 When making any request, you need to add a special **header** or **query parameter** in which you supply the token.
@@ -35,8 +31,11 @@ When making any request, you need to add a special **header** or **query paramet
 | Query | token |
 | Header | x-api-key |
 
-## Using the token as a query parameter
+:::info
+**Important:** Some services support only one of the above methods for supplying a `token`
+:::
 
+## Using the token as a query parameter
 
 ```
 <SERVICE_URL>/SUB/PATH?token=<token>
