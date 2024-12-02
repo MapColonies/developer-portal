@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/MapColonies/developer-portal/compare/v3.3.0...v3.3.1) (2024-12-02)
+
+
+### Bug Fixes
+
+* **auth:** information about service token support ([#138](https://github.com/MapColonies/developer-portal/issues/138)) ([dca7f0d](https://github.com/MapColonies/developer-portal/commit/dca7f0dce83ac297595c051854766b98e170baf4))
+
 ## [3.3.0](https://github.com/MapColonies/developer-portal/compare/v3.2.3...v3.3.0) (2024-11-21)
 
 
