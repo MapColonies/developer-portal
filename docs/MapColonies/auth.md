@@ -19,11 +19,9 @@ The `token` should be used in **every** request to our services and will allow y
 **All services** will require an `API Token`, it will be specified in each service description.
 
 :::warning
-The token might have an **expiration date**
-:::
 
-:::info
-**Important:** only **query parameter** `token` is currently supported
+The token might have an **expiration date**.
+
 :::
 
 ## Supplying the token
@@ -35,8 +33,13 @@ When making any request, you need to add a special **header** or **query paramet
 | Query | token |
 | Header | x-api-key |
 
-## Using the token as a query parameter
+:::info
 
+**Important:** Some services support only one of the above methods for supplying a `token`.
+
+:::
+
+## Using the token as a query parameter
 
 ```
 <SERVICE_URL>/SUB/PATH?token=<token>
