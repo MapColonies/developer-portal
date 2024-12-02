@@ -8,6 +8,7 @@ data:
   PLAYGROUND_URL: {{ quote .Values.env.PLAYGROUND_URL }}
   PUZZLE_URL: {{ quote .Values.env.PUZZLE_URL }}
   CATALOG_APPLICATION_URL: {{ quote .Values.env.CATALOG_APPLICATION_URL }}
+  YAHALOM_APPLICATION_URL: {{ quote .Values.env.YAHALOM_APPLICATION_URL }}
   npm_config_cache: /tmp/
 
 {{- end }}

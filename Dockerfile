@@ -37,6 +37,7 @@ COPY --chown=node:node --from=development /home/node/app/node_modules /home/node
 ENV PLAYGROUND_URL=https://PLAYGROUND_URL.com
 ENV PUZZLE_URL=https://PUZZLE_URL.com
 ENV CATALOG_APPLICATION_URL=https://CATALOG_APPLICATION_URL.com
+ENV YAHALOM_APPLICATION_URL=https://YAHALOM_APPLICATION_URL.com
 RUN npm run build
 
 ## Deploy ######################################################################
