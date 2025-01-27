@@ -1806,3 +1806,44 @@ We'll invoke a request with the following body:
 ```
 
 </details>
+
+### ResultType
+
+By default, `resultType` is set to `results`. If a user wants to get the number of parts in a feature, `resultType=hits` should be used.
+
+- **`numberMatched`**: Indicates how many hits(parts) there are.
+- **`next`**: Provides the link to fetch the response itself.
+
+Here’s an example query:
+
+```plaintext
+<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+    service=wfs&
+    version=2.0.0&
+    request=GetFeature&
+    typeNames=ORTHOPHOTO_BEST-OrthophotoBest&
+    resultType=hits&
+    outputFormat=application/json
+```
+
+<details>
+  <summary>Response</summary>
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:fes="http://www.opengis.net/fes/2.0" 
+  xmlns:wfs="http://www.opengis.net/wfs/2.0" 
+  xmlns:gml="http://www.opengis.net/gml/3.2" 
+  xmlns:ows="http://www.opengis.net/ows/1.1" 
+  xmlns:xlink="http://www.w3.org/1999/xlink" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  next="https://polygon-parts-int/api/raster/v1/wfs?RESULTTYPE=results&REQUEST=GetFeature&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=ORTHOPHOTO_BEST-OrthophotoBest&SERVICE=wfs&STARTINDEX=0" 
+  numberMatched="21" 
+  numberReturned="0" 
+  timeStamp="2025-01-27T15:27:43.495Z" 
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"/>
+  ```
+
+</details>
