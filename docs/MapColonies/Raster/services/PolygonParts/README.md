@@ -1811,10 +1811,14 @@ We'll invoke a request with the following body:
 
 By default, `resultType` is set to `results`. If a user wants to get the number of parts in a feature, `resultType=hits` should be used.
 
-- **`numberMatched`**: Indicates how many hits(parts) there are.
+- **`numberMatched`**: Indicates how many hits (parts) there are.
 - **`next`**: Provides the link to fetch the response itself.
 
-Here’s an example query:
+:::warning Pagination
+**The link does not include pagination parameters and will return all results for the layer. This should be avoided and either manually add the count parameter or make a separate request with pagination.**
+:::
+
+Here’s an example of GET request:
 
 ```plaintext
 <POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
