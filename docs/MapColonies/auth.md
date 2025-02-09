@@ -3,7 +3,7 @@ id: MapColonies-api-auth
 title: Authentication
 slug: authentication
 description: MapColonies API Auth Convention
-sidebar_position: 2
+sidebar_position: 1
 tags:
   - auth
   - API
