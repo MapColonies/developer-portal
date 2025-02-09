@@ -1807,11 +1807,11 @@ We'll invoke a request with the following body:
 
 </details>
 
-### ResultType
+### Get feature count
 
-By default, `resultType` is set to `results`. If a user wants to get the number of parts in a feature, `resultType=hits` should be used.
+By default, `resultType` is set to `results`. If a user wants to get the total number of parts in a feature, `resultType=hits` should be used.
 
-- **`numberMatched`**: Indicates how many hits (parts) there are.
+- **`numberMatched`**: Indicates how many hits (total parts amount) there are.
 - **`next`**: Provides the link to fetch the response itself.
 
 :::warning Pagination
@@ -1826,8 +1826,7 @@ Here’s an example of GET request:
     version=2.0.0&
     request=GetFeature&
     typeNames=ORTHOPHOTO_BEST-OrthophotoBest&
-    resultType=hits&
-    outputFormat=application/json
+    resultType=hits
 ```
 
 <details>
