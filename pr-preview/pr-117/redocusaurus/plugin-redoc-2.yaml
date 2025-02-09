@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  version: 0.1.0
+  version: 0.2.2
   title: Geocoding
   description: >-
     MapColonies Vector Geocoding api provides custom geodata search engine
@@ -23,6 +23,8 @@ paths:
         This is for general queries. the services will make a sophisticated
         guess.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -58,9 +60,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/query:
     get:
       operationId: locationGetQuery
@@ -71,6 +70,8 @@ paths:
       tags:
         - Location Name Based Search
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: query
           in: query
           required: true
@@ -151,15 +152,15 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/regions:
     get:
       operationId: locationGetRegions
       tags:
         - Location Name Based Search
       summary: Get all available regions to filter on using location query
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All regions
@@ -177,15 +178,15 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/location/sources:
     get:
       operationId: locationGetSources
       tags:
         - Location Name Based Search
       summary: Get all available sources to filter on using location query
+      parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
       responses:
         '200':
           description: All sources
@@ -203,9 +204,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/tiles:
     get:
       operationId: controlGetTilesByQueryParams
@@ -221,6 +219,8 @@ paths:
 
         You may also search tile based on 1 meter precision MGRS tile.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: Tile name
@@ -259,9 +259,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/items:
     get:
       operationId: controlGetItemsByQueryParams
@@ -270,6 +267,8 @@ paths:
       summary: Search control items
       description: ''
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -310,9 +309,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/control/routes:
     get:
       operationId: controlGetRoutesByQueryParams
@@ -321,9 +317,10 @@ paths:
       summary: Search routes and report control points
       description: >-
         You can query and get control routes.   <br><br> If you define a route
-        (full name of it) you can query the control points associated with
-        it.   
+        (full name of it) you can query the control points associated with it.
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: command_name
           in: query
           description: Object command name of the item
@@ -357,9 +354,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /search/MGRS/tiles:
     get:
       operationId: getMGRSToGeom
@@ -367,6 +361,8 @@ paths:
         - MGRS
       summary: Convert a MGRS string to Geometry in GeoJSON
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: tile
           in: query
           description: MGRS tile string
@@ -388,9 +384,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
   /lookup/coordinates:
     get:
       operationId: convertionGetLatLonToMgrs
@@ -398,6 +391,8 @@ paths:
         - Convertions
       summary: Convert a WGS84 coordinate to US Army MGRS / Control Grid
       parameters:
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/xApiKey'
         - name: lat
           in: query
           description: Latitude of the coordinate
@@ -438,6 +433,9 @@ paths:
                   geocoding:
                     type: object
                     properties:
+                      version:
+                        type: string
+                        example: 1.5.3
                       query:
                         type: object
                         properties:
@@ -445,13 +443,18 @@ paths:
                             type: number
                           lon:
                             type: number
+                          target_grid:
+                            type: string
+                            example: control
                       response:
                         type: object
                         properties:
                           max_score:
                             type: number
+                            example: 1
                           results_count:
                             type: number
+                            example: 1
                           match_latency_ms:
                             type: number
                   bbox:
@@ -463,8 +466,39 @@ paths:
                   properties:
                     type: object
                     properties:
-                      name:
-                        type: string
+                      score:
+                        type: number
+                        example: 1
+                      matches:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - source
+                            - layer
+                            - source_id
+                          properties:
+                            layer:
+                              type: string
+                              example: MGRS
+                            source:
+                              type: string
+                              example: npm/mgrs
+                            source_id:
+                              type: array
+                              items:
+                                type: string
+                      names:
+                        type: object
+                        properties:
+                          default:
+                            type: array
+                            items:
+                              type: string
+                          display:
+                            type: string
+                          additionalProperty1:
+                            type: object
                       additionalProperty1:
                         type: object
         '400':
@@ -475,9 +509,6 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '500':
           $ref: '#/components/responses/InternalError'
-      security:
-        - x-api-key: []
-          x-user-id: []
 components:
   responses:
     BadRequest:
@@ -511,6 +542,18 @@ components:
           schema:
             $ref: '#/components/schemas/errorSchema'
   parameters:
+    xApiKey:
+      name: x-api-key
+      in: header
+      description: JWT authentication token provided by our team
+      schema:
+        type: string
+    token:
+      name: token
+      in: query
+      description: JWT authentication token provided by our team
+      schema:
+        type: string
     disable_fuzziness:
       name: disable_fuzziness
       in: query
@@ -588,13 +631,13 @@ components:
           type: object
           required:
             - TYPE
-            - tile_name
+            - TILE_NAME
           properties:
             TYPE:
               type: string
-            tile_name:
+            TILE_NAME:
               type: string
-            sub_tile_id:
+            SUB_TILE_ID:
               type: string
             SUB_TILE_NUMBER:
               type: array
@@ -614,6 +657,9 @@ components:
         geocoding:
           type: object
           properties:
+            version:
+              type: string
+              example: 1.5.3
             query:
               type: object
               properties:
@@ -625,8 +671,10 @@ components:
               properties:
                 max_score:
                   type: number
+                  example: 1
                 results_count:
                   type: number
+                  example: 1
                 match_latency_ms:
                   type: number
         bbox:
@@ -635,11 +683,37 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Point'
             - $ref: '#/components/schemas/Polygon'
+            - $ref: '#/components/schemas/MultiPolygon'
         properties:
           type: object
           properties:
+            matches:
+              type: array
+              items:
+                type: object
+                properties:
+                  layer:
+                    type: string
+                    example: MGRS
+                  source:
+                    type: string
+                    example: npm/mgrs
+                  source_id:
+                    type: array
+                    items:
+                      type: string
+            names:
+              type: object
+              properties:
+                default:
+                  type: array
+                  items:
+                    type: string
+                display:
+                  type: string
             score:
               type: number
+              example: 1
     tilesSchema:
       allOf:
         - $ref: '#/components/schemas/genericGeocodingResponse'
@@ -683,19 +757,19 @@ components:
                     type: object
                     required:
                       - TYPE
-                      - object_command_name
-                      - entity_heb
-                      - sub_tile_id
+                      - OBJECT_COMMAND_NAME
+                      - ENTITY_HEB
+                      - SUB_TILE_ID
                     properties:
                       TYPE:
                         type: string
-                      object_command_name:
+                      OBJECT_COMMAND_NAME:
                         type: string
-                      entity_heb:
+                      ENTITY_HEB:
                         type: string
-                      tile_name:
+                      TILE_NAME:
                         type: string
-                      sub_tile_id:
+                      SUB_TILE_ID:
                         type: string
     routesSchema:
       allOf:
@@ -725,14 +799,14 @@ components:
                     type: object
                     required:
                       - TYPE
-                      - object_command_name
-                      - entity_heb
+                      - OBJECT_COMMAND_NAME
+                      - ENTITY_HEB
                     properties:
                       TYPE:
                         type: string
-                      object_command_name:
+                      OBJECT_COMMAND_NAME:
                         type: string
-                      entity_heb:
+                      ENTITY_HEB:
                         type: string
                       SECTION:
                         type: string
@@ -795,6 +869,8 @@ components:
                   type: integer
                   minimum: 0
                   maximum: 5000
+        bbox:
+          $ref: '#/components/schemas/BoundingBox'
         features:
           type: array
           items:
@@ -819,8 +895,6 @@ components:
                     maximum: 100
                   matches:
                     type: array
-                    minItems: 1
-                    maxItems: 100
                     items:
                       type: object
                       required:
@@ -995,7 +1069,8 @@ components:
       items:
         type: number
       minLength: 4
-      maxLength: 4
+      maxLength: 6
+      nullable: true
     WGS84Circle:
       type: object
       properties:
@@ -1039,6 +1114,10 @@ components:
       type: apiKey
       name: x-api-key
       in: header
+    token:
+      type: apiKey
+      name: token
+      in: query
     x-user-id:
       type: apiKey
       name: x-user-id
