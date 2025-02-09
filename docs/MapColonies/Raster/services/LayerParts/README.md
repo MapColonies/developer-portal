@@ -1,21 +1,21 @@
 ---
-id: raster-polygon-parts-service
-slug: polygon-parts
-title: Polygon Parts 🧩
-description: Search, Filter and Aggregate polygon parts (vectorial) layers
+id: raster-layer-parts-service
+slug: layer-parts
+title: Layer Parts 🧩
+description: Search, Filter and Aggregate layer parts (vectorial) layers
 tags:
   - wfs
   - raster
   - features
   - API
-  - polygon-parts
+  - layer-parts
 ---
 
-# Polygon Parts Service 🧩
+# Layer Parts Service 🧩
 
 ## General
 
-### Understanding Polygon Parts on Layer (records) management - Updates
+### Understanding Layer Parts on Layer (records) management - Updates
 
 This system utilizes polygons and layers to represent the precise area of a product and track all updates received over time. Polygons define the exact boundaries, while layers provide a structured way to integrate these updates. Let's delve deeper into how this system functions.
 
@@ -32,18 +32,18 @@ Updates are merged with overlapping layers below.
 Polygons within existing layers that overlap the new update (completely or partially) are re-calculated.
 
 <figure>
-    <img src={require("/img/raster/polygon_parts_example.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto"}}/>
+    <img src={require("/img/raster/layer_parts_example.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto"}}/>
 </figure>
 
 :::important Practical Example
-B is a new layer containing 3 polygon parts about to be merged into an existing layer.
-As you can see in the “After” figure on the right, the new layer parts contains the merged polygon parts of A and B.
-Each part hold its own metadata and related attributes [PolygonParts attributes](/docs/MapColonies/Raster/services/PolygonParts/profile_v1_0.md)
+B is a new layer containing 3 layer parts about to be merged into an existing layer.
+As you can see in the “After” figure on the right, the new layer parts contains the merged layer parts of A and B.
+Each part hold its own metadata and related attributes [LayerParts attributes](/docs/MapColonies/Raster/services/LayerParts/profile_v1_0.md)
 :::
 
 ### WFS implementation
 
-Raster polygon parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a **READ-ONLY** Web Feature Service.
+Raster layer parts service uses the [WFS](/docs/ogc/protocols/ogc-wfs) protocol which is a **READ-ONLY** Web Feature Service.
 it provides facilities for searching and retrieving feature data with the `GetCapabilities`, `DescribeFeatureType` and `GetFeature` operations all other operations are invalid.
 
 For the full capabilities provided by the service see [GetCapabilities](/docs/ogc/protocols/ogc-wfs#getcapabilities)
@@ -55,7 +55,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 <br/>
 
 :::important
-**In polygon parts, each feature represents a single polygon**
+**In layer parts, each feature represents a single polygon**
 :::
 
 :::warning Authentication
@@ -68,7 +68,7 @@ Finally, Features can be retrieved with the [GetFeature](/docs/ogc/protocols/ogc
 WFS protocol partitions the queryable features into different feature types.
 Each feature types actually represent other catalog layer [Raster Catalog](/docs/MapColonies/Raster/services/catalog/raster-catalog-profile-v1).
 
-Each feature type consists of same polygon parts schema describing the feature. the feature type is queryable by its schema, each feature type has a default coordinate reference system and the bounding box which contains all features of this type, those are also possible parameters for querying.
+Each feature type consists of same layer parts schema describing the feature. the feature type is queryable by its schema, each feature type has a default coordinate reference system and the bounding box which contains all features of this type, those are also possible parameters for querying.
 
 Let's see an example using all three operations with different filters, the following chart describes our work flow
 
@@ -105,7 +105,7 @@ So, for our example, the feature type name will be: `ORTHOPHOTO_MOSAIC_BASE-Orth
 To list all the available feature types use the `GetCapabilities` operation and look for the `FeatureTypeList` section.
 
 ```
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
     request=GetCapabilities
@@ -116,8 +116,8 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 ```xml title="Response"
 <FeatureTypeList>
-        <FeatureType xmlns:polygonParts="http://polygonParts">
-            <Name>polygonParts:ORTHOPHOTO_BEST-OrthophotoBest</Name>
+        <FeatureType xmlns:layerParts="http://layerParts">
+            <Name>layerParts:ORTHOPHOTO_BEST-OrthophotoBest</Name>
             <Title>orthophoto_best_orthophotobest</Title>
             <Abstract/>
             <ows:Keywords>
@@ -137,7 +137,7 @@ To list all the available feature types use the `GetCapabilities` operation and 
 
 <br/>
 
-We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `polygonParts:ORTHOPHOTO_BEST-OrthophotoBest`.`FeatureType` where polygonParts is the namespace and the ORTHOPHOTO_BEST-OrthophotoBest is the unique `FeatureType` name under the polygonParts namespace - it include layer's `productId` + `productType`. it is possible to query the FeatureType by its full name `polygonParts:ORTHOPHOTO_BEST-OrthophotoBest` or short unique name `ORTHOPHOTO_BEST-OrthophotoBest`.
+We got a `FeatureTypeList` consisting of the different `FeatureTypes` that each one hold and represent some catalog layer under the WFS service. one of them is the `layerParts:ORTHOPHOTO_BEST-OrthophotoBest`.`FeatureType` where layerParts is the namespace and the ORTHOPHOTO_BEST-OrthophotoBest is the unique `FeatureType` name under the layerParts namespace - it include layer's `productId` + `productType`. it is possible to query the FeatureType by its full name `layerPartss:ORTHOPHOTO_BEST-OrthophotoBest` or short unique name `ORTHOPHOTO_BEST-OrthophotoBest`.
 The default coordinate reference system and the containing features bounding box are also presented.
 
 ## DescribeFeatureType
@@ -151,7 +151,7 @@ The response is the XSD (in xml response) describing the `ORTHOPHOTO_BEST-Orthop
 For convenience we'll add `outputFormat` parameter as `application/json` to each of our requests for a json formatted response
 
 ```
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
     request=DescribeFeatureType&
@@ -165,8 +165,8 @@ For convenience we'll add `outputFormat` parameter as `application/json` to each
 ```json
 {
     "elementFormDefault": "qualified",
-    "targetNamespace": "http://polygonParts",
-    "targetPrefix": "polygonParts",
+    "targetNamespace": "http://layerParts",
+    "targetPrefix": "layerParts",
     "featureTypes": [
         {
             "typeName": "ORTHOPHOTO_BEST-OrthophotoBest",
@@ -331,18 +331,18 @@ For convenience we'll add `outputFormat` parameter as `application/json` to each
 
 </details>
 
-This is a description of a `ORTHOPHOTO_BEST-OrthophotoBest` feature that include all polygon parts of the `ORTHOPHOTO_BEST-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
+This is a description of a `ORTHOPHOTO_BEST-OrthophotoBest` feature that include all layer parts of the `ORTHOPHOTO_BEST-OrthophotoBest` catalog layer, it contains these properties. Each property has its own type, nillable flag value and min\max occurs.
 
 ## GetFeature
 
-Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureType we're able to query layer's polygon parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
+Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureType we're able to query layer's layer parts features by a set of parameters using the `GetFeature` operation, let's see some examples:
 
 ### Limit response feature count
 
-1. let's retrieve 2 of polygon parts for provided featureType `ORTHOPHOTO_BEST-OrthophotoBest`, that include actually total of 4 features using GET request:
+1. let's retrieve 2 of layer parts for provided featureType `ORTHOPHOTO_BEST-OrthophotoBest`, that include actually total of 4 features using GET request:
 
 ```
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
     request=GetFeature&
@@ -634,13 +634,13 @@ let's get only part of the feature, using `count` to mention the amount for pagi
 
 We'll invoke a POST GetFeature request
 ```
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs
 ```
 with the following body:
 
 ```xml
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" startIndex="3" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
+    <wfs:Query typeNames="layer_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <fes:PropertyIsEqualTo>
                <fes:ValueReference>productId</fes:ValueReference>
@@ -727,7 +727,7 @@ with the following body:
             "title": "previous page",
             "type": "application/json",
             "rel": "previous",
-            "href": "https://polygon-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
+            "href": "https://layer-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
         }
     ],
     "crs": {
@@ -749,10 +749,10 @@ with the following body:
 
 ### Sorting
 
-2. To get layer's polygon parts features sorted by some property such as `productVersion` we can invoke the following GET request.
+2. To get layer's layer parts features sorted by some property such as `productVersion` we can invoke the following GET request.
 
 ```
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
     request=GetFeature&
@@ -1332,7 +1332,7 @@ with the following body:
 
 For more complex criteria such as a set of multiple parameters or geographical intersections we should invoke a **POST** GetFetures request consisting the filter as a XML body.
 
-3. let's look for all the polygon parts features that intersect in a polygon, one of the properties of a polygon part feature is it's `footprint` describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
+3. let's look for all the layer parts features that intersect in a polygon, one of the properties of a polygon part feature is it's `footprint` describing the polygon part geography, we'll look by it by setting it as the request `ValueReference`. We can specify the `srsName` which is the coordinate reference system of the returned features in our case `EPSG:4326`.
    the polygon is a list of longitude-latitude pair coordinates.
 
 We'll invoke a POST GetFeature request with the following body:
@@ -1340,7 +1340,7 @@ We'll invoke a POST GetFeature request with the following body:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <wfs:GetFeature xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.openplans.org/spearfish" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" service="WFS" version="2.0.0" count="2" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
+    <wfs:Query typeNames="layer_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <fes:Intersects>
                 <fes:ValueReference>footprint</fes:ValueReference>
@@ -1639,13 +1639,13 @@ We'll invoke a POST GetFeature request with the following body:
 ### Combining multiple filters
 
 4. if we'd like to filter parts by a set of multiple parameters we'll achieve that by a `GetFeature` **POST** request.
-   Say we would like to retrieve only the polygon parts who's `resolutionDegree` is greater than **0.060** and their `sensors` type is **other**.
+   Say we would like to retrieve only the layer parts who's `resolutionDegree` is greater than **0.060** and their `sensors` type is **other**.
 
 We'll invoke a request with the following body:
 
 ```xml title="Query with 2 filters"
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd" count="4" outputFormat="application/json">
-    <wfs:Query typeNames="polygon_parts:ORTHOPHOTO_BEST-OrthophotoBest">
+    <wfs:Query typeNames="layer_parts:ORTHOPHOTO_BEST-OrthophotoBest">
         <fes:Filter>
             <And>
             <fes:PropertyIsEqualTo>
