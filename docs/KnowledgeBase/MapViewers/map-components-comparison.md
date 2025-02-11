@@ -26,7 +26,7 @@ To see supported features please browse the documentation.
 ## Projections and Coordinate Systems
 
 :::danger
-The only supported `Coordinate System` in our project is `WGS84` (`EPSG:4326`) with a `tiling scheme` of `1x2`.
+The only supported `Coordinate System` in our project is `WGS84` (`EPSG:4326`) with a `tiling scheme` of `2x1`.
 :::
 
 :::info
