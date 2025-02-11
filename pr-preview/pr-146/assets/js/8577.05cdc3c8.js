@@ -1,1 +1,0 @@
-(self.webpackChunk_map_colonies_developer_portal=self.webpackChunk_map_colonies_developer_portal||[]).push([[8577],{20549:(e,o,p)=>{"use strict";p.d(o,{A:()=>s});var l=p(58291);const s=l},45741:()=>{}}]);
