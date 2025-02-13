@@ -22,7 +22,7 @@ When your application is loaded or refreshed you are required make a request to 
 
 ### Catalog items
 
-In order to use our services you are required to go through the catalogue. The `catalogue` is the gatewat to many of our services, it details the available `products` and `product metadata` for a particular domain.
+In order to use our services you are required to go through the catalogue. The `catalogue` is the gateway to many of our services, it details the available `products` and `product metadata` for a particular domain.
 
 ### Hardcoded Links
 
