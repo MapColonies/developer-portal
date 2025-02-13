@@ -1,16 +1,16 @@
 ---
-id: polygon-parts-profile-v1
-slug: polygon-parts-profile-v1
-description: v1 Profile for polygon parts attributes
+id: layer-parts-profile-v1
+slug: layer-parts-profile-v1
+description: v1 Profile for layer parts attributes
 title: Profile v1
 tags:
   - raster
-  - polygon parts
+  - layer parts
   - v1
   - wfs
 ---
 
-# Polygon Parts Attributes Information
+# Layer Parts Attributes Information
 
 
 | **Polygon Part Queryable <br/> Attribute Name** | **Type** | **Description** | 
