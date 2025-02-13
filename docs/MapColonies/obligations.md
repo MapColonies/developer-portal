@@ -31,7 +31,7 @@ We hold the right to change any link that is available through our catalogue ser
 :::
 
 We require that you fetch and extract any link that is available in our `catalogue services` through your code.<br/>
-Any link that **isn't available** through the catalogue service may be held as an **easily configureable** parameter.
+Any link that **isn't available** through the catalogue service may be held as an **easily configurable** parameter.
 
 ### Basemaps
 
