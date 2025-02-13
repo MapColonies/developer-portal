@@ -12,7 +12,7 @@ on:
       - 'src/**'
       - 'static/**'
       - 'blog/**'
-      - 'docusaurus.config.js'
+      - 'docusaurus.config.ts'
       - 'sidebars.js'
 
 concurrency: preview-${{ github.ref }}
@@ -20,6 +20,7 @@ concurrency: preview-${{ github.ref }}
 env:
   PUZZLE_URL: https://cptschnitz.github.io/map-tile-puzzle/
   CATALOG_APPLICATION_URL: https://github.com/MapColonies
+  YAHALOM_APPLICATION_URL: https://placeholder.com
   PLAYGROUND_URL: https://sandcastle.cesium.com/
   BASE_URL: '/developer-portal/pr-preview/pr-${{ github.event.number }}'
 
