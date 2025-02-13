@@ -14,7 +14,7 @@ tags:
   - dem
 ---
 
-Here we detail the must-haves for every apllication that wishes to work with our services.
+Here we detail the must-haves for every application that wishes to work with our services.
 
 ### Application Startup
 
