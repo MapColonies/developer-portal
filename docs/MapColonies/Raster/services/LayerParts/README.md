@@ -727,7 +727,7 @@ with the following body:
             "title": "previous page",
             "type": "application/json",
             "rel": "previous",
-            "href": "https://layer-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28polygon_parts%3AORTHOPHOTO_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
+            "href": "https://layer-parts.mapcolonies.net/api/raster/v1/wfs?FILTER=%28%3Cfes%3AFilter%20xmlns%3Axs%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%3E%3Cfes%3APropertyIsEqualTo%20matchAction%3D%22Any%22%20matchCase%3D%22true%22%3E%3Cfes%3AValueReference%3EproductId%3C%2Ffes%3AValueReference%3E%3Cfes%3ALiteral%3EORTHOPHOTO_BEST%3C%2Ffes%3ALiteral%3E%3C%2Ffes%3APropertyIsEqualTo%3E%3C%2Ffes%3AFilter%3E%29&REQUEST=GetFeature&RESULTTYPE=RESULTS&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=%28layer_parts%3AORTHOPHOTO_BEST-OrthophotoBest%29&SERVICE=WFS&COUNT=3&STARTINDEX=0"
         }
     ],
     "crs": {
@@ -1821,7 +1821,7 @@ By default, `resultType` is set to `results`. If a user wants to get the total n
 Here’s an example of GET request:
 
 ```plaintext
-<POLYGON_PARTS_QUERY_SERVICE_URL>/wfs?
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
     request=GetFeature&
@@ -1842,7 +1842,7 @@ Here’s an example of GET request:
   xmlns:ows="http://www.opengis.net/ows/1.1" 
   xmlns:xlink="http://www.w3.org/1999/xlink" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  next="https://polygon-parts-int/api/raster/v1/wfs?RESULTTYPE=results&REQUEST=GetFeature&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=ORTHOPHOTO_BEST-OrthophotoBest&SERVICE=wfs&STARTINDEX=0" 
+  next="https://layer-parts-int/api/raster/v1/wfs?RESULTTYPE=results&REQUEST=GetFeature&OUTPUTFORMAT=application%2Fjson&VERSION=2.0.0&TYPENAMES=ORTHOPHOTO_BEST-OrthophotoBest&SERVICE=wfs&STARTINDEX=0" 
   numberMatched="21" 
   numberReturned="0" 
   timeStamp="2025-01-27T15:27:43.495Z" 
