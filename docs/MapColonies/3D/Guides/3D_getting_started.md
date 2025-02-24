@@ -60,7 +60,7 @@ body (XML):
                     </ogc:PropertyIsEqualTo>
                     <ogc:PropertyIsEqualTo>
                         <ogc:PropertyName>mc:productType</ogc:PropertyName>
-                        <ogc:Literal>QuantizedMeshDTMBest</ogc:Literal>
+                        <ogc:Literal>3DPhotoRealistic</ogc:Literal>
                     </ogc:PropertyIsEqualTo>
                 </ogc:Or>
             </ogc:Filter>
@@ -78,65 +78,38 @@ You will get GetRecords XML Response with product **metadata**.
     <?xml version="1.0" encoding="UTF-8"?>
     <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:mc="http://schema.mapcolonies.com/3d" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
     <csw:SearchStatus timestamp="2022-03-27T06:45:54Z" />
-    <csw:SearchResults numberOfRecordsMatched="2" numberOfRecordsReturned="2" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
+    <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
         <mc:MC3DRecord>
-            <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
+            <mc:accuracyLE90>4.0</mc:accuracyLE90>
             <mc:classification>5</mc:classification>
-            <mc:footprint>{"type":"Polygon","coordinates":[[[31.2603,33.4345],[31.2603,34.4888],[32.3353,34.4888],[32.3353,33.4345],[31.2603,33.4345]]]}</mc:footprint>
-            <mc:geographicArea>ישראל</mc:geographicArea>
-            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
-            <mc:id>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:id>
-            <mc:links scheme="3DTiles" name="" description="">http://model-server-3d/15211-65da-4523-9d6f-08016ad51b0d/tileset.json</mc:links>
+            <mc:creationDateUTC>2025-01-09T08:00:00Z</mc:creationDateUTC>
+            <mc:description>gbjhhj</mc:description>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[46.9831483,36.4864826],[46.9831483,37.0135162],[48.0168517,37.0135162],[48.0168517,36.4864826],[46.9831483,36.4864826]]]}</mc:footprint>
+            <mc:maxHorizontalAccuracyCE90>5.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>0fa277cb-b8ba-4c31-b787-7700f916dcd4</mc:id>
+            <mc:insertDate>2025-01-09T16:33:51Z</mc:insertDate>
+            <mc:links scheme="3DTiles" name="" description="">https://tiles.mapcolonies.net/api/3d/v1/b3dm/0fa277cb-b8ba-4c31-b787-7700f916dcd4/vricon_3d_surface_model_3dtiles_1.0_gltf_2/data/vricon_3dtiles/tileset.json</mc:links>
             <mc:producerName>DAVID</mc:producerName>
-            <mc:productBBox>31.2603,33.4345,32.3353,34.4888</mc:productBBox>
-            <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
-            <mc:productName>מודל פריז</mc:productName>
+            <mc:productBBox>46.9831483,36.4864826,48.0168517,37.0135162</mc:productBBox>
+            <mc:productId>0fa277cb-b8ba-4c31-b787-7700f916dcd4</mc:productId>
+            <mc:productName>dfgvbhrf</mc:productName>
+            <mc:productSource>\\Azure\Path\To\3D\Models\e047n36_N\vricon_3d_surface_model_3dtiles_1.0_gltf_2\data\vricon_3dtiles</mc:productSource>
+            <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
             <mc:productVersion>1</mc:productVersion>
-            <mc:productionMethod>photogrammetric</mc:productionMethod>
-            <mc:productionSystem>P-30</mc:productionSystem>
-            <mc:productionSystemVersion>1</mc:productionSystemVersion>
-            <mc:region>צפון</mc:region>
-            <mc:sensors>sensor1</mc:sensors>
-            <mc:imagingTimeEndUTC>2022-06-15T10:39:00Z</mc:imagingTimeEndUTC>
-            <mc:imagingTimeBeginUTC>2022-06-15T10:39:00Z</mc:imagingTimeBeginUTC>
-            <mc:SRS>4567</mc:SRS>
-            <mc:SRSName>WGS24GEO</mc:SRSName>
-            <mc:type>RECORD_3D</mc:type>
-            <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
-                <ows:LowerCorner>33.4345 31.2603</ows:LowerCorner>
-                <ows:UpperCorner>34.4888 32.3353</ows:UpperCorner>
-            </ows:BoundingBox>
-        </mc:MC3DRecord>
-        <mc:MC3DRecord>
-            <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
-            <mc:classification>6</mc:classification>
-            <mc:creationDateUTC>2022-06-15</mc:creationDateUTC>
-            <mc:description>srtm100</mc:description>
-            <mc:footprint>{"type":"Polygon","coordinates":[[[35.2670012825,32.5856881598],[35.2670012825,32.6300363309],[35.3105702702,32.6300363309],[35.3105702702,32.5856881598],[35.2670012825,32.5856881598]]]}</mc:footprint>
-            <mc:geographicArea>North</mc:geographicArea>
-            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
-            <mc:id>11111111-1111-1111-1111-111111111111</mc:id>
-            <mc:links scheme="TERRAIN_QMESH" name="" description="">http://terrain-server.com/terrains/srtm100/layer.json</mc:links>
-            <mc:producerName>MIKI</mc:producerName>
-            <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
-            <mc:productId>11111111-1111-1111-1111-111111111111</mc:productId>
-            <mc:productName>srtm100</mc:productName>
-            <mc:productType>QuantizedMeshDTMBest</mc:productType>
-            <mc:productVersion>1</mc:productVersion>
-            <mc:productionMethod></mc:productionMethod>
-            <mc:productionSystem></mc:productionSystem>
-            <mc:productionSystemVersion>1</mc:productionSystemVersion>
-            <mc:region>Israel</mc:region>
-            <mc:sensors>UNDEFINED</mc:sensors>
-            <mc:imagingTimeEndUTC>2022-06-15</mc:imagingTimeEndUTC>
-            <mc:imagingTimeBeginUTC>2022-06-15</mc:imagingTimeBeginUTC>
+            <mc:productionSystem>gggggg</mc:productionSystem>
+            <mc:productionSystemVersion>9</mc:productionSystemVersion>
+            <mc:region>bcgnbv</mc:region>
+            <mc:sensors>fggggg</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-01-09T08:11:00Z</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-01-09T08:11:00Z</mc:imagingTimeBeginUTC>
             <mc:SRS>4326</mc:SRS>
             <mc:SRSName>WGS84GEO</mc:SRSName>
             <mc:type>RECORD_3D</mc:type>
+            <mc:updateDateUTC>2025-01-09T16:34:46Z</mc:updateDateUTC>
             <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
-                <ows:LowerCorner>32.5856881598 35.2670012825</ows:LowerCorner>
-                <ows:UpperCorner>32.6300363309 35.3105702702</ows:UpperCorner>
+                <ows:LowerCorner>36.4864826 46.9831483</ows:LowerCorner>
+                <ows:UpperCorner>37.0135162 48.0168517</ows:UpperCorner>
             </ows:BoundingBox>
         </mc:MC3DRecord>
     </csw:SearchResults>
@@ -153,7 +126,7 @@ You will get GetRecords XML Response with product **metadata**.
 In the Response, look for
 
 ```xml title="Extract link for desired 3D model"
-<mc:links scheme="**3DTiles" name="">
+<mc:links scheme="3DTiles" name="">
   http://3d-model-server.com/path-to-tileset.json
 </mc:links>
 ```
@@ -163,7 +136,88 @@ In the Response, look for
 :::
 
 ## Get terrain provider URI (Step 2.1, optional)
-In the Response, look for
+This section explains how to query "Best" terrain, if you wish to get specifc terrain please use [DEM Getting Started Guide](/docs/MapColonies/DEM/Guides/DEM_getting_started.md)
+
+To query the "Best" terrain, use the following
+```xml title="GetRecords Request For Terrain"
+POST Request
+
+url:
+'<D3-CATALOG-SERVICE_URL>/csw'
+
+body (XML):
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords outputFormat="application/xml"  outputSchema="http://schema.mapcolonies.com/3d" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="200" xmlns:mc="http://schema.mapcolonies.com/3d" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
+    <csw:Query typeNames="csw:Record">
+        <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <Filter xmlns="http://www.opengis.net/ogc">
+              <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+
+                <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
+                <PropertyName>mc:productType</PropertyName>
+                <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
+
+                <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
+                <Literal>QuantizedMeshDTMBest</Literal>
+                <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
+
+              </PropertyIsLike>
+            </Filter>
+        </csw:Constraint>
+    </csw:Query>
+</csw:GetRecords>
+```
+
+You will get GetRecords XML Response with product **metadata**.
+
+<details>
+  <summary>Response example</summary>
+
+```xml title="Search Results Example"
+    <?xml version="1.0" encoding="UTF-8"?>
+    <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:mc="http://schema.mapcolonies.com/3d" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
+    <csw:SearchStatus timestamp="2022-03-27T06:45:54Z" />
+    <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
+        <mc:MC3DRecord>
+            <mc:accuracyLE90>999.0</mc:accuracyLE90>
+            <mc:classification>5</mc:classification>
+            <mc:creationDateUTC>2022-10-24</mc:creationDateUTC>
+            <mc:description>srtm100</mc:description>
+            <mc:footprint>{"type":"Polygon","coordinates":[[[34.98,32.8],[35.1,32.8],[35.1,32.7],[34.98,32.7],[34.98,32.8]]]}</mc:footprint>
+            <mc:geographicArea>North</mc:geographicArea>
+            <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
+            <mc:id>33333333-3333-3333-3333-333333333333</mc:id>
+            <mc:insertDate>2022-10-24</mc:insertDate>
+            <mc:links scheme="TERRAIN_QMESH" name="" description="">https://tiles.mapcolonies.net/api/dem/v1/terrains/srtm100</mc:links>
+            <mc:producerName>IDFMU</mc:producerName>
+            <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
+            <mc:productId>33333333-3333-3333-3333-333333333333</mc:productId>
+            <mc:productName>srtm100</mc:productName>
+            <mc:productSource></mc:productSource>
+            <mc:productStatus>PUBLISHED</mc:productStatus>
+            <mc:productType>QuantizedMeshDTMBest</mc:productType>
+            <mc:productVersion>1</mc:productVersion>
+            <mc:productionSystem></mc:productionSystem>
+            <mc:productionSystemVersion>1</mc:productionSystemVersion>
+            <mc:region>Israel</mc:region>
+            <mc:sensors>UNDEFINED</mc:sensors>
+            <mc:imagingTimeEndUTC>2022-10-24</mc:imagingTimeEndUTC>
+            <mc:imagingTimeBeginUTC>2022-10-24</mc:imagingTimeBeginUTC>
+            <mc:SRS>4326</mc:SRS>
+            <mc:SRSName>WGS84GEO</mc:SRSName>
+            <mc:type>RECORD_3D</mc:type>
+            <mc:updateDateUTC>2022-10-25T16:48:17Z</mc:updateDateUTC>
+            <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
+                <ows:LowerCorner>32.7 34.98</ows:LowerCorner>
+                <ows:UpperCorner>32.8 35.1</ows:UpperCorner>
+            </ows:BoundingBox>
+        </mc:MC3DRecord>
+    </csw:SearchResults>
+    </csw:GetRecordsResponse>
+```
+</details>
+
 
 ```xml title="Extract link for terrain provider"
 <mc:links scheme="TERRAIN_QMESH" name="srtm100">

@@ -178,7 +178,8 @@ Additionally, the response contains other valuable attributes for your applicati
 In the response, you can find other useful attributes that you can use for your application.
 
 You can see here how to build a 3D profile (version 2):
-- [3D Profile v2](http://localhost:3000/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
+(/docs/MapColonies/openstreetmap/openstreetmap)
+- [3D Profile v2](/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
 
 ### <ins>Useful and recommended attributes to use and display in your UI for the best user experience:</ins>
 - <ins>product name</ins> attributes to display the records property.
