@@ -143,7 +143,7 @@ To query the "Best" terrain, use the following:
 POST Request
 
 url:
-'<D3-CATALOG-SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
