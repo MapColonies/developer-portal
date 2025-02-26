@@ -154,7 +154,7 @@ body (XML):
             <Filter xmlns="http://www.opengis.net/ogc">
               <PropertyIsEqualTo>
 
-                <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
+                <!-- ****** PROFILE FIELD NAME START ********************** -->
                 <PropertyName>mc:productType</PropertyName>
                 <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
 
