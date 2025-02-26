@@ -160,7 +160,7 @@ body (XML):
 
                 <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
                 <Literal>QuantizedMeshDTMBest</Literal>
-                <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
+                <!-- ****** PROFILE FIELD VALUE END ********************** -->
 
               </PropertyIsEqualTo>
             </Filter>
