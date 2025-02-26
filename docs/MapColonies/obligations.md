@@ -35,6 +35,8 @@ Any link that **isn't available** through the catalogue service may be held as a
 
 ### Basemaps
 
-At application startup there is usually a set of default Raster layers that are displayed. The `productId` and `productType` for each layer should be held as an **easily configureable** list of parameters in case you want to use different layers in the future.
+At application startup there is usually a set of default Raster layers that are displayed. 
+The `productId` and `productType` for each layer should be held as an **easily configurable** list of parameters
+in case you want to use different layers in the future.
 
 We also recommend the layers are loaded in the same order as described in the list for easy swapping.
