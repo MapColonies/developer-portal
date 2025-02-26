@@ -99,7 +99,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>system</mc:productionSystem>
             <mc:productionSystemVersion>9</mc:productionSystemVersion>
-            <mc:region>bcgnbv</mc:region>
+            <mc:region>region</mc:region>
             <mc:sensors>fggggg</mc:sensors>
             <mc:imagingTimeEndUTC>2022-01-09T08:11:00Z</mc:imagingTimeEndUTC>
             <mc:imagingTimeBeginUTC>2022-01-09T08:11:00Z</mc:imagingTimeBeginUTC>
