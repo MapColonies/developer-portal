@@ -58,6 +58,6 @@ This version is deprecated, please refer to latest version
 | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_3D***|
 | mc:insertDate | date | the date when item was added to catalog <br/>  <br/> AUTO_GENERATED: ***CURRENT_TIME*** |
-| mc:boundingBox | wkt | currently stored footprint in wkt format <br/> AUTO_GENERATED |
+| ows:BoundingBox | wkt | currently stored footprint in wkt format <br/> AUTO_GENERATED |
 | mc:keywords | text | list of key words relevant for product <br/> AUTO_GENERATED |
 | mc:updateDate | date | the date when item was updated in catalog <br/>  <br/> AUTO_GENERATED: ***CURRENT_TIME*** in every update |
