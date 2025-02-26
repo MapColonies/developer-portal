@@ -200,7 +200,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem></mc:productionSystem>
             <mc:productionSystemVersion>1</mc:productionSystemVersion>
-            <mc:region>Israel</mc:region>
+            <mc:region>region</mc:region>
             <mc:sensors>UNDEFINED</mc:sensors>
             <mc:imagingTimeEndUTC>2022-10-24</mc:imagingTimeEndUTC>
             <mc:imagingTimeBeginUTC>2022-10-24</mc:imagingTimeBeginUTC>
