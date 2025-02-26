@@ -152,7 +152,7 @@ body (XML):
         <csw:ElementSetName>full</csw:ElementSetName>
         <csw:Constraint version="1.1.0">
             <Filter xmlns="http://www.opengis.net/ogc">
-              <PropertyIsLike wildCard="%" singleChar="_" escapeChar="\\">
+              <PropertyIsEqualTo>
 
                 <!-- ****** INSERT PROFILE FIELD NAME START ********************** -->
                 <PropertyName>mc:productType</PropertyName>
