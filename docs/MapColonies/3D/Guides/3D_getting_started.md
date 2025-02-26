@@ -97,7 +97,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
             <mc:productVersion>1</mc:productVersion>
-            <mc:productionSystem>gggggg</mc:productionSystem>
+            <mc:productionSystem>system</mc:productionSystem>
             <mc:productionSystemVersion>9</mc:productionSystemVersion>
             <mc:region>bcgnbv</mc:region>
             <mc:sensors>fggggg</mc:sensors>
