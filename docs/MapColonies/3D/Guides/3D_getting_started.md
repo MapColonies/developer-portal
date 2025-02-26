@@ -180,7 +180,7 @@ You will get GetRecords XML Response with product **metadata**.
     <csw:SearchStatus timestamp="2022-03-27T06:45:54Z" />
     <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/3d" elementSet="full">
         <mc:MC3DRecord>
-            <mc:accuracyLE90>999.0</mc:accuracyLE90>
+            <mc:accuracyLE90>4.0</mc:accuracyLE90>
             <mc:classification>5</mc:classification>
             <mc:creationDateUTC>2022-10-24</mc:creationDateUTC>
             <mc:description>srtm100</mc:description>
