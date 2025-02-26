@@ -138,7 +138,7 @@ In the Response, look for
 ## Get terrain provider URI (Step 2.1, optional)
 This section explains how to query "Best" terrain for complementing the `3D models` and giving a true 3D visualization. If you wish to get a specifc terrain please use [DEM Getting Started Guide](/docs/MapColonies/DEM/Guides/DEM_getting_started.md)
 
-To query the "Best" terrain, use the following
+To query the "Best" terrain, use the following:
 ```xml title="GetRecords Request For Terrain"
 POST Request
 
