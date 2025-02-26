@@ -156,7 +156,7 @@ body (XML):
 
                 <!-- ****** PROFILE FIELD NAME START ********************** -->
                 <PropertyName>mc:productType</PropertyName>
-                <!-- ****** INSERT PROFILE FIELD NAME END ********************** -->
+                <!-- ****** PROFILE FIELD NAME END ********************** -->
 
                 <!-- ****** INSERT PROFILE FIELD VALUE START ********************** -->
                 <Literal>QuantizedMeshDTMBest</Literal>
