@@ -190,7 +190,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:id>33333333-3333-3333-3333-333333333333</mc:id>
             <mc:insertDate>2022-10-24</mc:insertDate>
             <mc:links scheme="TERRAIN_QMESH" name="" description="">https://tiles.mapcolonies.net/api/dem/v1/terrains/srtm100</mc:links>
-            <mc:producerName>IDFMU</mc:producerName>
+            <mc:producerName>producer</mc:producerName>
             <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
             <mc:productId>33333333-3333-3333-3333-333333333333</mc:productId>
             <mc:productName>srtm100</mc:productName>
