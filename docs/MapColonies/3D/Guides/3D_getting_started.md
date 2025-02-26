@@ -162,7 +162,7 @@ body (XML):
                 <Literal>QuantizedMeshDTMBest</Literal>
                 <!-- ****** INSERT PROFILE FIELD VALUE END ********************** -->
 
-              </PropertyIsLike>
+              </PropertyIsEqualTo>
             </Filter>
         </csw:Constraint>
     </csw:Query>
