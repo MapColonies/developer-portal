@@ -16,15 +16,13 @@ import TabItem from '@theme/TabItem';
 import PlaygroundFrame from '@site/src/components/PlaygroundFrame'
 
 ## Developer Guide step-by-step
-The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies Catalog and how to consume mapping products in ***dynamic way*** (materials might be changed or added)
+The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the `MapColonies` Raster Catalog and how to consume Raster products in a ***dynamic way*** (materials might be changed or added).
 
-**Note:** In order to get the layer details (Product_ID, region, etc.) you have the following options:
-1. Open map-colonies catalog application and locate the required layer
-2. Query all records via CSW GetRecords operation and search it in the result response - [Query Examples Documentation](/docs/ogc/protocols/ogc-csw/ogc-csw-examples#query-by-field-value)
+:::info
+If you only want to view the layers or their `metadata` or other information (Product_ID, region, etc.) you may go to the MapColonies catalog application, locate the required layer and view the information there.
+:::
 
 ## Flow diagram
-
-The following flow will show you one of our main use-case's
 
 ```mermaid
 flowchart LR
@@ -49,42 +47,37 @@ flowchart LR
 ```
 
 ## Query Catalog Service (Step 1) {#step-1}
-Query **RASTER CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples).
 
-:::warning
-Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get full catalog data
+:::info
+Query **Raster CSW catalog** service to find item(s) according to a desired filter.<br/>
+See some examples [here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples).
 :::
-
-There are a few ways to acquire the productId, for example:
 
 <Tabs>
 <TabItem value="SpecificLayer" label="Specific Layer">
 
-To fetch a specific layer you need to aquire 2 properties values:
-1. `productType`
-2. `productId`
-To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for ***Best Orthophoto*** use the following)
-```
-POST Request
+To fetch a specific layer you need the following values:
+1. `productId`
+2. `productType`
 
-url:
-'<RASTER-CATALOG-SERVICE_URL>/csw'
+Both can be coppied from our catalog app.
 
-body (XML):
+When you have these values in hand you can make a `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1" startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
   <csw:Query typeNames="mc:MCRasterRecord">
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
       <Filter xmlns="http://www.opengis.net/ogc">
         <And>
           <PropertyIsEqualTo>
-            <PropertyName>mc:productType</PropertyName>
-            <Literal>OrthophotoBest</Literal>
+            <PropertyName>mc:productId</PropertyName>
+            <Literal>productId</Literal>
           </PropertyIsEqualTo>
           <PropertyIsEqualTo>
-            <PropertyName>mc:productId</PropertyName>
-            <Literal>ORTHOPHOTO_MOSAIC_BASE</Literal>
+            <PropertyName>mc:productType</PropertyName>
+            <Literal>productType</Literal>
           </PropertyIsEqualTo>
         </And>
       </Filter>
@@ -96,17 +89,10 @@ body (XML):
 </TabItem>
 <TabItem value="fetchAll" label="Fetch All Layers (Pagination)">
 
-You can enquire all raster products, use maxRecords and startPosition for pagination:
-
-``` xml
-POST Request
-
-url:
-'<RASTER-CATALOG-SERVICE_URL>/csw'
-
-body (XML):
+You can enquire all raster products with the following `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` (use `maxRecords` and `startPosition` for pagination):
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1"  startPosition="1"  outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
+<csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1" startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster">
   <csw:Query typeNames="mc:MCRasterRecord">
    <csw:ElementSetName>full</csw:ElementSetName>
     <csw:Constraint version="1.1.0">
@@ -124,8 +110,7 @@ body (XML):
 </TabItem>
 </Tabs>
 
-You will get GetRecords XML Response with product **metadata**.
-
+You will get an XML Response with product **metadata**:
 <details>
   <summary>Response example</summary>
 
@@ -177,19 +162,24 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
+:::warning
+Notice that you need to set 'outputSchema="http://schema.mapcolonies.com/raster"' in order to get the full catalog data
+:::
+
 ## Extract product Bounding Box (Step 2) {#step-2}
-Now you want to find LAYER product BBOX (aka ‘extent’) from the metadata response of the product.
-In the Response, look for `<ows:BoundingBox></ows:BoundingBox>` element.
+
+Some of our layers cover only specific parts of the world, this means that not all requests will return data. When making requests we want to make sure our `map viewer` knows where there's data.
+In order to do this we want to supply the `map viewer` with the layer's defined areas, in this case the `product BBOX` (aka ‘extent’). We can get this from the metadata response of the product.<br/>
+Look for the `<ows:BoundingBox></ows:BoundingBox>` element in the response from the `catalog`.
 
 
-Another way to find the product extent:
-In the Response, look for `<mc:footprint></mc:footprint>` element.
-In the example above - response XML file looks like this:
-`<mc:footprint>{"type":"Polygon","coordinates":[[[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]]]}</mc:footprint>`)
+Another way to find the product extent is to look for the `<mc:footprint></mc:footprint>` element.<br/>
+In the example in the last step, the response `xml` file looks like this:<br/>
+`<mc:footprint>{"type":"Polygon","coordinates":[[[-180,-90],[-180,90],[180,90],[180,-90],[-180,-90]]]}</mc:footprint>`
 
-Use any tool (CesiumJS, turfJS, etc..) to convert the footprint(GeoJSON) into a bounding box.
+Use any tool (CesiumJS, turfJS, etc..) to convert the footprint (GeoJSON) into a bounding box.
 
-For example using CesiumJS and turfJS
+For example using `CesiumJS` and `turfJS`:
 ``` typescript title="Generate layer footprint"
 import bbox from '@turf/bbox';
 import { Rectangle } from 'cesium';
@@ -198,70 +188,70 @@ import { LayerRasterRecord } from '../models';
 export const generateLayerRectangle = (layer: LayerRasterRecord): Rectangle => {
   return Rectangle.fromDegrees(...bbox(layer.footprint));
 };
-
 ```
-After you’ve got your product bounding box lets move to the next step…
+
+After you’ve got your product bounding box lets move to the next step.
 
 ## Get layer URI (Step 3) {#step-3}
-In the Response, look for
 
-:::note
-WMTS (wmts capabilities) And WMTS_BASE (base wmts link exists also for those who prefer to use them)
+In the `catalog` response from the first step, look for the `links` tags.
+
+:::warning
+Each layer has it's own links, so make sure to filter for your wanted layer
 :::
 
-``` xml
+```xml title="Example links for a layer"
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts'
+  '<RASTER-SERVING-SERVICE_URL>/wmts'
 </mc:links>
 ```
 
-You need to save `[desired_layer_identifier]` value for later use.
-:::info
-**You also may save `<mc:links>` <u>element</u> value, which is a layer consumption URL.**
-:::
+You need to save the `[desired_layer_identifier]` value for later use.
 
 ## Get Layer Capabilities (Step 4) {#step-4}
-Now, you need to fetch Raster's MapServer specified Layer metadata by sending **GetCapabilities** request.
-First - find the correct **GetCapabilities URL**. Best way to achieve it is by looking for `scheme="WMTS"` property in the response of **[Step 3](#step-3)** and extract the GetCapabilities URL off it.
 
-``` xml
+The links we saw in the previous step are to other services associated with the specific layer, we can differentiate between them by their `scheme` attribute.<br/>
+Now we need to fetch raster's `MapServer` specified layer metadata by sending a **GetCapabilities** request. Find the correct **GetCapabilities URL** by looking for the wanted layer's `scheme="WMTS"` attribute in the response of **[Step 1](#step-1)** and extract the url from it.
+
+```xml title="Link for WMTS in RESTfull Format"
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 ```
 
 **OR** you can use wmts KVP capabilities
 
-``` xml title="Link for WMTS in KVP Format"
+```xml title="Link for WMTS in KVP Format"
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 ```
 
-Make a GET request to this link. The response contains the details of **all** available layers in following format.
+Make a GET request to this link. The response contains the details of **all** available layers in following format:
 <figure>
     <img src={require("/img/getcapabilities_response.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto"}}/>
 </figure>
 
-In the Response, look for LAYER where `<ows:Identifier>` has saved [previously](#step-3) `[desired_layer_identifier]`
+In the Response, look for layer where `<ows:Identifier>` is equal to the [previously](#step-3) saved `[desired_layer_identifier]`.
 
 You can read more about ***GetCapabilities*** OGC format [here](http://docs.opengeospatial.org/is/13-082r2/13-082r2.html) 🌐
 
-You need to **save** the following values in order to consume the layer later on [Step 5](#step-5).
+You need to **save** the `style` `ows:Identifier`, `Format` and `TileMatrixSet` values in order to consume the layer later on [Step 5](#step-5).
 
 :::info
-**Alternative to &nbsp; [Step 3](#step-3) way to get layer consumption URL**
-`<Layer/>` element include an exact WMTS URL template inside the child `<ResourceURL/>` element. So, you can use it as well
+Alternative to &nbsp;[Step 3](#step-3), you may get the layer consumption url from the `<ResourceURL/>` element under the `<Layer/>` element. This gives a `WMTS` url template.
 :::
 
 ## Construct Client side layer (Step 5) {#step-5}
-Now, after you got all product metadata that you need by querying our Catalog and MapProxy capabilities, lets actually use it in order to display it in real map viewer / application (clients).
+
+Now, after you got all the values that you need by querying our `catalog` and `Map Server` capabilities, lets actually use it in order to display it in real map viewer / application (clients).
+
 :::warning
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 :::
@@ -293,7 +283,7 @@ const catalogLayer = new Cesium.WebMapTileServiceImageryProvider({
       format : '<LAYER_FORMAT>',                        // from Step_4
       tileMatrixSetID : '<LAYER_TILE_MATRIX_SET_ID>',   // from Step_4
       /*********************************************************************************/
-      /********     TILING SCHEME SHOULD BE 2 x 1                                ********/
+      /********     TILING SCHEME SHOULD BE 2 x 1                               ********/
       /*********************************************************************************/
       tilingScheme: new Cesium.GeographicTilingScheme(),
       /*********************************************************************************/
@@ -311,8 +301,6 @@ map.addLayer(catalogLayer);
 </TabItem>
 <TabItem value="OpenLayers (v6.x)" label="OpenLayers (v6.x)">
 
-
-### OpenLayers (6.x)
 ```javascript
 ...
 ...
@@ -359,7 +347,7 @@ map.addLayer(catalogLayer);
 
     const map = L.map("map", { crs: L.CRS.EPSG4326 }).setView([0, 0], 0);
                                                                       //in case of queryParameter authentication:
-    const layer = L.tileLayer(parsedUrl + '?token=${TOKEN}',{   // received RASTER auth token
+    const layer = L.tileLayer(parsedUrl + '?token=${TOKEN}',{         // received RASTER auth token
       id : '<desired_layer_identifier>',                              // from Step_3
       bounds
     })
@@ -380,7 +368,7 @@ Replace all `<>` place holders with the real values that we got from all previou
 - format - should be replaced with the value that you got from [Step 4](#step-4)
 - tileMatrixSetID - how can you get it? from Response from [Step 4](#step-4).
 - tilingScheme
-- rectangle - value should be the BBOX (extent that you got from [Step 2](#step-2).
+- rectangle - value should be the BBOX (extent that you got from [Step 2](#step-2)).
 - Note - **extent** taken from step 2 - where bbox is calculated.
 
 ### Leaflet (1.x)
