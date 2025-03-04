@@ -40,3 +40,9 @@ The `productId` and `productType` for each layer should be held as an **easily c
 in case you want to use different layers in the future.
 
 We also recommend that the layers are loaded in the same order as described in the list for easy swapping.
+
+### Pagination
+
+Some of our services return multiple results per request, according to filter parameters, and due to geographic entities the returned payload may be very large. In order to solve this issue we implement `pagination` using special parameters.
+
+You should be using `pagination` in order to control the amount of results returned and easily split a request that yields a huge amount of data or records in to multiple requests. Read more in the documentation page for each service in order to understand how to use this feature.
