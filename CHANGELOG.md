@@ -1,5 +1,31 @@
 # Changelog
 
+## [3.4.0](https://github.com/MapColonies/developer-portal/compare/v3.3.0...v3.4.0) (2025-03-04)
+
+
+### Features
+
+* add link to yahalom app in navigation bar ([#117](https://github.com/MapColonies/developer-portal/issues/117)) ([148ca94](https://github.com/MapColonies/developer-portal/commit/148ca940f3fcee9dd4fd70f58f70d1fa9c020404))
+
+
+### Bug Fixes
+
+* **auth:** information about service token support ([#138](https://github.com/MapColonies/developer-portal/issues/138)) ([dca7f0d](https://github.com/MapColonies/developer-portal/commit/dca7f0dce83ac297595c051854766b98e170baf4))
+* tiling scheme 2x1 ([#146](https://github.com/MapColonies/developer-portal/issues/146)) ([cf9b735](https://github.com/MapColonies/developer-portal/commit/cf9b7357de544cf0c4f37e50be7504a98b32bbff))
+
+
+### Code Refactoring
+
+* rename polygon parts to layer parts ([#145](https://github.com/MapColonies/developer-portal/issues/145)) ([4aaeace](https://github.com/MapColonies/developer-portal/commit/4aaeace484c29350d4fb7ada363f660ddeecda29))
+
+
+### Documentation
+
+* **3D:** update getting started guide (MAPCO-5461) ([#151](https://github.com/MapColonies/developer-portal/issues/151)) ([830a670](https://github.com/MapColonies/developer-portal/commit/830a670ace2643239ac5e652743840e7f379d86a))
+* **knowledge-base:** add best practices page ([#143](https://github.com/MapColonies/developer-portal/issues/143)) ([67c33a7](https://github.com/MapColonies/developer-portal/commit/67c33a7ef9ffcb3c8dc0382cc77906b2fa6fa436))
+* **layer-parts:** added resultType (get features count) explanation (MAPCO-6191) ([#142](https://github.com/MapColonies/developer-portal/issues/142)) ([e1d579a](https://github.com/MapColonies/developer-portal/commit/e1d579a1b51219fa64acfab135df13658a775e89))
+* **raster:** update getting started guide ([#144](https://github.com/MapColonies/developer-portal/issues/144)) ([ffa48f0](https://github.com/MapColonies/developer-portal/commit/ffa48f076edd565d2771310689131f801995e117))
+
 ## [3.3.0](https://github.com/MapColonies/developer-portal/compare/v3.2.3...v3.3.0) (2024-11-21)
 
 
