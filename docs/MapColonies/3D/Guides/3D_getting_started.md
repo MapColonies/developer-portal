@@ -9,6 +9,10 @@ tags:
  - getting-started
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import PlaygroundFrame from '@site/src/components/PlaygroundFrame'
+
 ## Step by step guide
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **3D** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
 
@@ -35,16 +39,71 @@ flowchart LR
 ```
 
 ## Query CSW catalog (Step 1)
+
 Query **3D CSW catalog** service to find item(s) according to desired filter [example are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
 Filter should be based on [3D profile](/docs/MapColonies/3D/services/catalog/catalog-profile-v2)
 
-Example query based on `mc:classification` profile field
+:::warning
+Pay attention to set the following parameter 'outputSchema="http://schema.mapcolonies.com/3d"' in order to get full catalog data
+:::
+
+There are a few ways to acquire the desired record layer, for example:
+
+<Tabs>
+<TabItem value="SpecificLayer" label="Specific Layer">
+
+To fetch a specific layer you need to aquire the following property value:
+1. `productType`
+The "type" of the desired record layer ("3DPhotoRealistic","TERRAIN_QMESH", etc.)
+2. `productId`
+The unique identifier of the desired record layer
+
+To get unique product when you already have the ***productType*** and ***productId*** you can use the following query (both can be coppied from our catalog app, for example for a specific ***3D Photo Realistic*** use the following)
+
 ```xml title="GetRecords Request"
 POST Request
 
 url:
-'<D3-CATALOG-SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw'
+
+body (XML):
+<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords outputFormat="application/xml"  outputSchema="http://schema.mapcolonies.com/3d" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="10" xmlns:mc="http://schema.mapcolonies.com/3d" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
+    <csw:Query typeNames="csw:Record">
+        <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <Filter xmlns="http://www.opengis.net/ogc">
+            <And>
+              <PropertyIsEqualTo>
+                <!-- ****** PROFILE FIELD NAME START ********************** -->
+                <PropertyName>mc:productType</PropertyName>
+                <!-- ****** PROFILE FIELD NAME END ********************** -->
+
+                <!-- ****** PROFILE FIELD VALUE START ********************** -->
+                <Literal>3DPhotoRealistic</Literal>
+                <!-- ****** PROFILE FIELD VALUE END ********************** -->
+              </PropertyIsEqualTo>
+              <PropertyIsEqualTo>
+                <PropertyName>mc:productId</PropertyName>
+                <Literal>0fa277cb-b8ba-4c31-b787-7700f916dcd4</Literal>
+              </PropertyIsEqualTo>
+            </And>
+            </Filter>
+        </csw:Constraint>
+    </csw:Query>
+</csw:GetRecords>
+```
+</TabItem>
+<TabItem value="fetchAll" label="Fetch All Layers (Pagination)">
+
+You can enquire all 3d products by `productType`, use maxRecords and startPosition for pagination:
+
+```xml title="GetRecords Request"
+POST Request
+
+url:
+'<3D_CATALOG_SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -52,22 +111,24 @@ body (XML):
     <csw:Query typeNames="csw:Record">
         <csw:ElementSetName>full</csw:ElementSetName>
         <csw:Constraint version="1.1.0">
-            <ogc:Filter>
-                <ogc:Or>
-                    <ogc:PropertyIsEqualTo>
-                        <ogc:PropertyName>mc:classification</ogc:PropertyName>
-                        <ogc:Literal>5</ogc:Literal>
-                    </ogc:PropertyIsEqualTo>
-                    <ogc:PropertyIsEqualTo>
-                        <ogc:PropertyName>mc:productType</ogc:PropertyName>
-                        <ogc:Literal>3DPhotoRealistic</ogc:Literal>
-                    </ogc:PropertyIsEqualTo>
-                </ogc:Or>
-            </ogc:Filter>
+            <Filter xmlns="http://www.opengis.net/ogc">
+              <PropertyIsEqualTo>
+                <!-- ****** PROFILE FIELD NAME START ********************** -->
+                <PropertyName>mc:productType</PropertyName>
+                <!-- ****** PROFILE FIELD NAME END ********************** -->
+
+                <!-- ****** PROFILE FIELD VALUE START ********************** -->
+                <Literal>3DPhotoRealistic</Literal>
+                <!-- ****** PROFILE FIELD VALUE END ********************** -->
+              </PropertyIsEqualTo>
+            </Filter>
         </csw:Constraint>
     </csw:Query>
 </csw:GetRecords>
 ```
+
+</TabItem>
+</Tabs>
 
 You will get GetRecords XML Response with product **metadata**.
 
@@ -83,7 +144,6 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:accuracyLE90>4.0</mc:accuracyLE90>
             <mc:classification>5</mc:classification>
             <mc:creationDateUTC>2025-01-09T08:00:00Z</mc:creationDateUTC>
-            <mc:description>gbjhhj</mc:description>
             <mc:footprint>{"type":"Polygon","coordinates":[[[46.9831483,36.4864826],[46.9831483,37.0135162],[48.0168517,37.0135162],[48.0168517,36.4864826],[46.9831483,36.4864826]]]}</mc:footprint>
             <mc:maxHorizontalAccuracyCE90>5.0</mc:maxHorizontalAccuracyCE90>
             <mc:id>0fa277cb-b8ba-4c31-b787-7700f916dcd4</mc:id>
@@ -183,7 +243,6 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:accuracyLE90>4.0</mc:accuracyLE90>
             <mc:classification>5</mc:classification>
             <mc:creationDateUTC>2022-10-24</mc:creationDateUTC>
-            <mc:description>srtm100</mc:description>
             <mc:footprint>{"type":"Polygon","coordinates":[[[34.98,32.8],[35.1,32.8],[35.1,32.7],[34.98,32.7],[34.98,32.8]]]}</mc:footprint>
             <mc:geographicArea>North</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
