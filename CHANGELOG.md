@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/MapColonies/developer-portal/compare/v3.4.0...v3.4.1) (2025-03-04)
+
+
+### Documentation
+
+* **obligations:** move pagination from recommendations ([#153](https://github.com/MapColonies/developer-portal/issues/153)) ([d287ff1](https://github.com/MapColonies/developer-portal/commit/d287ff1ff8913bdcc141729a9260a63e7037f251))
+
 ## [3.4.0](https://github.com/MapColonies/developer-portal/compare/v3.3.0...v3.4.0) (2025-03-04)
 
 
