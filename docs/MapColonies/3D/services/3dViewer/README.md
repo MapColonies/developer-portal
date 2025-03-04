@@ -28,7 +28,7 @@ A good example of a filter request:
 POST Request
 
 url:
-'<3D-CATALOG-SERVICE_URL>/csw?token=<TOKEN>'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -52,9 +52,9 @@ body (XML):
     </csw:Query>
 </csw:GetRecords>
 ``` 
- - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW catalog URL.
+ - Replace `<3D_CATALOG_SERVICE_URL>` with 3D CSW catalog URL.
 ``` bash 
- <3D-CATALOG-SERVICE_URL>
+ <3D_CATALOG_SERVICE_URL>
  ```
  - Replace `<token>` with with the token you have.
 ``` bash 
@@ -68,7 +68,7 @@ A good example is:
 POST Request
 
 url:
-'<3D-CATALOG-SERVICE_URL>/csw?token=<TOKEN>'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <csw:GetRecords 
@@ -177,8 +177,7 @@ Additionally, the response contains other valuable attributes for your applicati
 
 In the response, you can find other useful attributes that you can use for your application.
 
-You can see here how to build a 3D profile (version 2):
-- [3D Profile v2](http://localhost:3000/docs/MapColonies/3D/services/catalog/catalog-profile-v2) 
+You can see [here](/docs/MapColonies/3D/services/catalog/catalog-profile-v2) all of the details about the 3D profile.
 
 ### <ins>Useful and recommended attributes to use and display in your UI for the best user experience:</ins>
 - <ins>product name</ins> attributes to display the records property.
@@ -198,9 +197,9 @@ GET Request
 url:
 <CATALOG-VIEWER-URL>?<QUERY-PARAMS>
 ```
- - Replace `<3D-CATALOG-SERVICE_URL>` with 3D CSW catalog URL.
+ - Replace `<3D_CATALOG_SERVICE_URL>` with 3D CSW catalog URL.
 ``` bash 
- <3D-CATALOG-SERVICE_URL>
+ <3D_CATALOG_SERVICE_URL>
  ```
 
  In `<QUERY-PARAMS>`, you need to add there params:

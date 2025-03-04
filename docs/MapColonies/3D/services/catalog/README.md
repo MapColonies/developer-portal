@@ -132,7 +132,6 @@ After sending the request, you will get a response with all the records matched 
             <mc:accuracyLEP90>999.0</mc:accuracyLEP90>
             <mc:classification>7</mc:classification>
             <mc:creationDateUTC>2022-06-15</mc:creationDateUTC>
-            <mc:description>srtm100</mc:description>
             <mc:footprint>{"type":"Polygon","coordinates":[[[11,22],[11,33],[44,33],[44,22],[11,22]]]}</mc:footprint>
             <mc:geographicArea>North</mc:geographicArea>
             <mc:maxHorizontalAccuracyCE90>999.0</mc:maxHorizontalAccuracyCE90>
