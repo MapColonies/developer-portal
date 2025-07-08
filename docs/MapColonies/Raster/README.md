@@ -32,6 +32,12 @@ Term | Description
 
 ## Raster Tiling scheme In Detail
 
+:::warning
+
+`Tile Size (degrees)` is cut after 9 decimal points and `Pixel Size (meters)` is rounded to 2 decimal points.
+
+:::
+
 Zoom Level Id  | Matrix Width (tiles) | Matrix Height (tiles) | Tile Size (degrees) | Pixel Size (degrees) | Tile Size* (meters) | Pixel Size* (meters)
 :--- | :--- | :--- | :--- | :--- | :--- | :---
 0 |	2 |	1 |	180 | 0.703125 | 20,037,508.34 | 78,271.52
