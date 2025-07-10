@@ -12,7 +12,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import PlaygroundFrame from '@site/src/components/PlaygroundFrame'
 
-## Export Guide step-by-step
+## WFS query Guide step-by-step
 The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies WFS Sevice and how to query layer parts data.
 
 WFS querying capabilities Reference is [here](MapColonies/Raster/services/LayerParts/layer-parts)
@@ -213,7 +213,7 @@ Identify the WFS GetCapabilities from above step:
   '<RASTER-SERVING-SERVICE_URL>/wfs'
 </mc:links>
 ```
-```
+
 
 Make a GET request to this link. The response contains the details of all available layers in following format:
 
@@ -240,6 +240,7 @@ Make a GET request to this link. The response contains the details of all availa
     </ows:DCP>
 </ows:Operation>
 ```
+
 
 ## Query WFS operations (Step 4)
 As you can see, above xml response represents links to wfs operations query names (GetFeature/DescribeFeature)
