@@ -184,7 +184,7 @@ You will get GetRecords XML Response with product **metadata**.
   ```
 </details>
 
-## Get layer URI (Step 2) {#step-2}
+## Get layer URI (Step 2)
 
 In the `catalog` response from the first step, look for the `links` tags.
 
@@ -244,7 +244,15 @@ Make a GET request to this link. The response contains the details of all availa
 
 ## Query WFS operations (Step 4)
 As you can see, above xml response represents links to wfs operations query names (GetFeature/DescribeFeature)
-Now all you have to do is query the desired WFS operation by those references that we mantioned.
+Now all you have to do is query the desired WFS operation link by those references that we mantioned.
 
-<ows:Operation name="DescribeFeatureType"> Reference: [DescribeFeatureType](/docs/MapColonies/Raster/services/LayerParts/layer-parts#describefeaturetype)
-<ows:Operation name="GetFeature"> -> Reference: [GetFeature](/docs/MapColonies/Raster/services/LayerParts/layer-parts#getfeature)
+```xml 
+<ows:Operation name="DescribeFeatureType">
+```
+ Reference: [DescribeFeatureType](/docs/MapColonies/Raster/services/LayerParts/layer-parts#describefeaturetype)
+
+
+```xml
+<ows:Operation name="GetFeature">
+```
+Reference: [GetFeature](/docs/MapColonies/Raster/services/LayerParts/layer-parts#getfeature)
