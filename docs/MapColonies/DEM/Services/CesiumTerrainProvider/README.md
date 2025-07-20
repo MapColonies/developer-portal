@@ -129,7 +129,7 @@ The following HTML example provides a complete and executable demonstration of t
 :::warning
 **Authentication must be integrated in order to communicate with the terrain provider service, see the principles [here](/docs/MapColonies/authentication).**<br/>
 **See the principles [here](/docs/MapColonies/authentication)**<br/>
-Refer for here for cesium query / header token configuration [here](https://cesium.com/learn/ion-sdk/ref-doc/Resource.html)
+Refer down in the example down blow for cesium query / header mapcolonies' token configuration
 :::
 
 ```html
@@ -164,9 +164,14 @@ Refer for here for cesium query / header token configuration [here](https://cesi
         });
 
         // Create the CesiumTerrainProvider instance, referencing the custom Quantized Mesh server.
-        // CRITICAL: The placeholder 'https://your.custom.terrain.server/path/to/tiles/' must be substituted with the actual URL from MapColonies 3D Catalog!
+        // CRITICAL: The placeholder 'https://your.custom.terrain.server/path/to/tiles/' must be substituted with the actual URL from MapColonies 3D / DEM Catalog!
         const terrainProvider = new Cesium.CesiumTerrainProvider({
             url: 'https://your.custom.terrain.server/path/to/tiles/',
+            // url:new Cesium.Resource({
+            //      url: '<TERRAIN_SERVER_URL>',                       // from Step_3 or Step_4
+            //      headers: { 'x-api-key': MAPCOLONIES_TOKEN },       // choose either header or query
+            //      queryParameters: { 'token': MAPCOLONIES_TOKEN },   // choose either header or query
+            //}),
             requestVertexNormals: true,          // Vertex normals are to be requested for enhanced lighting and shading.
             requestWaterMask: true               // Water masks are to be requested for accurate water rendering effects.
         });
@@ -205,5 +210,11 @@ Refer for here for cesium query / header token configuration [here](https://cesi
 </body>
 </html>
 ```
+### Final Result
+If everything is working as expected you should see your map elevated by the terrain provider.
+<p align="center"> 
+![elevated_terrain](/img/dem/elevated_terrain.webp)
+</p>
+
 ## Conclusion
 Quantized Mesh is established as a highly efficacious and efficient format for the streaming of three-dimensional terrain data, serving as a foundational element for high-performance geospatial applications. Through the meticulous utilization of the `Cesium.CesiumTerrainProvider` class, developers are afforded the capability to seamlessly integrate and visualize extensive terrain datasets originating from their proprietary custom terrain servers within their `Cesium.js` applications. This integration facilitates the creation of rich, interactive, and visually compelling three-dimensional globes featuring realistic terrain rendering, thereby significantly augmenting the user's geospatial exploration experience.
