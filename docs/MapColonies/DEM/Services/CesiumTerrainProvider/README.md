@@ -130,7 +130,6 @@ The following HTML example provides a complete and executable demonstration of t
 
 :::warning
 **Authentication must be integrated in order to communicate with the terrain provider service, see the principles [here](/docs/MapColonies/authentication).**<br/>
-**See the principles [here](/docs/MapColonies/authentication)**<br/>
 Refer down in the example down blow for cesium query / header mapcolonies' token configuration
 :::
 
