@@ -112,6 +112,7 @@ const terrainProvider = new Cesium.CesiumTerrainProvider({
 :::info
 *Critical Considerations Pertaining to the url Parameter*
 The url parameter must unequivocally designate the root directory of the terrain tile service. The `CesiumTerrainProvider` internally constructs the complete path to individual tiles (e.g. level/x/y.terrain) based upon this foundational URL.
+Get the URL for the terrain server from the catalog, details [here](../../Guides/DEM_getting_started.md#query-csw-catalog-step-1)
 :::
 
 ### Assigning the Terrain Provider
@@ -168,7 +169,7 @@ Refer down in the example down blow for cesium query / header mapcolonies' token
         const terrainProvider = new Cesium.CesiumTerrainProvider({
             url: 'https://your.custom.terrain.server/path/to/tiles/',
             // url:new Cesium.Resource({
-            //      url: '<TERRAIN_SERVER_URL>',                       // from Step_3 or Step_4
+            //      url: '<TERRAIN_SERVER_URL>',                       
             //      headers: { 'x-api-key': MAPCOLONIES_TOKEN },       // choose either header or query
             //      queryParameters: { 'token': MAPCOLONIES_TOKEN },   // choose either header or query
             //}),
