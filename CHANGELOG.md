@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.2](https://github.com/MapColonies/developer-portal/compare/v3.4.1...v3.4.2) (2025-07-21)
+
+
+### Documentation
+
+* added intial docs for terrain provider ([#159](https://github.com/MapColonies/developer-portal/issues/159)) ([923480a](https://github.com/MapColonies/developer-portal/commit/923480ae3e51e9ff63317c29a684c9a47a6e9aea))
+* **raster tiling scheme:** display accurate pixel size in degrees ([#158](https://github.com/MapColonies/developer-portal/issues/158)) ([37e7b82](https://github.com/MapColonies/developer-portal/commit/37e7b824d383ed29cc5cda1e028e4fa3ccfab2a3))
+
 ## [3.4.1](https://github.com/MapColonies/developer-portal/compare/v3.4.0...v3.4.1) (2025-03-04)
 
 
