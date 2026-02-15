@@ -1,7 +1,7 @@
 ---
-id: dem-getting-started
-slug: dem-getting-started
-title: Getting started
+id: terrain-provider
+slug: terrain-provider
+title: Terrain Provider
 tags:
  - guide
  - DEM
@@ -41,7 +41,7 @@ flowchart LR
 ## Query CSW catalog (Step 1)
 Query **DEM CSW catalog** service to find item(s) according to desired filter [examples are here](/docs/ogc/protocols/ogc-csw/ogc-csw-examples)
 
-Filter should be based on [DEM profile](/docs/MapColonies/DEM/Services/catalog/catalog-profile-v1)
+Filter should be based on [DEM profile](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v1)
 
 Example query based on `mc:classification` profile field
 ```xml title="GetRecords Request"

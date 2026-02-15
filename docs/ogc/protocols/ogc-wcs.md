@@ -26,7 +26,7 @@ tags:
 A WCS server responding to a **GetCapabilities** request returns metadata about the service, including supported operations and parameters, and a list of the available layers.
 
 ```
-<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
+<WCS_SERVICE_URL>/ows?
 service=WCS&
 version=2.0.1&
 request=GetCapabilities
@@ -78,36 +78,36 @@ request=GetCapabilities
           <ows:Operation name="GetCapabilities">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
           <ows:Operation name="DescribeCoverage">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
           <ows:Operation name="GetCoverage">
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Get xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
             <ows:DCP>
                 <ows:HTTP>
-                  <ows:Post xlink:href="<DEM-DEM-SERVING-SERVICE_URL>/geoserver/wcs?" />
+                  <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?" />
                 </ows:HTTP>
             </ows:DCP>
           </ows:Operation>
@@ -332,7 +332,6 @@ request=GetCapabilities
           <wcs:Extension />
       </wcs:Contents>
     </wcs:Capabilities>
-
   ```
 </details>
 
@@ -341,11 +340,23 @@ This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** re
     <img src={require("/img/getcap_wcs_example.png").default} style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"80%"}} />
 </figure>
 
+### Understanding the capabilities response {#understanding-capabilities}
+
+| **Tag name** | **Use** |
+| ----------- | ----------- |
+| OperationsMetadata | Provides details about the service's available operations. |
+| formatSupported | Located under the `ServiceMetadata` tag.<br/>Lists the supported formats. |
+| Extension | Located under the `ServiceMetadata` tag.<br/>Lists all of the supported crs. |
+| InterpolationMetadata | Located under the `Extension` tag.<br/>Lists all of the available interpolation methods available. |
+| Contents | Information about the available coverages. |
+
 ## DescribeCoverage
 The purpose of the **DescribeCoverage** request is to additional information about a Coverage a client wants to query. It returns information about the crs, the metadata, the domain, the range and the formats it is available in. A client generally will need to issue a DescribeCoverage request before being sure it can make the proper GetCoverage request
 
+### Version 1.0.0
+
 ```
-<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
+<WCS_SERVICE_URL>/ows?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
@@ -354,10 +365,9 @@ COVERAGE=n30_e034_1arc_v3
 
 <details>
   <summary>Response example</summary>
-
   ``` xml
    <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs http://dem-dev-geoserver-development-dem-dev.apps.v0h0bdx6.eastus.aroapp.io/geoserver/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
+    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs http://dem-dev-geoserver-development-dem-dev.apps.v0h0bdx6.eastus.aroapp.io/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
       <wcs:CoverageOffering>
           <wcs:description>Generated from GeoTIFF</wcs:description>
           <wcs:name>dem:n30_e034_1arc_v3</wcs:name>
@@ -443,7 +453,97 @@ COVERAGE=n30_e034_1arc_v3
   ```
 </details>
 
-This request shows an XML file containing the DescribeCoverage response of ***n30_e034_1arc_v3***  layer.
+### Version 2.0.1
+
+```bash
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30&token=<token>'
+```
+
+<details>
+    <summary>Response</summary>
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 https://poc-geoserver-dem-wcs-dev.apps.j1lk3njp.eastus.aroapp.io/schemas/wcs/2.0/wcsgs.xsd">
+        <wcs:CoverageDescription gml:id="dem__srtm30">
+            <gml:description>Generated from GeoTIFF</gml:description>
+            <gml:name>srtm30</gml:name>
+            <gml:boundedBy>
+                <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
+                    <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
+                    <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
+                </gml:Envelope>
+            </gml:boundedBy>
+            <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+            <gml:coverageFunction>
+                <gml:GridFunction>
+                    <gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule>
+                    <gml:startPoint>0 0</gml:startPoint>
+                </gml:GridFunction>
+            </gml:coverageFunction>
+            <gmlcov:metadata>
+                <gmlcov:Extension>
+                    <ows:Keywords>
+                        <ows:Keyword>srtm30</ows:Keyword>
+                        <ows:Keyword>WCS</ows:Keyword>
+                        <ows:Keyword>GeoTIFF</ows:Keyword>
+                    </ows:Keywords>
+                </gmlcov:Extension>
+            </gmlcov:metadata>
+            <gml:domainSet>
+                <gml:RectifiedGrid gml:id="grid00__dem__srtm30" dimension="2">
+                    <gml:limits>
+                        <gml:GridEnvelope>
+                            <gml:low>0 0</gml:low>
+                            <gml:high>2815 2303</gml:high>
+                        </gml:GridEnvelope>
+                    </gml:limits>
+                    <gml:axisLabels>i j</gml:axisLabels>
+                    <gml:origin>
+                        <gml:Point gml:id="p00_dem__srtm30" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                            <gml:pos>32.95881271362305 34.71696853637695</gml:pos>
+                        </gml:Point>
+                    </gml:origin>
+                    <gml:offsetVector srsName="http://www.opengis.net/def/crs/EPSG/0/4326">0.0 3.4332275390625E-4</gml:offsetVector>
+                    <gml:offsetVector srsName="http://www.opengis.net/def/crs/EPSG/0/4326">-3.4332275390625E-4 0.0</gml:offsetVector>
+                </gml:RectifiedGrid>
+            </gml:domainSet>
+            <gmlcov:rangeType>
+                <swe:DataRecord xmlns:swe="http://www.opengis.net/swe/2.0">
+                    <swe:field name="GRAY_INDEX">
+                        <swe:Quantity>
+                            <swe:description>GRAY_INDEX</swe:description>
+                            <swe:nilValues>
+                                <swe:NilValues>
+                                    <swe:nilValue reason="http://www.opengis.net/def/nil/OGC/0/unknown">-32768.0</swe:nilValue>
+                                </swe:NilValues>
+                            </swe:nilValues>
+                            <swe:uom code="W.m-2.Sr-1"/>
+                            <swe:constraint>
+                                <swe:AllowedValues>
+                                    <swe:interval>-32768 32767</swe:interval>
+                                </swe:AllowedValues>
+                            </swe:constraint>
+                        </swe:Quantity>
+                    </swe:field>
+                </swe:DataRecord>
+            </gmlcov:rangeType>
+            <wcs:ServiceParameters>
+                <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+                <wcs:nativeFormat>image/tiff</wcs:nativeFormat>
+            </wcs:ServiceParameters>
+        </wcs:CoverageDescription>
+    </wcs:CoverageDescriptions>
+    ```
+</details>
+
+#### Understanding the describe coverage response {#understanding-describe-coverage}
+
+Notice the tag `boundedBy`, it describes the geographic extent of the coverage, It includes the following attributes:
+| **Attribute name** | **Details** | **Example** |
+| ----------- | ----------- | ----------- |
+| srsName | Coverage SRS | http://www.opengis.net/def/crs/EPSG/0/4326 |
+| axisLabels | Labels to use to describe the coverage axis | Lat Long |
+| srsDimension | Dimension of points in the coverage | 2 |
 
 ## GetCoverage
 The **GetCoverage** operation requests the actual spatial data. It can retrieve subsets of coverages, and the result can be either the coverage itself or a reference to it. The most powerful thing about a GetCoverage request is its ability to subset domains (height and time) and ranges. It can also do resampling, encode in different data formats, and return the resulting file in different ways.
@@ -451,7 +551,7 @@ The **GetCoverage** operation requests the actual spatial data. It can retrieve 
 Detailed explanation about params might be found [here](https://www.mapserver.org/ogc/wcs_server.html) 🌐
 
 ```
-<DEM-DEM-SERVING-SERVICE_URL>/geoserver/ows?
+<WCS_SERVICE_URL>/ows?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=GetCoverage&
@@ -463,4 +563,4 @@ HEIGHT=2833&
 FORMAT=PNG
 ```
 
-Downloaded data/image for **n30_e034_1arc_v3** layer for **EPSG:4326** projection and for defined **BBOX**
+With this request we have successfully fetched data/image for **n30_e034_1arc_v3** layer for **EPSG:4326** projection and for defined **BBOX**! :tada:

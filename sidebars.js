@@ -74,8 +74,13 @@ const sidebars = {
           items: [
             {
               type: 'doc',
-              label: 'Getting Started',
-              id: 'MapColonies/DEM/Guides/dem-getting-started'
+              label: 'Terrain Provider',
+              id: 'MapColonies/DEM/Guides/terrain-provider'
+            },
+            {
+              type: 'doc',
+              label: 'Height Extraction',
+              id: 'MapColonies/DEM/Guides/height-extraction'
             },
           ] 
         },
