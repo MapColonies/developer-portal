@@ -10,6 +10,9 @@ tags:
  - getting-started
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Step by step guide
 The following guide will help you understand ***Step-by-step*** how to work with the Map Colonies Height Extraction service, from the [Catalog](/docs/MapColonies/DEM/Services/catalog/dem-catalog) to the WCS protocol.
 
@@ -55,8 +58,8 @@ Query the **DEM catalog** service to find item(s) according to a desired filter 
 
 Filter should be based on fields in the [DEM profile](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2).
 
-### Get all records (pagination)
-
+<Tabs>
+<TabItem value="AllRecords" label="All Records">
 When we want to get all of the records in the catalog we can make the following query:
 
 ```bash
@@ -90,6 +93,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
                 <mc:links scheme="WCS" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="product_name_2-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
                 <mc:links scheme="Download" name="product_name_2-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
@@ -102,8 +107,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:minResolutionDegree>0.0004</mc:minResolutionDegree>
                 <mc:minResolutionMeter>40</mc:minResolutionMeter>
                 <mc:noDataValue>-32768</mc:noDataValue>
-                <mc:producerName>IDFMU</mc:producerName>
-                <mc:productId>81d2b9b0-a99f-45da-8dce-b83323d22d1c</mc:productId>
+                <mc:producerName>PRODUCER</mc:producerName>
+                <mc:productId>product_name_2</mc:productId>
                 <mc:productName>product_name_2</mc:productName>
                 <mc:productType>DSM</mc:productType>
                 <mc:productVersion>1</mc:productVersion>
@@ -122,33 +127,102 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
     </csw:GetRecordsResponse>
     ```
 </details>
+</TabItem>
 
-Notice the attriutes `startPosition` and `maxRecords`, both of them help us to implement the `pagination` concept. In result, we get the following attributes in the response:
+<TabItem value="SpecificLayer" label="Specific Layer">
+To fetch a specific layer you need the following values:
+1. `productId`
+2. `productType`
 
-- `numberOfRecordsMatched` indicating the total amount of records in the catalog matching our filters
-- `numberOfRecordsReturned` indicating the amount of records returned for this request (may be less than `maxRecords` given in the request)
-- `nextRecord` the value that should be passed for `startPosition` in the following request
+Usually you make this kind of request when you know there's a specific product that you want.
 
-Our next request should look like this:
-
+When you have these values in hand you can make a `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
 ```bash
 curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="2" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
     <csw:Query typeNames="mc:MCDEMRecord">
         <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <Filter xmlns="http://www.opengis.net/ogc">
+                <And>
+                    <PropertyIsEqualTo>
+                        <PropertyName>mc:productId</PropertyName>
+                        <Literal>product_name_2</Literal>
+                    </PropertyIsEqualTo>
+                    <PropertyIsEqualTo>
+                        <PropertyName>mc:productType</PropertyName>
+                        <Literal>DSM</Literal>
+                    </PropertyIsEqualTo>
+                </And>
+            </Filter>
+        </csw:Constraint >
     </csw:Query>
 </csw:GetRecords>'
 ```
 
-### Get all records with productType DTM
-
+<details>
+    <summary>Response</summary>
+    ```xml
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mc="http://schema.mapcolonies.com/dem" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
+        <csw:SearchStatus timestamp="2026-02-15T13:53:32Z"/>
+        <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/dem" elementSet="full">
+            <mc:MCDEMRecord>
+                <mc:acquisitionTimeBeginUTC>2019-12-31T11:00:00Z</mc:acquisitionTimeBeginUTC>
+                <mc:acquisitionTimeEndUTC>2019-12-31T11:00:00Z</mc:acquisitionTimeEndUTC>
+                <mc:areaOrPoint>Area</mc:areaOrPoint>
+                <mc:classification>0</mc:classification>
+                <mc:dataType>FLOAT32</mc:dataType>
+                <mc:description></mc:description>
+                <mc:footprint>{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,0]]]}</mc:footprint>
+                <mc:geoidModel>egm96</mc:geoidModel>
+                <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
+                <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
+                <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
+                <mc:links scheme="WCS" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="product_name_2-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="product_name_2-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
+                <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
+                <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
+                <mc:maxResolutionDegree>0.0004</mc:maxResolutionDegree>
+                <mc:maxResolutionMeter>40</mc:maxResolutionMeter>
+                <mc:minAbsoluteAccuracyLEP90>1</mc:minAbsoluteAccuracyLEP90>
+                <mc:minHorizontalAccuracyCEP90>5</mc:minHorizontalAccuracyCEP90>
+                <mc:minRelativeAccuracyLEP90>3</mc:minRelativeAccuracyLEP90>
+                <mc:minResolutionDegree>0.0004</mc:minResolutionDegree>
+                <mc:minResolutionMeter>40</mc:minResolutionMeter>
+                <mc:noDataValue>-32768</mc:noDataValue>
+                <mc:producerName>PRODUCER</mc:producerName>
+                <mc:productId>product_name_2</mc:productId>
+                <mc:productName>product_name_2</mc:productName>
+                <mc:productType>DSM</mc:productType>
+                <mc:productVersion>1</mc:productVersion>
+                <mc:region>region</mc:region>
+                <mc:sensors>sensors</mc:sensors>
+                <mc:srsId>srs_id</mc:srsId>
+                <mc:srsName>WGS84GEO</mc:srsName>
+                <mc:type>RECORD_DEM</mc:type>
+                <mc:updateDateUTC>2020-12-31T11:00:00Z</mc:updateDateUTC>
+                <ows:BoundingBox crs="urn:x-ogc:def:crs:EPSG:6.11:4326" dimensions="2">
+                    <ows:LowerCorner>0.0 0.0</ows:LowerCorner>
+                    <ows:UpperCorner>10.0 10.0</ows:UpperCorner>
+                </ows:BoundingBox>
+            </mc:MCDEMRecord>
+        </csw:SearchResults>
+    </csw:GetRecordsResponse>
+    ```
+</details>
+</TabItem>
+<TabItem value="ProductTypeFilter" label="Product Type">
 ```bash
 curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="5" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
     <csw:Query typeNames="mc:MCDEMRecord">
         <csw:ElementSetName>full</csw:ElementSetName>
         <csw:Constraint version="1.1.0">
@@ -181,8 +255,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>d2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T09:55:51Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2025-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="product_name_1-DTM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="product_name_1-DTM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="product_name_1-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="product_name_1-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="product_name_1-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="product_name_1-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -194,8 +270,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:minResolutionDegree>0.0004</mc:minResolutionDegree>
                 <mc:minResolutionMeter>40</mc:minResolutionMeter>
                 <mc:noDataValue>-32768</mc:noDataValue>
-                <mc:producerName>IDFMU</mc:producerName>
-                <mc:productId>71d2b9b0-a99f-45da-8dce-b83323d22d1c</mc:productId>
+                <mc:producerName>PRODUCER</mc:producerName>
+                <mc:productId>product_name_1</mc:productId>
                 <mc:productName>product_name_1</mc:productName>
                 <mc:productType>DTM</mc:productType>
                 <mc:productVersion>1</mc:productVersion>
@@ -214,13 +290,13 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
     </csw:GetRecordsResponse>
     ```
 </details>
-
-### Get all records with productType DTM and contained in a given BBOX
-
+</TabItem>
+<TabItem value="BBOXFilter" label="BBOX">
+Fetch all products with productType DTM and contained in a given BBOX.
 ```bash
 curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="5" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
         <csw:ElementSetName>full</csw:ElementSetName>
         <csw:Constraint version="1.1.0">
@@ -243,13 +319,16 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
     </csw:Query>
 </csw:GetRecords>'
 ```
-
-### Get all records with productType DTM and contained in a given Polygon
-
+</TabItem>
+<TabItem value="PolygonFilter" label="Polygon">
+Fetch all products with productType DTM and contained in a given Polygon.
+:::info
+We can provide a polygon with as many points as we want as long as the first and last are the same point.
+:::
 ```bash
 curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
-<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="5" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
         <csw:ElementSetName>full</csw:ElementSetName>
         <csw:Constraint version="1.1.0">
@@ -277,6 +356,27 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
     </csw:Query>
 </csw:GetRecords>'
 ```
+</TabItem>
+</Tabs>
+
+Notice the attributes `startPosition` and `maxRecords`, both of them help us to implement the `pagination` concept. In result, we get the following attributes in the response:
+
+- `numberOfRecordsMatched` indicating the total amount of records in the catalog matching our filters
+- `numberOfRecordsReturned` indicating the amount of records returned for this request (may be less than `maxRecords` given in the request)
+- `nextRecord` the value that should be passed for `startPosition` in the following request
+
+In case we are fetching the full profile without any filters our next request should look like this:
+
+```bash
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+--header 'Content-Type: application/xml' \
+--data-raw '<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="2" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
+    <csw:Query typeNames="mc:MCDEMRecord">
+        <csw:ElementSetName>full</csw:ElementSetName>
+    </csw:Query>
+</csw:GetRecords>'
+```
 
 ## Get metadata (Step 2)
 
@@ -295,7 +395,7 @@ Fields you may want to filter by:
 | ----------- | ----------- |
 | footprint | Specific geographical area |
 | ...Accuracy... | |
-| ...Resolution... | |
+| ...Resolution... | Mix and Max resolution |
 | productType | Specific product type (for example: only DTM) |
 | srsId / srsName | Wanted SRS |
 | ingestionDateUTC | Layers that were ingested before / after a given time  |
@@ -626,8 +726,11 @@ Read more [here](/docs/ogc/protocols/ogc-wcs#understanding-capabilities).
 Read more about this request [here](/docs/ogc/protocols/ogc-wcs#describecoverage).
 :::
 
+For this step we need the `coverageId` of a product we selected from the previous steps. The wanted ID should look like this: `<productId>-<productType>`.
+Lets select the product `product_name_1`, this means our ID will be `product_name_1-DTM` and our request will be:
+
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30&token=<token>'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=product_name_1-DTM&token=<token>'
 ```
 
 <details>
@@ -635,16 +738,16 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 https://poc-geoserver-dem-wcs-dev.apps.j1lk3njp.eastus.aroapp.io/schemas/wcs/2.0/wcsgs.xsd">
-        <wcs:CoverageDescription gml:id="dem__srtm30">
+        <wcs:CoverageDescription gml:id="dem__product_name_1-DTM">
             <gml:description>Generated from GeoTIFF</gml:description>
-            <gml:name>srtm30</gml:name>
+            <gml:name>product_name_1-DTM</gml:name>
             <gml:boundedBy>
                 <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
                     <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
                     <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
                 </gml:Envelope>
             </gml:boundedBy>
-            <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+            <wcs:CoverageId>dem__product_name_1-DTM</wcs:CoverageId>
             <gml:coverageFunction>
                 <gml:GridFunction>
                     <gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule>
@@ -654,14 +757,14 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
             <gmlcov:metadata>
                 <gmlcov:Extension>
                     <ows:Keywords>
-                        <ows:Keyword>srtm30</ows:Keyword>
+                        <ows:Keyword>product_name_1-DTM</ows:Keyword>
                         <ows:Keyword>WCS</ows:Keyword>
                         <ows:Keyword>GeoTIFF</ows:Keyword>
                     </ows:Keywords>
                 </gmlcov:Extension>
             </gmlcov:metadata>
             <gml:domainSet>
-                <gml:RectifiedGrid gml:id="grid00__dem__srtm30" dimension="2">
+                <gml:RectifiedGrid gml:id="grid00__dem__product_name_1-DTM" dimension="2">
                     <gml:limits>
                         <gml:GridEnvelope>
                             <gml:low>0 0</gml:low>
@@ -670,7 +773,7 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
                     </gml:limits>
                     <gml:axisLabels>i j</gml:axisLabels>
                     <gml:origin>
-                        <gml:Point gml:id="p00_dem__srtm30" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                        <gml:Point gml:id="p00_dem__product_name_1-DTM" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
                             <gml:pos>32.95881271362305 34.71696853637695</gml:pos>
                         </gml:Point>
                     </gml:origin>
@@ -727,6 +830,9 @@ We recommend you don't use the following `query parameters` when making requests
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
 **Any** use of these parameters is the sole responsibility of the user as we cannot know the resulting requests metadata.
 :::
+
+For all of the examples in this section we need the following parameters:
+- coverageId - 
 
 ### Get 
 
