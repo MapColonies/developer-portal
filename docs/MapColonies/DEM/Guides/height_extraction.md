@@ -31,25 +31,20 @@ Please note the [obligations](/docs/MapColonies/obligations) you need to follow 
 ## Flow diagram
 ```mermaid
 flowchart LR
-    subgraph  Prerequisite
+    subgraph sub1 [Prerequisites]
       direction LR
       a1[Define filter]
       a2[Get Auth Token]
     end
 
-    a1 -- filter --> B[STEP 1<br/> Query CSW catalog]
-    a2 -- token --> B
-    subgraph  Metadata drill-down
-      direction LR
-      c1[STEP 2<br/>Get DEM metadata]
-      c2[STEP 2.1 optional<br/>Get terrain provider URI]
-    end
-    B -- xml --> c1
-    B -- xml --> c2
-    c1 -. <i>IN DEVELOPMENT</i> <br/>metadata<br/>of available for <b>export</b> data .-> E[STEP 3<br/>Your system]
-    c2 -- terrain_URI --> D[STEP 3.1<br/>Cesium]
+    c[<b>Step 1</b><br/>Catalog] --> d
+    d[<b>Step 2</b><br/>Get Capabilities] --> e
+    e[<b>Step 2</b><br/>Describe Coverage] --> f
+    f[<b>Step 3</b><br/>Get Coverage]
 
-    linkStyle 4 color:green,stroke:#f4cccc,stroke-width:5px %% Arrow 
+    sub1 -- request --> c
+    c -- Metadata --> e
+    c -- Metadata --> f
 ```
 
 ## Query the DEM catalog (Step 1)
@@ -727,10 +722,10 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#describecoverage
 :::
 
 For this step we need the `coverageId` of a product we selected from the previous steps. The wanted ID should look like this: `<productId>-<productType>`.
-Lets select the product `product_name_1`, this means our ID will be `product_name_1-DTM` and our request will be:
+Lets select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
 
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=product_name_1-DTM&token=<token>'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
 ```
 
 <details>
@@ -738,16 +733,16 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 https://poc-geoserver-dem-wcs-dev.apps.j1lk3njp.eastus.aroapp.io/schemas/wcs/2.0/wcsgs.xsd">
-        <wcs:CoverageDescription gml:id="dem__product_name_1-DTM">
+        <wcs:CoverageDescription gml:id="dem__srtm30">
             <gml:description>Generated from GeoTIFF</gml:description>
-            <gml:name>product_name_1-DTM</gml:name>
+            <gml:name>srtm30</gml:name>
             <gml:boundedBy>
                 <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
                     <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
                     <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
                 </gml:Envelope>
             </gml:boundedBy>
-            <wcs:CoverageId>dem__product_name_1-DTM</wcs:CoverageId>
+            <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
             <gml:coverageFunction>
                 <gml:GridFunction>
                     <gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule>
@@ -757,14 +752,14 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
             <gmlcov:metadata>
                 <gmlcov:Extension>
                     <ows:Keywords>
-                        <ows:Keyword>product_name_1-DTM</ows:Keyword>
+                        <ows:Keyword>srtm30</ows:Keyword>
                         <ows:Keyword>WCS</ows:Keyword>
                         <ows:Keyword>GeoTIFF</ows:Keyword>
                     </ows:Keywords>
                 </gmlcov:Extension>
             </gmlcov:metadata>
             <gml:domainSet>
-                <gml:RectifiedGrid gml:id="grid00__dem__product_name_1-DTM" dimension="2">
+                <gml:RectifiedGrid gml:id="grid00__dem__srtm30" dimension="2">
                     <gml:limits>
                         <gml:GridEnvelope>
                             <gml:low>0 0</gml:low>
@@ -773,7 +768,7 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
                     </gml:limits>
                     <gml:axisLabels>i j</gml:axisLabels>
                     <gml:origin>
-                        <gml:Point gml:id="p00_dem__product_name_1-DTM" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                        <gml:Point gml:id="p00_dem__srtm30" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
                             <gml:pos>32.95881271362305 34.71696853637695</gml:pos>
                         </gml:Point>
                     </gml:origin>
@@ -822,10 +817,11 @@ Now we can actually make a request for elevation data.
 
 :::danger
 We recommend you don't use the following `query parameters` when making requests:
-- bbox_width
-- bbox_height
-- subset
-- scalesize
+- `bbox_width`
+- `bbox_height`
+- `subset`
+- `scalesize`
+- `outputCRS`
 
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
 **Any** use of these parameters is the sole responsibility of the user as we cannot know the resulting requests metadata.
@@ -834,7 +830,42 @@ These parameters require additional calculations on the server-side which means 
 For all of the examples in this section we need the following parameters:
 - coverageId - 
 
-### Get 
+In the examples we show the use of specific parameter values, in order to understand what other values you can you review the [service capabilities](#extraction-service-capabilities).
+
+### Get whole coverage
+
+:::warning
+The service output size is limited on our side in order to avoid huge requests, you may get the following error:
+
+```bash
+<?xml version="1.0" encoding="UTF-8"?>
+<ows:ExceptionReport xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/ows/2.0 http://schemas.opengis.net/ows/2.0/owsExceptionReport.xsd">
+    <ows:Exception exceptionCode="NoApplicableCode">
+        <ows:ExceptionText>This request is trying to generate too much data, the limit is 1500MB but the actual amount of bytes to be written in the output is 5000MB</ows:ExceptionText>
+    </ows:Exception>
+</ows:ExceptionReport>
+```
+:::
+
+Here we request the whole coverage in the `geotiff` format.
+
+```bash
+curl --location 'https://poc-geoserver-wcs-nginx-route-dem-dev.apps.j1lk3njp.eastus.aroapp.io//wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image%2Ftiff%3Bapplication%3Dgeotiff&token=<token>'
+```
+
+### Convert to other CRS
+
+In some situations we will have data in a geographical area in a different CRS than we expect for our calculations. In this case we can ask the service to convert the output to the wanted CRS.
+
+Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:3857`:
+
+```bash
+curl --location 'https://poc-geoserver-wcs-nginx-route-dem-dev.apps.j1lk3njp.eastus.aroapp.io//wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image%2Ftiff%3Bapplication%3Dgeotiff&outputCRS=EPSG%3A3857&token=<token>'
+```
+
+### Set pixel size
+
+### Change resolution
 
 Replace `<TERRAIN_URL>` with the URL link that you got from **Step 2.1 (optional)**.
 
