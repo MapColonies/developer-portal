@@ -213,6 +213,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 </details>
 </TabItem>
 <TabItem value="ProductTypeFilter" label="Product Type">
+Fetch all products with productType DTM.
 ```bash
 curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
@@ -396,7 +397,7 @@ Fields you may want to filter by:
 | ingestionDateUTC | Layers that were ingested before / after a given time  |
 | updateDateUTC | Layers that were updated before / after a given time |
 
-### Extraction service capabilities
+### Extraction service capabilities {#capabilities}
 
 :::info
 Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities).
@@ -817,11 +818,12 @@ Now we can actually make a request for elevation data.
 
 :::danger
 We recommend you don't use the following `query parameters` when making requests:
-- `bbox_width`
-- `bbox_height`
 - `subset`
 - `scalesize`
+- `scaleFactor`
+- `scaleAxes`
 - `outputCRS`
+- `interpolation`
 
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
 **Any** use of these parameters is the sole responsibility of the user as we cannot know the resulting requests metadata.
@@ -850,7 +852,15 @@ The service output size is limited on our side in order to avoid huge requests, 
 Here we request the whole coverage in the `geotiff` format.
 
 ```bash
-curl --location 'https://poc-geoserver-wcs-nginx-route-dem-dev.apps.j1lk3njp.eastus.aroapp.io//wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image%2Ftiff%3Bapplication%3Dgeotiff&token=<token>'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&token=<token>'
+```
+
+### Get by BBOX
+
+In most cases, we know which geographical area is of significance to us. This means that we can request the specific `BBOX` as a subset of the selected `coverage`:
+
+```bash
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)&token=<token>'
 ```
 
 ### Convert to other CRS
@@ -860,13 +870,36 @@ In some situations we will have data in a geographical area in a different CRS t
 Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:3857`:
 
 ```bash
-curl --location 'https://poc-geoserver-wcs-nginx-route-dem-dev.apps.j1lk3njp.eastus.aroapp.io//wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image%2Ftiff%3Bapplication%3Dgeotiff&outputCRS=EPSG%3A3857&token=<token>'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:3857&token=<token>'
 ```
 
-### Set pixel size
+### Scale image size (pixels)
 
-### Change resolution
+<Tabs>
+<TabItem value="scaleSize" label="Scale Size">
+Set the output image to be a fixed amount of pixels.
+```bash
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleSize=i(256),j(256)&token=<token>'
+```
+</TabItem>
+<TabItem value="scaleFactor" label="Scale Factor">
+Set the output image size to be a certain factor from it's original size.
+```bash
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleFactor=0.1&token=<token>'
+```
+</TabItem>
+<TabItem value="scaleAxes" label="Scale Axes">
+Set the output image size to be a certain factor from it's original size for each axes.
+```bash
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)&token=<token>'
+```
+</TabItem>
+</Tabs>
 
-Replace `<TERRAIN_URL>` with the URL link that you got from **Step 2.1 (optional)**.
+### Change interpolation method
 
-Replace `<token>` with the token you have.
+There is an option to set the wanted interpolation method.
+To see a full list of the available methods see the [capabilities](#capabilities).
+```bash
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/linear&token=<token>'
+```

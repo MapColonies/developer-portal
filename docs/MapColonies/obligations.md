@@ -56,11 +56,12 @@ We also recommend that the layers are loaded in the same order as described in t
 ### Using WCS specific parameters
 
 We recommend you don't use the following `query parameters` when making requests:
-- `bbox_width`
-- `bbox_height`
 - `subset`
 - `scalesize`
+- `scaleFactor`
+- `scaleAxes`
 - `outputCRS`
+- `interpolation`
 
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
 **Any** use of these parameters is the sole responsibility of the user as we cannot know the resulting requests metadata.
