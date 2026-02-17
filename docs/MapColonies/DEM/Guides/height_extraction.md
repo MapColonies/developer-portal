@@ -832,7 +832,7 @@ These parameters require additional calculations on the server-side which means 
 For all of the examples in this section we need the following parameters:
 - coverageId - 
 
-In the examples we show the use of specific parameter values, in order to understand what other values you can you review the [service capabilities](#extraction-service-capabilities).
+In the examples we show the use of specific parameter values, in order to understand what other values you can you review the [service capabilities](#capabilities).
 
 ### Get whole coverage
 

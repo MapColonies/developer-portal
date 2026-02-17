@@ -47,7 +47,7 @@ supported format: **dd-mm-yyyyThh:mm:ssZ** |
 | mc:id | text | unique internal catalog item id |
 | mc:productId | text | unique external product id |
 | mc:productName | text | the product name |
-| [mc:productType](#productType) | enum  | **Valid Values**: <br/> DTM / DSM |
+| mc:productType | enum  | **Valid Values**: <br/> DTM / DSM |
 | mc:productVersion | int | the product version |
 | mc:description | text | the product description |
 | mc:footprint | geojson | geographical delineation of the product / model trace |
