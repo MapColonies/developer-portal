@@ -56,7 +56,6 @@ We also recommend that the layers are loaded in the same order as described in t
 ### Using WCS specific parameters
 
 We recommend you don't use the following `query parameters` when making requests:
-- `subset`
 - `scalesize`
 - `scaleFactor`
 - `scaleAxes`

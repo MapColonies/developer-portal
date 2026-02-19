@@ -818,7 +818,6 @@ Now we can actually make a request for elevation data.
 
 :::danger
 We recommend you don't use the following `query parameters` when making requests:
-- `subset`
 - `scalesize`
 - `scaleFactor`
 - `scaleAxes`
@@ -830,7 +829,7 @@ These parameters require additional calculations on the server-side which means 
 :::
 
 For all of the examples in this section we need the following parameters:
-- coverageId - 
+- `coverageId`
 
 In the examples we show the use of specific parameter values, in order to understand what other values you can you review the [service capabilities](#capabilities).
 
