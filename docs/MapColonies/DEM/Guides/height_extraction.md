@@ -900,6 +900,11 @@ curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverag
 
 There is an option to set the wanted interpolation method.
 To see a full list of the available methods see the [capabilities](#capabilities).
+
+:::note
+The default method is `linear`.
+:::
+
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/linear&token=<token>'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor&token=<token>'
 ```
