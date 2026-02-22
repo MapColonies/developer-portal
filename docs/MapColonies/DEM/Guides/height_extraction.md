@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 The following guide will help you understand ***Step-by-step*** how to work with the Map Colonies Height Extraction service, from the [Catalog](/docs/MapColonies/DEM/Services/catalog/dem-catalog) to the WCS protocol.
 
 :::warning
-This guide is for using height extraction for algorithm usage and **not for viewing purposes**.
+This guide is **not** for viewing purposes.
 :::
 
 :::note
@@ -87,10 +87,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="product_name_2-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="product_name_2-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="mimad-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="mimad-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -103,8 +103,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:minResolutionMeter>40</mc:minResolutionMeter>
                 <mc:noDataValue>-32768</mc:noDataValue>
                 <mc:producerName>PRODUCER</mc:producerName>
-                <mc:productId>product_name_2</mc:productId>
-                <mc:productName>product_name_2</mc:productName>
+                <mc:productId>mimad</mc:productId>
+                <mc:productName>mimad</mc:productName>
                 <mc:productType>DSM</mc:productType>
                 <mc:productVersion>1</mc:productVersion>
                 <mc:region>region</mc:region>
@@ -144,7 +144,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <And>
                     <PropertyIsEqualTo>
                         <PropertyName>mc:productId</PropertyName>
-                        <Literal>product_name_2</Literal>
+                        <Literal>mimad</Literal>
                     </PropertyIsEqualTo>
                     <PropertyIsEqualTo>
                         <PropertyName>mc:productType</PropertyName>
@@ -176,10 +176,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="product_name_2-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="product_name_2-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="product_name_2-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="mimad-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="mimad-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -192,8 +192,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:minResolutionMeter>40</mc:minResolutionMeter>
                 <mc:noDataValue>-32768</mc:noDataValue>
                 <mc:producerName>PRODUCER</mc:producerName>
-                <mc:productId>product_name_2</mc:productId>
-                <mc:productName>product_name_2</mc:productName>
+                <mc:productId>mimad</mc:productId>
+                <mc:productName>mimad</mc:productName>
                 <mc:productType>DSM</mc:productType>
                 <mc:productVersion>1</mc:productVersion>
                 <mc:region>region</mc:region>
@@ -251,10 +251,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>d2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T09:55:51Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2025-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="product_name_1-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="product_name_1-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="product_name_1-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="product_name_1-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="srtm30-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="srtm30-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="srtm30-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="srtm30-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -267,8 +267,8 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:minResolutionMeter>40</mc:minResolutionMeter>
                 <mc:noDataValue>-32768</mc:noDataValue>
                 <mc:producerName>PRODUCER</mc:producerName>
-                <mc:productId>product_name_1</mc:productId>
-                <mc:productName>product_name_1</mc:productName>
+                <mc:productId>srtm30</mc:productId>
+                <mc:productName>srtm30</mc:productName>
                 <mc:productType>DTM</mc:productType>
                 <mc:productVersion>1</mc:productVersion>
                 <mc:region>region</mc:region>
@@ -383,7 +383,7 @@ For the next steps you may want to examine the information returned from the `ca
 ### Catalog service
 
 :::info
-For details about each filed read more [here](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2).
+For details about each field read more [here](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2).
 :::
 
 Fields you may want to filter by:
@@ -659,7 +659,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__mimad</wcs:CoverageId>
+                <wcs:CoverageId>dem__mimad-DTM</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/32636">
                     <ows:LowerCorner>473139.25219177455 3230615.3954787063</ows:LowerCorner>
@@ -677,7 +677,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__mimad</wcs:CoverageId>
+                <wcs:CoverageId>dem__mimad-DSM</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/32636">
                     <ows:LowerCorner>473139.25219177455 3230615.3954787063</ows:LowerCorner>
@@ -695,7 +695,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+                <wcs:CoverageId>dem__srtm30-DTM</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/4326">
                     <ows:LowerCorner>34.716796875 32.16796875</ows:LowerCorner>
@@ -836,9 +836,9 @@ In the examples we show the use of specific parameter values, in order to unders
 ### Get whole coverage
 
 :::warning
-The service output size is limited on our side in order to avoid huge requests, you may get the following error:
+To maintain system stability and prevent oversized payloads, the service enforces a **maximum output size limit**. Exceeding this limit will trigger the following error:
 
-```bash
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ows:ExceptionReport xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.0" xsi:schemaLocation="http://www.opengis.net/ows/2.0 http://schemas.opengis.net/ows/2.0/owsExceptionReport.xsd">
     <ows:Exception exceptionCode="NoApplicableCode">
@@ -846,6 +846,8 @@ The service output size is limited on our side in order to avoid huge requests, 
     </ows:Exception>
 </ows:ExceptionReport>
 ```
+
+Most coverages will be larger than the limit so we suggest you [directly download](/docs/MapColonies/DEM/Services/download/dem-download) the source file.
 :::
 
 Here we request the whole coverage in the `geotiff` format.
