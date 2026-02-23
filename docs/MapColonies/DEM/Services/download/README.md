@@ -36,6 +36,20 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
     <csw:Query typeNames="mc:MCDEMRecord">
         <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <Filter xmlns="http://www.opengis.net/ogc">
+                <And>
+                    <PropertyIsEqualTo>
+                        <PropertyName>mc:productId</PropertyName>
+                        <Literal>mimad</Literal>
+                    </PropertyIsEqualTo>
+                    <PropertyIsEqualTo>
+                        <PropertyName>mc:productType</PropertyName>
+                        <Literal>DSM</Literal>
+                    </PropertyIsEqualTo>
+                </And>
+            </Filter>
+        </csw:Constraint >
     </csw:Query>
 </csw:GetRecords>'
 ```
@@ -45,8 +59,8 @@ Response:
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <csw:GetRecordsResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dct="http://purl.org/dc/terms/" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml" xmlns:ows="http://www.opengis.net/ows" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mc="http://schema.mapcolonies.com/dem" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd">
-    <csw:SearchStatus timestamp="2026-02-11T14:05:23Z"/>
-    <csw:SearchResults numberOfRecordsMatched="2" numberOfRecordsReturned="1" nextRecord="2" recordSchema="http://schema.mapcolonies.com/dem" elementSet="full">
+    <csw:SearchStatus timestamp="2026-02-15T13:53:32Z"/>
+    <csw:SearchResults numberOfRecordsMatched="1" numberOfRecordsReturned="1" nextRecord="0" recordSchema="http://schema.mapcolonies.com/dem" elementSet="full">
         <mc:MCDEMRecord>
             <mc:acquisitionTimeBeginUTC>2019-12-31T11:00:00Z</mc:acquisitionTimeBeginUTC>
             <mc:acquisitionTimeEndUTC>2019-12-31T11:00:00Z</mc:acquisitionTimeEndUTC>
@@ -81,7 +95,7 @@ Response:
             <mc:productVersion>1</mc:productVersion>
             <mc:region>region</mc:region>
             <mc:sensors>sensors</mc:sensors>
-            <mc:srsId>4326</mc:srsId>
+            <mc:srsId>srs_id</mc:srsId>
             <mc:srsName>WGS84GEO</mc:srsName>
             <mc:type>RECORD_DEM</mc:type>
             <mc:updateDateUTC>2020-12-31T11:00:00Z</mc:updateDateUTC>

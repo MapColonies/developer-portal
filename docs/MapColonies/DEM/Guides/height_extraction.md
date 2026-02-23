@@ -311,13 +311,13 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                     </ogc:BBOX>
                 </And>
             </Filter>
-        </csw:Constraint >
+        </csw:Constraint>
     </csw:Query>
 </csw:GetRecords>'
 ```
 </TabItem>
 <TabItem value="PolygonFilter" label="Polygon">
-Fetch all products with productType DTM and contained in a given Polygon.
+Fetch all products with productType DTM and intersect with a given Polygon.
 :::info
 We can provide a polygon with as many points as we want as long as the first and last are the same point.
 :::
@@ -336,7 +336,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                     </PropertyIsEqualTo>
                     <ogc:Intersects>
                         <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
-                        <gml:Polygon srsName="[SRS_IDENTIFIER]">
+                        <gml:Polygon srsName="<SRS_IDENTIFIER>">
                             <gml:outerBoundaryIs>
                                 <gml:LinearRing>
                                     <gml:coordinates decimal="." cs="," ts=" ">
@@ -348,7 +348,35 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                     </ogc:Intersects>
                 </And>
             </Filter>
-        </csw:Constraint >
+        </csw:Constraint>
+    </csw:Query>
+</csw:GetRecords>'
+```
+</TabItem>
+<TabItem value="PointFilter" label="Point">
+Fetch all products with productType DTM that intersect with a given Point.
+```bash
+curl --location '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+--data '<?xml version="1.0" encoding="UTF-8"?>
+<csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+    <csw:Query typeNames="mc:MCDEMRecord">
+        <csw:ElementSetName>full</csw:ElementSetName>
+        <csw:Constraint version="1.1.0">
+            <Filter xmlns="http://www.opengis.net/ogc">
+                <And>
+                    <PropertyIsEqualTo>
+                        <PropertyName>mc:productType</PropertyName>
+                        <Literal>DTM</Literal>
+                    </PropertyIsEqualTo>
+                    <ogc:Intersects>
+                        <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
+                        <gml:Point srsName="EPSG:4326">
+                            <gml:pos>5 5</gml:pos>
+                        </gml:Point>
+                    </ogc:Intersects>
+                </And>
+            </Filter>
+        </csw:Constraint>
     </csw:Query>
 </csw:GetRecords>'
 ```

@@ -18,7 +18,7 @@ tags:
 :::warning
 New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) is coming!
 
-<p style={{color:"red"}}><b>The following parameters are depracted an will be removed in v2</b></p>
+<p style={{color:"red"}}><b>The following parameters are depracted an will be removed in v2:</b></p>
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |

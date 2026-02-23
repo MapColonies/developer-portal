@@ -16,7 +16,7 @@ tags:
 3. The **DEM** sub-system Catalog profile fields with information of each of them:
 
 :::info
-
+The following parameters were added v2:
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:productVersion | int | the product version |
@@ -39,7 +39,6 @@ supported format: **dd-mm-yyyyThh:mm:ssZ** |
 | mc:geoidModel | text | |
 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
 | mc:links | text | Available links for different services available for the current product |
-
 :::
 
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
