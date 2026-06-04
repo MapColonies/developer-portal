@@ -35,9 +35,11 @@ The following parameters were added v2:
 | mc:maxRelativeAccuracyLEP90 | double | LEP90 max relative vertical plane accuracy range in meters |
 | mc:minHorizontalAccuracyCEP90 | double | |
 | mc:maxHorizontalAccuracyCEP90 | double | |
-| mc:geoidModel | text | |
 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
 | mc:links | text | Available links for different services available for the current product |
+| mc:verticalType | enum | **Valid Values**: Orthometric, Ellipsoidal |
+| mc:verticalSrsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:verticalSrsName | text | name of reference system |
 
 :::
 
@@ -51,7 +53,7 @@ The following parameters were added v2:
 | mc:description | text | the product description |
 | mc:footprint | geojson | geographical delineation of the product / model trace |
 | mc:BoundingBox | bbox | two points that represent the record extent |
-| mc:srsId | int | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:srsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
 | mc:srsName | text | name of reference system |
 | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
@@ -71,7 +73,6 @@ The following parameters were added v2:
 | mc:maxRelativeAccuracyLEP90 | double | LEP90 max relative vertical plane accuracy range in meters |
 | mc:minHorizontalAccuracyCEP90 | double | |
 | mc:maxHorizontalAccuracyCEP90 | double | |
-| mc:geoidModel | text | |
 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
 | mc:links | text | Available links for different services available for the current product |
 | mc:classification | text | product classification / confidentiality <br/> Classification values should be numbers between 0 and 100 |
@@ -79,3 +80,6 @@ The following parameters were added v2:
 | mc:noDataValue | int | **Valid Values**: <br/> -32768 |
 | mc:type | enum | type of the catalog <br/> **Value**: RECORD_DEM |
 | mc:keywords | text | list of key words relevant for product |
+| mc:verticalType | enum | **Valid Values**: Orthometric, Ellipsoidal |
+| mc:verticalSrsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:verticalSrsName | text | name of reference system |
