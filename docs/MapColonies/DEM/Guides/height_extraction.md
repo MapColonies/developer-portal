@@ -83,7 +83,9 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:dataType>FLOAT32</mc:dataType>
                 <mc:description></mc:description>
                 <mc:footprint>{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,0]]]}</mc:footprint>
-                <mc:geoidModel>egm96</mc:geoidModel>
+                <mc:verticalType>Orthometric</mc:verticalType>
+                <mc:verticalSrsId>5773</mc:verticalSrsId>
+                <mc:verticalSrsName>EGM96</mc:verticalSrsName>
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
@@ -172,7 +174,9 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:dataType>FLOAT32</mc:dataType>
                 <mc:description></mc:description>
                 <mc:footprint>{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,0]]]}</mc:footprint>
-                <mc:geoidModel>egm96</mc:geoidModel>
+                <mc:verticalType>Orthometric</mc:verticalType>
+                <mc:verticalSrsId>5773</mc:verticalSrsId>
+                <mc:verticalSrsName>EGM96</mc:verticalSrsName>
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
@@ -247,7 +251,9 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:classification>0</mc:classification>
                 <mc:dataType>FLOAT32</mc:dataType>
                 <mc:footprint>{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,0]]]}</mc:footprint>
-                <mc:geoidModel>egm96</mc:geoidModel>
+                <mc:verticalType>Orthometric</mc:verticalType>
+                <mc:verticalSrsId>5773</mc:verticalSrsId>
+                <mc:verticalSrsName>EGM96</mc:verticalSrsName>
                 <mc:id>d2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T09:55:51Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2025-12-31T11:00:00Z</mc:insertDateUTC>
@@ -421,7 +427,9 @@ Fields you may want to filter by:
 | ...Accuracy... | |
 | ...Resolution... | Mix and Max resolution |
 | productType | Specific product type (for example: only DTM) |
-| srsId / srsName | Wanted SRS |
+| srsId / srsName | Wanted horizontal SRS |
+| verticalSrsId / verticalSrsName | Wanted vertical SRS |
+| verticalType | Orthometric / Ellipsoidal heights |
 | ingestionDateUTC | Layers that were ingested before / after a given time  |
 | updateDateUTC | Layers that were updated before / after a given time |
 

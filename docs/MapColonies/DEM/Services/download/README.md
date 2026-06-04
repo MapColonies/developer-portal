@@ -69,7 +69,9 @@ Response:
             <mc:dataType>FLOAT32</mc:dataType>
             <mc:description></mc:description>
             <mc:footprint>{"type":"Polygon","coordinates":[[[0,0],[10,0],[10,10],[0,0]]]}</mc:footprint>
-            <mc:geoidModel>egm96</mc:geoidModel>
+            <mc:verticalType>Orthometric</mc:verticalType>
+            <mc:verticalSrsId>5773</mc:verticalSrsId>
+            <mc:verticalSrsName>EGM96</mc:verticalSrsName>
             <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
             <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
             <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
