@@ -28,7 +28,7 @@ A WCS server responding to a **GetCapabilities** request returns metadata about 
 ### Version 1.0.0
 
 ```
-<WCS_SERVICE_URL>/ows?
+{WCS_SERVICE_URL}/wcs?
 service=WCS&
 version=1.0.0&
 request=GetCapabilities
@@ -39,7 +39,7 @@ request=GetCapabilities
 
   ``` xml title="Response Example"
     <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:WCS_Capabilities version="1.0.0" xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs <WCS_SERVICE_URL>/schemas/wcs/1.0.0/wcsCapabilities.xsd" updateSequence="19">
+    <wcs:WCS_Capabilities version="1.0.0" xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/wcsCapabilities.xsd" updateSequence="19">
         <wcs:Service>
             <wcs:description/>
             <wcs:name>WCS</wcs:name>
@@ -53,14 +53,14 @@ request=GetCapabilities
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -69,14 +69,14 @@ request=GetCapabilities
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -85,14 +85,14 @@ request=GetCapabilities
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -119,14 +119,14 @@ request=GetCapabilities
             </wcs:CoverageOfferingBrief>
             <wcs:CoverageOfferingBrief>
                 <wcs:description>Generated from GeoTIFF</wcs:description>
-                <wcs:name>dem:srtm30</wcs:name>
-                <wcs:label>srtm30</wcs:label>
+                <wcs:name>dem:srtm30-DTM</wcs:name>
+                <wcs:label>srtm30-DTM</wcs:label>
                 <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
                     <gml:pos>34.716796875 32.16796875</gml:pos>
                     <gml:pos>35.68359375 32.958984375</gml:pos>
                 </wcs:lonLatEnvelope>
                 <wcs:keywords>
-                    <wcs:keyword>srtm30</wcs:keyword>
+                    <wcs:keyword>srtm30-DTM</wcs:keyword>
                     <wcs:keyword>WCS</wcs:keyword>
                     <wcs:keyword>GeoTIFF</wcs:keyword>
                 </wcs:keywords>
@@ -139,7 +139,7 @@ request=GetCapabilities
 ### Version 2.0.1
 
 ```
-<WCS_SERVICE_URL>/ows?
+{WCS_SERVICE_URL}/wcs?
 service=WCS&
 version=2.0.1&
 request=GetCapabilities
@@ -192,36 +192,36 @@ request=GetCapabilities
             <ows:Operation name="GetCapabilities">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="DescribeCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="GetCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
@@ -427,13 +427,13 @@ request=GetCapabilities
                 </ows:WGS84BoundingBox>
             </wcs:CoverageSummary>
             <wcs:CoverageSummary>
-                <ows:Title>srtm30</ows:Title>
+                <ows:Title>srtm30-DTM</ows:Title>
                 <ows:Keywords>
-                    <ows:Keyword>srtm30</ows:Keyword>
+                    <ows:Keyword>srtm30-DTM</ows:Keyword>
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+                <wcs:CoverageId>dem__srtm30-DTM</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/4326">
                     <ows:LowerCorner>34.716796875 32.16796875</ows:LowerCorner>
@@ -471,7 +471,7 @@ The purpose of the **DescribeCoverage** request is to additional information abo
 ### Version 1.0.0
 
 ```
-<WCS_SERVICE_URL>/ows?
+{WCS_SERVICE_URL}/wcs?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
@@ -482,7 +482,7 @@ COVERAGE=n30_e034_1arc_v3
   <summary>Response example</summary>
   ``` xml
    <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs http://dem-dev-geoserver-development-dem-dev.apps.v0h0bdx6.eastus.aroapp.io/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
+    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
       <wcs:CoverageOffering>
           <wcs:description>Generated from GeoTIFF</wcs:description>
           <wcs:name>dem:n30_e034_1arc_v3</wcs:name>
@@ -571,24 +571,24 @@ COVERAGE=n30_e034_1arc_v3
 ### Version 2.0.1
 
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30&token=<token>'
+curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
 ```
 
 <details>
     <summary>Response</summary>
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 <WCS_SERVICE_URL>/schemas/wcs/2.0/wcsgs.xsd">
-        <wcs:CoverageDescription gml:id="dem__srtm30">
+    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 {WCS_SERVICE_URL}/schemas/wcs/2.0/wcsgs.xsd">
+        <wcs:CoverageDescription gml:id="dem__srtm30-DTM">
             <gml:description>Generated from GeoTIFF</gml:description>
-            <gml:name>srtm30</gml:name>
+            <gml:name>srtm30-DTM</gml:name>
             <gml:boundedBy>
                 <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
                     <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
                     <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
                 </gml:Envelope>
             </gml:boundedBy>
-            <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+            <wcs:CoverageId>dem__srtm30-DTM</wcs:CoverageId>
             <gml:coverageFunction>
                 <gml:GridFunction>
                     <gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule>
@@ -598,14 +598,14 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
             <gmlcov:metadata>
                 <gmlcov:Extension>
                     <ows:Keywords>
-                        <ows:Keyword>srtm30</ows:Keyword>
+                        <ows:Keyword>srtm30-DTM</ows:Keyword>
                         <ows:Keyword>WCS</ows:Keyword>
                         <ows:Keyword>GeoTIFF</ows:Keyword>
                     </ows:Keywords>
                 </gmlcov:Extension>
             </gmlcov:metadata>
             <gml:domainSet>
-                <gml:RectifiedGrid gml:id="grid00__dem__srtm30" dimension="2">
+                <gml:RectifiedGrid gml:id="grid00__dem__srtm30-DTM" dimension="2">
                     <gml:limits>
                         <gml:GridEnvelope>
                             <gml:low>0 0</gml:low>
@@ -614,7 +614,7 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
                     </gml:limits>
                     <gml:axisLabels>i j</gml:axisLabels>
                     <gml:origin>
-                        <gml:Point gml:id="p00_dem__srtm30" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                        <gml:Point gml:id="p00_dem__srtm30-DTM" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
                             <gml:pos>32.95881271362305 34.71696853637695</gml:pos>
                         </gml:Point>
                     </gml:origin>
@@ -668,10 +668,10 @@ Detailed explanation about params might be found [here](https://www.mapserver.or
 ### Version 1.0.0
 
 ```
-<WCS_SERVICE_URL>/wcs?
+{WCS_SERVICE_URL}/wcs?
 request=GetCoverage&
 version=1.0.0&
-coverage=srtm30&
+coverage=srtm30-DTM&
 format=image/tiff;application=geotiff&
 crs=EPSG%3A4326&
 bbox=35.13102,32.35306,35.37051,32.49437&
@@ -682,10 +682,10 @@ height=1000
 ### Version 2.0.1
 
 ```
-<WCS_SERVICE_URL>/wcs?
+{WCS_SERVICE_URL}/wcs?
 request=GetCoverage&
 version=2.0.1&
-coverageId=srtm30&
+coverageId=srtm30-DTM&
 format=image/tiff;application=geotiff&
 subset=Lat(32.35306,32.49437)&
 subset=Long(35.13102,35.37051)

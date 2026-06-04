@@ -58,7 +58,7 @@ Filter should be based on fields in the [DEM profile](/docs/MapColonies/DEM/Serv
 When we want to get all of the records in the catalog we can make the following query:
 
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -87,10 +87,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="mimad-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="mimad-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="mimad-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="mimad-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -131,9 +131,9 @@ To fetch a specific layer you need the following values:
 
 Usually you make this kind of request when you know there's a specific product that you want.
 
-When you have these values in hand you can make a `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
+When you have these values in hand you can make a `POST` request to `{DEM_CATALOG_SERVICE_URL}/csw` with the following body (replace `productId` and `productType` with real values):
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -176,10 +176,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="mimad-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="mimad-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="mimad-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="mimad-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="mimad-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -215,7 +215,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 <TabItem value="ProductTypeFilter" label="Product Type">
 Fetch all products with productType DTM.
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -251,10 +251,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                 <mc:id>d2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T09:55:51Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2025-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="srtm30-DSM" description=""><WCS_SERVICE_URL>/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="srtm30-DSM" description=""><WCS_SERVICE_URL>/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="srtm30-DSM" description=""><WFS_SERVICE_URL>/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="srtm30-DSM" description=""><DOWNLOAD_SERVICE_URL>/path/to/file.ext</mc:links>
+                <mc:links scheme="WCS" name="srtm30-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="srtm30-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="srtm30-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="srtm30-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -290,7 +290,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 <TabItem value="BBOXFilter" label="BBOX">
 Fetch all products with productType DTM and contained in a given BBOX.
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -319,10 +319,10 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 <TabItem value="PolygonFilter" label="Polygon">
 Fetch all products with productType DTM and intersect with a given Polygon.
 :::info
-We can provide a polygon with as many points as we want as long as the first and last are the same point.
+A polygon must contain **at least 4 points**, where the first and last point are identical (a closed ring). Any number of additional points is allowed.
 :::
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -336,7 +336,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
                     </PropertyIsEqualTo>
                     <ogc:Intersects>
                         <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
-                        <gml:Polygon srsName="<SRS_IDENTIFIER>">
+                        <gml:Polygon srsName="{SRS_IDENTIFIER}">
                             <gml:outerBoundaryIs>
                                 <gml:LinearRing>
                                     <gml:coordinates decimal="." cs="," ts=" ">
@@ -356,7 +356,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
 <TabItem value="PointFilter" label="Point">
 Fetch all products with productType DTM that intersect with a given Point.
 ```bash
-curl --location '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --data '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -392,7 +392,7 @@ Notice the attributes `startPosition` and `maxRecords`, both of them help us to 
 In case we are fetching the full profile without any filters our next request should look like this:
 
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="2" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -432,7 +432,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
 :::
 
 ```bash
-<WCS_SERVICE_URL>/wcs?request=GetCapabilities&token=<token>
+{WCS_SERVICE_URL}/wcs?request=GetCapabilities&token=<token>
 ```
 
 <details>
@@ -482,36 +482,36 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
             <ows:Operation name="GetCapabilities">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="DescribeCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="GetCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="<WCS_SERVICE_URL>/wcs?"/>
+                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
@@ -751,27 +751,32 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#describecoverage
 :::
 
 For this step we need the `coverageId` of a product we selected from the previous steps. The wanted ID should look like this: `<productId>-<productType>`.
+
+:::info
+The WCS service accepts the `coverageId` either with or without the internal workspace prefix `dem__`. Both `srtm30-DTM` and `dem__srtm30-DTM` are valid. The examples in this guide use the un-prefixed form.
+:::
+
 Lets select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
 
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
+curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
 ```
 
 <details>
     <summary>Response</summary>
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 https://poc-geoserver-dem-wcs-dev.apps.j1lk3njp.eastus.aroapp.io/schemas/wcs/2.0/wcsgs.xsd">
+    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 {WCS_SERVICE_URL}/schemas/wcs/2.0/wcsgs.xsd">
         <wcs:CoverageDescription gml:id="dem__srtm30">
             <gml:description>Generated from GeoTIFF</gml:description>
-            <gml:name>srtm30</gml:name>
+            <gml:name>srtm30-DTM</gml:name>
             <gml:boundedBy>
                 <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
                     <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
                     <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
                 </gml:Envelope>
             </gml:boundedBy>
-            <wcs:CoverageId>dem__srtm30</wcs:CoverageId>
+            <wcs:CoverageId>dem__srtm30-DTM</wcs:CoverageId>
             <gml:coverageFunction>
                 <gml:GridFunction>
                     <gml:sequenceRule axisOrder="+2 +1">Linear</gml:sequenceRule>
@@ -781,7 +786,7 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
             <gmlcov:metadata>
                 <gmlcov:Extension>
                     <ows:Keywords>
-                        <ows:Keyword>srtm30</ows:Keyword>
+                        <ows:Keyword>srtm30-DTM</ows:Keyword>
                         <ows:Keyword>WCS</ows:Keyword>
                         <ows:Keyword>GeoTIFF</ows:Keyword>
                     </ows:Keywords>
@@ -834,7 +839,7 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&ve
     ```
 </details>
 
-You should save the `srsName`, `axisLabels` and `srsDimension` attributes for [step 3](#get-coverage).
+You should save the `srsName`, `axisLabels` and `srsDimension` attributes from the `gml:Envelope` element for [step 3](#get-coverage). These describe how to compose `subset=` parameters and what CRS the coverage is natively stored in (see examples).
 
 #### Understanding the extraction service coverage metadata
 
@@ -846,7 +851,7 @@ Now we can actually make a request for elevation data.
 
 :::danger
 We recommend you don't use the following `query parameters` when making requests:
-- `scalesize`
+- `scaleSize`
 - `scaleFactor`
 - `scaleAxes`
 - `outputCRS`
@@ -881,15 +886,28 @@ Most coverages will be larger than the limit so we suggest you [directly downloa
 Here we request the whole coverage in the `geotiff` format.
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&token=<token>'
 ```
 
 ### Get by BBOX
 
-In most cases, we know which geographical area is of significance to us. This means that we can request the specific `BBOX` as a subset of the selected `coverage`:
+In most cases, we know which geographical area is of significance to us. This means that we can request the specific `BBOX` as a subset of the selected `coverage`.
 
+For example, given a coverage with the following extent:
+```xml
+<gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
+    <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
+    <gml:upperCorner>32.958984375 35.68359375</gml:upperCorner>
+</gml:Envelope>
+```
+
+- `srsDimension="2"` tells you the coverage has 2 axes — you'll need one `subset=` per axis.
+- `axisLabels="Lat Long"` gives you the axis names to use in the request: `subset=Lat(...)&subset=Long(...)`.
+- `srsName="http://www.opengis.net/def/crs/EPSG/0/4326"` is the native CRS — the coordinates inside `subset=` must be expressed in this CRS, and the corner values above bound the valid range.
+
+This produces a `GetCoverage` request like:
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)&token=<token>'
+curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)&token=<token>'
 ```
 
 ### Convert to other CRS
@@ -899,7 +917,7 @@ In some situations we will have data in a geographical area in a different CRS t
 Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:3857`:
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:3857&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:3857&token=<token>'
 ```
 
 ### Scale image size (pixels)
@@ -908,19 +926,19 @@ curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverag
 <TabItem value="scaleSize" label="Scale Size">
 Set the output image to be a fixed amount of pixels.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleSize=i(256),j(256)&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleSize=i(256),j(256)&token=<token>'
 ```
 </TabItem>
 <TabItem value="scaleFactor" label="Scale Factor">
 Set the output image size to be a certain factor from it's original size.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleFactor=0.1&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleFactor=0.1&token=<token>'
 ```
 </TabItem>
 <TabItem value="scaleAxes" label="Scale Axes">
 Set the output image size to be a certain factor from it's original size for each axes.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)&token=<token>'
 ```
 </TabItem>
 </Tabs>
@@ -935,5 +953,5 @@ The default method is `linear`.
 :::
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor&token=<token>'
+curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor&token=<token>'
 ```
