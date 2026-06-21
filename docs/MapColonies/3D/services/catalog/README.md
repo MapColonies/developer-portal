@@ -83,7 +83,7 @@ After sending the request, you will get a response with all the records matched 
             <mc:productId>c2bbeeee-6081-4e69-918c-287f48ea244d</mc:productId>
             <mc:productName>מודל פריז</mc:productName>
             <mc:productType>3DPhotoRealistic</mc:productType>
-            <mc:productSubType>Smart Reality</mc:productSubType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionMethod>photogrammetric</mc:productionMethod>
             <mc:productionSystem>P-30</mc:productionSystem>
@@ -113,7 +113,7 @@ After sending the request, you will get a response with all the records matched 
             <mc:productId>c2bb5433ee-6081-4e69-918c-287f48ea244d</mc:productId>
             <mc:productName>מודל סיני</mc:productName>
             <mc:productType>3DPhotoRealistic</mc:productType>
-            <mc:productSubType>Smart Reality</mc:productSubType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionMethod>photogrammetric</mc:productionMethod>
             <mc:productionSystem>P-80</mc:productionSystem>

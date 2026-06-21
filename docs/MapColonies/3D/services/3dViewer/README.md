@@ -114,7 +114,7 @@ You will get GetRecords XML Response with the products **metadata**.
             <mc:productSource>\\domtest\mimi\archi\maz\silver\libot\afula-whole</mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
-            <mc:productSubType>Smart Reality</mc:productSubType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>i</mc:productionSystem>
             <mc:productionSystemVersion>uy</mc:productionSystemVersion>
@@ -146,7 +146,7 @@ You will get GetRecords XML Response with the products **metadata**.
             <mc:productSource>\\domtest\mimi\archi\maz\silver\libot\City</mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
-            <mc:productSubType>Smart Reality</mc:productSubType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>123</mc:productionSystem>
             <mc:productionSystemVersion>123</mc:productionSystemVersion>
