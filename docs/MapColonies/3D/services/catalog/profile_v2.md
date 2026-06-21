@@ -24,7 +24,7 @@ Removed unnecessary properties and added two properties: source and status of th
 | mc:productId | text | unique external product id <br/> AUTO_GENERATED |
 | mc:productName | text | the product name <br/> maxLength: 50 |
 | mc:productVersion | int | the product version <br/> AUTO_GENERATED |
-| mc:productType | enum  | **Valid Values**: <br/> 3DPhotoRealistic / 3DPhotoRealisticBest / 3DSemantic / 3DSemanticMesh /QuantizedMeshDTMBest / QuantizedMeshDSMBest / 3DPointCloud <br/> default: 3DPhotoRealistic |
+| mc:productType | enum  | **Valid Values**: <br/> 3DPhotoRealistic / 3DPhotoRealisticBest / 3DSemantic / 3DSemanticMesh / QuantizedMeshDTMBest / QuantizedMeshDSMBest / 3DPointCloud <br/> default: 3DPhotoRealistic |
 | mc:productSubType | text | ProductSubType values |
 | mc:links | text | available links for current product CSW Links <br /> structure of links in the format ***name,description,protocol,url[^„,[^„,]]*** |
 | mc:creationDateUTC | date | the date when raw product was created <br/> supported format: **dd/mm/yyyy** |
