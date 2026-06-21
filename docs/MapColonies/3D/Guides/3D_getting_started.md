@@ -156,6 +156,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:productSource>\\Path\To\3D\Models\e047n36_N\vricon_3d_surface_model_3dtiles_1.0_gltf_2\data\vricon_3dtiles</mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>system</mc:productionSystem>
             <mc:productionSystemVersion>9</mc:productionSystemVersion>
@@ -256,6 +257,7 @@ You will get GetRecords XML Response with product **metadata**.
             <mc:productSource></mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>QuantizedMeshDTMBest</mc:productType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem></mc:productionSystem>
             <mc:productionSystemVersion>1</mc:productionSystemVersion>

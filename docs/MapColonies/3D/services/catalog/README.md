@@ -144,6 +144,7 @@ After sending the request, you will get a response with all the records matched 
             <mc:productId>11111111-1111-1111-1111-111111111111</mc:productId>
             <mc:productName>aaa</mc:productName>
             <mc:productType>type</mc:productType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionMethod></mc:productionMethod>
             <mc:productionSystem></mc:productionSystem>
