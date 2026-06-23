@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.4.3](https://github.com/MapColonies/developer-portal/compare/v3.4.2...v3.4.3) (2026-06-23)
+
+
+### Documentation
+
+* **3d:** added mentions of productSubType and update productTypes enum (MAPCO-10808) ([#168](https://github.com/MapColonies/developer-portal/issues/168)) ([a1639dc](https://github.com/MapColonies/developer-portal/commit/a1639dc403acaed0d3bf5edea4690dc5835f0a51))
+* **dem:** add elevation obligations ([#169](https://github.com/MapColonies/developer-portal/issues/169)) ([054d2f5](https://github.com/MapColonies/developer-portal/commit/054d2f5c793b77d82423f575a9a3c235f5690682))
+* **obligations:** add geocoding feedback ([#166](https://github.com/MapColonies/developer-portal/issues/166)) ([abca98e](https://github.com/MapColonies/developer-portal/commit/abca98e6993d6a9857677acd14f557f3a51f8221))
+
 ## [3.4.2](https://github.com/MapColonies/developer-portal/compare/v3.4.1...v3.4.2) (2025-07-21)
 
 
