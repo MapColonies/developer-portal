@@ -58,3 +58,13 @@ We also recommend that the layers are loaded in the same order as described in t
 ### Using Feedback API with Geocoding
 
 While interacting with Geocoding API, for BI purposes and to better understand our users's needs and interests, for each response sent from Geocoding API, we require the users to provide 'feedback' on our response by using Geocoding's [`Feedback API`](/docs/MapColonies/vector/Services/geocoding/feedback).
+
+## DEM
+
+### Displaying Elevation results
+
+If you choose to display [`Elevation`](/docs/MapColonies/DEM/Services/elevation) results in your application UI, you must clearly present the following fields:
+- `productType`
+- `resolutionMeter`
+- `absoluteAccuracyLEP90`
+Displaying these fields is critical to ensuring end-users can make informed decisions based on the returned data.
