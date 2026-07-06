@@ -41,7 +41,7 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <And>
                     <PropertyIsEqualTo>
                         <PropertyName>mc:productId</PropertyName>
-                        <Literal>mimad</Literal>
+                        <Literal>product</Literal>
                     </PropertyIsEqualTo>
                     <PropertyIsEqualTo>
                         <PropertyName>mc:productType</PropertyName>
@@ -75,10 +75,10 @@ Response:
             <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
             <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
             <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
-            <mc:links scheme="WCS" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
-            <mc:links scheme="WCS_BASE" name="mimad-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
-            <mc:links scheme="WFS_BASE" name="mimad-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
-            <mc:links scheme="Download" name="mimad-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
+            <mc:links scheme="WCS" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
+            <mc:links scheme="WCS_BASE" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
+            <mc:links scheme="WFS_BASE" name="product-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
+            <mc:links scheme="Download" name="product-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
             <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
             <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
             <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -91,8 +91,8 @@ Response:
             <mc:minResolutionMeter>40</mc:minResolutionMeter>
             <mc:noDataValue>-32768</mc:noDataValue>
             <mc:producerName>PRODUCER</mc:producerName>
-            <mc:productId>mimad</mc:productId>
-            <mc:productName>mimad</mc:productName>
+            <mc:productId>product</mc:productId>
+            <mc:productName>product</mc:productName>
             <mc:productType>DSM</mc:productType>
             <mc:productVersion>1</mc:productVersion>
             <mc:region>region</mc:region>

@@ -105,14 +105,14 @@ request=GetCapabilities
         <wcs:ContentMetadata>
             <wcs:CoverageOfferingBrief>
                 <wcs:description>Generated from GeoTIFF</wcs:description>
-                <wcs:name>dem:mimad</wcs:name>
-                <wcs:label>mimad</wcs:label>
+                <wcs:name>dem:product</wcs:name>
+                <wcs:label>product</wcs:label>
                 <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
                     <gml:pos>32.70697763422942 29.149161895068794</gml:pos>
                     <gml:pos>37.071150249328454 34.62339561526329</gml:pos>
                 </wcs:lonLatEnvelope>
                 <wcs:keywords>
-                    <wcs:keyword>mimad</wcs:keyword>
+                    <wcs:keyword>product</wcs:keyword>
                     <wcs:keyword>WCS</wcs:keyword>
                     <wcs:keyword>GeoTIFF</wcs:keyword>
                 </wcs:keywords>
@@ -391,13 +391,13 @@ request=GetCapabilities
         </wcs:ServiceMetadata>
         <wcs:Contents>
             <wcs:CoverageSummary>
-                <ows:Title>mimad</ows:Title>
+                <ows:Title>product</ows:Title>
                 <ows:Keywords>
-                    <ows:Keyword>mimad</ows:Keyword>
+                    <ows:Keyword>product</ows:Keyword>
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__mimad</wcs:CoverageId>
+                <wcs:CoverageId>dem__product</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/32636">
                     <ows:LowerCorner>473139.25219177455 3230615.3954787063</ows:LowerCorner>
@@ -409,13 +409,13 @@ request=GetCapabilities
                 </ows:WGS84BoundingBox>
             </wcs:CoverageSummary>
             <wcs:CoverageSummary>
-                <ows:Title>mimad</ows:Title>
+                <ows:Title>product</ows:Title>
                 <ows:Keywords>
-                    <ows:Keyword>mimad</ows:Keyword>
+                    <ows:Keyword>product</ows:Keyword>
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
-                <wcs:CoverageId>dem__mimad</wcs:CoverageId>
+                <wcs:CoverageId>dem__product</wcs:CoverageId>
                 <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
                 <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/32636">
                     <ows:LowerCorner>473139.25219177455 3230615.3954787063</ows:LowerCorner>
