@@ -12,7 +12,7 @@ tags:
 ---
 
 ## Step by step guide
-The following guide will help you understand, ***Step-by-step*** the best practices of how to work with the Map Colonies **DEM** Catalog and how to consume mapping products in a ***dynamic way*** (materials might be changed or added)
+The following guide will help you understand, ***Step-by-step*** how to add a `terrain provider` to your application.
 
 ## Flow diagram
 ```mermaid
@@ -135,7 +135,7 @@ You will get GetRecords XML Response with product **metadata**.
 ```
 </details>
 
-## Get DEM metadata (Step 2)
+## Get terrain metadata (Step 2)
 In the Response, look for desired data according to profile definition.
 
 ## Get terrain provider URI (Step 2.1) {#step-2.1}
@@ -165,7 +165,7 @@ Now let's see how we can load the provider in our application.
 :::
 
 ```javascript
-// **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground or investigate terrain 
+// **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground or investigate terrain
 viewer.terrainProvider = new Cesium.TerrainProvider({
   url: new Cesium.Resource({
     url: "{TERRAIN_URL}",
