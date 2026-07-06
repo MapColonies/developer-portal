@@ -20,12 +20,12 @@ The following guide will help you understand ***Step-by-step*** how to work with
 This guide is for algorithmic purposes.
 :::
 
-:::note
-Please note the [obligations](/docs/MapColonies/obligations) you need to follow while using our services.
-:::
-
 :::warning
 **Any** request to our services should include a `token` as a form of [authentication](/docs/MapColonies/authentication).
+:::
+
+:::note
+Please note the [obligations](/docs/MapColonies/obligations) you need to follow while using our services.
 :::
 
 ## Flow diagram
