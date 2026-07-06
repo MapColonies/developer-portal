@@ -77,7 +77,7 @@ The following parameters were added v2:
 | mc:links | text | Available links for different services available for the current product |
 | mc:classification | text | product classification / confidentiality <br/> Classification values should be numbers between 0 and 100 |
 | mc:producerName | text | manufacturer / organization that produced / supplied the product |
-| mc:noDataValue | int | **Valid Values**: <br/> -32768 |
+| mc:noDataValue | double | **Valid Values**: <br/> -32768 |
 | mc:type | enum | type of the catalog <br/> **Value**: RECORD_DEM |
 | mc:keywords | text | list of key words relevant for product |
 | mc:verticalType | enum | **Valid Values**: Orthometric, Ellipsoidal |
