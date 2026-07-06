@@ -81,5 +81,5 @@ The following parameters were added v2:
 | mc:type | enum | type of the catalog <br/> **Value**: RECORD_DEM |
 | mc:keywords | text | list of key words relevant for product |
 | mc:verticalType | enum | **Valid Values**: Orthometric, Ellipsoidal |
-| mc:verticalSrsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:verticalSrsId | text | reference system ID (EPSG), <br/> ex: 5773 / 3855 / 4979 |
 | mc:verticalSrsName | text | name of reference system |
