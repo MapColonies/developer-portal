@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 The following guide will help you understand ***Step-by-step*** how to work with the Map Colonies Height Extraction service, from the [Catalog](/docs/MapColonies/DEM/Services/catalog/dem-catalog) to the WCS protocol.
 
 :::warning
-This guide is **not** for viewing purposes.
+This guide is for algorithmic purposes.
 :::
 
 :::note
