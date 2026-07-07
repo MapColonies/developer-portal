@@ -1,6 +1,6 @@
 ---
 id: dem-elevation-service
-slug: info
+slug: elevation
 title: Elevation ⛰️
 description: Service to return geographic coordinate [lat, lon] elevation 
 tags:

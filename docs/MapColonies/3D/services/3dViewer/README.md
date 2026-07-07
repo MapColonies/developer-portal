@@ -107,13 +107,14 @@ You will get GetRecords XML Response with the products **metadata**.
             <mc:id>53c9e5f6-31d6-47a1-bc11-64e150bcc13b</mc:id>
             <mc:insertDate>2023-10-11T18:33:18Z</mc:insertDate>
             <mc:links scheme="3DTiles" name="" description="">https://URL-TO-3D-TILE/api/3d/v1/b3dm/model/tileset.json</mc:links>
-            <mc:producerName>IDFMU</mc:producerName>
+            <mc:producerName>PRODUCER</mc:producerName>
             <mc:productBBox>35.2670012825,32.5856881598,35.3105702702,32.6300363309</mc:productBBox>
             <mc:productId>53c9e5f6-31d6-47a1-bc11-64e150bcc13b</mc:productId>
             <mc:productName>natik-q2</mc:productName>
             <mc:productSource>\\domtest\mimi\archi\maz\silver\libot\afula-whole</mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>i</mc:productionSystem>
             <mc:productionSystemVersion>uy</mc:productionSystemVersion>
@@ -139,12 +140,13 @@ You will get GetRecords XML Response with the products **metadata**.
             <mc:id>e8a7ee77-1f95-4ac7-ad6e-24aae7859be5</mc:id>
             <mc:insertDate>2023-10-14T15:05:15Z</mc:insertDate>
             <mc:links scheme="3DTiles" name="" description="">https://URL-TO-3D-TILE/api/3d/v1/b3dm/model/tileset.json</mc:links>
-            <mc:producerName>IDFMU</mc:producerName>
+            <mc:producerName>PRODUCER</mc:producerName>
             <mc:productId>e8a7ee77-1f95-4ac7-ad6e-24aa5</mc:productId>
             <mc:productName>רחובות</mc:productName>
             <mc:productSource>\\domtest\mimi\archi\maz\silver\libot\City</mc:productSource>
             <mc:productStatus>PUBLISHED</mc:productStatus>
             <mc:productType>3DPhotoRealistic</mc:productType>
+            <mc:productSubType>Test subtype</mc:productSubType>
             <mc:productVersion>1</mc:productVersion>
             <mc:productionSystem>123</mc:productionSystem>
             <mc:productionSystemVersion>123</mc:productionSystemVersion>
