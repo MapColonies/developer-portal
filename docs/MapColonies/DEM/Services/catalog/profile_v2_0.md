@@ -21,7 +21,7 @@ The following parameters were added v2:
 | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
 | ----------- | ----------- | ----------- |
 | mc:productVersion | int | the product version |
-| mc:srsId | int | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
+| mc:srsId | int | reference system ID (EPSG), <br /> ex: 4326 / 3857 |
 | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | mc:acquisitionTimeBeginUTC | date | Start acquisition time (UTC time) of raw product<br/>Supported format: **dd-mm-yyyyThh:mm:ssZ** |
 | mc:acquisitionTimeEndUTC | date | End acquisition time (UTC time) of raw product<br/>Supported format: **dd-mm-yyyyThh:mm:ssZ** |
@@ -38,7 +38,7 @@ The following parameters were added v2:
 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
 | mc:links | text | Available links for different services available for the current product |
 | mc:verticalType | enum | **Valid Values**: Orthometric, Ellipsoidal |
-| mc:verticalSrsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:verticalSrsId | text | reference system ID (EPSG), <br/> ex: 5773 / 3855 / 4979 |
 | mc:verticalSrsName | text | name of reference system |
 
 :::
@@ -53,7 +53,7 @@ The following parameters were added v2:
 | mc:description | text | the product description |
 | mc:footprint | geojson | geographical delineation of the product / model trace |
 | mc:BoundingBox | bbox | two points that represent the record extent |
-| mc:srsId | text | reference System ID (EPSG), <br/> ex: 4326 / 3857 |
+| mc:srsId | text | reference system ID (EPSG), <br/> ex: 4326 / 3857 |
 | mc:srsName | text | name of reference system |
 | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
