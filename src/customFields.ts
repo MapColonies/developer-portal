@@ -1,4 +1,8 @@
 export type CustomFields = {
+    askAi: {
+        enabled: boolean,
+        endpoint: string,
+    },
     mapColoniesBaseURLS: {
         raster: {
             catalog: string,

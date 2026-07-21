@@ -8,6 +8,11 @@
 .docusaurus
 .cache-loader
 
+# Ask AI generated indexes
+/ask-ai/data/*.json
+/ask-ai/data/indexes/
+!/ask-ai/data/.gitkeep
+
 # Misc
 .DS_Store
 .env.local

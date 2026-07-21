@@ -3,8 +3,13 @@
 
 import {themes as prismThemes} from 'prism-react-renderer';
 import type { Config, ReportingSeverity } from '@docusaurus/types';
-import type { Option, ThemeConfig } from '@docusaurus/preset-classic';
+import type { Options as PresetOptions } from '@docusaurus/preset-classic';
 import type { PresetEntry } from 'redocusaurus';
+
+const playgroundUrl = process.env.PLAYGROUND_URL || 'https://PLAYGROUND_URL.com';
+const puzzleUrl = process.env.PUZZLE_URL || 'https://PUZZLE_URL.com';
+const catalogApplicationUrl = process.env.CATALOG_APPLICATION_URL || 'https://CATALOG_APPLICATION_URL.com';
+const yahalomApplicationUrl = process.env.YAHALOM_APPLICATION_URL || 'https://YAHALOM_APPLICATION_URL.com';
 
 const config: Config = {
   title: 'MapColonies Developer Portal',
@@ -31,8 +36,12 @@ const config: Config = {
   },
   customFields: {
     mapColoniesBaseURLS: {
-      playground: process.env.PLAYGROUND_URL,
-      puzzle: process.env.PUZZLE_URL,
+      playground: playgroundUrl,
+      puzzle: puzzleUrl,
+    },
+    askAi: {
+      enabled: process.env.ASK_AI_ENABLED !== 'false',
+      endpoint: process.env.ASK_AI_ENDPOINT || 'http://localhost:8787/api/ask-ai',
     },
   },
   presets: [
@@ -60,7 +69,7 @@ const config: Config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      }) satisfies Preset.Options,
+      }) satisfies PresetOptions,
     ],
     [
       'redocusaurus',
@@ -121,10 +130,10 @@ const config: Config = {
             label: "Getting Started"
           },
           {to: '/blog', label: 'Release Notes', position: 'left'},
-          {to: process.env.PLAYGROUND_URL, label: 'Interactive Playground', position: 'right'},
-          {to: process.env.CATALOG_APPLICATION_URL, label: 'Catalog App', position: 'right'},
-          {to: process.env.YAHALOM_APPLICATION_URL, label: 'Yahalom App', position: 'right'},
-          {to: process.env.PUZZLE_URL, label: 'Puzzle Game', position: 'right'},
+          {to: playgroundUrl, label: 'Interactive Playground', position: 'right'},
+          {to: catalogApplicationUrl, label: 'Catalog App', position: 'right'},
+          {to: yahalomApplicationUrl, label: 'Yahalom App', position: 'right'},
+          {to: puzzleUrl, label: 'Puzzle Game', position: 'right'},
           {
             type: 'docSidebar',
             sidebarId: 'ogcSidebar',
@@ -197,6 +206,6 @@ const config: Config = {
     plugins: [
       [require.resolve('docusaurus-lunr-search'), {}],
     ],
-} satisfies Preset.ThemeConfig;
+} satisfies Config;
 
 export default config;

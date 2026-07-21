@@ -1,5 +1,6 @@
 import { experimental_extendTheme as extendTheme, Experimental_CssVarsProvider as CssVarsProvider, getInitColorSchemeScript } from '@mui/material';
 import React from 'react';
+import AskAI from '@site/src/components/AskAI';
 
 const theme = extendTheme({
   colorSchemes: {
@@ -24,7 +25,10 @@ function Root({ children }) {
   return (
     <>
       {getInitColorSchemeScript()}
-      <CssVarsProvider theme={theme}>{children}</CssVarsProvider>
+      <CssVarsProvider theme={theme}>
+        {children}
+        <AskAI />
+      </CssVarsProvider>
     </>
   );
 }

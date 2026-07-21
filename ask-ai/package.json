@@ -1,0 +1,13 @@
+{
+  "name": "developer-portal-ask-ai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index": "node src/index-docs.js",
+    "start": "node src/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,13 @@
+model_list:
+  - model_name: ollama/qwen2.5:0.5b
+    litellm_params:
+      model: ollama/qwen2.5:0.5b
+      api_base: http://ollama:11434
+
+  - model_name: ollama/nomic-embed-text
+    litellm_params:
+      model: ollama/nomic-embed-text
+      api_base: http://ollama:11434
+
+general_settings:
+  master_key: local-ask-ai-token
