@@ -25,6 +25,7 @@ tags:
 | | mc:productId | text | unique external product id |
 | | mc:productName | text | the product name |
 | | mc:productType | enum | **Valid Values**: <br/> DTM / DSM |
+| 🆕 | mc:productSubType | text | additional classification of the product that provides a more specific description within the selected productType |
 | 🆕 | mc:productVersion | int | the product version |
 | | mc:description | text | the product description |
 | | mc:footprint | geojson | geographical delineation of the product / model trace |

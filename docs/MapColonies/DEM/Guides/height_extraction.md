@@ -326,6 +326,8 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 Fetch all products with productType DTM and intersect with a given Polygon.
 :::info
 A polygon must contain **at least 4 points**, where the first and last point are identical (a closed ring). Any number of additional points is allowed.
+
+Coordinates go in a single space-separated `gml:posList`, in **latitude longitude** order for `EPSG:4326`. The GML2 form (`gml:outerBoundaryIs` / `gml:coordinates`) is not supported.
 :::
 ```bash
 curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
@@ -342,14 +344,14 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                     </PropertyIsEqualTo>
                     <ogc:Intersects>
                         <ogc:PropertyName>ows:BoundingBox</ogc:PropertyName>
-                        <gml:Polygon srsName="{SRS_IDENTIFIER}">
-                            <gml:outerBoundaryIs>
+                        <gml:Polygon srsName="EPSG:4326">
+                            <gml:exterior>
                                 <gml:LinearRing>
-                                    <gml:coordinates decimal="." cs="," ts=" ">
-                                        [COORD1_X],[COORD1_Y] [COORD2_X],[COORD2_Y] [COORD3_X],[COORD3_Y] [COORD4_X],[COORD4_Y] ... [COORDN_X],[COORDN_Y] [COORD1_X],[COORD1_Y]
-                                    </gml:coordinates>
+                                    <gml:posList>
+                                        [COORD1_LAT] [COORD1_LON] [COORD2_LAT] [COORD2_LON] [COORD3_LAT] [COORD3_LON] ... [COORDN_LAT] [COORDN_LON] [COORD1_LAT] [COORD1_LON]
+                                    </gml:posList>
                                 </gml:LinearRing>
-                            </gml:outerBoundaryIs>
+                            </gml:exterior>
                         </gml:Polygon>
                     </ogc:Intersects>
                 </And>
