@@ -4,6 +4,7 @@ import json
 import tempfile
 import textwrap
 import unittest
+import unittest.mock
 from contextlib import redirect_stdout
 from pathlib import Path
 
@@ -70,6 +71,20 @@ class ExtractTest(unittest.TestCase):
     def test_examples_when_no_steps(self):
         self.path.write_text("## A\n```bash\ncurl 'http://x/y'\n```\n## B\n")
         self.assertEqual(docrev.extract(self.path)["kind_hint"], "examples")
+
+
+class PlaceholderTest(unittest.TestCase):
+    def test_xml_elements_in_body_are_not_placeholders(self):
+        env = {"placeholders": {}, "token": {}}
+        req = {"method": "POST", "url": "http://x/csw", "headers": {}, "body": "<csw:GetRecords><BBOX><X>{SRS}</X></BBOX></csw:GetRecords>"}
+        d = Path(tempfile.mkdtemp()) / "r.json"
+        d.write_text(json.dumps(req))
+        out = io.StringIO()
+        with unittest.mock.patch.object(docrev, "load_env", return_value=env), redirect_stdout(out):
+            with self.assertRaises(SystemExit) as e:
+                docrev.cmd_call(argparse.Namespace(env="e", doc=None, block=None, request=str(d), sub=None,
+                                                   allow_write=False, head=False, range=None, timeout=5))
+        self.assertEqual(json.loads(e.exception.code)["placeholders"], ["{SRS}"])
 
 
 class SafetyTest(unittest.TestCase):

@@ -58,6 +58,14 @@ structure rather than values:
 - Try the new capability the way a reader would (filter on a new field, follow a new link
   type, call a new operation). A declared field that can't be queried, a link type that never
   appears, an operation that errors — each is a **deployment finding**.
+- Localise every mismatch hop by hop before naming a cause: public route → proxy → backend.
+  Query the backend directly (`docrev pod-call`, bypasses routes/proxies/auth) and compare
+  with the same request through the route; check what each hop actually mounts/loads
+  (`pod-read`, the Deployment's volumes), not only what the ConfigMaps say. Service logs
+  often state the cause outright (e.g. an undefined DB column). Treat a restart as a test of
+  a hypothesis, and re-run `env forward` afterwards (forwards die with their pod).
+- Before posting a cause, it must be verified; an unverified hypothesis goes out as a
+  question, not a finding.
 - Walk the intended reader flow end to end (search → metadata → data, or whatever the service
   implies), chaining values between steps exactly as `review-docs` section 4 describes,
   including its safety rules (writes only with per-request approval; downloads via `--range`).

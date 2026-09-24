@@ -365,7 +365,9 @@ def cmd_call(a):
         url = re.sub(r"(<token>|\{token\})", tok, url)
         if f"{tparam}=" not in url:
             url += ("&" if "?" in url else "?") + f"{tparam}={urllib.parse.quote(tok)}"
-    leftover = [p for p in PLACEHOLDER_RE.findall(url + (req.get("body") or "")) if p not in ("<token>",)]
+    # `<NAME>` in a body is usually an XML element (e.g. `<BBOX>`), so only `{X}`/`[X]` count there.
+    leftover = [p for p in PLACEHOLDER_RE.findall(url) if p != "<token>"] + \
+        [p for p in PLACEHOLDER_RE.findall(req.get("body") or "") if not p.startswith("<")]
     if leftover:
         sys.exit(json.dumps({"error": "unfilled placeholders", "placeholders": leftover}))
     method = "HEAD" if a.head else req["method"]
@@ -583,6 +585,42 @@ def cmd_pod_read(a):
     print(redact_secrets(out.stdout) if out.returncode == 0 else f"error: {out.stderr.strip()}")
 
 
+POD_HTTP = """
+import base64, json, sys, urllib.error, urllib.request as u
+r = json.loads(sys.argv[1])
+req = u.Request(r["url"], data=r["body"].encode() if r.get("body") is not None else None,
+                headers=r.get("headers") or {}, method=r["method"])
+try:
+    resp = u.urlopen(req, timeout=60); status, ct, body = resp.status, resp.headers.get("Content-Type"), resp.read()
+except urllib.error.HTTPError as e:
+    status, ct, body = e.code, e.headers.get("Content-Type"), e.read()
+print(json.dumps({"status": status, "content_type": ct, "body": base64.b64encode(body[:5242880]).decode()}))
+"""
+
+
+def cmd_pod_call(a):
+    """Send one read request from inside a workload's pod to a local port, bypassing
+    routes/proxies/auth, to localise which hop of a chain misbehaves."""
+    req = parse_curl(sys.stdin.read())
+    if not req or req.get("error"):
+        sys.exit(json.dumps({"error": "could not parse request", "detail": req}))
+    if classify(req) == "write":
+        sys.exit(json.dumps({"skipped": True, "safety": "write"}))
+    parts = urllib.parse.urlsplit(req["url"])
+    req["url"] = urllib.parse.urlunsplit(("http", f"127.0.0.1:{a.port}", parts.path or "/", parts.query, ""))
+    args = ["exec", "-n", a.namespace, f"deploy/{a.deploy}"] + (["-c", a.container] if a.container else [])
+    out = oc(*args, "--", "python3", "-c", POD_HTTP, json.dumps(req))
+    if out.returncode:
+        sys.exit(json.dumps({"error": "exec failed (needs python3 in the container)", "detail": out.stderr.strip()[:300]}))
+    r = json.loads(out.stdout)
+    body = __import__("base64").b64decode(r["body"])
+    RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    saved = RUNS_DIR / f"pod-resp-{int(time.time() * 1000)}"
+    saved.write_bytes(body)
+    print(json.dumps({"url": req["url"], "status": r["status"], "content_type": r["content_type"],
+                      "saved": str(saved), "summary": summarize(body, r["content_type"])}, indent=2))
+
+
 def main():
     ap = argparse.ArgumentParser(prog="docrev")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -630,6 +668,11 @@ def main():
     p.add_argument("--container")
     p.add_argument("--max-bytes", type=int, default=200_000)
     p.add_argument("path")
+    p = sub.add_parser("pod-call", help="run one read request (curl on stdin) from inside a pod to a local port")
+    p.add_argument("--namespace", required=True)
+    p.add_argument("--deploy", required=True)
+    p.add_argument("--container")
+    p.add_argument("--port", type=int, required=True)
     a = ap.parse_args()
     if a.cmd == "extract":
         doc = extract(a.md)
@@ -642,7 +685,7 @@ def main():
          "forward": cmd_env_forward, "stop": cmd_env_stop}[a.ecmd](a)
     else:
         {"call": cmd_call, "shape": cmd_shape, "shape-diff": cmd_shape_diff, "deploy-diff": cmd_deploy_diff,
-         "inventory": cmd_inventory, "pod-read": cmd_pod_read}[a.cmd](a)
+         "inventory": cmd_inventory, "pod-read": cmd_pod_read, "pod-call": cmd_pod_call}[a.cmd](a)
 
 
 if __name__ == "__main__":
