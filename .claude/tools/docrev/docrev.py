@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Mechanical helpers for the review-docs skill.
+"""Mechanical helpers shared by the review-docs and generate-docs skills.
 
-Claude does the judgment (flow vs examples, value chaining, verdicts); this
-script only does what must be deterministic: parse docs, manage env access,
-execute one request safely and summarize the response compactly.
+Claude does the judgment (discovery, flow vs examples, value chaining, verdicts);
+this script only does what must be deterministic and protocol-agnostic: parse
+docs, inspect deployments, manage env access, run one request safely, and reduce
+any XML/JSON to its structure so two sources can be compared.
 """
 import argparse
 import json
@@ -16,6 +17,7 @@ import ssl
 import struct
 import subprocess
 import sys
+import textwrap
 import time
 import urllib.error
 import urllib.parse
@@ -24,7 +26,7 @@ from pathlib import Path
 
 import yaml
 
-REPO = Path(__file__).resolve().parents[4]
+REPO = Path(__file__).resolve().parents[3]
 # Env configs hold internal hostnames and must stay out of this public repo.
 ENVS_DIR = Path.home() / ".claude" / "review-envs"
 RUNS_DIR = REPO / ".claude" / "review-runs"
@@ -178,11 +180,9 @@ def token_for(env):
 
 def cmd_env_discover(a):
     ns = a.namespace
-    routes = json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", [])
+    routes = filter_release(json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", []), a.release)
     out = []
     for r in routes:
-        if a.release and not r["metadata"]["name"].startswith(a.release + "-"):
-            continue
         conds = (r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
         out.append({
             "route": r["metadata"]["name"],
@@ -402,6 +402,187 @@ def redact(s, tok):
 
 
 
+TAG_RE = re.compile(r"<(/?)([A-Za-z_][\w:.-]*)((?:\s+[^<>]*?)?)(/?)>")
+ATTR_RE = re.compile(r"([A-Za-z_][\w:.-]*)\s*=")
+
+
+def xml_shape(text):
+    """Element/attribute paths of an XML document, values dropped.
+
+    Regex-based on purpose: doc examples are often abbreviated with `...` and
+    wouldn't parse, and namespace prefixes must be kept as written.
+    """
+    text = re.sub(r"<\?.*?\?>|<!--.*?-->|<!\[CDATA\[.*?\]\]>|<!DOCTYPE[^>]*>", "", text, flags=re.S)
+    paths, stack = set(), []
+    for close, name, attrs, selfclose in TAG_RE.findall(text):
+        if close:
+            if name in stack:
+                while stack and stack.pop() != name:
+                    pass
+            continue
+        stack.append(name)
+        path = "/".join(stack)
+        paths.add(path)
+        for a in ATTR_RE.findall(attrs):
+            if not a.startswith("xmlns") and not a.startswith("xsi:schemaLocation"):
+                paths.add(f"{path}/@{a}")
+        if selfclose:
+            stack.pop()
+    return paths
+
+
+def json_shape(obj, prefix=""):
+    paths = set()
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            p = f"{prefix}.{k}" if prefix else k
+            paths.add(p)
+            paths |= json_shape(v, p)
+    elif isinstance(obj, list):
+        for v in obj:
+            paths |= json_shape(v, prefix + "[]")
+    return paths
+
+
+def load_source(src):
+    """A file path, or `doc.md:LINE` for the code block starting at LINE."""
+    m = re.match(r"^(.+\.mdx?):(\d+)$", src)
+    if m:
+        block = next((b for b in extract(m.group(1))["blocks"] if b["line"] == int(m.group(2))), None)
+        if not block:
+            sys.exit(f"no code block at {src}")
+        return textwrap.dedent(block["content"])
+    return Path(src).read_bytes().decode("utf-8", "replace")
+
+
+def shape_of(text):
+    t = text.lstrip()
+    if t.startswith("{") or t.startswith("["):
+        try:
+            return json_shape(json.loads(t))
+        except ValueError:
+            pass
+    return xml_shape(text)
+
+
+def cmd_shape(a):
+    print(json.dumps(sorted(shape_of(load_source(a.source))), indent=1))
+
+
+def cmd_shape_diff(a):
+    sa, sb = shape_of(load_source(a.a)), shape_of(load_source(a.b))
+    if a.under:
+        # compare only below the first element with this name, so different wrappers
+        # (e.g. a doc snippet vs a full response) still line up
+        def rebase(paths):
+            out = set()
+            for p in paths:
+                parts = p.split("/")
+                if a.under in parts:
+                    out.add("/".join(parts[parts.index(a.under):]))
+            return out
+        sa, sb = rebase(sa), rebase(sb)
+    if a.ignore:
+        ig = re.compile(a.ignore)
+        sa = {p for p in sa if not ig.search(p)}
+        sb = {p for p in sb if not ig.search(p)}
+    print(json.dumps({"only_in_a": sorted(sa - sb), "only_in_b": sorted(sb - sa),
+                      "common": len(sa & sb)}, indent=1))
+
+
+DEPLOY_KEYS = re.compile(r"^\s*-?\s*(repository|tag|image|imageTag|version|host|path|name|url|alias)\s*:\s*(.+?)\s*$")
+
+
+def cmd_deploy_diff(a):
+    """Summarize a deployment PR/diff: new files, and added image/route/dependency keys."""
+    if a.pr:
+        repo, _, num = a.pr.partition("#")
+        diff = subprocess.run(["gh", "pr", "diff", num, "-R", repo], capture_output=True, text=True, check=True).stdout
+    else:
+        diff = Path(a.diff).read_text()
+    files, cur, line = {}, None, 0
+    for l in diff.splitlines():
+        if l.startswith("diff --git"):
+            cur = l.split(" b/", 1)[1]
+            files[cur] = {"status": "modified", "added_keys": [], "added": 0, "removed": 0}
+        elif cur and l.startswith("new file mode"):
+            files[cur]["status"] = "new"
+        elif cur and l.startswith("deleted file mode"):
+            files[cur]["status"] = "deleted"
+        elif l.startswith("@@"):
+            line = int(re.search(r"\+(\d+)", l).group(1))
+        elif cur and l.startswith("+") and not l.startswith("+++"):
+            files[cur]["added"] += 1
+            m = DEPLOY_KEYS.match(l[1:])
+            if m and cur.endswith((".yaml", ".yml")):
+                files[cur]["added_keys"].append({"line": line, "key": m.group(1), "value": redact_secrets(m.group(2))})
+            line += 1
+        elif cur and l.startswith("-") and not l.startswith("---"):
+            files[cur]["removed"] += 1
+        elif cur and not l.startswith("\\"):
+            line += 1
+    for f in files.values():
+        f["added_keys"] = f["added_keys"][: a.max_keys]
+    print(json.dumps(files, indent=1))
+
+
+def release_of(obj):
+    return (obj["metadata"].get("annotations") or {}).get("meta.helm.sh/release-name")
+
+
+def filter_release(items, release):
+    """Helm's release annotation is authoritative; the name prefix is only a fallback for
+    namespaces without Helm-managed objects (a prefix like `dem-` also matches `dem-dev-*`)."""
+    if not release:
+        return items
+    if any(release_of(o) == release for o in items):
+        return [o for o in items if release_of(o) == release]
+    return [o for o in items if o["metadata"]["name"].startswith(release + "-")]
+
+
+def cmd_inventory(a):
+    """Live resources of a namespace (optionally one release): what is actually running and exposed."""
+    ns = a.namespace
+    get = lambda kind: filter_release(
+        json.loads(oc("get", kind, "-n", ns, "-o", "json").stdout or "{}").get("items", []), a.release)
+    inv = {"deployments": [], "routes": [], "services": [], "configmaps": []}
+    for d in get("deployments"):
+        inv["deployments"].append({
+            "name": d["metadata"]["name"],
+            "images": [c["image"] for c in d["spec"]["template"]["spec"]["containers"]],
+            "ready": f"{d['status'].get('readyReplicas', 0)}/{d['spec'].get('replicas')}",
+        })
+    for r in get("routes"):
+        cond = ((r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}])[0]
+        inv["routes"].append({"name": r["metadata"]["name"], "url": f"https://{r['spec']['host']}{r['spec'].get('path') or ''}",
+                              "service": r["spec"]["to"]["name"], "admitted": cond.get("status") == "True",
+                              "reason": cond.get("reason")})
+    for s in get("services"):
+        inv["services"].append({"name": s["metadata"]["name"], "ports": [p["port"] for p in s["spec"].get("ports", [])]})
+    for c in get("configmaps"):
+        inv["configmaps"].append({"name": c["metadata"]["name"], "keys": sorted((c.get("data") or {}).keys())})
+    print(json.dumps(inv, indent=1))
+
+
+SECRET_RE = re.compile(r"(?i)((?:password|passwd|secret|token|access_?key|secret_?key|api_?key)[\w.-]*\s*[:=]\s*)(\S+)")
+URL_CRED_RE = re.compile(r"(\w+://)[^/\s:@]+:[^/\s@]+@")
+
+
+def redact_secrets(text):
+    return URL_CRED_RE.sub(r"\1***:***@", SECRET_RE.sub(r"\1***", text))
+
+
+def cmd_pod_read(a):
+    """Read a file (or list a dir) inside a running workload, with obvious secrets masked."""
+    script = ('p="$1"; if [ -d "$p" ]; then ls -la "$p"; '
+              'else head -c %d "$p"; fi' % a.max_bytes)
+    args = ["exec", "-n", a.namespace, f"deploy/{a.deploy}"]
+    if a.container:
+        args += ["-c", a.container]
+    out = oc(*args, "--", "sh", "-c", script, "sh", a.path)
+    print(redact_secrets(out.stdout) if out.returncode == 0 else f"error: {out.stderr.strip()}")
+
+
 def main():
     ap = argparse.ArgumentParser(prog="docrev")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -428,6 +609,27 @@ def main():
     p.add_argument("--head", action="store_true")
     p.add_argument("--range", type=int, help="fetch only the first N bytes")
     p.add_argument("--timeout", type=int, default=120)
+    p = sub.add_parser("shape", help="structure (paths) of an XML/JSON file or doc block (doc.md:LINE)")
+    p.add_argument("source")
+    p = sub.add_parser("shape-diff", help="compare structures of two sources")
+    p.add_argument("a")
+    p.add_argument("b")
+    p.add_argument("--under", help="compare only below the first element with this name")
+    p.add_argument("--ignore", help="regex of paths to ignore")
+    p = sub.add_parser("deploy-diff", help="summarize a deployment PR or diff")
+    g = p.add_mutually_exclusive_group(required=True)
+    g.add_argument("--pr", help="owner/repo#N")
+    g.add_argument("--diff", help="unified diff file")
+    p.add_argument("--max-keys", type=int, default=60)
+    p = sub.add_parser("inventory", help="live deployments/routes/services/configmaps")
+    p.add_argument("--namespace", required=True)
+    p.add_argument("--release")
+    p = sub.add_parser("pod-read", help="read a file or list a dir inside a deployment's pod")
+    p.add_argument("--namespace", required=True)
+    p.add_argument("--deploy", required=True)
+    p.add_argument("--container")
+    p.add_argument("--max-bytes", type=int, default=200_000)
+    p.add_argument("path")
     a = ap.parse_args()
     if a.cmd == "extract":
         doc = extract(a.md)
@@ -439,7 +641,8 @@ def main():
         {"discover": cmd_env_discover, "check": cmd_env_check,
          "forward": cmd_env_forward, "stop": cmd_env_stop}[a.ecmd](a)
     else:
-        cmd_call(a)
+        {"call": cmd_call, "shape": cmd_shape, "shape-diff": cmd_shape_diff, "deploy-diff": cmd_deploy_diff,
+         "inventory": cmd_inventory, "pod-read": cmd_pod_read}[a.cmd](a)
 
 
 if __name__ == "__main__":

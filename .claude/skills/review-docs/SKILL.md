@@ -9,7 +9,7 @@ argument-hint: "<docs PR number | doc paths> --env <name> [--deploy-pr <owner/re
 The docs are the spec. The goal is to verify that a reader following them, step by step, gets
 what the docs promise from the real services, and that the docs are well written.
 
-Helper: `python3 .claude/skills/review-docs/scripts/docrev.py` (`docrev` below). It does the
+Helper: `python3 .claude/tools/docrev/docrev.py` (`docrev` below). It does the
 mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
 
 ## 1. Scope
@@ -98,9 +98,10 @@ build the curl yourself and pipe it: `echo "curl ..." | docrev call <env>`.
 
 For each step/example, check against the doc:
 - Request works as written (after substituting real values).
-- Response structure matches the doc's example response: root element, element names
-  (`summary.element_names`), link schemes, attributes the doc tells the reader to use. Values
-  may differ; names and structure may not.
+- Response structure matches the doc's example response:
+  `docrev shape-diff <doc>:<example line> <saved response> [--under <element>]`. Values may
+  differ; element/key paths, attributes and link schemes the reader relies on may not. Works
+  for any XML/JSON API; `--under` aligns a doc snippet with a full response.
 - Prose claims: defaults ("default interpolation is linear"), optional/required parameters,
   accepted id forms, error messages/status, "save X for step N" actually being needed/usable.
 - Reference pages (catalog profiles, enums) vs fields actually returned/queryable. Try

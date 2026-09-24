@@ -1,6 +1,10 @@
+import argparse
+import io
+import json
 import tempfile
 import textwrap
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 import docrev
@@ -103,6 +107,64 @@ class SummarizeTest(unittest.TestCase):
         self.assertIn("mc:MCDEMRecord", s["element_names"])
         err = docrev.summarize(b'<ows:ExceptionReport><ows:ExceptionText>bad</ows:ExceptionText></ows:ExceptionReport>', "")
         self.assertEqual(err["exceptions"], ["bad"])
+
+
+class ShapeTest(unittest.TestCase):
+    def test_xml_shape_keeps_prefixes_and_tolerates_ellipsis(self):
+        xml = '<?xml version="1.0"?><a:Root xmlns:a="u"><a:Item id="1"><a:x>1</a:x></a:Item>\n...\n<a:Item id="2"/></a:Root>'
+        self.assertEqual(docrev.xml_shape(xml), {"a:Root", "a:Root/a:Item", "a:Root/a:Item/@id", "a:Root/a:Item/a:x"})
+
+    def test_json_shape_collapses_arrays(self):
+        self.assertEqual(docrev.json_shape({"a": [{"b": 1}, {"c": 2}]}), {"a", "a[].b", "a[].c"})
+
+    def test_shape_diff_under_rebases_wrappers(self):
+        d = Path(tempfile.mkdtemp())
+        (d / "doc.xml").write_text("<R><mc:Rec><mc:new/><mc:same/></mc:Rec></R>")
+        (d / "live.xml").write_text("<W><X><mc:Rec><mc:old/><mc:same/></mc:Rec></X></W>")
+        out = io.StringIO()
+        with redirect_stdout(out):
+            docrev.cmd_shape_diff(argparse.Namespace(a=str(d / "doc.xml"), b=str(d / "live.xml"), under="mc:Rec", ignore=None))
+        res = json.loads(out.getvalue())
+        self.assertEqual(res["only_in_a"], ["mc:Rec/mc:new"])
+        self.assertEqual(res["only_in_b"], ["mc:Rec/mc:old"])
+
+
+class DeployDiffTest(unittest.TestCase):
+    DIFF = textwrap.dedent("""\
+        diff --git a/c/values.yaml b/c/values.yaml
+        new file mode 100644
+        --- /dev/null
+        +++ b/c/values.yaml
+        @@ -0,0 +1,4 @@
+        +image:
+        +  repository: common/pycsw
+        +  tag: v7.0.3
+        +password: hunter2
+        """)
+
+    def test_added_keys_with_line_numbers(self):
+        d = Path(tempfile.mkdtemp()) / "x.diff"
+        d.write_text(self.DIFF)
+        out = io.StringIO()
+        with redirect_stdout(out):
+            docrev.cmd_deploy_diff(argparse.Namespace(pr=None, diff=str(d), max_keys=10))
+        f = json.loads(out.getvalue())["c/values.yaml"]
+        self.assertEqual(f["status"], "new")
+        self.assertEqual([(k["line"], k["key"], k["value"]) for k in f["added_keys"]],
+                         [(2, "repository", "common/pycsw"), (3, "tag", "v7.0.3")])
+
+
+class ReleaseFilterTest(unittest.TestCase):
+    def test_annotation_wins_over_prefix(self):
+        items = [{"metadata": {"name": "dem-a", "annotations": {"meta.helm.sh/release-name": "dem"}}},
+                 {"metadata": {"name": "dem-dev-b"}}]
+        self.assertEqual([o["metadata"]["name"] for o in docrev.filter_release(items, "dem")], ["dem-a"])
+        self.assertEqual(len(docrev.filter_release(items[1:], "dem")), 1)
+
+
+class RedactTest(unittest.TestCase):
+    def test_masks_passwords_and_url_credentials(self):
+        self.assertEqual(docrev.redact_secrets("password: x postgresql://u:p@h/db"), "password: *** postgresql://***:***@h/db")
 
 
 if __name__ == "__main__":
