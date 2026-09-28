@@ -102,11 +102,13 @@ Create an instance of `Cesium.CesiumTerrainProvider`, providing the base `URL` o
 
 ```js
 // A new CesiumTerrainProvider instance.
-const terrainProvider = new Cesium.CesiumTerrainProvider({
-    url: 'https://your.custom.terrain.server/path/to/tiles/', // CRITICAL: This URL must be replaced with the actual URL of the custom Quantized Mesh terrain server.
-    requestVertexNormals: false,          // Optional: The fetching of vertex normals is to be enabled for enhanced lighting.
-    requestWaterMask: false               // Optional: The fetching of water masks is to be enabled for accurate water rendering.
-});
+const terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
+    'https://your.custom.terrain.server/path/to/tiles/', // CRITICAL: This URL must be replaced with the actual URL of the custom Quantized Mesh terrain server.
+    {
+        requestVertexNormals: false,      // Optional: The fetching of vertex normals is to be enabled for enhanced lighting.
+        requestWaterMask: false           // Optional: The fetching of water masks is to be enabled for accurate water rendering.
+    }
+);
 ```
 
 :::info
@@ -118,7 +120,7 @@ Get the URL for the terrain server from the catalog, details [here](../../Guides
 
 ### Assigning the Terrain Provider
 
-Assign the newly created terrainProvider instance to the `terrainProvider` property of the `viewer.scene` object. This action directs `Cesium.js` to utilize the specified Quantized Mesh data source for the rendering of the globe's terrain.
+Assign the newly created terrainProvider instance to the `terrainProvider` property of the `viewer` object. This action directs `Cesium.js` to utilize the specified Quantized Mesh data source for the rendering of the globe's terrain.
 
 ```js
 // Assign the custom terrain provider to the viewer's scene.
@@ -166,19 +168,29 @@ Refer down in the example down blow for cesium query / header mapcolonies' token
 
         // Create the CesiumTerrainProvider instance, referencing the custom Quantized Mesh server.
         // CRITICAL: The placeholder 'https://your.custom.terrain.server/path/to/tiles/' must be substituted with the actual URL from MapColonies 3D / DEM Catalog!
-        const terrainProvider = new Cesium.CesiumTerrainProvider({
-            url: 'https://your.custom.terrain.server/path/to/tiles/',
-            // url:new Cesium.Resource({
-            //      url: '<TERRAIN_SERVER_URL>',                       
+        Cesium.CesiumTerrainProvider.fromUrl(
+            'https://your.custom.terrain.server/path/to/tiles/',
+            // new Cesium.Resource({
+            //      url: '<TERRAIN_SERVER_URL>',
             //      headers: { 'x-api-key': MAPCOLONIES_TOKEN },       // choose either header or query
             //      queryParameters: { 'token': MAPCOLONIES_TOKEN },   // choose either header or query
-            //}),
-            requestVertexNormals: true,          // Vertex normals are to be requested for enhanced lighting and shading.
-            requestWaterMask: true               // Water masks are to be requested for accurate water rendering effects.
-        });
+            // }),
+            {
+                requestVertexNormals: true,      // Vertex normals are to be requested for enhanced lighting and shading.
+                requestWaterMask: true           // Water masks are to be requested for accurate water rendering effects.
+            }
+        ).then(function(terrainProvider) {
+            // Assign the custom terrain provider to the viewer.
+            viewer.terrainProvider = terrainProvider;
 
-        // Assign the custom terrain provider to the viewer's scene.
-        viewer.terrainProvider = terrainProvider;
+            // Add robust error handling for terrain loading.
+            // The errorEvent is dispatched if issues arise during the fetching or parsing of terrain tiles.
+            terrainProvider.errorEvent.addEventListener(function(error) {
+                console.error('An error was encountered during terrain loading:', error);
+            });
+        }).catch(function(error) {
+            console.error('CesiumTerrainProvider initialization failed', error);
+        });
 
         // Optional: The camera may be programmatically directed to a specific geographic location
         // to immediately showcase the loaded terrain.
@@ -190,22 +202,6 @@ Refer down in the example down blow for cesium query / header mapcolonies' token
                 roll: Cesium.Math.toRadians(0.0)        // Absence of roll
             },
             duration: 3 // Duration of the flight in seconds
-        });
-
-        // Add robust error handling for terrain loading.
-        // The errorEvent is dispatched if issues arise during the fetching or parsing of terrain tiles.
-        terrainProvider.errorEvent.addEventListener(function(error) {
-            console.error('An error was encountered during terrain loading:', error);
-            // In a production environment, consider using a more user-friendly message
-            // or attempting to utilize a fallback terrain provider.
-        });
-
-        // Optional: A listener may be added for the event signifying the readiness of the terrain provider.
-        // This is beneficial for executing actions only subsequent to the commencement of terrain data loading.
-        terrainProvider.readyPromise.then(function() {
-            console.log('CesiumTerrainProvider is ready and terrain loading has started.');
-        }).otherwise(function(error) {
-            console.error('CesiumTerrainProvider initialization failed', error);
         });
     </script>
 </body>

@@ -97,7 +97,7 @@ Response:
             <mc:productVersion>1</mc:productVersion>
             <mc:region>region</mc:region>
             <mc:sensors>sensors</mc:sensors>
-            <mc:srsId>srs_id</mc:srsId>
+            <mc:srsId>4326</mc:srsId>
             <mc:srsName>WGS84GEO</mc:srsName>
             <mc:type>RECORD_DEM</mc:type>
             <mc:updateDateUTC>2020-12-31T11:00:00Z</mc:updateDateUTC>

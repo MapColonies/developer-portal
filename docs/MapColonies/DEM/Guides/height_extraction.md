@@ -202,7 +202,7 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:productVersion>1</mc:productVersion>
                 <mc:region>region</mc:region>
                 <mc:sensors>sensors</mc:sensors>
-                <mc:srsId>srs_id</mc:srsId>
+                <mc:srsId>4326</mc:srsId>
                 <mc:srsName>WGS84GEO</mc:srsName>
                 <mc:type>RECORD_DEM</mc:type>
                 <mc:updateDateUTC>2020-12-31T11:00:00Z</mc:updateDateUTC>
@@ -427,7 +427,7 @@ Fields you may want to filter by:
 | ----------- | ----------- |
 | footprint | Specific geographical area |
 | ...Accuracy... | |
-| ...Resolution... | Mix and Max resolution |
+| ...Resolution... | Min and Max resolution |
 | productType | Specific product type (for example: only DTM) |
 | srsId / srsName | Wanted horizontal SRS |
 | verticalSrsId / verticalSrsName | Wanted vertical SRS |
@@ -763,7 +763,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#describecoverage
 For this step we need the `coverageId` of a product we selected from the previous steps. The wanted ID should look like this: `<productId>-<productType>`.
 
 :::info
-The WCS service accepts the `coverageId` either with or without the internal workspace prefix `dem__`. Both `srtm30-DTM` and `dem__srtm30-DTM` are valid. The examples in this guide use the un-prefixed form.
+The WCS service accepts the `coverageId` with or without the internal workspace prefix, but the prefix form differs by WCS version: `dem:srtm30-DTM` works in both 1.0.0 and 2.0.1, and 2.0.1 also accepts `dem__srtm30-DTM`. The examples in this guide use the un-prefixed form, which works in both versions.
 :::
 
 Lets select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
@@ -874,7 +874,7 @@ These parameters require additional calculations on the server-side which means 
 For all of the examples in this section we need the following parameters:
 - `coverageId`
 
-In the examples we show the use of specific parameter values, in order to understand what other values you can you review the [service capabilities](#capabilities).
+In the examples we show the use of specific parameter values, to see what other values you can use, review the [service capabilities](#capabilities).
 
 ### Get whole coverage
 
@@ -940,13 +940,13 @@ curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverag
 ```
 </TabItem>
 <TabItem value="scaleFactor" label="Scale Factor">
-Set the output image size to be a certain factor from it's original size.
+Set the output image size to be a certain factor from its original size.
 ```bash
 curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleFactor=0.1&token=<token>'
 ```
 </TabItem>
 <TabItem value="scaleAxes" label="Scale Axes">
-Set the output image size to be a certain factor from it's original size for each axes.
+Set the output image size to be a certain factor from its original size for each axis.
 ```bash
 curl --location '{WCS_SERVICE_URL}/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)&token=<token>'
 ```

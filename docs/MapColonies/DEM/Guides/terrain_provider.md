@@ -40,9 +40,9 @@ flowchart LR
 
 ## Query CSW catalog (Step 1)
 
-:::warning
+:::info
 
-Currently the terrain provider is only available through the `3D catalog`.
+The terrain provider link is available in both the `3D catalog` and the `DEM catalog`.
 
 :::
 
@@ -139,12 +139,12 @@ You will get GetRecords XML Response with product **metadata**.
 In the Response, look for desired data according to profile definition.
 
 ## Get terrain provider URI (Step 2.1) {#step-2.1}
-In the Response, look for a `link` tag with `schem="TERRAIN_QMESH"`, this will be the link you need to get the data.
+In the Response, look for a `link` tag with `scheme="TERRAIN_QMESH"`, this will be the link you need to get the data.
 
 For our case:
 
 ```xml title="Extract link for terrain provider"
-<mc:links scheme="TERRAIN_QMESH" name="srtm100-DTM">
+<mc:links scheme="TERRAIN_QMESH" name="">
   {TERRAIN_URL}/terrains/srtm100
 </mc:links>
 ```
@@ -161,19 +161,19 @@ Now let's see how we can load the provider in our application.
 ### Cesium
 
 :::info
-**The minimum required version for cesium is v84.**
+**The minimum required version for cesium is v1.104.**
 :::
 
 ```javascript
 // **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground or investigate terrain
-viewer.terrainProvider = new Cesium.TerrainProvider({
-  url: new Cesium.Resource({
+viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
+  new Cesium.Resource({
     url: "{TERRAIN_URL}",
     queryParameters: {
       "token": "{token}",
     },
   }),
-});
+);
 ...
 ```
 Replace `{TERRAIN_URL}` with the URL link that you got from **[Step 2.1](#step-2.1)**.
