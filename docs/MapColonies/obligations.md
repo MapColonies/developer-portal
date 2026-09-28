@@ -7,7 +7,7 @@ tags:
   - obligations
   - recommendations
   - catalog
-  - catalogue
+  - catalog
   - raster
   - vector
   - 3d
@@ -20,11 +20,11 @@ Here we detail the must-haves for every application that wishes to work with our
 
 ## Application Startup
 
-When your application is loaded or refreshed you are required make a request to our `catalogue` services in order to fetch **up-to-date information**. Caching the request may result in errors due to changed metadata and links, new products or even deleted products that don't exist anymore.
+When your application is loaded or refreshed you are required make a request to our `catalog` services in order to fetch **up-to-date information**. Caching the request may result in errors due to changed metadata and links, new products or even deleted products that don't exist anymore.
 
 ## Catalog items
 
-In order to use our services you are required to go through the catalogue. The `catalogue` is the gateway to many of our services, it details the available `products` and `product metadata` for a particular domain.
+In order to use our services you are required to go through the catalog. The `catalog` is the gateway to many of our services, it details the available `products` and `product metadata` for a particular domain.
 
 ## Pagination
 
@@ -34,11 +34,11 @@ You should be using `pagination` in order to control the amount of results retur
 
 ## Hardcoded Links
 
-We require that you fetch and extract any link that is available in our `catalogue services` through your code.<br/>
-Any link that **isn't available** through the catalogue service may be held as an **easily configurable** parameter.
+We require that you fetch and extract any link that is available in our `catalog services` through your code.<br/>
+Any link that **isn't available** through the catalog service may be held as an **easily configurable** parameter.
 
 :::warning
-We hold the right to change any link that is available through our catalogue services at any time.
+We hold the right to change any link that is available through our catalog services at any time.
 :::
 
 # Domain specific
@@ -68,3 +68,15 @@ If you choose to display [`Elevation`](/docs/MapColonies/DEM/Services/elevation)
 - `resolutionMeter`
 - `absoluteAccuracyLEP90`
 Displaying these fields is critical to ensuring end-users can make informed decisions based on the returned data.
+
+### Using WCS specific parameters
+
+We recommend you don't use the following `query parameters` when making requests:
+- `scalesize`
+- `scaleFactor`
+- `scaleAxes`
+- `outputCRS`
+- `interpolation`
+
+These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
+**Any** use of these parameters is the sole responsibility of the user as we cannot know the resulting requests metadata.
