@@ -7,6 +7,7 @@ docs, inspect deployments, manage env access, run one request safely, and reduce
 any XML/JSON to its structure so two sources can be compared.
 """
 import argparse
+import base64
 import json
 import os
 import re
@@ -31,11 +32,16 @@ REPO = Path(__file__).resolve().parents[3]
 ENVS_DIR = Path.home() / ".claude" / "review-envs"
 RUNS_DIR = REPO / ".claude" / "review-runs"
 
-PLACEHOLDER_RE = re.compile(r"\{[A-Za-z0-9_]+\}|<[A-Z0-9_]+>|<token>|\[[A-Z0-9_]+\]")
+# Docs use several styles: {X_URL}, <X_URL>, <X-URL>, <geocoding_url>, <x-api-key>, [COORD1_X].
+# Lowercase angle forms need a `-`/`_` so plain XML elements (`<name>`) don't count.
+PLACEHOLDER_RE = re.compile(r"\{[A-Za-z0-9_]+\}|<[A-Z0-9][A-Z0-9 _-]*>|<[a-z][a-z0-9]*[_-][a-z0-9_-]+>|<token>|\[[A-Z0-9_]+\]")
+URL_START_RE = re.compile(r"^(?:https?://|%s)" % PLACEHOLDER_RE.pattern)
+TOKEN_PH_RE = re.compile(r"<token>|\{token\}", re.I)
 STEP_RE = re.compile(r"\bstep\s*(\d+(?:\.\d+)?)", re.I)
 READ_OPS = re.compile(
     r"\b(GetRecords|GetRecordById|DescribeRecord|GetCapabilities|DescribeCoverage|GetCoverage|"
-    r"DescribeFeatureType|GetFeature|GetMap|GetTile|GetFeatureInfo|GetDomain)\b",
+    r"DescribeFeatureType|GetFeature|GetMap|GetTile|GetFeatureInfo|GetDomain|GetPropertyValue|"
+    r"ListStoredQueries|DescribeStoredQueries|GetLegendGraphic)\b",
     re.I,
 )
 MAX_BODY = 5 * 1024 * 1024
@@ -69,18 +75,102 @@ def parse_curl(text):
     return req
 
 
+def as_url(line):
+    """`line` as a URL if it is one (quotes/backticks around it allowed), else None."""
+    t = line.strip().strip("`'\"")
+    bare = PLACEHOLDER_RE.sub("X", t)
+    # `|` and `…` only appear in syntax templates (`osm_ids=[N|W|R]<value>,…`), not requests.
+    if not URL_START_RE.match(t) or t.startswith(("<token>", "[")) or re.search(r"[\s|…]", bare):
+        return None
+    return t
+
+
 def bare_url_request(text):
+    """A URL alone, possibly split one query parameter per line (as OGC KVP pages write it)."""
     lines = [l.strip() for l in text.strip().splitlines() if l.strip()]
-    if len(lines) == 1 and re.match(r"^(https?://|\{[A-Z0-9_]+\}|<[A-Z0-9_]+>)\S+$", lines[0]):
-        return {"method": "GET", "url": lines[0], "headers": {}, "body": None}
+    # A block holding only `<X_URL>` explains a placeholder ("Replace <X_URL> with ...").
+    if len(lines) == 1 and PLACEHOLDER_RE.fullmatch(lines[0].strip("`'\"")):
+        return None
+    if lines and as_url(lines[0]) and not any(re.search(r"[\s|…]", PLACEHOLDER_RE.sub("X", l)) for l in lines):
+        return {"method": "GET", "url": "".join(l.strip("`'\"") for l in lines), "headers": {}, "body": None}
     return None
+
+
+def body_request(method, url, body):
+    body = textwrap.dedent(body).strip() or None
+    headers = {}
+    if body:
+        headers["Content-Type"] = "application/json" if body[:1] in "{[" else "application/xml"
+    # Valhalla-style `.../route?json={}`: the JSON block is the query parameter, not a POST body.
+    if body and url and re.search(r"=\{\}", url):
+        compact = json.dumps(json.loads(body), separators=(",", ":")) if body[:1] in "{[" else body
+        return {"method": "GET", "url": re.sub(r"=\{\}", "=" + urllib.parse.quote(compact), url, count=1),
+                "headers": {}, "body": None}
+    return {"method": method, "url": url, "headers": headers, "body": body}
+
+
+def labeled_request(text):
+    """Blocks written as `POST Request` / `url:` / <url> / `body (XML):` / <body>."""
+    lines = text.strip().splitlines()
+    m = lines and re.match(r"^(GET|POST|PUT|PATCH|DELETE)\s+request\s*:?\s*$", lines[0].strip(), re.I)
+    if not m:
+        return None
+    url, body, i = None, [], 1
+    while i < len(lines):
+        l = lines[i].strip()
+        if url is None and as_url(l):
+            parts = [as_url(l)]
+            while i + 1 < len(lines) and lines[i + 1].strip() and " " not in lines[i + 1].strip() \
+                    and not lines[i + 1].strip().startswith("<") and re.search(r"[?&]$", parts[-1]):
+                i += 1
+                parts.append(lines[i].strip())
+            url = "".join(parts)
+        elif url is None and not l or re.match(r"^(url|body[^:]*)\s*:?\s*$", l, re.I):
+            pass
+        else:
+            body.append(lines[i])
+        i += 1
+    try:
+        return body_request(m.group(1).upper(), url, "\n".join(body))
+    except ValueError:
+        return None
+
+
+INLINE_CODE_RE = re.compile(r"`+([^`]+)`+")
+
+
+def paths_in_code(code):
+    """URLs, or paths (a `localhost:8002` style host is dropped: the env supplies the base)."""
+    out = []
+    for tok in code.split():
+        tok = tok.strip("'\"")
+        if as_url(tok):
+            out.append(as_url(tok))
+        elif re.match(r"^(?:[\w.-]+:\d+)?/[\w./{}?=&%-]*$", tok):
+            out.append(tok[tok.index("/"):])
+    return out
+
+
+def endpoint_hint(prose):
+    """The endpoint a body block is sent to, when only the prose above it names it: inline
+    code (e.g. "make a `POST` request to `<X_URL>/csw`") or a URL alone on a line/block."""
+    cands = []
+    for line in prose.splitlines():
+        if as_url(line):
+            cands.append(as_url(line))
+        for code in INLINE_CODE_RE.findall(line):
+            cands += paths_in_code(code)
+    if not cands:
+        return None
+    method = next(iter(re.findall(r"\b(GET|POST|PUT|PATCH|DELETE)\b", prose)), "POST")
+    return method, cands[-1]
 
 
 def extract(md_path):
     text = Path(md_path).read_text()
     lines = text.splitlines()
     headings, blocks, tabs = [], [], []
-    current_heading, current_tab = None, None
+    current_heading, current_tab, details_depth = None, None, 0
     i = 0
     while i < len(lines):
         line = lines[i]
@@ -98,35 +188,63 @@ def extract(md_path):
             tabs.append({"line": i + 1, "label": current_tab, "heading": current_heading and current_heading["title"]})
         if "</TabItem>" in line:
             current_tab = None
-        f = re.match(r"^\s*```(\w*)(.*)$", line)
+        details_depth = max(0, details_depth + len(re.findall(r"<details[\s>]", line)) - line.count("</details>"))
+        f = re.match(r"^\s*(`{3,})\s*(\w*)(.*)$", line)
+        if f and f.group(1) in f.group(3):  # ```one-line code``` is inline, not a block
+            f = None
         if f:
-            lang, meta = f.group(1), f.group(2).strip()
+            fence, lang, meta = f.group(1), f.group(2), f.group(3).strip()
             start = i + 1
             body = []
             i += 1
-            while i < len(lines) and not re.match(r"^\s*```\s*$", lines[i]):
+            # CommonMark: only a backtick line at least as long as the opener closes it.
+            while i < len(lines) and not re.match(r"^\s*`{%d,}\s*$" % len(fence), lines[i]):
                 body.append(lines[i])
                 i += 1
             content = "\n".join(body)
-            in_details = "<details>" in "\n".join(lines[max(0, start - 4):start])
+            title = (re.search(r'title="([^"]*)"', meta) or [None, ""])[1].lower()
+            is_response = "response" in title or (details_depth > 0 and "request" not in title)
             block = {
                 "line": start, "lang": lang, "meta": meta, "heading": current_heading and current_heading["title"],
                 "step": current_heading and current_heading["step"], "tab": current_tab,
-                "role": "example-response" if in_details else lang or "code",
+                "role": "example-response" if is_response else lang or "code",
                 "placeholders": sorted(set(PLACEHOLDER_RE.findall(content))),
                 "content": content,
             }
-            if lang in ("bash", "sh", "shell", ""):
-                req = parse_curl(content) if content.lstrip().startswith("curl") else bare_url_request(content)
-                if req:
-                    block["role"] = "request"
-                    block["request"] = req
-                    block["safety"] = classify(req)
+            req = None
+            if not is_response:
+                if content.lstrip().startswith("curl"):
+                    req = parse_curl(content)
+                else:
+                    req = labeled_request(content) or bare_url_request(content)
+                prose = "\n".join(lines[max(0, start - 7):start - 1])
+                if not req and lang in ("xml", "json") and re.search(r"request|body|payload", prose, re.I):
+                    hint = endpoint_hint(prose)
+                    try:
+                        req = body_request(*hint, content) if hint else None
+                    except ValueError:
+                        req = None
+                    if req:
+                        block["endpoint_from_prose"] = True
+                    else:
+                        # A body whose endpoint is given elsewhere on the page: Claude builds the request.
+                        block["role"] = "request-body"
+            if req and not req.get("error") and req.get("url"):
+                block["role"] = "request"
+                block["request"] = req
+                block["safety"] = classify(req)
             if lang == "mermaid":
                 block["role"] = "diagram"
                 block["diagram_steps"] = sorted(set(STEP_RE.findall(content)))
             blocks.append(block)
         i += 1
+    # A lone endpoint shown before/after "with the following body" is not itself a GET.
+    body_urls = [b["request"]["url"] for b in blocks if b.get("endpoint_from_prose")]
+    for b in blocks:
+        r = b.get("request")
+        if r and r["method"] == "GET" and "?" not in r["url"] and any(u.startswith(r["url"]) for u in body_urls):
+            b["role"] = "endpoint"
+            del b["request"], b["safety"]
     step_headings = [h for h in headings if h["step"]]
     return {
         "file": str(md_path),
@@ -139,12 +257,17 @@ def extract(md_path):
 
 
 
-def classify(req):
+def classify(req, env=None):
     method = (req.get("method") or "GET").upper()
     url, body = req.get("url") or "", req.get("body") or ""
     if method in ("GET", "HEAD", "OPTIONS"):
         return "read"
     if method == "POST" and (READ_OPS.search(body[:2000]) or READ_OPS.search(url)):
+        return "read"
+    # JSON query APIs (routing, geocoding) take reads as POST; the env config lists them
+    # explicitly because only a human can vouch that a path has no side effects.
+    path = urllib.parse.urlsplit(url).path
+    if method == "POST" and any(re.search(p, path) for p in (env or {}).get("read_posts") or []):
         return "read"
     return "write"
 
@@ -278,17 +401,31 @@ def cmd_env_stop(a):
     pidfile.unlink()
 
 
-def resolve_url(env, url):
-    """Fill entry-point placeholders and route forwarded prefixes to localhost."""
+def norm_ph(p):
+    return re.sub(r"[-_ ]", "_", p.strip("{}<>[]")).upper()
+
+
+def resolve_url(env, url, forward=True):
+    """Fill entry-point placeholders and route forwarded prefixes to localhost.
+
+    Placeholder spelling varies between pages (`{RASTER_CATALOG_SERVICE_URL}`,
+    `<RASTER-CATALOG-SERVICE_URL>`), so names match case- and `-`/`_`-insensitively,
+    plus any `aliases` the env config lists (e.g. `geocoding_url`)."""
+    names = {}
     for ph, e in (env.get("placeholders") or {}).items():
-        for form in ("{%s}" % ph, "<%s>" % ph):
-            url = url.replace(form, e["url"].rstrip("/"))
+        for n in [ph, *(e.get("aliases") or [])]:
+            names[norm_ph(n)] = e["url"].rstrip("/")
+    url = PLACEHOLDER_RE.sub(lambda m: names.get(norm_ph(m.group(0)), m.group(0)), url)
     for e in (env.get("placeholders") or {}).values():
         f = e.get("forward")
-        if f and e.get("access") == "forward" and url.startswith(e["url"].rstrip("/")):
+        if forward and f and e.get("access") == "forward" and url.startswith(e["url"].rstrip("/")):
             url = f"http://127.0.0.1:{f['local_port']}{f.get('path', '')}" + url[len(e["url"].rstrip("/")):]
     return url
 
+
+
+MAGIC = [(b"\x89PNG", "png"), (b"\xff\xd8\xff", "jpeg"), (b"\x1f\x8b", "gzip"), (b"PK\x03\x04", "zip"),
+         (b"GIF8", "gif"), (b"RIFF", "riff"), (b"%PDF", "pdf"), (b"glTF", "glb"), (b"b3dm", "b3dm")]
 
 
 def summarize(body, ctype):
@@ -297,23 +434,44 @@ def summarize(body, ctype):
     if head[:2] in (b"II", b"MM"):
         s["tiff"] = tiff_info(body)
         return s
+    kind = next((k for m, k in MAGIC if body.startswith(m)), None)
+    if kind:
+        s["binary"] = kind
+        if kind == "png" and len(body) >= 24:
+            s["width"], s["height"] = struct.unpack(">II", body[16:24])
+        return s
     txt = body[:MAX_BODY].decode("utf-8", "replace")
     if "xml" in (ctype or "") or txt.lstrip().startswith("<?xml") or txt.lstrip().startswith("<"):
         s["root"] = (re.search(r"<([\w:]+)[\s>]", re.sub(r"<\?.*?\?>|<!--.*?-->", "", txt, flags=re.S)) or [None, None])[1]
-        s["exceptions"] = [x.strip() for x in re.findall(r"ExceptionText>\s*([^<]{0,300})", txt) if x.strip()]
+        s["exceptions"] = [x.strip() for x in re.findall(r"(?:ExceptionText|ServiceException)[^>]*>\s*([^<]{0,300})", txt) if x.strip()]
         s.update({k: v for k, v in re.findall(r'(numberOfRecordsMatched|numberOfRecordsReturned|nextRecord)="(\d+)"', txt)})
         s["links"] = [{"scheme": sc, "name": n, "url": u.strip()} for sc, n, u in
-                      re.findall(r'<mc:links[^>]*scheme="([^"]*)"[^>]*name="([^"]*)"[^>]*>([^<]*)<', txt)][:20]
+                      re.findall(r'<\w+:links[^>]*scheme="([^"]*)"[^>]*name="([^"]*)"[^>]*>([^<]*)<', txt)][:20]
         s["element_names"] = sorted(set(re.findall(r"<(mc:[A-Za-z0-9]+)[\s>]", txt)))
-        s["coverage_ids"] = re.findall(r"<wcs:CoverageId>([^<]+)", txt)[:50]
+        # What a capabilities document offers (coverages, layers, feature types, tile matrix sets):
+        # the next step of a flow picks one of these.
+        ids = {}
+        for tag, val in re.findall(r"<((?:\w+:)?(?:Identifier|CoverageId|Name|TypeName))>\s*([^<]{1,200}?)\s*</", txt):
+            ids.setdefault(tag, [])
+            if val not in ids[tag] and len(ids[tag]) < 50:
+                ids[tag].append(val)
+        s["identifiers"] = ids
         s["hrefs"] = sorted(set(re.findall(r'xlink:href="(https?://[^/"]+)', txt)))
         s = {k: v for k, v in s.items() if v not in ([], None)}
-    elif "json" in (ctype or ""):
+    elif "json" in (ctype or "") or txt.lstrip()[:1] in ("{", "["):
         try:
             j = json.loads(txt)
-            s["json_keys"] = list(j)[:40] if isinstance(j, dict) else f"array[{len(j)}]"
         except ValueError:
             s["text"] = txt[:300]
+            return s
+        s["json_keys"] = list(j)[:40] if isinstance(j, dict) else f"array[{len(j)}]"
+        feats = j.get("features") if isinstance(j, dict) else None
+        if isinstance(feats, list):
+            s["features"] = len(feats)
+            s["geometry_types"] = sorted({(f.get("geometry") or {}).get("type") for f in feats if isinstance(f, dict)} - {None})
+            s["property_keys"] = sorted({k for f in feats[:20] if isinstance(f, dict) for k in (f.get("properties") or {})})[:40]
+        if isinstance(j, dict) and isinstance(j.get("paths"), dict):
+            s["openapi_paths"] = sorted(j["paths"])[:80]
     else:
         s["text"] = txt[:300]
     return s
@@ -350,32 +508,47 @@ def cmd_call(a):
     # Literal substitutions carry values chained from earlier responses (or illustrative
     # values swapped for real ones) without editing the doc.
     for sub in a.sub or []:
-        old, _, new = sub.partition("=")
+        # `OLD=>NEW` when OLD itself contains `=` (e.g. `coverageId=x=>coverageId=y`).
+        old, _, new = sub.partition("=>") if "=>" in sub else sub.partition("=")
         req["url"] = req["url"].replace(old, new)
         if req.get("body"):
             req["body"] = req["body"].replace(old, new)
-    safety = classify(req)
+    safety = classify(req, env)
+    if safety == "write" and env.get("read_only"):
+        sys.exit(json.dumps({"error": "env is read_only; writes are never sent", "request": req}))
     if safety == "write" and not a.allow_write:
         print(json.dumps({"skipped": True, "safety": "write", "request": req}))
         return
-    tok = token_for(env)
-    url = resolve_url(env, req["url"])
-    tparam = (env.get("token") or {}).get("param", "token")
+    tok = None if getattr(a, "no_auth", False) else token_for(env)
+    if req["url"].startswith("/"):
+        if not a.base:
+            sys.exit(json.dumps({"error": "relative url; pass --base <placeholder or url>", "url": req["url"]}))
+        req["url"] = a.base.rstrip("/") + req["url"]
+    url = resolve_url(env, req["url"], forward=not getattr(a, "no_forward", False))
+    # The token goes only to the env's own services, never to a third-party example host.
+    host = (urllib.parse.urlsplit(url).hostname or "").lower()
+    if host and host not in env_hosts(env):
+        sys.exit(json.dumps({"error": "host is not in this env; add it to `hosts` if it is ours", "host": host}))
+    headers = apply_auth(env, tok, req.get("headers") or {})
+    tsrc = env.get("token") or {}
     if tok:
-        url = re.sub(r"(<token>|\{token\})", tok, url)
-        if f"{tparam}=" not in url:
-            url += ("&" if "?" in url else "?") + f"{tparam}={urllib.parse.quote(tok)}"
+        url = TOKEN_PH_RE.sub(tok, url)
+        # `header` alone replaces the query param; naming both sends both (prod mixes services).
+        if (tsrc.get("param") or not tsrc.get("header")) and f"{tsrc.get('param', 'token')}=" not in url:
+            url += ("&" if "?" in url else "?") + f"{tsrc.get('param', 'token')}={urllib.parse.quote(tok)}"
     # `<NAME>` in a body is usually an XML element (e.g. `<BBOX>`), so only `{X}`/`[X]` count there.
-    leftover = [p for p in PLACEHOLDER_RE.findall(url) if p != "<token>"] + \
-        [p for p in PLACEHOLDER_RE.findall(req.get("body") or "") if not p.startswith("<")]
+    leftover = [p for p in PLACEHOLDER_RE.findall(url) if not TOKEN_PH_RE.fullmatch(p)] + \
+        [p for p in PLACEHOLDER_RE.findall(req.get("body") or "") if not p.startswith("<")] + \
+        [p for v in headers.values() for p in PLACEHOLDER_RE.findall(v)]
     if leftover:
         sys.exit(json.dumps({"error": "unfilled placeholders", "placeholders": leftover}))
     method = "HEAD" if a.head else req["method"]
-    headers = dict(req.get("headers") or {})
     if a.range:
         headers["Range"] = f"bytes=0-{a.range - 1}"
     data = req["body"].encode() if req.get("body") is not None and method != "HEAD" else None
-    ctx = ssl._create_unverified_context() if env.get("insecure") else None
+    # `ca_file`: a bundle for a server that omits its intermediate cert (verified, unlike `insecure`).
+    ctx = ssl._create_unverified_context() if env.get("insecure") else \
+        ssl.create_default_context(cafile=os.path.expanduser(env["ca_file"])) if env.get("ca_file") else None
     started = time.time()
     try:
         resp = urllib.request.urlopen(urllib.request.Request(url, data=data, headers=headers, method=method),
@@ -389,14 +562,51 @@ def cmd_call(a):
         return
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     saved = RUNS_DIR / f"resp-{int(started * 1000)}"
-    saved.write_bytes(body[:MAX_BODY])
+    # Some services echo the caller's token (e.g. into a `next` link); never keep it on disk.
+    saved.write_bytes(redact_bytes(body[:MAX_BODY], tok))
     print(json.dumps({
         "url": redact(url, tok), "method": method, "safety": safety, "status": status,
         "content_type": rh.get("Content-Type"), "content_length": rh.get("Content-Length"),
         "bytes_read": len(body[:MAX_BODY]), "truncated": len(body) > MAX_BODY,
         "elapsed_s": round(time.time() - started, 2), "saved": str(saved),
+        "headers": {k: redact(v, tok) for k, v in rh.items()},
         "summary": summarize(body, rh.get("Content-Type")),
     }, indent=2))
+
+
+def env_hosts(env):
+    hosts = {"localhost", "127.0.0.1", *(h.lower() for h in env.get("hosts") or [])}
+    for e in (env.get("placeholders") or {}).values():
+        hosts.add((urllib.parse.urlsplit(e["url"]).hostname or "").lower())
+    return hosts
+
+
+def apply_auth(env, tok, headers):
+    """Token header (`token: {header: x-api-key}`) and env-wide `headers`, filling doc
+    placeholders like `<x-api-key>` / `<x-user-id>` whose name matches a header."""
+    extra = {k.lower(): v for k, v in (env.get("headers") or {}).items()}
+    theader = (env.get("token") or {}).get("header")
+    if tok and theader:
+        extra[theader.lower()] = tok
+    out = {}
+    for k, v in headers.items():
+        if tok:
+            v = TOKEN_PH_RE.sub(tok, v)
+        m = PLACEHOLDER_RE.fullmatch(v.strip())
+        key = norm_ph(m.group(0)).lower().replace("_", "-") if m else None
+        out[k] = extra.get(key) or extra.get(k.lower()) or v if m else v
+    for k, v in extra.items():
+        if k not in {h.lower() for h in out}:
+            out[k] = v
+    return out
+
+
+def redact_bytes(b, tok):
+    if not tok:
+        return b
+    for t in (tok, urllib.parse.quote(tok)):
+        b = b.replace(t.encode(), b"<token>")
+    return b
 
 
 def redact(s, tok):
@@ -613,7 +823,7 @@ def cmd_pod_call(a):
     if out.returncode:
         sys.exit(json.dumps({"error": "exec failed (needs python3 in the container)", "detail": out.stderr.strip()[:300]}))
     r = json.loads(out.stdout)
-    body = __import__("base64").b64decode(r["body"])
+    body = base64.b64decode(r["body"])
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     saved = RUNS_DIR / f"pod-resp-{int(time.time() * 1000)}"
     saved.write_bytes(body)
@@ -642,11 +852,14 @@ def main():
     p.add_argument("--request", help="request JSON file (as emitted by extract)")
     p.add_argument("--doc", help="doc to take the request from; use with --block")
     p.add_argument("--block", type=int, help="line number of the request block in --doc")
-    p.add_argument("--sub", action="append", metavar="OLD=NEW", help="literal replacement in url and body")
+    p.add_argument("--sub", action="append", metavar="OLD=NEW", help="literal replacement in url and body; OLD=>NEW if OLD contains '='")
     p.add_argument("--allow-write", action="store_true")
     p.add_argument("--head", action="store_true")
     p.add_argument("--range", type=int, help="fetch only the first N bytes")
     p.add_argument("--timeout", type=int, default=120)
+    p.add_argument("--base", help="prefix for a relative request url, e.g. {VALHALLA_URL}")
+    p.add_argument("--no-forward", action="store_true", help="use the public url even for access: forward entries")
+    p.add_argument("--no-auth", action="store_true", help="send no token (to check a 'no token needed' claim)")
     p = sub.add_parser("shape", help="structure (paths) of an XML/JSON file or doc block (doc.md:LINE)")
     p.add_argument("source")
     p = sub.add_parser("shape-diff", help="compare structures of two sources")

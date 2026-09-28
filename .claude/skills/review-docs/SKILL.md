@@ -32,15 +32,24 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
   ```yaml
   name: <env>
   namespace: <ocp namespace>
-  token: {env: DOCREV_TOKEN_<ENV>, param: token}   # or {file: ~/path}
+  token: {env: DOCREV_TOKEN_<ENV>, param: token}   # or {file: ~/path}; add header: x-api-key to also send it as a header (header alone: header only)
+  headers: {x-user-id: <value>}                   # sent on every request; also fills `<x-user-id>` in docs
+  read_posts: ['/search/', '/route$']             # POST paths the user confirmed have no side effects
+  read_only: true                                 # e.g. prod: docrev refuses writes even with --allow-write
+  hosts: [other.example]                          # our hosts reached only via chained links; `call` sends nothing elsewhere
   insecure: true                                  # self-signed dev certs
+  ca_file: ~/path/chain.pem                       # instead of insecure, when a server omits its intermediate
   placeholders:
     DEM_CATALOG_SERVICE_URL:
       url: https://<public host>/<path>
       route: <route name>
       access: forward                             # route | forward
       forward: {service: <svc>, port: 8080, local_port: 18081, path: /<path>}
+      aliases: [dem_catalog_url]                  # other spellings pages use for the same entry point
   ```
+  Placeholder names match case- and `-`/`_`-insensitively (`<RASTER-CATALOG-SERVICE_URL>` ≡
+  `{RASTER_CATALOG_SERVICE_URL}`); add `aliases` only for different names. Add a path to
+  `read_posts` only after the user confirms it is read-only.
 - No config yet: `docrev env discover --namespace <ns> [--release <r>]`, propose a config
   from it, get the user's confirmation, then write it.
 - Every run: `docrev env check <env>`. Each item is an **env** finding (unadmitted route and who
@@ -69,8 +78,11 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
 ## 4. Execute
 
 Run requests in document order with `docrev call <env> --doc <file> --block <line>`.
-Requests that aren't curl or bare URLs (e.g. an XML body under "POST Request url: ...") —
-build the curl yourself and pipe it: `echo "curl ..." | docrev call <env>`.
+`extract` recognises curl, bare/multi-line KVP URLs, `POST Request` / `url:` / `body:` blocks, and
+XML/JSON bodies whose endpoint is named in the prose just above (`endpoint_from_prose: true`;
+check it picked the right one). A `request-body` block has no endpoint nearby: build the curl
+yourself and pipe it: `echo "curl ..." | docrev call <env>`. A path-only request (`/route?...`)
+needs `--base {VALHALLA_URL}`.
 
 - **Chaining (flows)**: fill each step's inputs from earlier responses, the way a reader
   would: `--sub <doc value>=<real value>`. E.g. `coverageId=srtm30-DTM` → the real
@@ -90,6 +102,8 @@ build the curl yourself and pipe it: `echo "curl ..." | docrev call <env>`.
 - **Safety**: `call` refuses writes (`safety: write`: non-read POST/PUT/PATCH/DELETE). Show
   the user the exact request and run with `--allow-write` only after they say yes, per request.
   For downloads/large files use `--range 1024` (or `--head`) instead of fetching the file.
+  To check a "no token needed" claim, re-run with `--no-auth`.
+  `access: forward` also reroutes a `--sub` to the public URL; add `--no-forward` to test the public route.
 - **Success** is not just HTTP 200: an `ows:ExceptionReport` (OGC services often return it
   with 200), an empty result where the doc implies results, or a missing link the next step
   needs are failures.
