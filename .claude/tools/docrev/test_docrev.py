@@ -1,6 +1,8 @@
 import argparse
 import io
 import json
+import subprocess
+import sys
 import tempfile
 import textwrap
 import unittest
@@ -354,6 +356,62 @@ class ExtractEdgeTest(unittest.TestCase):
         self.assertEqual([b["role"] for b in blocks], ["endpoint", "request"])
         self.assertEqual(blocks[1]["request"]["url"], "<PARTS_URL>/wfs")
 
+    def test_xml_samples_near_request_prose_are_not_bodies(self):
+        blocks = self.extract("""\
+            Find the URL by sending a **GetCapabilities** request.
+
+            ```xml title="Link for WMTS"
+            <mc:links scheme="WMTS" name="x">'<URL>'</mc:links>
+            ```
+            :::warning
+            To prevent oversized payloads, exceeding the limit triggers:
+
+            ```xml
+            <?xml version="1.0" encoding="UTF-8"?>
+            <ows:ExceptionReport version="2.0.0"/>
+            ```
+            :::
+            We can request a subset of this extent:
+            ```xml
+            <gml:Envelope srsName="EPSG:4326"/>
+            ```
+            """)
+        self.assertEqual([b["role"] for b in blocks], ["xml", "xml", "xml"])
+
+    def test_xml_operation_body_without_endpoint_is_request_body(self):
+        blocks = self.extract("""\
+            Send the request with this body:
+            ```xml
+            <!-- filter by type -->
+            <wfs:GetFeature service="WFS"/>
+            ```
+            """)
+        self.assertEqual(blocks[0]["role"], "request-body")
+
+    def test_plain_response_label(self):
+        blocks = self.extract("""\
+            Response:
+
+            ```xml
+            <csw:GetRecordsResponse/>
+            ```
+            **Example response:**
+            ```json
+            {"a": 1}
+            ```
+            """)
+        self.assertEqual([b["role"] for b in blocks], ["example-response", "example-response"])
+
+    def test_sentence_ending_in_response_is_not_label(self):
+        blocks = self.extract("""\
+            We'll add `outputFormat` to each request for a json formatted response
+
+            ```
+            {X_URL}/wfs?service=wfs&request=GetCapabilities
+            ```
+            """)
+        self.assertEqual(blocks[0]["role"], "request")
+
 
 class SummarizeFormatsTest(unittest.TestCase):
     def test_png_dimensions(self):
@@ -369,6 +427,26 @@ class SummarizeFormatsTest(unittest.TestCase):
     def test_capabilities_identifiers(self):
         xml = b"<Capabilities><Layer><ows:Identifier>ortho</ows:Identifier></Layer><FeatureType><Name>a:b</Name></FeatureType></Capabilities>"
         self.assertEqual(docrev.summarize(xml, "text/xml")["identifiers"], {"ows:Identifier": ["ortho"], "Name": ["a:b"]})
+
+
+
+class PodCallTest(unittest.TestCase):
+    def test_missing_python_named(self):
+        err = 'exec failed: unable to start container process: exec: "python3": executable file not found in $PATH'
+        self.assertIn("python3", docrev.pod_exec_error(err)["error"])
+
+    def test_other_exec_failures_not_blamed_on_python(self):
+        err = 'Error from server (NotFound): deployments.apps "nope" not found'
+        e = docrev.pod_exec_error(err)
+        self.assertNotIn("python3", e["error"])
+        self.assertIn("NotFound", e["detail"])
+
+    def test_connection_error_reported_by_pod_script(self):
+        out = subprocess.run([sys.executable, "-c", docrev.POD_HTTP,
+                              json.dumps({"url": "http://127.0.0.1:9/", "method": "GET"})],
+                             capture_output=True, text=True)
+        self.assertEqual(out.returncode, 0)
+        self.assertIn("error", json.loads(out.stdout))
 
 
 if __name__ == "__main__":

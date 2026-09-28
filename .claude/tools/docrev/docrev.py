@@ -166,6 +166,21 @@ def endpoint_hint(prose):
     return method, cands[-1]
 
 
+# Root elements of OGC request bodies; anything else near "request" prose is a sample/fragment.
+XML_OPERATION_RE = re.compile(r"^(Get|Describe|Transaction|Lock|List|Harvest)")
+
+
+def xml_root(text):
+    text = re.sub(r"<\?.*?\?>|<!--.*?-->", "", text, flags=re.S)
+    m = re.search(r"<([\w.-]+:)?([\w.-]+)", text)
+    return m and m.group(2)
+
+
+def labels_response(prose_line):
+    # A short label ("Response:", "**Example response**"), not a sentence that ends in "response".
+    return bool(re.fullmatch(r"(?:[\w-]+\s+){0,2}response\s*:?", prose_line.strip().strip("*_:").strip(), re.I))
+
+
 def extract(md_path):
     text = Path(md_path).read_text()
     lines = text.splitlines()
@@ -203,7 +218,9 @@ def extract(md_path):
                 i += 1
             content = "\n".join(body)
             title = (re.search(r'title="([^"]*)"', meta) or [None, ""])[1].lower()
-            is_response = "response" in title or (details_depth > 0 and "request" not in title)
+            prev = next((l for l in reversed(lines[:start - 1]) if l.strip()), "")
+            is_response = ("response" in title or (details_depth > 0 and "request" not in title)
+                           or labels_response(prev))
             block = {
                 "line": start, "lang": lang, "meta": meta, "heading": current_heading and current_heading["title"],
                 "step": current_heading and current_heading["step"], "tab": current_tab,
@@ -218,7 +235,8 @@ def extract(md_path):
                 else:
                     req = labeled_request(content) or bare_url_request(content)
                 prose = "\n".join(lines[max(0, start - 7):start - 1])
-                if not req and lang in ("xml", "json") and re.search(r"request|body|payload", prose, re.I):
+                is_body = lang == "json" or (lang == "xml" and XML_OPERATION_RE.match(xml_root(content) or ""))
+                if not req and is_body and re.search(r"request|body|payload", prose, re.I):
                     hint = endpoint_hint(prose)
                     try:
                         req = body_request(*hint, content) if hint else None
@@ -804,8 +822,16 @@ try:
     resp = u.urlopen(req, timeout=60); status, ct, body = resp.status, resp.headers.get("Content-Type"), resp.read()
 except urllib.error.HTTPError as e:
     status, ct, body = e.code, e.headers.get("Content-Type"), e.read()
+except (urllib.error.URLError, OSError) as e:
+    print(json.dumps({"error": str(e)})); sys.exit(0)
 print(json.dumps({"status": status, "content_type": ct, "body": base64.b64encode(body[:5242880]).decode()}))
 """
+
+
+def pod_exec_error(stderr):
+    if re.search(r"python3.*(not found|no such file)", stderr, re.I):
+        return {"error": "container has no python3; pick another --container or deploy", "detail": stderr.strip()[:300]}
+    return {"error": "oc exec failed", "detail": stderr.strip()[:300]}
 
 
 def cmd_pod_call(a):
@@ -821,8 +847,10 @@ def cmd_pod_call(a):
     args = ["exec", "-n", a.namespace, f"deploy/{a.deploy}"] + (["-c", a.container] if a.container else [])
     out = oc(*args, "--", "python3", "-c", POD_HTTP, json.dumps(req))
     if out.returncode:
-        sys.exit(json.dumps({"error": "exec failed (needs python3 in the container)", "detail": out.stderr.strip()[:300]}))
+        sys.exit(json.dumps(pod_exec_error(out.stderr)))
     r = json.loads(out.stdout)
+    if r.get("error"):
+        sys.exit(json.dumps({"error": "request from pod failed", "url": req["url"], "detail": r["error"]}))
     body = base64.b64decode(r["body"])
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     saved = RUNS_DIR / f"pod-resp-{int(time.time() * 1000)}"
