@@ -120,13 +120,13 @@ request=GetCapabilities
             <wcs:CoverageOfferingBrief>
                 <wcs:description>Generated from GeoTIFF</wcs:description>
                 <wcs:name>dem:srtm30-DTM</wcs:name>
-                <wcs:label>srtm30-DTM</wcs:label>
+                <wcs:label>srtm30</wcs:label>
                 <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
                     <gml:pos>34.716796875 32.16796875</gml:pos>
                     <gml:pos>35.68359375 32.958984375</gml:pos>
                 </wcs:lonLatEnvelope>
                 <wcs:keywords>
-                    <wcs:keyword>srtm30-DTM</wcs:keyword>
+                    <wcs:keyword>srtm30</wcs:keyword>
                     <wcs:keyword>WCS</wcs:keyword>
                     <wcs:keyword>GeoTIFF</wcs:keyword>
                 </wcs:keywords>
@@ -409,9 +409,9 @@ request=GetCapabilities
                 </ows:WGS84BoundingBox>
             </wcs:CoverageSummary>
             <wcs:CoverageSummary>
-                <ows:Title>srtm30-DTM</ows:Title>
+                <ows:Title>srtm30</ows:Title>
                 <ows:Keywords>
-                    <ows:Keyword>srtm30-DTM</ows:Keyword>
+                    <ows:Keyword>srtm30</ows:Keyword>
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
@@ -553,7 +553,7 @@ curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&ve
     <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 {WCS_SERVICE_URL}/schemas/wcs/2.0/wcsgs.xsd">
         <wcs:CoverageDescription gml:id="dem__srtm30-DTM">
             <gml:description>Generated from GeoTIFF</gml:description>
-            <gml:name>srtm30-DTM</gml:name>
+            <gml:name>srtm30</gml:name>
             <gml:boundedBy>
                 <gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/4326" axisLabels="Lat Long" uomLabels="Deg Deg" srsDimension="2">
                     <gml:lowerCorner>32.16796875 34.716796875</gml:lowerCorner>
@@ -570,7 +570,7 @@ curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&ve
             <gmlcov:metadata>
                 <gmlcov:Extension>
                     <ows:Keywords>
-                        <ows:Keyword>srtm30-DTM</ows:Keyword>
+                        <ows:Keyword>srtm30</ows:Keyword>
                         <ows:Keyword>WCS</ows:Keyword>
                         <ows:Keyword>GeoTIFF</ows:Keyword>
                     </ows:Keywords>
