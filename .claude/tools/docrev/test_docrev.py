@@ -611,6 +611,9 @@ class SiteTest(unittest.TestCase):
             [bad](/docs/A/guide) [anchor](#nope) [case](/docs/a/my-guide) `[code](/docs/x)`
             [ext](https://example.com) [file](/docs/A/guide.md)
             """))
+        sub = self.repo / "docs" / "A" / "svc"
+        sub.mkdir()
+        (sub / "README.md").write_text("---\nslug: info\n---\n[ok](../guide.md) [ok](../my-guide#notes) [bad](../../my-guide)\n")
         (self.repo / "sidebars.js").write_text("items: ['A/old-page']\n")
         self.patches = [unittest.mock.patch.object(docrev, "REPO", self.repo),
                         unittest.mock.patch.object(docrev, "DOCS_DIR", self.repo / "docs")]
@@ -638,6 +641,10 @@ class SiteTest(unittest.TestCase):
             ("/docs/A/guide", "no page at this url"),
             ("#nope", "no anchor #nope in docs/A/README.md"),
             ("/docs/a/my-guide", "case differs from the page url")])
+
+    def test_relative_url_resolves_against_page_url(self):
+        r = self.run_cmd(docrev.cmd_links, docs=[str(self.repo / "docs/A/svc/README.md")])
+        self.assertEqual([(x["target"], x["resolved"]) for x in r], [("../../my-guide", "/docs/my-guide")])
 
     def test_refs(self):
         r = self.run_cmd(docrev.cmd_refs, path="docs/A/old.md", ref=None)

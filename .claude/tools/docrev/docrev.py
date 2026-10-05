@@ -1116,6 +1116,19 @@ def prose_lines(text, keep_code=False):
             yield n, l if keep_code else INLINE_CODE_RE.sub("", l)
 
 
+def page_at(url, routes):
+    """The doc served at `url`, or a finding dict."""
+    key = url.rstrip("/")
+    if key in routes:
+        return routes[key]
+    near = [u for u in routes if u.lower() == key.lower()]
+    if near:
+        # The client router matches case-insensitively, but a direct load/refresh of the
+        # static HTML on a case-sensitive host 404s.
+        return {"issue": "case differs from the page url", "page_url": near[0]}
+    return {"issue": "no page at this url", "resolved": key}
+
+
 def check_link(doc, target, routes):
     if re.match(r"^(?:[a-z][\w+.-]*:|//)", target, re.I) or PLACEHOLDER_RE.search(target):
         return None
@@ -1131,23 +1144,23 @@ def check_link(doc, target, routes):
     elif path.startswith("/"):
         if (REPO / "static" / path.lstrip("/")).exists():
             return None
-        key = path.rstrip("/")
-        if key not in routes:
-            near = [u for u in routes if u.lower() == key.lower()]
-            if near:
-                # The client router matches case-insensitively, but a direct load/refresh of the
-                # static HTML on a case-sensitive host 404s.
-                return {"issue": "case differs from the page url", "page_url": near[0]}
-            return {"issue": "no page at this url"}
-        dest = routes[key]
-    else:
-        f = (Path(doc).parent / path).resolve()
-        cands = [f, f.with_name(f.name + ".md"), f.with_name(f.name + ".mdx")]
-        dest = next((c for c in cands if c.is_file()), None)
-        if not dest:
-            return {"issue": "file not found"}
+        dest = page_at(path, routes)
+        if isinstance(dest, dict):
+            return dest
+    elif (Path(doc).parent / path).is_file():
+        dest = (Path(doc).parent / path).resolve()
         if dest.suffix not in (".md", ".mdx"):
             return None
+    elif path.endswith((".md", ".mdx")):
+        return {"issue": "file not found"}
+    else:
+        # Not a file: a URL the browser resolves against this page's URL (its slug, not its path).
+        if not Path(doc).is_relative_to(DOCS_DIR.resolve()):
+            return {"issue": "relative url from a doc outside docs/; check it from the site checkout"}
+        page = doc_route(Path(doc).relative_to(DOCS_DIR.resolve()), Path(doc).read_text())["url"]
+        dest = page_at(urllib.parse.urljoin(page, path), routes)
+        if isinstance(dest, dict):
+            return dest
     if anchor and dest is not None and anchor not in doc_anchors(dest):
         return {"issue": f"no anchor #{anchor} in {Path(dest).relative_to(REPO)}"}
     return None
