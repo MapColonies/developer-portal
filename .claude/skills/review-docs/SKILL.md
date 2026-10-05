@@ -36,7 +36,7 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
 
 - Config: `~/.claude/review-envs/<env>.yaml` (outside the repo: it holds internal hostnames and
   this repo is public). It maps entry-point placeholders
-  (`{DEM_CATALOG_SERVICE_URL}`) to URLs, the route that should serve each one, access mode
+  (`<DEM_CATALOG_SERVICE_URL>`) to URLs, the route that should serve each one, access mode
   (`route` or `forward`), and where the token comes from. It never holds the token itself.
   ```yaml
   name: <env>
@@ -93,12 +93,12 @@ label may also sit on the line above the fence), and
 XML/JSON bodies whose endpoint is named in the prose just above (`endpoint_from_prose: true`;
 check it picked the right one). A `request-body` block has no endpoint nearby: build the curl
 yourself and pipe it: `echo "curl ..." | docrev call <env>`. A path-only request (`/route?...`)
-needs `--base {VALHALLA_URL}`. A `template` block (e.g. `curl --request <http_method>`) is
+needs `--base <VALHALLA_URL>`. A `template` block (e.g. `curl --request <http_method>`) is
 syntax, not a request to run.
 
 - **Chaining (flows)**: fill each step's inputs from earlier responses, the way a reader
   would: `--sub <doc value>=<real value>`. E.g. `coverageId=srtm30-DTM` → the real
-  coverage id derived from the catalog record / GetCapabilities; `{WCS_SERVICE_URL}` → the
+  coverage id derived from the catalog record / GetCapabilities; `<WCS_SERVICE_URL>` → the
   `WCS_BASE` link of the chosen record. Record where each value came from. If a step's input
   can't be obtained from earlier output the way the doc says, that is a finding (the flow is
   broken), even if you can still run the step with a value from elsewhere.
@@ -106,7 +106,7 @@ syntax, not a request to run.
   docs are examples; replace them with real ones and move on. Only the *shape* and
   *derivation rule* must hold (e.g. "the id looks like `<productId>-<productType>`" is a
   claim; check it against real ids).
-- **Placeholders** like `[COORD1_X]` / `{SRS_IDENTIFIER}`: fill with valid values derived from
+- **Placeholders** like `<SRS_IDENTIFIER>` / `[COORD1_X]`: fill with valid values derived from
   earlier responses (e.g. a polygon inside a record's footprint).
 - **"Follow link X" steps** have no request block: build the request from the link the doc
   says to take from the chosen record (`echo "curl '<link>'" | docrev call <env>`); if the
@@ -140,6 +140,10 @@ For each step/example, check against the doc:
   lists documented-but-not-returned, returned-but-undocumented and case mismatches, and with
   `--previous` checks the 🆕/✏️/🗑️ markers. A field missing from one record may just be empty
   there; check another before calling it a finding. Try filtering on newly documented fields.
+- Placeholders: `docrev placeholders <docs...>`. Site notation is `<UPPER_SNAKE>` (the token is
+  `<token>`), `[UPPER_SNAKE]` inside XML (where `<NAME>` reads as an element), and `{...}` only
+  for URL template variables the reader keeps (`{TileMatrix}`, `{z}`). Each reported placeholder
+  is a doc finding; put changes for pages the PR doesn't touch in the report, not inline.
 - Writing: typos, wrong API names in client snippets, inconsistent names across pages,
   empty table cells. Links: `docrev links <docs...>` resolves internal URLs, relative files,
   static assets and anchors (the site builds with `onBrokenLinks: warn`, so nothing else catches them).

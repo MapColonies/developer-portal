@@ -678,5 +678,30 @@ class SiteTest(unittest.TestCase):
         self.assertEqual((r["version"], r["only_in_doc"], r["param_diff"][0]["live"]), (["1", "2"], ["DELETE /items/{id}"], ["id*"]))
 
 
+class PlaceholderNotationTest(unittest.TestCase):
+    def test_site_notation(self):
+        doc = textwrap.dedent("""\
+            Send `{WCS_URL}/wcs` with `<token>`; tiles at `{z}/{x}/{y}.png`.
+            ```bash
+            curl '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' --data-raw '<csw:GetRecords service="CSW">
+              <gml:posList>[COORD1_LAT] [COORD1_LON]</gml:posList>
+              <BBOX><X><SRS></X></BBOX>
+            </csw:GetRecords>'
+            curl '<x-api-key>' '[LAYER]' '<3D_CATALOG_SERVICE_URL>' '{entityId}' '{TileMatrix}'
+            ```
+            ```xml
+            <mc:links scheme="WCS">{WCS_URL}/wcs</mc:links>
+            ```
+            """)
+        got = [(i["line"], i["placeholder"], i["use"]) for i in docrev.placeholder_issues(doc)]
+        self.assertEqual(got, [
+            (1, "{WCS_URL}", "<WCS_URL>"),
+            (5, "<SRS>", "[SRS]"),
+            (7, "<x-api-key>", "<X_API_KEY>"),
+            (7, "[LAYER]", "<LAYER>"),
+            (7, "{entityId}", "<ENTITY_ID>"),
+            (10, "{WCS_URL}", "[WCS_URL]")])
+
+
 if __name__ == "__main__":
     unittest.main()

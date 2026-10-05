@@ -1325,6 +1325,62 @@ def cmd_openapi(a):
     print(json.dumps(out, indent=1))
 
 
+# Site convention: `<UPPER_SNAKE>` placeholders (`<token>` kept as is); `[UPPER_SNAKE]` inside XML,
+# where `<NAME>` would read as an element; `{...}` only for URL template variables the reader keeps.
+URL_TEMPLATE_VARS = {"{TileMatrixSet}", "{TileMatrix}", "{TileCol}", "{TileRow}", "{Style}", "{Layer}", "{Time}",
+                     "{x}", "{y}", "{z}", "{s}", "{r}", "{reverseX}", "{reverseY}", "{reverseZ}", "{version}"}
+GOOD_ANGLE_RE = re.compile(r"<(?:[A-Z0-9]+(?:_[A-Z0-9]+)*|token)>")
+# Where XML starts in a block (an `<?xml` line, a namespaced/closing tag or a tag with attributes).
+XML_START_RE = re.compile(r"<\?xml|</?[A-Za-z][\w.-]*:[\w.-]+|</[A-Za-z][\w.-]*>|<[A-Za-z][\w.-]*\s+[\w:.-]+=")
+
+
+def upper_snake(p):
+    name = p.strip("{}<>[]")
+    if name.lower() == "token":
+        return "token"
+    return re.sub(r"[-\s]+", "_", re.sub(r"([a-z])([A-Z])", r"\1_\2", name)).upper()
+
+
+def placeholder_issues(text):
+    """Placeholders in code (fenced and inline) that break the site convention."""
+    out, fence, lang, xml_started = [], None, None, False
+    for n, l in enumerate(text.splitlines(), 1):
+        f = re.match(r"^\s*(`{3,})\s*(\w*)", l)
+        if f and (fence is None or (f.group(1).startswith(fence) and not f.group(2))):
+            fence, lang = (f.group(1), f.group(2).lower()) if fence is None else (None, None)
+            xml_started = False
+            continue
+        if fence is None:
+            chunks = [(c, False) for c in INLINE_CODE_RE.findall(l)]
+        elif xml_started or lang == "html":
+            chunks = [(l, xml_started)]
+        else:
+            # XML bodies also sit in curl `--data-raw '...'` and `url:`/`body:` blocks, after the URL.
+            m = XML_START_RE.search(l)
+            xml_started = bool(m)
+            chunks = [(l[:m.start()], False), (l[m.start():], True)] if m else [(l, False)]
+        if xml_started and re.search(r">\s*['\"]\s*\\?\s*$", l):
+            xml_started = False  # the quoted curl body ends here
+        for code, in_xml in chunks:
+            for p in PLACEHOLDER_RE.findall(code):
+                name = p.strip("{}<>[]")
+                want = upper_snake(p)
+                if p.startswith("<") and fence is not None and (lang in ("xml", "html") or in_xml) \
+                        and f"</{name}>" in text:
+                    continue  # an element, not a placeholder
+                if p.startswith("{") and p in URL_TEMPLATE_VARS:
+                    continue
+                good = f"[{want}]" if in_xml and want != "token" else f"<{want}>"
+                if p != good:
+                    out.append({"line": n, "placeholder": p, "use": good})
+    return out
+
+
+def cmd_placeholders(a):
+    out = [{"file": d, **i} for d in a.docs for i in placeholder_issues(Path(d).read_text())]
+    print(json.dumps(out, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser(prog="docrev")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -1363,6 +1419,8 @@ def main():
     p.add_argument("--under", help="compare only below the first element with this name")
     p.add_argument("--ignore", help="regex of paths to ignore")
     p = sub.add_parser("links", help="broken internal links/anchors in docs")
+    p.add_argument("docs", nargs="+")
+    p = sub.add_parser("placeholders", help="placeholders that break the site notation (<NAME>, [NAME] in XML)")
     p.add_argument("docs", nargs="+")
     p = sub.add_parser("refs", help="references to a doc (deleted/renamed) across docs, sidebars, src")
     p.add_argument("path", help="docs/... path")
@@ -1408,7 +1466,7 @@ def main():
     else:
         {"call": cmd_call, "shape": cmd_shape, "shape-diff": cmd_shape_diff, "deploy-diff": cmd_deploy_diff,
          "inventory": cmd_inventory, "pod-read": cmd_pod_read, "pod-call": cmd_pod_call, "links": cmd_links,
-         "refs": cmd_refs, "profile-diff": cmd_profile_diff, "openapi": cmd_openapi}[a.cmd](a)
+         "refs": cmd_refs, "placeholders": cmd_placeholders, "profile-diff": cmd_profile_diff, "openapi": cmd_openapi}[a.cmd](a)
 
 
 if __name__ == "__main__":

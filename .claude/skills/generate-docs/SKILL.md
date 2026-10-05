@@ -87,7 +87,8 @@ Wait for the user to approve or adjust.
 In a new worktree/branch off the default branch (don't touch the user's working tree):
 - Mirror the template page's structure, front matter, tags, admonitions, tabs, and diagram
   style. Add new pages to `sidebars.js` next to their siblings.
-- Examples: requests use the existing placeholder style (`{SERVICE_URL}`, `<token>`);
+- Examples: placeholders follow the site notation (`<SERVICE_URL>`, `<token>`; `[NAME]` inside
+  XML; `{...}` only for URL template variables), checked with `docrev placeholders`;
   responses are captured live, trimmed to what the reader needs, with internal hostnames
   replaced by placeholders. Where live output contradicts intent (a deployment finding),
   write the example from the intent and leave an HTML comment in the page naming the
