@@ -166,14 +166,14 @@ Now let's see how we can load the provider in our application.
 // **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground or investigate terrain
 viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
   new Cesium.Resource({
-    url: "{TERRAIN_URL}",
+    url: "<TERRAIN_URL>",
     queryParameters: {
-      "token": "{token}",
+      "token": "<token>",
     },
   }),
 );
 ...
 ```
-Replace `{TERRAIN_URL}` with the URL link that you got from **[Step 2.1](#step-2.1)**.
+Replace `<TERRAIN_URL>` with the URL link that you got from **[Step 2.1](#step-2.1)**.
 
-Replace `{token}` with the token we provided you.
+Replace `<token>` with the token we provided you.
