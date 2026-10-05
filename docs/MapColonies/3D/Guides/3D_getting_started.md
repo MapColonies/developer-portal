@@ -210,12 +210,15 @@ Now, after you got all product metadata that you need by querying our Catalog an
 ### Cesium
 
 :::info
-**The minimum required version for cesium is v84.**
+**The minimum required version for cesium is v1.84.** Cesium v1.104 replaced the `url` constructor option with `fromUrl`, and v1.107 removed the old option, so pick the tab for your version.
 :::
+
+<Tabs>
+<TabItem value="cesium-1.84" label="v1.84 - v1.103">
 
 ```javascript
 // **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground
-viewer.terrainProvider = new Cesium.TerrainProvider({
+viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
   url: new Cesium.Resource({
     url: "<TERRAIN_URL>",
     queryParameters: {
@@ -238,6 +241,36 @@ const tileset = viewer.scene.primitives.add(
 );
 ...
 ```
+</TabItem>
+<TabItem value="cesium-1.104" label="v1.104 and later">
+
+```javascript
+// **Optional** add to Cesium terrain provider in order to clamp 3d models to the ground
+viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
+  new Cesium.Resource({
+    url: "<TERRAIN_URL>",
+    queryParameters: {
+      "token": "<token>",
+    },
+  })
+);
+...
+...
+// Add 3d model to the scene
+const tileset = await Cesium.Cesium3DTileset.fromUrl(
+  new Cesium.Resource({
+    url: "<MODEL_URL>",
+    queryParameters: {
+      "token": "<token>",
+    },
+  })
+);
+viewer.scene.primitives.add(tileset);
+...
+```
+</TabItem>
+</Tabs>
+
 Replace `<MODEL_URL>` with the URL link that you got from **Step 2**.
 
 Replace `<TERRAIN_URL>` with the URL link that you got from **Step 2.1 (optional)**.
