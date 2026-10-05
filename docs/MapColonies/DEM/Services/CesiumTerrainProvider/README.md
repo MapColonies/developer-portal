@@ -93,9 +93,27 @@ Dependency Inclusion (Cesium.js): It is imperative that the `Cesium.js` library 
 The `Cesium.Viewer` class is to be instantiated. This class functions as the primary entry point for the display of the interactive three-dimensional globe and for the management of its various constituent components.
 
 ```js
+const MAPCOLONIES_TOKEN = '<token>'; // Replace with your token, see the Authentication page.
+
 // The Cesium Viewer is to be initialized with the designated container element.
-const viewer = new Cesium.Viewer('cesiumContainer');
+const viewer = new Cesium.Viewer('cesiumContainer', {
+    baseLayerPicker: false,
+    // Base imagery: a MapColonies raster layer (Cesium's default imagery needs a Cesium ion key).
+    // Take the values from the layer's WMTS capabilities, see the Raster Getting Started guide (Step 4).
+    baseLayer: new Cesium.ImageryLayer(new Cesium.WebMapTileServiceImageryProvider({
+        url: new Cesium.Resource({
+            url: '<LAYER_WMTS_URL>',
+            queryParameters: { 'token': MAPCOLONIES_TOKEN },
+        }),
+        layer: '<LAYER_IDENTIFIER>',
+        style: '<LAYER_STYLE>',
+        format: '<LAYER_FORMAT>',
+        tileMatrixSetID: '<LAYER_TILE_MATRIX_SET_ID>',
+        tilingScheme: new Cesium.GeographicTilingScheme(),
+    })),
+});
 ```
+Get the base layer values (`<LAYER_WMTS_URL>`, identifier, style, format and tile matrix set) from the raster layer's WMTS capabilities, as in [Raster Getting Started (Step 4)](/docs/MapColonies/Raster/Guides/raster-getting-started#step-4).
 ### CesiumTerrainProvider Instantiation
 
 Create an instance of `Cesium.CesiumTerrainProvider`, providing the base `URL` of the Quantized Mesh terrain server. Optional parameters may be supplied for the request of supplementary data, such as vertex normals and water masks.
@@ -103,7 +121,10 @@ Create an instance of `Cesium.CesiumTerrainProvider`, providing the base `URL` o
 ```js
 // A new CesiumTerrainProvider instance.
 const terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
-    'https://your.custom.terrain.server/path/to/tiles/', // CRITICAL: This URL must be replaced with the actual URL of the custom Quantized Mesh terrain server.
+    new Cesium.Resource({
+        url: 'https://your.custom.terrain.server/path/to/tiles/', // CRITICAL: This URL must be replaced with the actual URL of the custom Quantized Mesh terrain server.
+        queryParameters: { 'token': MAPCOLONIES_TOKEN },   // or headers: { 'x-api-key': MAPCOLONIES_TOKEN }
+    }),
     {
         requestVertexNormals: false,      // Optional: set to true to fetch vertex normals for enhanced lighting.
         requestWaterMask: false           // Optional: set to true to fetch water masks for accurate water rendering.
@@ -161,8 +182,21 @@ Refer to the example below for cesium query / header mapcolonies' token configur
 
         // The Cesium Viewer is to be initialized.
         const viewer = new Cesium.Viewer('cesiumContainer', {
-            // Optional: The default imagery layer picker may be disabled if manual imagery management is intended.
+            // The default imagery layer picker is disabled, since the base layer is set below.
             baseLayerPicker: false,
+            // Base imagery: a MapColonies raster layer (Cesium's default imagery needs a Cesium ion key).
+            // Take the values from the layer's WMTS capabilities, see the Raster Getting Started guide (Step 4).
+            baseLayer: new Cesium.ImageryLayer(new Cesium.WebMapTileServiceImageryProvider({
+                url: new Cesium.Resource({
+                    url: '<LAYER_WMTS_URL>',
+                    queryParameters: { 'token': MAPCOLONIES_TOKEN },
+                }),
+                layer: '<LAYER_IDENTIFIER>',
+                style: '<LAYER_STYLE>',
+                format: '<LAYER_FORMAT>',
+                tileMatrixSetID: '<LAYER_TILE_MATRIX_SET_ID>',
+                tilingScheme: new Cesium.GeographicTilingScheme(),
+            })),
             // Optional: An initial flat ellipsoid terrain provider may be utilized to mitigate
             // visual flickering should the custom terrain load asynchronously.
             terrainProvider: new Cesium.EllipsoidTerrainProvider()
