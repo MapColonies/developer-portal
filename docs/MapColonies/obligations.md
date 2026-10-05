@@ -7,7 +7,6 @@ tags:
   - obligations
   - recommendations
   - catalog
-  - catalog
   - raster
   - vector
   - 3d
@@ -72,7 +71,7 @@ Displaying these fields is critical to ensuring end-users can make informed deci
 ### Using WCS specific parameters
 
 We recommend you don't use the following `query parameters` when making requests:
-- `scalesize`
+- `scaleSize`
 - `scaleFactor`
 - `scaleAxes`
 - `outputCRS`
