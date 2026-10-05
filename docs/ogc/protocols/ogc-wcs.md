@@ -32,7 +32,7 @@ A WCS server responding to a **GetCapabilities** request returns metadata about 
 ### Version 1.0.0
 
 ```
-{WCS_SERVICE_URL}/wcs?
+<WCS_SERVICE_URL>/wcs?
 service=WCS&
 version=1.0.0&
 request=GetCapabilities&
@@ -44,7 +44,7 @@ token=<token>
 
   ``` xml title="Response Example"
     <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:WCS_Capabilities version="1.0.0" xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/wcsCapabilities.xsd" updateSequence="19">
+    <wcs:WCS_Capabilities version="1.0.0" xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs [WCS_SERVICE_URL]/schemas/wcs/1.0.0/wcsCapabilities.xsd" updateSequence="19">
         <wcs:Service>
             <wcs:description/>
             <wcs:name>WCS</wcs:name>
@@ -58,14 +58,14 @@ token=<token>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -74,14 +74,14 @@ token=<token>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -90,14 +90,14 @@ token=<token>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Get>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Get>
                         </wcs:HTTP>
                     </wcs:DCPType>
                     <wcs:DCPType>
                         <wcs:HTTP>
                             <wcs:Post>
-                                <wcs:OnlineResource xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                                <wcs:OnlineResource xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                             </wcs:Post>
                         </wcs:HTTP>
                     </wcs:DCPType>
@@ -144,7 +144,7 @@ token=<token>
 ### Version 2.0.1
 
 ```
-{WCS_SERVICE_URL}/wcs?
+<WCS_SERVICE_URL>/wcs?
 service=WCS&
 version=2.0.1&
 request=GetCapabilities&
@@ -198,36 +198,36 @@ token=<token>
             <ows:Operation name="GetCapabilities">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Get xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Post xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="DescribeCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Get xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Post xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
             <ows:Operation name="GetCoverage">
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Get xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Get xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
                 <ows:DCP>
                     <ows:HTTP>
-                        <ows:Post xlink:href="{WCS_SERVICE_URL}/wcs?"/>
+                        <ows:Post xlink:href="[WCS_SERVICE_URL]/wcs?"/>
                     </ows:HTTP>
                 </ows:DCP>
             </ows:Operation>
@@ -459,7 +459,7 @@ The purpose of the **DescribeCoverage** request is to get additional information
 ### Version 1.0.0
 
 ```
-{WCS_SERVICE_URL}/wcs?
+<WCS_SERVICE_URL>/wcs?
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
@@ -471,7 +471,7 @@ token=<token>
   <summary>Response example</summary>
   ``` xml
    <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
+    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs [WCS_SERVICE_URL]/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
       <wcs:CoverageOffering>
         <wcs:description>Generated from GeoTIFF</wcs:description>
         <wcs:name>dem:srtm30-DTM</wcs:name>
@@ -550,14 +550,14 @@ token=<token>
 ### Version 2.0.1
 
 ```bash
-curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
 ```
 
 <details>
     <summary>Response</summary>
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 {WCS_SERVICE_URL}/schemas/wcs/2.0/wcsgs.xsd">
+    <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 [WCS_SERVICE_URL]/schemas/wcs/2.0/wcsgs.xsd">
         <wcs:CoverageDescription gml:id="dem__srtm30-DTM">
             <gml:description>Generated from GeoTIFF</gml:description>
             <gml:name>srtm30-DTM</gml:name>
@@ -647,7 +647,7 @@ Detailed explanation about params might be found [here](https://www.mapserver.or
 ### Version 1.0.0
 
 ```
-{WCS_SERVICE_URL}/wcs?
+<WCS_SERVICE_URL>/wcs?
 request=GetCoverage&
 version=1.0.0&
 coverage=srtm30-DTM&
@@ -662,7 +662,7 @@ token=<token>
 ### Version 2.0.1
 
 ```
-{WCS_SERVICE_URL}/wcs?
+<WCS_SERVICE_URL>/wcs?
 request=GetCoverage&
 version=2.0.1&
 coverageId=srtm30-DTM&
