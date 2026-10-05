@@ -496,17 +496,29 @@ def summarize(body, ctype):
 
 
 def tiff_info(b):
+    # With `call --range` the body is a prefix; offsets can point past it, so report what fits.
+    if len(b) < 8:
+        return {"truncated": True}
     e = ">" if b[:2] == b"MM" else "<"
     off = struct.unpack(e + "I", b[4:8])[0]
+    if off + 2 > len(b):
+        return {"truncated": True}
     n = struct.unpack(e + "H", b[off:off + 2])[0]
     tags = {256: "width", 257: "height", 258: "bits", 339: "sample_format"}
     out = {}
     for k in range(n):
-        t, ty, c, v = struct.unpack(e + "HHI4s", b[off + 2 + 12 * k: off + 14 + 12 * k])
+        p = off + 2 + 12 * k
+        if p + 12 > len(b):
+            out["truncated"] = True
+            break
+        t, ty, c, v = struct.unpack(e + "HHI4s", b[p:p + 12])
         if t in tags:
             out[tags[t]] = struct.unpack(e + ("H" if ty == 3 else "I"), v[:2] if ty == 3 else v)[0]
         if t == 34735:
             o = struct.unpack(e + "I", v)[0]
+            if o + 2 * c > len(b):
+                out["truncated"] = True
+                continue
             keys = struct.unpack(e + f"{c}H", b[o:o + 2 * c])
             out["epsg"] = [keys[j + 3] for j in range(4, len(keys), 4) if keys[j] in (2048, 3072)]
     return out

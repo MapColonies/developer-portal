@@ -424,6 +424,18 @@ class SummarizeFormatsTest(unittest.TestCase):
         s = docrev.summarize(body, "application/json")
         self.assertEqual((s["features"], s["geometry_types"], s["property_keys"]), (1, ["Point"], ["name"]))
 
+    def test_tiff_ranged_prefix(self):
+        geokeys = b"".join(k.to_bytes(2, "little") for k in (1, 1, 0, 1, 3072, 0, 1, 32636))
+        ifd = (2).to_bytes(2, "little") + b"".join(
+            tag.to_bytes(2, "little") + (3).to_bytes(2, "little") + count.to_bytes(4, "little") + val.to_bytes(4, "little")
+            for tag, count, val in ((256, 1, 512), (34735, 8, 100)))
+        head = b"II*\0" + (8).to_bytes(4, "little") + ifd
+        full = head.ljust(100, b"\0") + geokeys
+        self.assertEqual(docrev.tiff_info(full), {"width": 512, "epsg": [32636]})
+        self.assertEqual(docrev.tiff_info(head), {"width": 512, "truncated": True})
+        self.assertEqual(docrev.tiff_info(head[:20]), {"truncated": True})
+        self.assertEqual(docrev.tiff_info(b"II*\0"), {"truncated": True})
+
     def test_capabilities_identifiers(self):
         xml = b"<Capabilities><Layer><ows:Identifier>ortho</ows:Identifier></Layer><FeatureType><Name>a:b</Name></FeatureType></Capabilities>"
         self.assertEqual(docrev.summarize(xml, "text/xml")["identifiers"], {"ows:Identifier": ["ortho"], "Name": ["a:b"]})
