@@ -1,6 +1,8 @@
 import argparse
+import gzip
 import io
 import json
+import struct
 import subprocess
 import sys
 import tempfile
@@ -483,6 +485,190 @@ class PodCallTest(unittest.TestCase):
                              capture_output=True, text=True)
         self.assertEqual(out.returncode, 0)
         self.assertIn("error", json.loads(out.stdout))
+
+class GapFixesTest(unittest.TestCase):
+    def extract(self, text):
+        path = Path(tempfile.mkdtemp()) / "doc.md"
+        path.write_text(textwrap.dedent(text))
+        return docrev.extract(path)
+
+    def test_placeholder_noise_ignored(self):
+        found = docrev.PLACEHOLDER_RE.findall("p[0] {jy_gAbhgshF} {TileRow} {entityId} {x} [COORD1_X] {TOKEN}")
+        self.assertEqual(found, ["{TileRow}", "{entityId}", "{x}", "[COORD1_X]", "{TOKEN}"])
+
+    def test_method_placeholder_is_template(self):
+        b = self.extract("""\
+            ```bash
+            curl --request <http_method> '<SERVICE_URL>' --header 'x-api-key: <token>'
+            ```
+            """)["blocks"][0]
+        self.assertEqual(b["role"], "template")
+        self.assertNotIn("request", b)
+
+    def test_request_label_above_fence(self):
+        b = self.extract("""\
+            Make the request to `{EXPORT_URL}/export-tasks`.
+
+            POST Request
+            ```json
+            {"catalogRecordID": "x"}
+            ```
+            """)["blocks"][0]
+        self.assertEqual((b["role"], b["request"]["method"], b["request"]["url"]), ("request", "POST", "{EXPORT_URL}/export-tasks"))
+        b = self.extract("""\
+            POST Request
+            ```json
+            {"catalogRecordID": "x"}
+            ```
+            """)["blocks"][0]
+        self.assertEqual((b["role"], b["method"]), ("request-body", "POST"))
+
+    def test_subheading_inherits_step(self):
+        doc = self.extract("""\
+            ## Get coverage (Step 3)
+            ### Request
+            ```bash
+            {WCS_URL}/wcs?request=GetCoverage
+            ```
+            ## Notes
+            ```bash
+            {WCS_URL}/wcs?request=GetCapabilities
+            ```
+            """)
+        self.assertEqual([b["step"] for b in doc["blocks"]], ["3", None])
+        self.assertEqual(doc["kind_hint"], "examples")
+
+    def test_discover_reports_oc_failure(self):
+        fail = subprocess.CompletedProcess([], 1, "", "Unable to connect to the server")
+        with unittest.mock.patch.object(docrev, "oc", return_value=fail):
+            with self.assertRaises(SystemExit) as e:
+                docrev.cmd_env_discover(argparse.Namespace(namespace="ns", release=None))
+        self.assertIn("Unable to connect", json.loads(e.exception.code)["detail"])
+
+    def test_check_reports_unlistable_routes(self):
+        env = {"namespace": "ns", "token": {}, "placeholders": {"A": {"url": "https://a", "route": "r"}}}
+        ok = subprocess.CompletedProcess([], 0, "me", "")
+        fail = subprocess.CompletedProcess([], 1, "", "timeout")
+        out = io.StringIO()
+        with unittest.mock.patch.object(docrev, "load_env", return_value=env), \
+                unittest.mock.patch.object(docrev, "oc", side_effect=[ok, fail]), redirect_stdout(out):
+            docrev.cmd_env_check(argparse.Namespace(env="e"))
+        issues = [f["issue"] for f in json.loads(out.getvalue())]
+        self.assertIn("cannot list routes in ns", issues)
+        self.assertFalse(any("missing" in i for i in issues))
+
+    def call(self, url):
+        env = {"placeholders": {}, "hosts": ["x"], "token": {"param": "token"}}
+        d = Path(tempfile.mkdtemp())
+        (d / "r.json").write_text(json.dumps({"method": "GET", "url": url, "headers": {}, "body": None}))
+        resp = unittest.mock.MagicMock(status=200, headers={"Content-Type": "text/plain"})
+        resp.read.return_value = b"ok"
+        out = io.StringIO()
+        with unittest.mock.patch.object(docrev, "load_env", return_value=env), \
+                unittest.mock.patch.object(docrev, "token_for", return_value="T"), \
+                unittest.mock.patch.object(docrev, "RUNS_DIR", d), \
+                unittest.mock.patch("urllib.request.urlopen", return_value=resp), redirect_stdout(out):
+            docrev.cmd_call(argparse.Namespace(env="e", doc=None, block=None, request=str(d / "r.json"), sub=None,
+                                               base=None, allow_write=False, head=False, range=None, timeout=5, run="pr-1"))
+        return json.loads(out.getvalue()), d
+
+    def test_token_added_flag_and_run_dir(self):
+        r, d = self.call("http://x/a")
+        self.assertTrue(r["token_added"])
+        self.assertEqual(Path(r["saved"]).parent, d / "pr-1")
+        self.assertFalse(self.call("http://x/a?token=<token>")[0]["token_added"])
+
+    def test_binary_summaries(self):
+        jpeg = b"\xff\xd8\xff\xe0\x00\x04ab\xff\xc0\x00\x11\x08" + (300).to_bytes(2, "big") + (400).to_bytes(2, "big")
+        self.assertEqual(docrev.summarize(jpeg, "image/jpeg"), {"binary": "jpeg", "width": 400, "height": 300})
+        png = b"\x89PNG\r\n\x1a\n" + b"\0\0\0\rIHDR" + (256).to_bytes(4, "big") * 2
+        self.assertEqual(docrev.summarize(gzip.compress(png)[:-8], ""), {"gzip": True, "binary": "png", "width": 256, "height": 256})
+        qm = struct.pack("<3d2f", 0, 0, 0, -12.5, 830.25) + b"\0" * 56 + struct.pack("<I", 1234)
+        self.assertEqual(docrev.summarize(gzip.compress(qm), "application/vnd.quantized-mesh"),
+                         {"gzip": True, "binary": "quantized-mesh", "min_height": -12.5, "max_height": 830.25, "vertices": 1234})
+        self.assertEqual(docrev.summarize(gzip.compress(qm), "binary/octet-stream", "https://t/0/1/0.terrain?v=1")["vertices"], 1234)
+        self.assertEqual(docrev.summarize(b"\0\1\2", "application/octet-stream"), {"binary": "unknown", "bytes": 3})
+        layer = b"\x0a\x05roads" + b"\x12\x00" * 2
+        tile = b"\x1a" + bytes([len(layer)]) + layer
+        self.assertEqual(docrev.summarize(tile, "application/vnd.mapbox-vector-tile")["layers"], [{"name": "roads", "features": 2}])
+
+    def test_element_names_any_prefix(self):
+        s = docrev.summarize(b"<wfs:FeatureCollection><dem:tile><dem:name>a</dem:name></dem:tile><place/></wfs:FeatureCollection>", "text/xml")
+        self.assertEqual(s["element_names"], ["dem:name", "dem:tile", "place", "wfs:FeatureCollection"])
+
+
+class SiteTest(unittest.TestCase):
+    def setUp(self):
+        self.repo = Path(tempfile.mkdtemp())
+        docs = self.repo / "docs" / "A"
+        docs.mkdir(parents=True)
+        (self.repo / "static" / "img").mkdir(parents=True)
+        (self.repo / "static" / "img" / "p.png").write_bytes(b"")
+        (docs / "guide.md").write_text("---\nslug: my-guide\n---\n## Get Data (Step 1)\n## Notes {#notes}\n")
+        (docs / "old.md").write_text("---\nid: old-page\n---\n# Old\n")
+        (docs / "README.md").write_text(textwrap.dedent("""\
+            [ok](/docs/A/my-guide#get-data-step-1) [ok](./guide.md#notes) ![i](/img/p.png)
+            [bad](/docs/A/guide) [anchor](#nope) [case](/docs/a/my-guide) `[code](/docs/x)`
+            [ext](https://example.com) [file](/docs/A/guide.md)
+            """))
+        (self.repo / "sidebars.js").write_text("items: ['A/old-page']\n")
+        self.patches = [unittest.mock.patch.object(docrev, "REPO", self.repo),
+                        unittest.mock.patch.object(docrev, "DOCS_DIR", self.repo / "docs")]
+        for p in self.patches:
+            p.start()
+
+    def tearDown(self):
+        for p in self.patches:
+            p.stop()
+
+    def run_cmd(self, fn, **kw):
+        out = io.StringIO()
+        with redirect_stdout(out):
+            fn(argparse.Namespace(**kw))
+        return json.loads(out.getvalue())
+
+    def test_doc_route(self):
+        self.assertEqual(docrev.doc_route(Path("A/01-x.md"), "")["url"], "/docs/A/x")
+        self.assertEqual(docrev.doc_route(Path("A/README.md"), "")["url"], "/docs/A")
+        self.assertEqual(docrev.doc_route(Path("A/g.md"), "---\nslug: /top\n---\n")["url"], "/docs/top")
+
+    def test_links(self):
+        r = self.run_cmd(docrev.cmd_links, docs=[str(self.repo / "docs/A/README.md")])
+        self.assertEqual([(x["target"], x["issue"]) for x in r], [
+            ("/docs/A/guide", "no page at this url"),
+            ("#nope", "no anchor #nope in docs/A/README.md"),
+            ("/docs/a/my-guide", "case differs from the page url")])
+
+    def test_refs(self):
+        r = self.run_cmd(docrev.cmd_refs, path="docs/A/old.md", ref=None)
+        self.assertEqual((r["url"], [h["file"] for h in r["references"]]), ("/docs/A/old-page", ["sidebars.js"]))
+
+    def test_profile_diff(self):
+        prev = self.repo / "v1.md"
+        prev.write_text("| Change | Name | Type |\n|---|---|---|\n| | `mc:a` | t |\n| 🗑️ | mc:gone | t |\n| | mc:SRS | t |\n| | mc:dropped | t |\n")
+        cur = self.repo / "v2.md"
+        cur.write_text("typename `mc:Rec`\n\n| Change | Name | Type |\n|---|---|---|\n| 🆕 | mc:a | t |\n| | mc:srs | t |\n| | mc:b | t |\n")
+        resp = self.repo / "resp.xml"
+        resp.write_text("<mc:Rec><mc:a/><mc:srs/><mc:extra/></mc:Rec>")
+        r = self.run_cmd(docrev.cmd_profile_diff, doc=str(cur), response=str(resp), previous=str(prev), prefix=None)
+        names = lambda k: [f["name"] for f in r[k]]
+        self.assertEqual(names("documented_not_returned"), ["mc:b"])
+        self.assertEqual(r["returned_not_documented"], ["mc:extra"])
+        self.assertEqual(names("marked_new_but_in_previous"), ["mc:a"])
+        self.assertEqual(r["unmarked_but_not_in_previous"][0], {"name": "mc:srs", "line": 6, "marker": None, "previous_spelling": "mc:SRS"})
+        self.assertEqual(names("previous_unmarked_but_gone"), ["mc:SRS", "mc:dropped"])
+
+    def test_openapi_ops_and_live_diff(self):
+        spec = {"info": {"version": "1"}, "components": {"parameters": {"Id": {"name": "id", "required": True}}},
+                "paths": {"/items/{id}": {"parameters": [{"$ref": "#/components/parameters/Id"}],
+                                          "get": {"parameters": [{"name": "q"}]}, "delete": {}}}}
+        ops = docrev.openapi_ops(spec)
+        self.assertEqual([(o["method"], o["params"], o["safety"]) for o in ops], [("GET", ["id*", "q"], "read"), ("DELETE", ["id*"], "write")])
+        (self.repo / "spec.yaml").write_text(json.dumps(spec))
+        live = {"info": {"version": "2"}, "paths": {"/items/{id}": {"get": {"parameters": [{"name": "id", "required": True}]}}}}
+        (self.repo / "live.json").write_text(json.dumps(live))
+        r = self.run_cmd(docrev.cmd_openapi, spec=str(self.repo / "spec.yaml"), live=str(self.repo / "live.json"))
+        self.assertEqual((r["version"], r["only_in_doc"], r["param_diff"][0]["live"]), (["1", "2"], ["DELETE /items/{id}"], ["id*"]))
 
 
 if __name__ == "__main__":

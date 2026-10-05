@@ -23,6 +23,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import zlib
 from pathlib import Path
 
 import yaml
@@ -32,9 +33,12 @@ REPO = Path(__file__).resolve().parents[3]
 ENVS_DIR = Path.home() / ".claude" / "review-envs"
 RUNS_DIR = REPO / ".claude" / "review-runs"
 
-# Docs use several styles: {X_URL}, <X_URL>, <X-URL>, <geocoding_url>, <x-api-key>, [COORD1_X].
-# Lowercase angle forms need a `-`/`_` so plain XML elements (`<name>`) don't count.
-PLACEHOLDER_RE = re.compile(r"\{[A-Za-z0-9_]+\}|<[A-Z0-9][A-Z0-9 _-]*>|<[a-z][a-z0-9]*[_-][a-z0-9_-]+>|<token>|\[[A-Z0-9_]+\]")
+# Docs use several styles: {X_URL}, {entityId}, {TileRow}, <X_URL>, <X-URL>, <geocoding_url>, <x-api-key>, [COORD1_X].
+# Lowercase angle forms need a `-`/`_` so plain XML elements (`<name>`) don't count. Braces take
+# one consistent case style so encoded data (a polyline `{jy_gAbhgshF}`) doesn't, and brackets
+# need a leading letter so JS indexing (`[0]`) doesn't.
+PLACEHOLDER_RE = re.compile(r"\{[A-Z][A-Z0-9_]*\}|\{[a-z][a-z0-9_]*\}|\{[A-Za-z][a-zA-Z0-9]*\}|<[A-Z0-9][A-Z0-9 _-]*>"
+                            r"|<[a-z][a-z0-9]*[_-][a-z0-9_-]+>|<token>|\[[A-Z][A-Z0-9_]*\]")
 URL_START_RE = re.compile(r"^(?:https?://|%s)" % PLACEHOLDER_RE.pattern)
 TOKEN_PH_RE = re.compile(r"<token>|\{token\}", re.I)
 STEP_RE = re.compile(r"\bstep\s*(\d+(?:\.\d+)?)", re.I)
@@ -196,6 +200,12 @@ def extract(md_path):
             s = STEP_RE.search(m.group(2))
             if s:
                 current_heading["step"] = s.group(1)
+            else:
+                # `### Request` under `## Get coverage (Step 3)` belongs to step 3.
+                parent = next((h for h in reversed(headings) if h["level"] < current_heading["level"]), None)
+                inherited = parent and (parent["step"] or parent.get("parent_step"))
+                if inherited:
+                    current_heading["parent_step"] = inherited
             headings.append(current_heading)
         t = re.search(r'<TabItem\s+value="([^"]+)"\s+label="([^"]+)"', line)
         if t:
@@ -223,7 +233,8 @@ def extract(md_path):
                            or labels_response(prev))
             block = {
                 "line": start, "lang": lang, "meta": meta, "heading": current_heading and current_heading["title"],
-                "step": current_heading and current_heading["step"], "tab": current_tab,
+                "step": current_heading and (current_heading["step"] or current_heading.get("parent_step")),
+                "tab": current_tab,
                 "role": "example-response" if is_response else lang or "code",
                 "placeholders": sorted(set(PLACEHOLDER_RE.findall(content))),
                 "content": content,
@@ -237,9 +248,15 @@ def extract(md_path):
                 prose = "\n".join(lines[max(0, start - 7):start - 1])
                 root = xml_root(content) or "" if lang == "xml" else ""
                 is_operation = bool(XML_OPERATION_RE.match(root)) and not root.endswith("Response")
+                # `POST Request` written on the line above the fence instead of inside it.
+                label = re.fullmatch(r"(GET|POST|PUT|PATCH|DELETE)\s+request\s*:?", prev.strip().strip("*_`:").strip(), re.I)
                 # An OGC operation root (`csw:GetRecords`) is a request body however the prose words it.
-                if not req and (is_operation or lang == "json" and re.search(r"request|body|payload", prose, re.I)):
+                if not req and (is_operation or label or lang == "json" and re.search(r"request|body|payload", prose, re.I)):
                     hint = endpoint_hint(prose)
+                    if hint and label:
+                        hint = (label.group(1).upper(), hint[1])
+                    if label:
+                        block["method"] = label.group(1).upper()
                     try:
                         req = body_request(*hint, content) if hint else None
                     except ValueError:
@@ -249,7 +266,10 @@ def extract(md_path):
                     else:
                         # A body whose endpoint is given elsewhere on the page: Claude builds the request.
                         block["role"] = "request-body"
-            if req and not req.get("error") and req.get("url"):
+            if req and PLACEHOLDER_RE.fullmatch(req.get("method") or ""):
+                # `curl --request <http_method> ...` documents the syntax, it is not a request to run.
+                block["role"] = "template"
+            elif req and not req.get("error") and req.get("url"):
                 block["role"] = "request"
                 block["request"] = req
                 block["safety"] = classify(req)
@@ -304,6 +324,14 @@ def oc(*args, retries=8):
     return out
 
 
+def oc_items(kind, ns):
+    """`oc get <kind> -o json` items, or (None, error) so an unreachable cluster isn't read as empty."""
+    out = oc("get", kind, "-n", ns, "-o", "json")
+    if out.returncode:
+        return None, (out.stderr or out.stdout).strip()[:300]
+    return json.loads(out.stdout or "{}").get("items", []), None
+
+
 def load_env(name):
     path = ENVS_DIR / f"{name}.yaml"
     if not path.exists():
@@ -322,8 +350,10 @@ def token_for(env):
 
 
 def cmd_env_discover(a):
-    ns = a.namespace
-    routes = filter_release(json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", []), a.release)
+    items, err = oc_items("routes", a.namespace)
+    if err:
+        sys.exit(json.dumps({"error": "oc get routes failed", "namespace": a.namespace, "detail": err}))
+    routes = filter_release(items, a.release)
     out = []
     for r in routes:
         conds = (r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
@@ -353,11 +383,15 @@ def cmd_env_check(a):
     for ph, e in (env.get("placeholders") or {}).items():
         ns = ns_of(env, e)
         if ns not in routes_by_ns:
-            routes_by_ns[ns] = {r["metadata"]["name"]: r for r in
-                                json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", [])}
-        routes = routes_by_ns[ns]
+            items, err = oc_items("routes", ns)
+            if err:
+                findings.append({"kind": "env", "issue": f"cannot list routes in {ns}", "detail": err})
+            routes_by_ns[ns] = None if err else {r["metadata"]["name"]: r for r in items}
+        routes = routes_by_ns[ns] or {}
         r = routes.get(e.get("route")) if e.get("route") else None
-        if e.get("route") and not r:
+        if routes_by_ns[ns] is None:
+            pass  # already reported as unlistable
+        elif e.get("route") and not r:
             findings.append({"kind": "env", "placeholder": ph, "issue": f"route {e['route']} missing in {ns}"})
         elif r:
             cond = (r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
@@ -456,26 +490,47 @@ MAGIC = [(b"\x89PNG", "png"), (b"\xff\xd8\xff", "jpeg"), (b"\x1f\x8b", "gzip"), 
          (b"GIF8", "gif"), (b"RIFF", "riff"), (b"%PDF", "pdf"), (b"glTF", "glb"), (b"b3dm", "b3dm")]
 
 
-def summarize(body, ctype):
+def summarize(body, ctype, url=None):
     s = {}
     head = body[:4]
     if head[:2] in (b"II", b"MM"):
         s["tiff"] = tiff_info(body)
         return s
+    if body.startswith(b"\x1f\x8b"):
+        # Terrain tiles and some APIs are served gzipped; a decompressobj also takes a --range prefix.
+        try:
+            inner = zlib.decompressobj(16 + zlib.MAX_WBITS).decompress(body[:MAX_BODY], MAX_BODY)
+        except zlib.error:
+            return {"binary": "gzip", "corrupt": True}
+        return {"gzip": True, **summarize(inner, ctype, url)}
+    ct = (ctype or "").lower()
+    # Tile servers often send these as `application/octet-stream`; the extension tells.
+    ext = urllib.parse.urlsplit(url or "").path.rsplit(".", 1)[-1].lower()
+    if "quantized-mesh" in ct or ext == "terrain":
+        return {"binary": "quantized-mesh", **quantized_mesh_info(body)}
+    if re.search(r"vector-tile|mvt|protobuf", ct) or ext in ("mvt", "pbf"):
+        return {"binary": "mvt", "layers": mvt_layers(body)}
     kind = next((k for m, k in MAGIC if body.startswith(m)), None)
     if kind:
         s["binary"] = kind
         if kind == "png" and len(body) >= 24:
             s["width"], s["height"] = struct.unpack(">II", body[16:24])
+        elif kind == "jpeg":
+            s.update(jpeg_size(body))
+        elif kind == "riff" and body[8:12] == b"WEBP":
+            s["binary"] = "webp"
+            s.update(webp_size(body))
         return s
     txt = body[:MAX_BODY].decode("utf-8", "replace")
+    if b"\0" in body[:1024]:
+        return {"binary": "unknown", "bytes": len(body)}
     if "xml" in (ctype or "") or txt.lstrip().startswith("<?xml") or txt.lstrip().startswith("<"):
         s["root"] = (re.search(r"<([\w:]+)[\s>]", re.sub(r"<\?.*?\?>|<!--.*?-->", "", txt, flags=re.S)) or [None, None])[1]
         s["exceptions"] = [x.strip() for x in re.findall(r"(?:ExceptionText|ServiceException)[^>]*>\s*([^<]{0,300})", txt) if x.strip()]
         s.update({k: v for k, v in re.findall(r'(numberOfRecordsMatched|numberOfRecordsReturned|nextRecord)="(\d+)"', txt)})
         s["links"] = [{"scheme": sc, "name": n, "url": u.strip()} for sc, n, u in
                       re.findall(r'<\w+:links[^>]*scheme="([^"]*)"[^>]*name="([^"]*)"[^>]*>([^<]*)<', txt)][:20]
-        s["element_names"] = sorted(set(re.findall(r"<(mc:[A-Za-z0-9]+)[\s>]", txt)))
+        s["element_names"] = sorted(set(re.findall(r"<([A-Za-z_][\w.-]*(?::[\w.-]+)?)[\s/>]", txt)))[:120]
         # What a capabilities document offers (coverages, layers, feature types, tile matrix sets):
         # the next step of a flow picks one of these.
         ids = {}
@@ -503,6 +558,85 @@ def summarize(body, ctype):
     else:
         s["text"] = txt[:300]
     return s
+
+
+def jpeg_size(b):
+    i = 2
+    while i + 9 <= len(b) and b[i] == 0xFF:
+        marker, seg = b[i + 1], struct.unpack(">H", b[i + 2:i + 4])[0]
+        # SOF0-15 carry the frame size; C4/C8/CC are DHT/JPG/DAC, not frames.
+        if 0xC0 <= marker <= 0xCF and marker not in (0xC4, 0xC8, 0xCC):
+            h, w = struct.unpack(">HH", b[i + 5:i + 9])
+            return {"width": w, "height": h}
+        i += 2 + seg
+    return {"truncated": True}
+
+
+def webp_size(b):
+    chunk = b[12:16]
+    if chunk == b"VP8X" and len(b) >= 30:
+        return {"width": int.from_bytes(b[24:27], "little") + 1, "height": int.from_bytes(b[27:30], "little") + 1}
+    if chunk == b"VP8L" and len(b) >= 25:
+        bits = int.from_bytes(b[21:25], "little")
+        return {"width": (bits & 0x3FFF) + 1, "height": ((bits >> 14) & 0x3FFF) + 1}
+    if chunk == b"VP8 " and len(b) >= 30:
+        w, h = struct.unpack("<HH", b[26:30])
+        return {"width": w & 0x3FFF, "height": h & 0x3FFF}
+    return {"truncated": True}
+
+
+def quantized_mesh_info(b):
+    # Header: center (3 doubles), min/max height (2 floats), bounding sphere (4 doubles),
+    # horizon occlusion point (3 doubles), then the vertex count.
+    if len(b) < 92:
+        return {"truncated": True}
+    lo, hi = struct.unpack("<ff", b[24:32])
+    return {"min_height": round(lo, 2), "max_height": round(hi, 2), "vertices": struct.unpack("<I", b[88:92])[0]}
+
+
+def varint(b, i):
+    n = shift = 0
+    while i < len(b):
+        n |= (b[i] & 0x7F) << shift
+        i += 1
+        if b[i - 1] < 0x80:
+            return n, i
+        shift += 7
+    raise ValueError("truncated varint")
+
+
+def mvt_layers(b):
+    """Layer names and feature counts of a Mapbox vector tile (protobuf: tile.3 = layer,
+    layer.1 = name, layer.2 = feature)."""
+    def fields(buf):
+        i = 0
+        while i < len(buf):
+            key, i = varint(buf, i)
+            wt = key & 7
+            if wt == 2:
+                n, i = varint(buf, i)
+                yield key >> 3, buf[i:i + n]
+                i += n
+            elif wt == 0:
+                _, i = varint(buf, i)
+            elif wt in (1, 5):
+                i += 8 if wt == 1 else 4
+            else:
+                raise ValueError("unknown wire type")
+    layers = []
+    try:
+        for f, layer in fields(b):
+            if f == 3:
+                name, feats = None, 0
+                for lf, v in fields(layer):
+                    if lf == 1:
+                        name = v.decode("utf-8", "replace")
+                    elif lf == 2:
+                        feats += 1
+                layers.append({"name": name, "features": feats})
+    except ValueError:
+        layers.append({"truncated": True})
+    return layers
 
 
 def tiff_info(b):
@@ -569,8 +703,11 @@ def cmd_call(a):
     err = target_error(env, url)
     if err:
         sys.exit(json.dumps(err))
-    headers = apply_auth(env, tok, req.get("headers") or {})
     tsrc = env.get("token") or {}
+    # A doc that never mentions the token fails for readers; `call` still sends it, so say so.
+    asked = TOKEN_PH_RE.search(req["url"]) or f"{tsrc.get('param', 'token')}=" in req["url"] or \
+        any(TOKEN_PH_RE.search(v) for v in (req.get("headers") or {}).values())
+    headers = apply_auth(env, tok, req.get("headers") or {})
     if tok:
         url = TOKEN_PH_RE.sub(tok, url)
         # `header` alone replaces the query param; naming both sends both (prod mixes services).
@@ -600,18 +737,23 @@ def cmd_call(a):
     except Exception as e:  # network-level failure is itself a finding
         print(json.dumps({"error": type(e).__name__, "detail": str(e), "url": redact(url, tok)}))
         return
-    RUNS_DIR.mkdir(parents=True, exist_ok=True)
-    saved = RUNS_DIR / f"resp-{int(started * 1000)}"
+    saved = run_dir(a) / f"resp-{int(started * 1000)}"
     # Some services echo the caller's token (e.g. into a `next` link); never keep it on disk.
     saved.write_bytes(redact_bytes(body[:MAX_BODY], tok))
     print(json.dumps({
         "url": redact(url, tok), "method": method, "safety": safety, "status": status,
         "content_type": rh.get("Content-Type"), "content_length": rh.get("Content-Length"),
         "bytes_read": len(body[:MAX_BODY]), "truncated": len(body) > MAX_BODY,
-        "elapsed_s": round(time.time() - started, 2), "saved": str(saved),
+        "elapsed_s": round(time.time() - started, 2), "saved": str(saved), "token_added": bool(tok and not asked),
         "headers": {k: redact(v, tok) for k, v in rh.items()},
-        "summary": summarize(body, rh.get("Content-Type")),
+        "summary": summarize(body, rh.get("Content-Type"), url),
     }, indent=2))
+
+
+def run_dir(a):
+    d = RUNS_DIR / (getattr(a, "run", None) or os.environ.get("DOCREV_RUN") or "adhoc")
+    d.mkdir(parents=True, exist_ok=True)
+    return d
 
 
 def env_hosts(env):
@@ -807,10 +949,12 @@ def filter_release(items, release):
 
 def cmd_inventory(a):
     """Live resources of a namespace (optionally one release): what is actually running and exposed."""
-    ns = a.namespace
-    get = lambda kind: filter_release(
-        json.loads(oc("get", kind, "-n", ns, "-o", "json").stdout or "{}").get("items", []), a.release)
-    inv = {"deployments": [], "routes": [], "services": [], "configmaps": []}
+    def get(kind):
+        items, err = oc_items(kind, a.namespace)
+        if err:
+            sys.exit(json.dumps({"error": f"oc get {kind} failed", "namespace": a.namespace, "detail": err}))
+        return filter_release(items, a.release)
+    inv ={"deployments": [], "routes": [], "services": [], "configmaps": []}
     for d in get("deployments"):
         inv["deployments"].append({
             "name": d["metadata"]["name"],
@@ -887,11 +1031,285 @@ def cmd_pod_call(a):
     if r.get("error"):
         sys.exit(json.dumps({"error": "request from pod failed", "url": req["url"], "detail": r["error"]}))
     body = base64.b64decode(r["body"])
-    RUNS_DIR.mkdir(parents=True, exist_ok=True)
-    saved = RUNS_DIR / f"pod-resp-{int(time.time() * 1000)}"
+    saved = run_dir(a) / f"pod-resp-{int(time.time() * 1000)}"
     saved.write_bytes(body)
     print(json.dumps({"url": req["url"], "status": r["status"], "content_type": r["content_type"],
-                      "saved": str(saved), "summary": summarize(body, r["content_type"])}, indent=2))
+                      "saved": str(saved), "summary": summarize(body, r["content_type"], req["url"])}, indent=2))
+
+
+DOCS_DIR = REPO / "docs"
+NUM_PREFIX_RE = re.compile(r"^\d+\s*[-_.]+\s*")
+LINK_RE = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+\"[^\"]*\")?\s*\)|\b(?:href|src|to)=[\"']([^\"']+)[\"']")
+
+
+def front_matter(text):
+    m = re.match(r"^---\n(.*?)\n---", text, re.S)
+    try:
+        fm = yaml.safe_load(m.group(1)) if m else None
+    except yaml.YAMLError:
+        fm = None
+    return fm if isinstance(fm, dict) else {}
+
+
+def doc_route(rel, text):
+    """Docusaurus id and URL of the doc at `rel` (relative to docs/): `id`/`slug` front matter,
+    number prefixes dropped, index/README/folder-named files served at the folder."""
+    fm = front_matter(text)
+    rel = Path(rel)
+    dirs = [NUM_PREFIX_RE.sub("", p) for p in rel.parent.parts]
+    stem = NUM_PREFIX_RE.sub("", rel.stem)
+    last = str(fm.get("id") or stem)
+    if fm.get("slug") is not None:
+        slug = str(fm["slug"])
+        url = slug if slug.startswith("/") else "/".join(["", *dirs, slug])
+    elif "id" not in fm and (stem.lower() in ("index", "readme") or (dirs and stem == dirs[-1])):
+        url = "/" + "/".join(dirs)
+    else:
+        url = "/" + "/".join([*dirs, last])
+    return {"id": "/".join([*dirs, last]), "url": ("/docs" + url).rstrip("/") or "/docs"}
+
+
+def all_routes():
+    """URL -> doc file for every doc, plus the redocusaurus API pages from docusaurus.config.ts."""
+    routes = {}
+    for f in sorted(DOCS_DIR.rglob("*.md*")):
+        if f.suffix in (".md", ".mdx"):
+            routes[doc_route(f.relative_to(DOCS_DIR), f.read_text())["url"]] = f
+    cfg = REPO / "docusaurus.config.ts"
+    if cfg.exists():
+        for r in re.findall(r"route:\s*['\"]([^'\"]+)['\"]", cfg.read_text()):
+            routes[r.rstrip("/")] = None
+    return routes
+
+
+def heading_anchor(title):
+    # Docusaurus slugs the rendered heading like github-slugger: markup dropped, punctuation
+    # removed, lowercased, each space a `-`.
+    t = re.sub(r"`([^`]*)`", r"\1", title)
+    t = re.sub(r"!?\[([^\]]*)\]\([^)]*\)", r"\1", t)
+    t = re.sub(r"<[^>]+>|[*~]", "", t)
+    return re.sub(r"[^\w\- ]", "", t.strip().lower()).replace(" ", "-")
+
+
+def doc_anchors(path):
+    text = Path(path).read_text()
+    seen, anchors = {}, set(re.findall(r"\b(?:id|name)=[\"']([^\"']+)[\"']", text))
+    for h in extract(path)["headings"]:
+        if h["anchor"]:
+            anchors.add(h["anchor"])
+            continue
+        a = heading_anchor(h["title"])
+        anchors.add(f"{a}-{seen[a]}" if a in seen else a)
+        seen[a] = seen.get(a, 0) + 1
+    return anchors
+
+
+def prose_lines(text, keep_code=False):
+    """(line number, line) outside fenced code; inline code blanked unless keep_code."""
+    fence = None
+    for n, l in enumerate(text.splitlines(), 1):
+        f = re.match(r"^\s*(`{3,}|~{3,})", l)
+        if f and (fence is None or f.group(1).startswith(fence)):
+            fence = None if fence else f.group(1)
+            continue
+        if fence is None:
+            yield n, l if keep_code else INLINE_CODE_RE.sub("", l)
+
+
+def check_link(doc, target, routes):
+    if re.match(r"^(?:[a-z][\w+.-]*:|//)", target, re.I) or PLACEHOLDER_RE.search(target):
+        return None
+    path, _, anchor = target.partition("#")
+    path = urllib.parse.unquote(path.split("?")[0])
+    if not path:
+        dest = doc
+    elif path.startswith("/") and path.endswith((".md", ".mdx")):
+        # Docusaurus resolves an absolute file link against the docs dir, then the site dir.
+        dest = next((f for f in (DOCS_DIR / path.lstrip("/"), REPO / path.lstrip("/")) if f.is_file()), None)
+        if not dest:
+            return {"issue": "file not found"}
+    elif path.startswith("/"):
+        if (REPO / "static" / path.lstrip("/")).exists():
+            return None
+        key = path.rstrip("/")
+        if key not in routes:
+            near = [u for u in routes if u.lower() == key.lower()]
+            if near:
+                # The client router matches case-insensitively, but a direct load/refresh of the
+                # static HTML on a case-sensitive host 404s.
+                return {"issue": "case differs from the page url", "page_url": near[0]}
+            return {"issue": "no page at this url"}
+        dest = routes[key]
+    else:
+        f = (Path(doc).parent / path).resolve()
+        cands = [f, f.with_name(f.name + ".md"), f.with_name(f.name + ".mdx")]
+        dest = next((c for c in cands if c.is_file()), None)
+        if not dest:
+            return {"issue": "file not found"}
+        if dest.suffix not in (".md", ".mdx"):
+            return None
+    if anchor and dest is not None and anchor not in doc_anchors(dest):
+        return {"issue": f"no anchor #{anchor} in {Path(dest).relative_to(REPO)}"}
+    return None
+
+
+def cmd_links(a):
+    """Broken internal links/anchors in the given docs (Docusaurus routes, relative files, static assets)."""
+    routes = all_routes()
+    out = []
+    for doc in a.docs:
+        for n, line in prose_lines(Path(doc).read_text()):
+            for m in LINK_RE.finditer(line):
+                target = m.group(1) or m.group(2)
+                err = check_link(Path(doc).resolve(), target, routes)
+                if err:
+                    out.append({"file": doc, "line": n, "target": target, **err})
+    print(json.dumps(out, indent=2))
+
+
+def cmd_refs(a):
+    """Where a doc is still referenced (for deleted/renamed docs): its URL, id and file name in
+    docs/, sidebars, src/ and the site config."""
+    rel = Path(a.path).relative_to("docs")
+    if a.ref:
+        text = subprocess.run(["git", "-C", str(REPO), "show", f"{a.ref}:{a.path}"], capture_output=True,
+                              text=True, check=True).stdout
+    else:
+        text = (REPO / a.path).read_text()
+    r = doc_route(rel, text)
+    needles = sorted({r["url"], r["url"][len("/docs"):], r["id"], rel.with_suffix("").as_posix(), rel.name}, key=len,
+                     reverse=True)
+    pat = re.compile(r"(?<![\w-])(?:%s)(?![\w-])" % "|".join(map(re.escape, needles)))
+    files = [*DOCS_DIR.rglob("*.md*"), *(REPO / "src").rglob("*.*"), REPO / "sidebars.js", REPO / "sidebars.ts",
+             REPO / "docusaurus.config.ts"]
+    hits = []
+    for f in files:
+        if not f.is_file() or f.resolve() == (REPO / a.path).resolve() or f.suffix not in (".md", ".mdx", ".js", ".ts", ".tsx", ".jsx", ".json"):
+            continue
+        for n, l in enumerate(f.read_text(errors="replace").splitlines(), 1):
+            m = pat.search(l)
+            if m:
+                hits.append({"file": str(f.relative_to(REPO)), "line": n, "match": m.group(0)})
+    print(json.dumps({**r, "references": hits}, indent=2))
+
+
+MARKERS = {"🆕": "new", "✏": "changed", "🗑": "removed"}
+FIELD_RE = re.compile(r"^@?[A-Za-z_][\w.-]*(?::[A-Za-z_][\w.-]*)?$")
+
+
+def table_fields(text):
+    """Field rows of a doc's reference tables: {name, line, marker}. The name column is the one
+    whose cells look like field/element names; markers are 🆕 / ✏️ / 🗑️ anywhere in the row."""
+    tables, cur = [], []
+    for n, l in prose_lines(text, keep_code=True):
+        if l.strip().startswith("|"):
+            cur.append((n, [c.strip() for c in l.strip().strip("|").split("|")]))
+        elif cur:
+            tables.append(cur)
+            cur = []
+    if cur:
+        tables.append(cur)
+    fields = []
+    for t in tables:
+        rows = [(n, cells) for n, cells in t[1:] if not all(re.fullmatch(r":?-{2,}:?", c) or not c for c in cells)]
+        clean = lambda c: re.sub(r"[`*]", "", c).strip()
+        width = max((len(c) for _, c in rows), default=0)
+        score = lambda i: (sum(1 for _, c in rows if i < len(c) and FIELD_RE.match(clean(c[i]))),
+                           sum(1 for _, c in rows if i < len(c) and ":" in clean(c[i])))
+        col = max(range(width), key=score, default=None)
+        if col is None or score(col)[0] * 2 < len(rows):
+            continue
+        for n, cells in rows:
+            name = clean(cells[col]) if col < len(cells) else ""
+            if FIELD_RE.match(name):
+                marker = next((v for k, v in MARKERS.items() if any(k in c for c in cells)), None)
+                fields.append({"name": name, "line": n, "marker": marker})
+    return fields
+
+
+def response_names(text):
+    paths = shape_of(text)
+    return {re.sub(r"\[\]", "", p.replace(".", "/").split("/")[-1]) for p in paths}
+
+
+def cmd_profile_diff(a):
+    """Reference-table fields vs a live response (and, with --previous, the change markers vs the
+    previous version's table)."""
+    doc_text = Path(a.doc).read_text()
+    fields = table_fields(doc_text)
+    names = {f["name"] for f in fields}
+    out = {"documented": len(fields)}
+    if a.response:
+        live = response_names(load_source(a.response))
+        prefixes = [n.split(":")[0] for n in names if ":" in n]
+        scope = a.prefix or (max(set(prefixes), key=prefixes.count) if prefixes else None)
+        local = lambda n: n.split(":")[-1]
+        def found(n):
+            return n in live or (":" not in n and any(local(x) == n for x in live))
+        out["documented_not_returned"] = [f for f in fields if not found(f["name"]) and f["marker"] != "removed"]
+        out["removed_but_returned"] = [f for f in fields if found(f["name"]) and f["marker"] == "removed"]
+        extra = sorted(n for n in live if not n.startswith("@") and (scope is None or n.startswith(scope + ":"))
+                       and n not in names and local(n) not in {local(x) for x in names} and n not in doc_text)
+        out["returned_not_documented"] = extra
+        lower = {x.lower(): x for x in live}
+        out["case_mismatch"] = [{"doc": f["name"], "live": lower[f["name"].lower()]} for f in fields
+                                if f["name"] not in live and f["name"].lower() in lower]
+    if a.previous:
+        prev = table_fields(Path(a.previous).read_text())
+        pnames = {f["name"] for f in prev}
+        plower = {n.lower(): n for n in pnames}
+        out["marked_new_but_in_previous"] = [f for f in fields if f["marker"] == "new" and f["name"] in pnames]
+        out["unmarked_but_not_in_previous"] = [
+            {**f, **({"previous_spelling": plower[f["name"].lower()]} if f["name"].lower() in plower else {})}
+            for f in fields if not f["marker"] and f["name"] not in pnames]
+        out["previous_unmarked_but_gone"] = [f for f in prev if not f["marker"] and f["name"] not in names]
+        out["previous_removed_but_present"] = [f for f in prev if f["marker"] == "removed" and f["name"] in names]
+    print(json.dumps(out, indent=1, ensure_ascii=False))
+
+
+HTTP_METHODS = ("get", "put", "post", "delete", "options", "head", "patch")
+
+
+def openapi_ops(spec):
+    def deref(p):
+        if isinstance(p, dict) and "$ref" in p:
+            node = spec
+            for part in p["$ref"].lstrip("#/").split("/"):
+                node = (node or {}).get(part)
+            return node or {}
+        return p
+    ops = []
+    for path, item in (spec.get("paths") or {}).items():
+        shared = [deref(p) for p in item.get("parameters") or []]
+        for m, op in item.items():
+            if m not in HTTP_METHODS:
+                continue
+            params = shared + [deref(p) for p in op.get("parameters") or []]
+            ops.append({"method": m.upper(), "path": path, "operationId": op.get("operationId"),
+                        "params": [p["name"] + ("*" if p.get("required") else "") for p in params if p.get("name")],
+                        "body": "requestBody" in op,
+                        "safety": classify({"method": m.upper(), "url": path})})
+    return ops
+
+
+def cmd_openapi(a):
+    """Operations of an OpenAPI spec (static/openapi/**); with --live, diff against the spec the
+    service serves (a saved `call` response or a file)."""
+    spec = yaml.safe_load(Path(a.spec).read_text())
+    ops = openapi_ops(spec)
+    out = {"title": (spec.get("info") or {}).get("title"), "version": (spec.get("info") or {}).get("version"),
+           "servers": [s.get("url") for s in spec.get("servers") or []], "operations": ops}
+    if a.live:
+        live = yaml.safe_load(load_source(a.live))
+        lops = openapi_ops(live)
+        key = lambda o: (o["method"], o["path"])
+        mine, theirs = {key(o): o for o in ops}, {key(o): o for o in lops}
+        out = {"version": [out["version"], (live.get("info") or {}).get("version")],
+               "only_in_doc": sorted(f"{m} {p}" for m, p in mine.keys() - theirs.keys()),
+               "only_in_live": sorted(f"{m} {p}" for m, p in theirs.keys() - mine.keys()),
+               "param_diff": [{"op": f"{k[0]} {k[1]}", "doc": mine[k]["params"], "live": theirs[k]["params"]}
+                              for k in mine.keys() & theirs.keys() if mine[k]["params"] != theirs[k]["params"]]}
+    print(json.dumps(out, indent=1))
 
 
 def main():
@@ -923,6 +1341,7 @@ def main():
     p.add_argument("--base", help="prefix for a relative request url, e.g. {VALHALLA_URL}")
     p.add_argument("--no-forward", action="store_true", help="use the public url even for access: forward entries")
     p.add_argument("--no-auth", action="store_true", help="send no token (to check a 'no token needed' claim)")
+    p.add_argument("--run", help="review-runs/<run> dir for saved responses (default $DOCREV_RUN or adhoc)")
     p = sub.add_parser("shape", help="structure (paths) of an XML/JSON file or doc block (doc.md:LINE)")
     p.add_argument("source")
     p = sub.add_parser("shape-diff", help="compare structures of two sources")
@@ -930,6 +1349,19 @@ def main():
     p.add_argument("b")
     p.add_argument("--under", help="compare only below the first element with this name")
     p.add_argument("--ignore", help="regex of paths to ignore")
+    p = sub.add_parser("links", help="broken internal links/anchors in docs")
+    p.add_argument("docs", nargs="+")
+    p = sub.add_parser("refs", help="references to a doc (deleted/renamed) across docs, sidebars, src")
+    p.add_argument("path", help="docs/... path")
+    p.add_argument("--ref", help="git ref to read the doc from when it no longer exists (e.g. the PR base)")
+    p = sub.add_parser("profile-diff", help="reference-table fields vs a live response and/or the previous version")
+    p.add_argument("doc")
+    p.add_argument("--response", help="saved response or doc.md:LINE")
+    p.add_argument("--previous", help="previous version's profile doc, to check 🆕/✏️/🗑️ markers")
+    p.add_argument("--prefix", help="namespace prefix of the profile's fields (default: most common in the table)")
+    p = sub.add_parser("openapi", help="operations of an OpenAPI spec; --live to diff with the served spec")
+    p.add_argument("spec")
+    p.add_argument("--live", help="saved response or file with the live spec")
     p = sub.add_parser("deploy-diff", help="summarize a deployment PR or diff")
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--pr", help="owner/repo#N")
@@ -949,6 +1381,7 @@ def main():
     p.add_argument("--deploy", required=True)
     p.add_argument("--container")
     p.add_argument("--port", type=int, required=True)
+    p.add_argument("--run", help="review-runs/<run> dir for saved responses (default $DOCREV_RUN or adhoc)")
     a = ap.parse_args()
     if a.cmd == "extract":
         doc = extract(a.md)
@@ -961,7 +1394,8 @@ def main():
          "forward": cmd_env_forward, "stop": cmd_env_stop}[a.ecmd](a)
     else:
         {"call": cmd_call, "shape": cmd_shape, "shape-diff": cmd_shape_diff, "deploy-diff": cmd_deploy_diff,
-         "inventory": cmd_inventory, "pod-read": cmd_pod_read, "pod-call": cmd_pod_call}[a.cmd](a)
+         "inventory": cmd_inventory, "pod-read": cmd_pod_read, "pod-call": cmd_pod_call, "links": cmd_links,
+         "refs": cmd_refs, "profile-diff": cmd_profile_diff, "openapi": cmd_openapi}[a.cmd](a)
 
 
 if __name__ == "__main__":

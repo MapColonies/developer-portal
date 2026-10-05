@@ -14,14 +14,23 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
 
 ## 1. Scope
 
-- Docs PR: `gh pr view <N> --json files,headRefName` and take changed `docs/**/*.md(x)`.
-  Read files from the PR head without switching the user's branch:
-  `git fetch origin pull/<N>/head:docrev-pr-<N>` then `git show docrev-pr-<N>:<path>`
-  into `.claude/review-runs/pr-<N>/`.
+- Docs PR: `gh pr view <N> --json files,headRefName,baseRefName` and take changed
+  `docs/**/*.md(x)` and `static/openapi/**`. Read files from the PR head without switching the
+  user's branch: `git fetch origin pull/<N>/head:docrev-pr-<N>` then
+  `git show docrev-pr-<N>:<path>` into `.claude/review-runs/pr-<N>/` (or a detached worktree of
+  the head, so `links`/`refs` see the whole site). Pass `--run pr-<N>` to `call`/`pod-call`
+  (or set `DOCREV_RUN`) so saved responses land in that run's dir.
+- Deleted or renamed docs: on the head, `docrev refs <old path> --ref <base>` lists what still
+  points at the old URL, id or file name (docs, `sidebars.js`, `src/`, site config). Review a
+  `sidebars.js` diff too: every id it adds must exist.
 - Deployment PR (optional, e.g. helm-charts): `gh pr diff` it. Deployment findings are
   anchored to its files/lines.
 - Files that are pure reference (profile tables, enum lists) are still in scope: compare them
   with what the live service returns in the flows that touch them.
+- OpenAPI specs (`static/openapi/**`, rendered by redocusaurus): `docrev openapi <spec>` lists
+  the operations; fetch the spec the service serves (often `/openapi.json` or `/api-docs`) and
+  `docrev openapi <spec> --live <saved>` to diff paths, params and version; call the read
+  operations. A spec the service no longer matches is a doc finding.
 
 ## 2. Environment
 
@@ -79,11 +88,13 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
 ## 4. Execute
 
 Run requests in document order with `docrev call <env> --doc <file> --block <line>`.
-`extract` recognises curl, bare/multi-line KVP URLs, `POST Request` / `url:` / `body:` blocks, and
+`extract` recognises curl, bare/multi-line KVP URLs, `POST Request` / `url:` / `body:` blocks (the
+label may also sit on the line above the fence), and
 XML/JSON bodies whose endpoint is named in the prose just above (`endpoint_from_prose: true`;
 check it picked the right one). A `request-body` block has no endpoint nearby: build the curl
 yourself and pipe it: `echo "curl ..." | docrev call <env>`. A path-only request (`/route?...`)
-needs `--base {VALHALLA_URL}`.
+needs `--base {VALHALLA_URL}`. A `template` block (e.g. `curl --request <http_method>`) is
+syntax, not a request to run.
 
 - **Chaining (flows)**: fill each step's inputs from earlier responses, the way a reader
   would: `--sub <doc value>=<real value>`. E.g. `coverageId=srtm30-DTM` → the real
@@ -97,13 +108,18 @@ needs `--base {VALHALLA_URL}`.
   claim; check it against real ids).
 - **Placeholders** like `[COORD1_X]` / `{SRS_IDENTIFIER}`: fill with valid values derived from
   earlier responses (e.g. a polygon inside a record's footprint).
+- **"Follow link X" steps** have no request block: build the request from the link the doc
+  says to take from the chosen record (`echo "curl '<link>'" | docrev call <env>`); if the
+  record has no such link, the flow breaks at that step.
 - **Environment-specific config is not a doc finding**: size limits, timeouts, hostnames,
   counts. Note the observed value; flag only if the doc's *behaviour* claim is wrong (e.g. the
   error format or status differs).
 - **Safety**: `call` refuses writes (`safety: write`: non-read POST/PUT/PATCH/DELETE). Show
   the user the exact request and run with `--allow-write` only after they say yes, per request.
   For downloads/large files use `--range 1024` (or `--head`) instead of fetching the file.
-  To check a "no token needed" claim, re-run with `--no-auth`.
+  To check a "no token needed" claim, re-run with `--no-auth`. `call` adds the env's token when
+  the request lacks one and reports `token_added: true`: if the page never tells the reader to
+  send a token and the service needs one (re-run with `--no-auth` to confirm), that is a doc finding.
   `access: forward` also reroutes a `--sub` to the public URL; add `--no-forward` to test the public route.
 - **Success** is not just HTTP 200: an `ows:ExceptionReport` (OGC services often return it
   with 200), an empty result where the doc implies results, or a missing link the next step
@@ -119,10 +135,26 @@ For each step/example, check against the doc:
   for any XML/JSON API; `--under` aligns a doc snippet with a full response.
 - Prose claims: defaults ("default interpolation is linear"), optional/required parameters,
   accepted id forms, error messages/status, "save X for step N" actually being needed/usable.
-- Reference pages (catalog profiles, enums) vs fields actually returned/queryable. Try
-  filtering on newly documented fields.
+- Reference pages (catalog profiles, enums) vs fields actually returned/queryable:
+  `docrev profile-diff <doc> --response <saved record> [--previous <previous version doc>]`
+  lists documented-but-not-returned, returned-but-undocumented and case mismatches, and with
+  `--previous` checks the 🆕/✏️/🗑️ markers. A field missing from one record may just be empty
+  there; check another before calling it a finding. Try filtering on newly documented fields.
 - Writing: typos, wrong API names in client snippets, inconsistent names across pages,
-  empty table cells, broken internal links/anchors (check the anchor exists).
+  empty table cells. Links: `docrev links <docs...>` resolves internal URLs, relative files,
+  static assets and anchors (the site builds with `onBrokenLinks: warn`, so nothing else catches them).
+
+### Content that isn't a request
+
+- Client-library snippets (Cesium, OpenLayers, Leaflet): check API names and constructor
+  usage against the library version the page names, and that values the snippet uses (URLs,
+  tokens, coordinates) match earlier steps. Mark it unverified unless you ran it.
+- Prose-only pages: writing, links and consistency with other pages only.
+- Screenshots: compare what they show (names, fields, versions) with the text and live
+  responses; a stale screenshot is a doc finding.
+- Embedded playgrounds (`PlaygroundFrame`): check the URL they load and its parameters.
+- Async steps ("wait for the callback"): poll a status endpoint if the doc gives one;
+  otherwise mark the step unverified.
 
 Open `saved` response files when the summary isn't enough; don't dump them into the chat.
 
