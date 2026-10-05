@@ -292,8 +292,19 @@ class AuthAndEnvTest(unittest.TestCase):
 
 
     def test_host_allowlist(self):
-        self.assertEqual(docrev.env_hosts(self.ENV) >= {"cat", "geo", "localhost"}, True)
+        self.assertEqual(docrev.env_hosts(self.ENV) >= {"cat", "geo"}, True)
         self.assertNotIn("ows.terrestris.de", docrev.env_hosts(self.ENV))
+        self.assertIsNone(docrev.target_error(self.ENV, "https://cat/csw"))
+        self.assertIn("error", docrev.target_error(self.ENV, "https://ows.terrestris.de/wms"))
+
+    def test_localhost_only_through_forwards(self):
+        self.assertIn("error", docrev.target_error(self.ENV, "http://localhost:8080/csw"))
+        self.assertIn("error", docrev.target_error(ResolveTest.ENV, "http://127.0.0.1:8080/csw"))
+        self.assertIsNone(docrev.target_error(ResolveTest.ENV, "http://127.0.0.1:18081/api/v2/csw"))
+
+    def test_namespace_per_placeholder(self):
+        env = {"namespace": "dem-dev", "placeholders": {"A": {"url": "https://a"}, "B": {"url": "https://b", "namespace": "3d-dev"}}}
+        self.assertEqual([docrev.ns_of(env, e) for e in env["placeholders"].values()], ["dem-dev", "3d-dev"])
 
 
 class ExtractEdgeTest(unittest.TestCase):
@@ -387,6 +398,19 @@ class ExtractEdgeTest(unittest.TestCase):
             ```
             """)
         self.assertEqual(blocks[0]["role"], "request-body")
+
+    def test_ogc_operation_body_without_request_prose(self):
+        blocks = self.extract("""\
+            Records of a given type:
+            ```xml
+            <csw:GetRecords service="CSW" version="2.0.2"/>
+            ```
+            And what comes back:
+            ```xml
+            <csw:GetRecordsResponse/>
+            ```
+            """)
+        self.assertEqual([b["role"] for b in blocks], ["request-body", "xml"])
 
     def test_plain_response_label(self):
         blocks = self.extract("""\

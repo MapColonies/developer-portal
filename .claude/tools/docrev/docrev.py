@@ -235,8 +235,10 @@ def extract(md_path):
                 else:
                     req = labeled_request(content) or bare_url_request(content)
                 prose = "\n".join(lines[max(0, start - 7):start - 1])
-                is_body = lang == "json" or (lang == "xml" and XML_OPERATION_RE.match(xml_root(content) or ""))
-                if not req and is_body and re.search(r"request|body|payload", prose, re.I):
+                root = xml_root(content) or "" if lang == "xml" else ""
+                is_operation = bool(XML_OPERATION_RE.match(root)) and not root.endswith("Response")
+                # An OGC operation root (`csw:GetRecords`) is a request body however the prose words it.
+                if not req and (is_operation or lang == "json" and re.search(r"request|body|payload", prose, re.I)):
                     hint = endpoint_hint(prose)
                     try:
                         req = body_request(*hint, content) if hint else None
@@ -335,20 +337,28 @@ def cmd_env_discover(a):
     print(json.dumps(out, indent=2))
 
 
+def ns_of(env, e):
+    # A flow can span namespaces (DEM terrain served to the 3D catalog), so an entry may name its own.
+    return e.get("namespace") or env["namespace"]
+
+
 def cmd_env_check(a):
     env = load_env(a.env)
-    ns = env["namespace"]
     findings = []
     who = oc("whoami")
     if who.returncode:
         print(json.dumps([{"kind": "env", "issue": "not logged in to cluster", "detail": who.stderr.strip()}]))
         return
-    routes = {r["metadata"]["name"]: r for r in
-              json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", [])}
+    routes_by_ns = {}
     for ph, e in (env.get("placeholders") or {}).items():
+        ns = ns_of(env, e)
+        if ns not in routes_by_ns:
+            routes_by_ns[ns] = {r["metadata"]["name"]: r for r in
+                                json.loads(oc("get", "routes", "-n", ns, "-o", "json").stdout or "{}").get("items", [])}
+        routes = routes_by_ns[ns]
         r = routes.get(e.get("route")) if e.get("route") else None
         if e.get("route") and not r:
-            findings.append({"kind": "env", "placeholder": ph, "issue": f"route {e['route']} missing"})
+            findings.append({"kind": "env", "placeholder": ph, "issue": f"route {e['route']} missing in {ns}"})
         elif r:
             cond = (r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
             if cond[0].get("status") != "True":
@@ -389,7 +399,7 @@ def cmd_env_forward(a):
             continue
         ok = False
         for _ in range(10):
-            p = subprocess.Popen(["oc", "port-forward", "-n", env["namespace"], f"svc/{f['service']}", f"{lp}:{f['port']}"],
+            p = subprocess.Popen(["oc", "port-forward", "-n", ns_of(env, e), f"svc/{f['service']}", f"{lp}:{f['port']}"],
                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
             for _ in range(10):
                 if port_open(lp):
@@ -556,9 +566,9 @@ def cmd_call(a):
         req["url"] = a.base.rstrip("/") + req["url"]
     url = resolve_url(env, req["url"], forward=not getattr(a, "no_forward", False))
     # The token goes only to the env's own services, never to a third-party example host.
-    host = (urllib.parse.urlsplit(url).hostname or "").lower()
-    if host and host not in env_hosts(env):
-        sys.exit(json.dumps({"error": "host is not in this env; add it to `hosts` if it is ours", "host": host}))
+    err = target_error(env, url)
+    if err:
+        sys.exit(json.dumps(err))
     headers = apply_auth(env, tok, req.get("headers") or {})
     tsrc = env.get("token") or {}
     if tok:
@@ -605,10 +615,23 @@ def cmd_call(a):
 
 
 def env_hosts(env):
-    hosts = {"localhost", "127.0.0.1", *(h.lower() for h in env.get("hosts") or [])}
+    hosts = {h.lower() for h in env.get("hosts") or []}
     for e in (env.get("placeholders") or {}).values():
         hosts.add((urllib.parse.urlsplit(e["url"]).hostname or "").lower())
     return hosts
+
+
+def target_error(env, url):
+    parts = urllib.parse.urlsplit(url)
+    host = (parts.hostname or "").lower()
+    if host in ("localhost", "127.0.0.1", "::1"):
+        # Docs hardcode `localhost:8080` examples; only this env's own port-forwards are ours.
+        ports = {(e.get("forward") or {}).get("local_port") for e in (env.get("placeholders") or {}).values()}
+        if parts.port not in ports - {None}:
+            return {"error": "localhost is reachable only through this env's forwards", "host": host, "port": parts.port}
+    elif host and host not in env_hosts(env):
+        return {"error": "host is not in this env; add it to `hosts` if it is ours", "host": host}
+    return None
 
 
 def apply_auth(env, tok, headers):

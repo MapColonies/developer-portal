@@ -36,7 +36,7 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
   headers: {x-user-id: <value>}                   # sent on every request; also fills `<x-user-id>` in docs
   read_posts: ['/search/', '/route$']             # POST paths the user confirmed have no side effects
   read_only: true                                 # e.g. prod: docrev refuses writes even with --allow-write
-  hosts: [other.example]                          # our hosts reached only via chained links; `call` sends nothing elsewhere
+  hosts: [other.example]                          # our hosts reached only via chained links; `call` sends nothing elsewhere (localhost only via this env's forwards)
   insecure: true                                  # self-signed dev certs
   ca_file: ~/path/chain.pem                       # instead of insecure, when a server omits its intermediate
   placeholders:
@@ -45,6 +45,7 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
       route: <route name>
       access: forward                             # route | forward
       forward: {service: <svc>, port: 8080, local_port: 18081, path: /<path>}
+      namespace: <other ns>                       # only when this entry is served outside `namespace`
       aliases: [dem_catalog_url]                  # other spellings pages use for the same entry point
   ```
   Placeholder names match case- and `-`/`_`-insensitively (`<RASTER-CATALOG-SERVICE_URL>` ≡
