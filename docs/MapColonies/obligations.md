@@ -19,7 +19,7 @@ Here we detail the must-haves for every application that wishes to work with our
 
 ## Application Startup
 
-When your application is loaded or refreshed you are required make a request to our `catalog` services in order to fetch **up-to-date information**. Caching the request may result in errors due to changed metadata and links, new products or even deleted products that don't exist anymore.
+When your application is loaded or refreshed you are required to make a request to our `catalog` services in order to fetch **up-to-date information**. Caching the request may result in errors due to changed metadata and links, new products or even deleted products that don't exist anymore.
 
 ## Catalog items
 

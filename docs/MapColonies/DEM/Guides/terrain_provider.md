@@ -28,14 +28,12 @@ flowchart LR
     subgraph  Metadata drill-down
       direction LR
       c1[STEP 2<br/>Get DEM metadata]
-      c2[STEP 2.1 optional<br/>Get terrain provider URI]
+      c2[STEP 2.1<br/>Get terrain provider URI]
     end
     B -- xml --> c1
     B -- xml --> c2
-    c1 -. <i>IN DEVELOPMENT</i> <br/>metadata<br/>of available for <b>export</b> data .-> E[STEP 3<br/>Your system]
     c2 -- terrain_URI --> D[STEP 3.1<br/>Cesium]
 
-    linkStyle 4 color:green,stroke:#f4cccc,stroke-width:5px %% Arrow 
 ```
 
 ## Query CSW catalog (Step 1)

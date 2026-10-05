@@ -16,7 +16,7 @@ tags:
 3. The **DEM** sub-system Catalog profile fields with information of each of them:
 
 :::info
-**Changes from last version** column: 🆕 added, blank = unchanged.
+**Changes from last version** column: 🆕 added, ✏️ renamed, blank = unchanged.
 :::
 
 | **Changes from last version** | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
@@ -31,12 +31,12 @@ tags:
 | | mc:footprint | geojson | geographical delineation of the product / model trace |
 | | ows:BoundingBox | bbox | two points that represent the record extent |
 | 🆕 | mc:srsId | text | reference system ID (EPSG), <br/> ex: 4326 / 3857 |
-| | mc:srsName | text | name of reference system |
-| 🆕 | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
+| ✏️ | mc:srsName | text | name of reference system <br/> renamed from v1 `mc:SRSName` |
+| | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
 | | mc:region | text | sector / countries <br/> comma separated list |
-| | mc:insertDateUTC | date | the date when the product was added to catalog <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
-| | mc:ingestionDateUTC | date | when last was the **data** or **parts** updated <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
+| ✏️ | mc:insertDateUTC | date | the date when the product was added to catalog <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** <br/> renamed from v1 `mc:insertDate` |
+| 🆕 | mc:ingestionDateUTC | date | when last was the **data** or **parts** updated <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | | mc:updateDateUTC | date | when last was the MD updated <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | 🆕 | mc:acquisitionTimeBeginUTC | date | Start acquisition time (UTC time) of raw product<br/>Supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | 🆕 | mc:acquisitionTimeEndUTC | date | End acquisition time (UTC time) of raw product<br/>Supported format: **yyyy-mm-ddThh:mm:ssZ** |
@@ -51,7 +51,7 @@ tags:
 | 🆕 | mc:minHorizontalAccuracyCEP90 | double | CEP90 min horizontal plane accuracy range in meters |
 | 🆕 | mc:maxHorizontalAccuracyCEP90 | double | CEP90 max horizontal plane accuracy range in meters |
 | 🆕 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
-| 🆕 | mc:links | text | Available links for different services available for the current product |
+| | mc:links | text | Available links for different services available for the current product |
 | | mc:classification | text | product classification / confidentiality <br/> Classification values should be numbers between 0 and 100 |
 | | mc:producerName | text | manufacturer / organization that produced / supplied the product |
 | | mc:noDataValue | double | **Valid Values**: <br/> -32768 |

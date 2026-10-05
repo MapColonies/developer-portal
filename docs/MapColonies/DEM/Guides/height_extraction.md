@@ -336,7 +336,7 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 ```
 </TabItem>
 <TabItem value="PolygonFilter" label="Polygon">
-Fetch all products with productType DTM and intersect with a given Polygon.
+Fetch all products with productType DTM that intersect a given Polygon.
 :::info
 A polygon must contain **at least 4 points**, where the first and last point are identical (a closed ring). Any number of additional points is allowed.
 
@@ -440,7 +440,7 @@ Fields you may want to filter by:
 | **Field name / Partial name** | **Filter purpose** |
 | ----------- | ----------- |
 | footprint | Specific geographical area |
-| ...Accuracy... | |
+| ...Accuracy... | Min and Max vertical (LEP90) / horizontal (CEP90) accuracy |
 | ...Resolution... | Min and Max resolution |
 | productType | Specific product type (for example: only DTM) |
 | srsId / srsName | Wanted horizontal SRS |

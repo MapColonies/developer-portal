@@ -105,8 +105,8 @@ Create an instance of `Cesium.CesiumTerrainProvider`, providing the base `URL` o
 const terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
     'https://your.custom.terrain.server/path/to/tiles/', // CRITICAL: This URL must be replaced with the actual URL of the custom Quantized Mesh terrain server.
     {
-        requestVertexNormals: false,      // Optional: The fetching of vertex normals is to be enabled for enhanced lighting.
-        requestWaterMask: false           // Optional: The fetching of water masks is to be enabled for accurate water rendering.
+        requestVertexNormals: false,      // Optional: set to true to fetch vertex normals for enhanced lighting.
+        requestWaterMask: false           // Optional: set to true to fetch water masks for accurate water rendering.
     }
 );
 ```
@@ -157,6 +157,8 @@ Refer to the example below for cesium query / header mapcolonies' token configur
 <body>
     <div id="cesiumContainer"></div>
     <script>
+        const MAPCOLONIES_TOKEN = '<token>'; // Replace with your token, see the Authentication page.
+
         // The Cesium Viewer is to be initialized.
         const viewer = new Cesium.Viewer('cesiumContainer', {
             // Optional: The default imagery layer picker may be disabled if manual imagery management is intended.
@@ -169,12 +171,10 @@ Refer to the example below for cesium query / header mapcolonies' token configur
         // Create the CesiumTerrainProvider instance, referencing the custom Quantized Mesh server.
         // CRITICAL: The placeholder 'https://your.custom.terrain.server/path/to/tiles/' must be substituted with the actual URL from MapColonies 3D / DEM Catalog!
         Cesium.CesiumTerrainProvider.fromUrl(
-            'https://your.custom.terrain.server/path/to/tiles/',
-            // new Cesium.Resource({
-            //      url: '<TERRAIN_SERVER_URL>',
-            //      headers: { 'x-api-key': MAPCOLONIES_TOKEN },       // choose either header or query
-            //      queryParameters: { 'token': MAPCOLONIES_TOKEN },   // choose either header or query
-            // }),
+            new Cesium.Resource({
+                url: 'https://your.custom.terrain.server/path/to/tiles/',
+                queryParameters: { 'token': MAPCOLONIES_TOKEN },   // or headers: { 'x-api-key': MAPCOLONIES_TOKEN }
+            }),
             {
                 requestVertexNormals: true       // Vertex normals are to be requested for enhanced lighting and shading.
             }

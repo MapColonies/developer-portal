@@ -53,5 +53,5 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | 🗑️ | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | ✏️ | mc:insertDate | date | the date when item was added to catalog <br/> renamed in v2 to `mc:insertDateUTC` |
 | | mc:keywords | text | list of key words relevant for product |
-| | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
+| | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_DEM***|
