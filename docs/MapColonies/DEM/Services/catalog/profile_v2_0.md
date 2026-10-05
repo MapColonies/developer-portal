@@ -29,17 +29,17 @@ tags:
 | 🆕 | mc:productVersion | int | the product version |
 | | mc:description | text | the product description |
 | | mc:footprint | geojson | geographical delineation of the product / model trace |
-| | mc:BoundingBox | bbox | two points that represent the record extent |
+| | ows:BoundingBox | bbox | two points that represent the record extent |
 | 🆕 | mc:srsId | text | reference system ID (EPSG), <br/> ex: 4326 / 3857 |
 | | mc:srsName | text | name of reference system |
 | 🆕 | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
 | | mc:region | text | sector / countries <br/> comma separated list |
-| | mc:insertDateUTC | date | the date when the product was added to catalog <br/> supported format: **dd-mm-yyyyThh:mm:ssZ** |
-| | mc:ingestionDateUTC | date | when last was the **data** or **parts** updated <br/> supported format: **dd-mm-yyyyThh:mm:ssZ** |
-| | mc:updateDateUTC | date | when last was the MD updated <br/> supported format: **dd-mm-yyyyThh:mm:ssZ** |
-| 🆕 | mc:acquisitionTimeBeginUTC | date | Start acquisition time (UTC time) of raw product<br/>Supported format: **dd-mm-yyyyThh:mm:ssZ** |
-| 🆕 | mc:acquisitionTimeEndUTC | date | End acquisition time (UTC time) of raw product<br/>Supported format: **dd-mm-yyyyThh:mm:ssZ** |
+| | mc:insertDateUTC | date | the date when the product was added to catalog <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
+| | mc:ingestionDateUTC | date | when last was the **data** or **parts** updated <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
+| | mc:updateDateUTC | date | when last was the MD updated <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
+| 🆕 | mc:acquisitionTimeBeginUTC | date | Start acquisition time (UTC time) of raw product<br/>Supported format: **yyyy-mm-ddThh:mm:ssZ** |
+| 🆕 | mc:acquisitionTimeEndUTC | date | End acquisition time (UTC time) of raw product<br/>Supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | 🆕 | mc:minResolutionDegree | double | the product min resolution in degrees |
 | 🆕 | mc:maxResolutionDegree | double | the product max resolution in degrees |
 | 🆕 | mc:minResolutionMeter | double | the product min resolution in meters |

@@ -42,7 +42,7 @@ flowchart LR
 
 :::info
 
-The terrain provider link is available in both the `3D catalog` and the `DEM catalog`.
+The terrain provider link is available in both the `3D catalog` and the DEM **v1** catalog (`/api/dem/v1`). DEM v2 records do not carry terrain links.
 
 :::
 

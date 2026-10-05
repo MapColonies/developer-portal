@@ -409,24 +409,6 @@ request=GetCapabilities
                 </ows:WGS84BoundingBox>
             </wcs:CoverageSummary>
             <wcs:CoverageSummary>
-                <ows:Title>product</ows:Title>
-                <ows:Keywords>
-                    <ows:Keyword>product</ows:Keyword>
-                    <ows:Keyword>WCS</ows:Keyword>
-                    <ows:Keyword>GeoTIFF</ows:Keyword>
-                </ows:Keywords>
-                <wcs:CoverageId>dem__product</wcs:CoverageId>
-                <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
-                <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/32636">
-                    <ows:LowerCorner>473139.25219177455 3230615.3954787063</ows:LowerCorner>
-                    <ows:UpperCorner>873608.5831505858 3831319.391916923</ows:UpperCorner>
-                </ows:BoundingBox>
-                <ows:WGS84BoundingBox>
-                    <ows:LowerCorner>32.70697763422942 29.149161895068794</ows:LowerCorner>
-                    <ows:UpperCorner>37.071150249328454 34.62339561526329</ows:UpperCorner>
-                </ows:WGS84BoundingBox>
-            </wcs:CoverageSummary>
-            <wcs:CoverageSummary>
                 <ows:Title>srtm30-DTM</ows:Title>
                 <ows:Keywords>
                     <ows:Keyword>srtm30-DTM</ows:Keyword>
@@ -450,7 +432,7 @@ request=GetCapabilities
     ```
 </details>
 
-This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** response (the following pictures contains the **dem__gt30e020n40** layer related sub-section).
+This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** response (the following picture shows a single coverage's sub-section).
 <figure>
     <img src={require("/img/getcap_wcs_example.png").default} style={{"display":"block","margin-left":"auto","margin-right":"auto","width":"80%"}} />
 </figure>
@@ -466,7 +448,7 @@ This request shows an XML file containing the WCS 2.0.1 ***GetCapabilities*** re
 | Contents | Information about the available coverages. |
 
 ## DescribeCoverage
-The purpose of the **DescribeCoverage** request is to additional information about a Coverage a client wants to query. It returns information about the crs, the metadata, the domain, the range and the formats it is available in. A client generally will need to issue a DescribeCoverage request before being sure it can make the proper GetCoverage request
+The purpose of the **DescribeCoverage** request is to get additional information about a Coverage a client wants to query. It returns information about the crs, the metadata, the domain, the range and the formats it is available in. A client generally will need to issue a DescribeCoverage request before being sure it can make the proper GetCoverage request
 
 ### Version 1.0.0
 
@@ -475,94 +457,84 @@ The purpose of the **DescribeCoverage** request is to additional information abo
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
-COVERAGE=n30_e034_1arc_v3
+COVERAGE=srtm30-DTM
 ```
 
 <details>
   <summary>Response example</summary>
   ``` xml
    <?xml version="1.0" encoding="UTF-8"?>
-    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
+    <wcs:CoverageDescription xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs {WCS_SERVICE_URL}/schemas/wcs/1.0.0/describeCoverage.xsd" version="1.0.0">
       <wcs:CoverageOffering>
-          <wcs:description>Generated from GeoTIFF</wcs:description>
-          <wcs:name>dem:n30_e034_1arc_v3</wcs:name>
-          <wcs:label>n30_e034_1arc_v3</wcs:label>
-          <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
-            <gml:pos>33.99986111111111 29.999861111111112</gml:pos>
-            <gml:pos>35.000138888888884 31.00013888888889</gml:pos>
-          </wcs:lonLatEnvelope>
-          <wcs:keywords>
-            <wcs:keyword>n30_e034_1arc_v3</wcs:keyword>
-            <wcs:keyword>WCS</wcs:keyword>
-            <wcs:keyword>GeoTIFF</wcs:keyword>
-          </wcs:keywords>
-          <wcs:domainSet>
-            <wcs:spatialDomain>
-                <gml:Envelope srsName="EPSG:4326">
-                  <gml:pos>33.99986111111111 29.999861111111112</gml:pos>
-                  <gml:pos>35.000138888888884 31.00013888888889</gml:pos>
-                </gml:Envelope>
-                <gml:RectifiedGrid dimension="2" srsName="EPSG:4326">
-                  <gml:limits>
-                      <gml:GridEnvelope>
-                        <gml:low>0 0</gml:low>
-                        <gml:high>3600 3600</gml:high>
-                      </gml:GridEnvelope>
-                  </gml:limits>
-                  <gml:axisName>x</gml:axisName>
-                  <gml:axisName>y</gml:axisName>
-                  <gml:origin>
-                      <gml:pos>34.0 31.000000000000004</gml:pos>
-                  </gml:origin>
-                  <gml:offsetVector>2.777777777777778E-4 0.0</gml:offsetVector>
-                  <gml:offsetVector>0.0 -2.777777777777778E-4</gml:offsetVector>
-                </gml:RectifiedGrid>
-            </wcs:spatialDomain>
-          </wcs:domainSet>
-          <wcs:rangeSet>
-            <wcs:RangeSet>
-                <wcs:name>n30_e034_1arc_v3</wcs:name>
-                <wcs:label>n30_e034_1arc_v3</wcs:label>
-                <wcs:axisDescription>
-                  <wcs:AxisDescription>
-                      <wcs:name>Band</wcs:name>
-                      <wcs:label>Band</wcs:label>
-                      <wcs:values>
-                        <wcs:singleValue>1</wcs:singleValue>
-                      </wcs:values>
-                  </wcs:AxisDescription>
-                </wcs:axisDescription>
-            </wcs:RangeSet>
-          </wcs:rangeSet>
-          <wcs:supportedCRSs>
-            <wcs:requestResponseCRSs>EPSG:4326</wcs:requestResponseCRSs>
-          </wcs:supportedCRSs>
-          <wcs:supportedFormats nativeFormat="GeoTIFF">
-            <wcs:formats>AIG</wcs:formats>
-            <wcs:formats>ArcGrid</wcs:formats>
-            <wcs:formats>DTED</wcs:formats>
-            <wcs:formats>EHdr</wcs:formats>
-            <wcs:formats>ENVIHdr</wcs:formats>
-            <wcs:formats>ERDASImg</wcs:formats>
-            <wcs:formats>GeoTIFF</wcs:formats>
-            <wcs:formats>GIF</wcs:formats>
-            <wcs:formats>GeoPackage (mosaic)</wcs:formats>
-            <wcs:formats>ImageMosaic</wcs:formats>
-            <wcs:formats>ImagePyramid</wcs:formats>
-            <wcs:formats>JPEG</wcs:formats>
-            <wcs:formats>NITF</wcs:formats>
-            <wcs:formats>PNG</wcs:formats>
-            <wcs:formats>RPFTOC</wcs:formats>
-            <wcs:formats>RST</wcs:formats>
-            <wcs:formats>SRP</wcs:formats>
-            <wcs:formats>TIFF</wcs:formats>
-            <wcs:formats>VRT</wcs:formats>
-          </wcs:supportedFormats>
-          <wcs:supportedInterpolations default="nearest neighbor">
-            <wcs:interpolationMethod>nearest neighbor</wcs:interpolationMethod>
-            <wcs:interpolationMethod>bilinear</wcs:interpolationMethod>
-            <wcs:interpolationMethod>bicubic</wcs:interpolationMethod>
-          </wcs:supportedInterpolations>
+        <wcs:description>Generated from GeoTIFF</wcs:description>
+        <wcs:name>dem:srtm30-DTM</wcs:name>
+        <wcs:label>srtm30</wcs:label>
+        <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+          <gml:pos>34.716796875 32.16796875</gml:pos>
+          <gml:pos>35.68359375 32.958984375</gml:pos>
+        </wcs:lonLatEnvelope>
+        <wcs:keywords>
+          <wcs:keyword>srtm30</wcs:keyword>
+          <wcs:keyword>WCS</wcs:keyword>
+          <wcs:keyword>GeoTIFF</wcs:keyword>
+        </wcs:keywords>
+        <wcs:domainSet>
+          <wcs:spatialDomain>
+            <gml:Envelope srsName="EPSG:4326">
+              <gml:pos>34.716796875 32.16796875</gml:pos>
+              <gml:pos>35.68359375 32.958984375</gml:pos>
+            </gml:Envelope>
+            <gml:RectifiedGrid dimension="2" srsName="EPSG:4326">
+              <gml:limits>
+                <gml:GridEnvelope>
+                  <gml:low>0 0</gml:low>
+                  <gml:high>2815 2303</gml:high>
+                </gml:GridEnvelope>
+              </gml:limits>
+              <gml:axisName>x</gml:axisName>
+              <gml:axisName>y</gml:axisName>
+              <gml:origin>
+                <gml:pos>34.71696853637695 32.95881271362305</gml:pos>
+              </gml:origin>
+              <gml:offsetVector>3.4332275390625E-4 0.0</gml:offsetVector>
+              <gml:offsetVector>0.0 -3.4332275390625E-4</gml:offsetVector>
+            </gml:RectifiedGrid>
+          </wcs:spatialDomain>
+        </wcs:domainSet>
+        <wcs:rangeSet>
+          <wcs:RangeSet>
+            <wcs:name>srtm30-DTM</wcs:name>
+            <wcs:label>srtm30</wcs:label>
+            <wcs:axisDescription>
+              <wcs:AxisDescription>
+                <wcs:name>Band</wcs:name>
+                <wcs:label>Band</wcs:label>
+                <wcs:values>
+                  <wcs:singleValue>1</wcs:singleValue>
+                </wcs:values>
+              </wcs:AxisDescription>
+            </wcs:axisDescription>
+          </wcs:RangeSet>
+        </wcs:rangeSet>
+        <wcs:supportedCRSs>
+          <wcs:requestResponseCRSs>EPSG:4326</wcs:requestResponseCRSs>
+        </wcs:supportedCRSs>
+        <wcs:supportedFormats nativeFormat="GeoTIFF">
+          <wcs:formats>ArcGrid</wcs:formats>
+          <wcs:formats>GeoTIFF</wcs:formats>
+          <wcs:formats>GIF</wcs:formats>
+          <wcs:formats>GeoPackage (mosaic)</wcs:formats>
+          <wcs:formats>ImageMosaic</wcs:formats>
+          <wcs:formats>ImagePyramid</wcs:formats>
+          <wcs:formats>JPEG</wcs:formats>
+          <wcs:formats>PNG</wcs:formats>
+          <wcs:formats>TIFF</wcs:formats>
+        </wcs:supportedFormats>
+        <wcs:supportedInterpolations default="nearest neighbor">
+          <wcs:interpolationMethod>nearest neighbor</wcs:interpolationMethod>
+          <wcs:interpolationMethod>bilinear</wcs:interpolationMethod>
+          <wcs:interpolationMethod>bicubic</wcs:interpolationMethod>
+        </wcs:supportedInterpolations>
       </wcs:CoverageOffering>
     </wcs:CoverageDescription>
   ```
@@ -691,4 +663,4 @@ subset=Lat(32.35306,32.49437)&
 subset=Long(35.13102,35.37051)
 ```
 
-With this request we have successfully fetched data/image for **n30_e034_1arc_v3** layer for **EPSG:4326** projection and for defined **BBOX**! :tada:
+With this request we have successfully fetched data/image for **srtm30-DTM** coverage for **EPSG:4326** projection and for defined **BBOX**! :tada:

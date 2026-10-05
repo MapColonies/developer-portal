@@ -18,7 +18,7 @@ tags:
 :::warning
 New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) is coming!
 
-**Changes in next version** column: 🗑️ removed in v2, blank = unchanged.
+**Changes in next version** column: 🗑️ removed in v2, ✏️ renamed in v2, blank = unchanged.
 :::
 
 | **Changes in next version** | **PYCSW Queryable/XML <br/> Element Name** | **Type** | **Description** |
@@ -40,7 +40,7 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | 🗑️ | mc:heightRangeFrom | double | **minimum** height range in Meters (not greater than "heightRangeTo") <br /> valid: **-500 to 9000** |
 | 🗑️ | mc:heightRangeTo | double | **maximum** height range in Meters (not less than "heightRangeFrom") <br /> valid: **-500 to 9000** |
 | 🗑️ | mc:SRS | int | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
-| | mc:SRSName | text | name of reference system |
+| ✏️ | mc:SRSName | text | name of reference system <br/> renamed in v2 to `mc:srsName` |
 | 🗑️ | mc:verticalDatum | enum  | **Valid Values**: <br/> WGS 1984 / WGS 1972 / Pulkovo 1942 / MSL Height / Israel |
 | | mc:region | text | sector / countries <br/> comma separated list |
 | | mc:classification | enum  | product classification / confidentiality <br /> Classification values |
@@ -51,7 +51,7 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | | mc:dataType | enum |  **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | | mc:noDataValue | enum |  **Valid Values**: <br/> -32768 / -326767 / -999 |
 | 🗑️ | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
-| | mc:insertDate | date | the date when item was added to catalog |
+| ✏️ | mc:insertDate | date | the date when item was added to catalog <br/> renamed in v2 to `mc:insertDateUTC` |
 | | mc:keywords | text | list of key words relevant for product |
 | | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **dd/mm/yyyy** |
 | | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_DEM***|
