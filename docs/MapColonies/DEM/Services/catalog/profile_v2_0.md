@@ -48,8 +48,8 @@ tags:
 | 🆕 | mc:maxAbsoluteAccuracyLEP90 | double | LEP90 max absolute vertical plane accuracy range in meters |
 | 🆕 | mc:minRelativeAccuracyLEP90 | double | LEP90 min relative vertical plane accuracy range in meters |
 | 🆕 | mc:maxRelativeAccuracyLEP90 | double | LEP90 max relative vertical plane accuracy range in meters |
-| 🆕 | mc:minHorizontalAccuracyCEP90 | double | |
-| 🆕 | mc:maxHorizontalAccuracyCEP90 | double | |
+| 🆕 | mc:minHorizontalAccuracyCEP90 | double | CEP90 min horizontal plane accuracy range in meters |
+| 🆕 | mc:maxHorizontalAccuracyCEP90 | double | CEP90 max horizontal plane accuracy range in meters |
 | 🆕 | mc:areaOrPoint | enum | Describes if pixel is “Area” or “Point” |
 | 🆕 | mc:links | text | Available links for different services available for the current product |
 | | mc:classification | text | product classification / confidentiality <br/> Classification values should be numbers between 0 and 100 |

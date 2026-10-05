@@ -145,7 +145,7 @@ For our case:
 
 ```xml title="Extract link for terrain provider"
 <mc:links scheme="TERRAIN_QMESH" name="">
-  {TERRAIN_URL}/terrains/srtm100
+  https://tiles.mapcolonies.net/api/dem/v1/terrains/srtm100
 </mc:links>
 ```
 
@@ -158,7 +158,7 @@ Now let's see how we can load the provider in our application.
 **Below examples are based on `Pseudo code`, you will have to adapt it in your own application to make it work.**
 :::
 
-### Cesium
+### Cesium (Step 3.1)
 
 :::info
 **The minimum required version for cesium is v1.104.**

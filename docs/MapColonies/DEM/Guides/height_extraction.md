@@ -38,8 +38,11 @@ flowchart LR
     end
 
     c[<b>Step 1</b><br/>Catalog] --> d
-    d[<b>Step 2</b><br/>Get Capabilities] --> e
-    e[<b>Step 2</b><br/>Describe Coverage] --> f
+    subgraph s2 [<b>Step 2</b> Get metadata]
+      direction LR
+      d[Get Capabilities] --> e[Describe Coverage]
+    end
+    e --> f
     f[<b>Step 3</b><br/>Get Coverage]
 
     sub1 -- request --> c
@@ -89,6 +92,9 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
+                <mc:keywords>product</mc:keywords>
+                <mc:keywords>DSM</mc:keywords>
+                <mc:keywords>EPSG:4326</mc:keywords>
                 <mc:links scheme="WCS" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
                 <mc:links scheme="WCS_BASE" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
                 <mc:links scheme="WFS_BASE" name="product-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
@@ -180,6 +186,9 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:id>e2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T10:17:16Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2020-12-31T11:00:00Z</mc:insertDateUTC>
+                <mc:keywords>product</mc:keywords>
+                <mc:keywords>DSM</mc:keywords>
+                <mc:keywords>EPSG:4326</mc:keywords>
                 <mc:links scheme="WCS" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
                 <mc:links scheme="WCS_BASE" name="product-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
                 <mc:links scheme="WFS_BASE" name="product-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
@@ -257,10 +266,13 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
                 <mc:id>d2d812ba-40b7-4dfe-b3e7-869356467d3a</mc:id>
                 <mc:ingestionDateUTC>2025-12-31T09:55:51Z</mc:ingestionDateUTC>
                 <mc:insertDateUTC>2025-12-31T11:00:00Z</mc:insertDateUTC>
-                <mc:links scheme="WCS" name="srtm30-DSM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
-                <mc:links scheme="WCS_BASE" name="srtm30-DSM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
-                <mc:links scheme="WFS_BASE" name="srtm30-DSM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
-                <mc:links scheme="Download" name="srtm30-DSM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
+                <mc:keywords>srtm30</mc:keywords>
+                <mc:keywords>DTM</mc:keywords>
+                <mc:keywords>EPSG:4326</mc:keywords>
+                <mc:links scheme="WCS" name="srtm30-DTM" description="">{WCS_SERVICE_URL}/wcs?request=GetCapabilities</mc:links>
+                <mc:links scheme="WCS_BASE" name="srtm30-DTM" description="">{WCS_SERVICE_URL}/wcs</mc:links>
+                <mc:links scheme="WFS_BASE" name="srtm30-DTM" description="">{WFS_SERVICE_URL}/wfs?request=GetCapabilities</mc:links>
+                <mc:links scheme="Download" name="srtm30-DTM" description="">{DOWNLOAD_SERVICE_URL}/path/to/file.ext</mc:links>
                 <mc:maxAbsoluteAccuracyLEP90>2</mc:maxAbsoluteAccuracyLEP90>
                 <mc:maxHorizontalAccuracyCEP90>6</mc:maxHorizontalAccuracyCEP90>
                 <mc:maxRelativeAccuracyLEP90>4</mc:maxRelativeAccuracyLEP90>
@@ -294,7 +306,8 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 </details>
 </TabItem>
 <TabItem value="BBOXFilter" label="BBOX">
-Fetch all products with productType DTM and contained in a given BBOX.
+Fetch all products with productType DTM that intersect a given BBOX.<br/>
+Corners are in **latitude longitude** order for `EPSG:4326`.
 ```bash
 curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
@@ -362,7 +375,8 @@ curl --location --request POST '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 ```
 </TabItem>
 <TabItem value="PointFilter" label="Point">
-Fetch all products with productType DTM that intersect with a given Point.
+Fetch all products with productType DTM that intersect with a given Point.<br/>
+`gml:pos` is in **latitude longitude** order for `EPSG:4326`.
 ```bash
 curl --location '{DEM_CATALOG_SERVICE_URL}/csw?token=<token>' \
 --data '<?xml version="1.0" encoding="UTF-8"?>
@@ -395,7 +409,7 @@ Notice the attributes `startPosition` and `maxRecords`, both of them help us to 
 
 - `numberOfRecordsMatched` indicating the total amount of records in the catalog matching our filters
 - `numberOfRecordsReturned` indicating the amount of records returned for this request (may be less than `maxRecords` given in the request)
-- `nextRecord` the value that should be passed for `startPosition` in the following request
+- `nextRecord` the value that should be passed for `startPosition` in the following request; `0` means this is the last page
 
 In case we are fetching the full profile without any filters our next request should look like this:
 
@@ -727,9 +741,9 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
                 </ows:WGS84BoundingBox>
             </wcs:CoverageSummary>
             <wcs:CoverageSummary>
-                <ows:Title>srtm30</ows:Title>
+                <ows:Title>srtm30-DTM</ows:Title>
                 <ows:Keywords>
-                    <ows:Keyword>srtm30</ows:Keyword>
+                    <ows:Keyword>srtm30-DTM</ows:Keyword>
                     <ows:Keyword>WCS</ows:Keyword>
                     <ows:Keyword>GeoTIFF</ows:Keyword>
                 </ows:Keywords>
@@ -766,7 +780,7 @@ For this step we need the `coverageId` of a product we selected from the previou
 The WCS service accepts the `coverageId` with or without the internal workspace prefix, but the prefix form differs by WCS version: `dem:srtm30-DTM` works in both 1.0.0 and 2.0.1, and 2.0.1 also accepts `dem__srtm30-DTM`. The examples in this guide use the un-prefixed form, which works in both versions.
 :::
 
-Lets select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
+Let's select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
 
 ```bash
 curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<token>'
@@ -777,7 +791,7 @@ curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&ve
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <wcs:CoverageDescriptions xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:wcsgs="http://www.geoserver.org/wcsgs/2.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd http://www.geoserver.org/wcsgs/2.0 {WCS_SERVICE_URL}/schemas/wcs/2.0/wcsgs.xsd">
-        <wcs:CoverageDescription gml:id="dem__srtm30">
+        <wcs:CoverageDescription gml:id="dem__srtm30-DTM">
             <gml:description>Generated from GeoTIFF</gml:description>
             <gml:name>srtm30-DTM</gml:name>
             <gml:boundedBy>
@@ -803,7 +817,7 @@ curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&ve
                 </gmlcov:Extension>
             </gmlcov:metadata>
             <gml:domainSet>
-                <gml:RectifiedGrid gml:id="grid00__dem__srtm30" dimension="2">
+                <gml:RectifiedGrid gml:id="grid00__dem__srtm30-DTM" dimension="2">
                     <gml:limits>
                         <gml:GridEnvelope>
                             <gml:low>0 0</gml:low>
@@ -812,7 +826,7 @@ curl --location --request GET '{WCS_SERVICE_URL}/wcs?request=DescribeCoverage&ve
                     </gml:limits>
                     <gml:axisLabels>i j</gml:axisLabels>
                     <gml:origin>
-                        <gml:Point gml:id="p00_dem__srtm30" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+                        <gml:Point gml:id="p00_dem__srtm30-DTM" srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
                             <gml:pos>32.95881271362305 34.71696853637695</gml:pos>
                         </gml:Point>
                     </gml:origin>
@@ -959,7 +973,7 @@ There is an option to set the wanted interpolation method.
 To see a full list of the available methods see the [capabilities](#capabilities).
 
 :::note
-The default method is `linear`.
+The default method is `nearest-neighbor`. Set `interpolation` explicitly if you need a specific method.
 :::
 
 ```bash

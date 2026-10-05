@@ -132,7 +132,7 @@ The following HTML example provides a complete and executable demonstration of t
 
 :::warning
 **Authentication must be integrated in order to communicate with the terrain provider service, see the principles [here](/docs/MapColonies/authentication).**<br/>
-Refer down in the example down blow for cesium query / header mapcolonies' token configuration.
+Refer to the example below for cesium query / header mapcolonies' token configuration.
 :::
 
 ```html
@@ -176,8 +176,7 @@ Refer down in the example down blow for cesium query / header mapcolonies' token
             //      queryParameters: { 'token': MAPCOLONIES_TOKEN },   // choose either header or query
             // }),
             {
-                requestVertexNormals: true,      // Vertex normals are to be requested for enhanced lighting and shading.
-                requestWaterMask: true           // Water masks are to be requested for accurate water rendering effects.
+                requestVertexNormals: true       // Vertex normals are to be requested for enhanced lighting and shading.
             }
         ).then(function(terrainProvider) {
             // Assign the custom terrain provider to the viewer.
@@ -195,7 +194,7 @@ Refer down in the example down blow for cesium query / header mapcolonies' token
         // Optional: The camera may be programmatically directed to a specific geographic location
         // to immediately showcase the loaded terrain.
         viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(-100.0, 40.0, 100000.0), // Longitude, Latitude, Altitude (in meters)
+            destination: Cesium.Cartesian3.fromDegrees(35.2, 32.6, 100000.0), // Longitude, Latitude, Altitude (in meters)
             orientation: {
                 heading: Cesium.Math.toRadians(0.0),    // Orientation towards North
                 pitch: Cesium.Math.toRadians(-30.0),    // Downward pitch of 30 degrees
