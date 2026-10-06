@@ -956,3 +956,91 @@ class TrialFixesTest(unittest.TestCase):
             ```
             """))
         self.assertEqual([b["role"] for b in docrev.extract(path)["blocks"]], ["request", "example-response", "xml"])
+
+
+class ProbeTest(unittest.TestCase):
+    ENV = {"token": {"param": "token"}, "placeholders": {}}
+    ENTRY = {"url": "https://h/api/", "probe": {"path": "/csw?request=GetCapabilities", "expect_root": "Capabilities"}}
+    CAPS = (200, "application/xml", b'<?xml version="1.0"?><csw30:Capabilities xmlns:csw30="x"/>', None)
+    DENIED = (401, "text/html", b"<html>401</html>", None)
+
+    def run_probe(self, anon=DENIED, authed=CAPS, env=ENV, entry=ENTRY):
+        calls = []
+
+        def fetch(env, url, tok, **kw):
+            calls.append((url, tok))
+            return authed if tok else anon
+        with unittest.mock.patch.object(docrev, "fetch", side_effect=fetch):
+            got = docrev.probe_findings(env, "CAT", entry, "T")
+        return [f["issue"] for f in got], calls
+
+    def test_expected_answers_pass_and_root_is_namespace_agnostic(self):
+        for body in (b"<csw30:Capabilities/>", b"<wcs:Capabilities/>", b"<Capabilities/>"):
+            issues, calls = self.run_probe(authed=(200, "application/xml", body, None))
+            self.assertEqual(issues, [])
+        self.assertEqual(calls, [("https://h/api/csw?request=GetCapabilities", None),
+                                 ("https://h/api/csw?request=GetCapabilities", "T")])
+        wfs = {**self.ENTRY, "probe": {"path": "/wfs", "expect_root": "WFS_Capabilities"}}
+        self.assertEqual(self.run_probe(authed=(200, "text/xml", b"<wfs:WFS_Capabilities/>", None), entry=wfs)[0], [])
+
+    def test_html_catch_all_flagged(self):
+        page = (200, "text/html", b"<!DOCTYPE html><html></html>", None)
+        issues, _ = self.run_probe(anon=page, authed=page)
+        self.assertEqual(issues, ["without token: 200, expected 401", "probe broken: HTML page"])
+
+    def test_wrong_root_flagged(self):
+        issues, _ = self.run_probe(authed=(200, "application/xml", b"<ows:ExceptionReport/>", None))
+        self.assertEqual(issues, ["probe broken: root ExceptionReport, expected Capabilities"])
+
+    def test_server_error_flagged(self):
+        self.assertEqual(self.run_probe(authed=(503, "text/html", b"<html/>", None))[0], ["probe broken: HTTP 503"])
+
+    def test_token_refused_flagged(self):
+        for code in (401, 403):
+            self.assertEqual(self.run_probe(authed=(code, "text/html", b"", None))[0],
+                             [f"probe broken: token refused (HTTP {code})"])
+
+    def test_auth_not_enforced_flagged(self):
+        self.assertEqual(self.run_probe(anon=self.CAPS)[0], ["auth not enforced: probe answered without a token"])
+
+    def test_other_anonymous_status_is_not_broken(self):
+        issues, _ = self.run_probe(anon=(403, "text/html", b"", None))
+        self.assertEqual(issues, ["without token: 403, expected 401"])
+
+    def test_json_top_level_key(self):
+        entry = {**self.ENTRY, "probe": {"path": "/q", "expect_root": "features"}}
+        self.assertEqual(self.run_probe(authed=(200, "application/json", b'{"features": []}', None), entry=entry)[0], [])
+        self.assertEqual(self.run_probe(authed=(200, "application/json", b'{"error": 1}', None), entry=entry)[0],
+                         ["probe broken: JSON without top-level features"])
+
+    def test_network_error_redacts_token(self):
+        def urlopen(req, **kw):
+            raise OSError(f"failed {req.full_url}")
+        with unittest.mock.patch("urllib.request.urlopen", side_effect=urlopen):
+            status, _, _, err = docrev.fetch(self.ENV, "https://h/a", "SECRET")
+        self.assertIsNone(status)
+        self.assertNotIn("SECRET", err)
+
+    def test_no_probe_sends_nothing(self):
+        self.assertEqual(self.run_probe(entry={"url": "https://h/api"}), ([], []))
+
+    def test_forward_entry_probed_through_forward(self):
+        env = {**self.ENV, "placeholders": {"CAT": {**self.ENTRY, "access": "forward",
+                                                    "forward": {"service": "s", "port": 80, "local_port": 18099}}}}
+        with unittest.mock.patch.object(docrev, "port_open", return_value=True):
+            _, calls = self.run_probe(env=env, entry=env["placeholders"]["CAT"])
+        self.assertEqual(calls[0][0], "http://127.0.0.1:18099/csw?request=GetCapabilities")
+        with unittest.mock.patch.object(docrev, "port_open", return_value=False):
+            issues, calls = self.run_probe(env=env, entry=env["placeholders"]["CAT"])
+        self.assertEqual((calls, issues), ([], ["forward not running on 18099; run `docrev env forward`"]))
+
+    def test_no_cluster_env_check_runs_probes_without_oc(self):
+        env = {"cluster": False, "read_only": True, "token": {"param": "token"}, "placeholders": {"CAT": self.ENTRY}}
+        page = (200, "text/html", b"<html></html>", None)
+        with unittest.mock.patch.object(docrev, "load_env", return_value=env), \
+                unittest.mock.patch.object(docrev, "token_for", return_value="T"), \
+                unittest.mock.patch.object(docrev, "fetch", return_value=page), \
+                unittest.mock.patch.object(docrev, "oc") as oc, redirect_stdout(io.StringIO()) as out:
+            docrev.cmd_env_check(argparse.Namespace(env="prod"))
+        oc.assert_not_called()
+        self.assertIn("probe broken: HTML page", [f["issue"] for f in json.loads(out.getvalue())])

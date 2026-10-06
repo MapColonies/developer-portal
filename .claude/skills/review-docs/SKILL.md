@@ -72,10 +72,15 @@ clear which one states the intent.
       forward: {service: <svc>, port: 8080, local_port: 18081, path: /<path>}
       namespace: <other ns>                       # only when this entry is served outside `namespace`
       aliases: [dem_catalog_url]                  # other spellings pages use for the same entry point
+      probe: {path: '/csw?service=CSW&request=GetCapabilities', expect_root: Capabilities}  # optional; see env check
   ```
   Placeholder names match case- and `-`/`_`-insensitively (`<RASTER-CATALOG-SERVICE_URL>` ≡
   `{RASTER_CATALOG_SERVICE_URL}`); add `aliases` only for different names. Add a path to
-  `read_posts` only after the user confirms it is read-only.
+  `read_posts` only after the user confirms it is read-only. A `probe` is a GET of `url` + `path`
+  (path and query); `expect_root` is the XML root's local name (`Capabilities` matches
+  `csw30:Capabilities` and `wcs:Capabilities`; WFS uses `WFS_Capabilities`) or, for JSON, a
+  top-level key. Like `read_posts`, add a probe only after the user confirms it is a read-only
+  request; prefer the path the docs and catalog records use for that service.
 - No config yet: `docrev env discover --namespace <ns> [--release <r>]`, propose a config
   from it, get the user's confirmation, then write it. For prod, ask the user for the public
   URLs and token source instead; its config always has `read_only: true` and `cluster: false`.
@@ -86,6 +91,11 @@ clear which one states the intent.
   holds it, no ready endpoints behind the route that actually serves each URL or behind the
   forward service, missing token; for `cluster: false` envs, an unreachable entry point). If an
   entry's route is broken, use `access: forward` for this run (tell the user) and `docrev env forward <env>`.
+  Each `probe` runs twice, through the same forward `call` would use. With the token, `probe
+  broken` means an HTML page (e.g. a catch-all route answering 200), the wrong root, a 5xx, or
+  401/403. Without it, 401 is expected: `auth not enforced` is a 2xx with the expected document,
+  and `without token: <status>, expected 401` is any other answer (an auth finding, not a broken
+  service). The token is never printed.
 - **Network down**: `env check` or `call` reporting `network unreachable (VPN?)` / `(DNS)` is
   this machine, not the env. Stop and ask the user to reconnect; don't wait out timeouts or
   retry in a loop. If live access can't be restored, continue against the code only, mark

@@ -418,20 +418,77 @@ def unreachable(url, timeout=3):
     return None
 
 
-def http_status(env, url, tok):
-    """Status of a plain GET (any HTTP answer means reachable), or the network error."""
+def fetch(env, url, tok, limit=MAX_BODY, timeout=10):
+    """A plain GET: (status, content type, body, network error); any HTTP answer is a response."""
     tsrc = env.get("token") or {}
     if tok and (tsrc.get("param") or not tsrc.get("header")):
         url += ("&" if "?" in url else "?") + f"{tsrc.get('param', 'token')}={urllib.parse.quote(tok)}"
     ctx = ssl._create_unverified_context() if env.get("insecure") else \
         ssl.create_default_context(cafile=os.path.expanduser(env["ca_file"])) if env.get("ca_file") else None
     try:
-        return urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, {})),
-                                      timeout=10, context=ctx).status, None
+        resp = urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, {})),
+                                      timeout=timeout, context=ctx)
+        return resp.status, resp.headers.get("Content-Type"), resp.read(limit), None
     except urllib.error.HTTPError as e:
-        return e.code, None
+        return e.code, e.headers.get("Content-Type"), e.read(limit), None
     except Exception as e:
-        return None, f"{type(e).__name__}: {redact(str(e), tok)}"
+        return None, None, b"", f"{type(e).__name__}: {redact(str(e), tok)}"
+
+
+def http_status(env, url, tok):
+    status, _, _, err = fetch(env, url, tok, limit=0)
+    return status, err
+
+
+def probe_body_issue(body, ctype, expect):
+    """Why a probe answer is not the expected document (None when it is). XML roots compare by
+    local name, so `Capabilities` matches `csw30:Capabilities`; for JSON `expect` is a top-level key."""
+    text = body.decode("utf-8", "replace").lstrip("﻿ \t\r\n")
+    if "text/html" in (ctype or "").lower() or re.match(r"<!doctype html|<html", text, re.I):
+        return "HTML page"
+    if text.startswith(("{", "[")):
+        try:
+            obj = json.loads(text)
+        except ValueError:
+            return "unparsable JSON"
+        return None if isinstance(obj, dict) and expect in obj else f"JSON without top-level {expect}"
+    root = xml_root(text) if text.startswith("<") else None
+    if not root:
+        return "neither XML nor JSON"
+    return None if root == expect.split(":")[-1] else f"root {root}, expected {expect}"
+
+
+def probe_findings(env, ph, e, tok):
+    """Run the entry's `probe` without and with the token: an anonymous caller must get 401 and
+    the token holder the expected document. A plain 200 from a catch-all page passes `env check`
+    reachability, which is what this catches."""
+    p = e.get("probe")
+    if not p:
+        return []
+    url = resolve_url(env, e["url"].rstrip("/") + p["path"])
+    base = {"kind": "env", "placeholder": ph, "probe": p["path"]}
+    down = unreachable(url)
+    if down:
+        return [{**base, "issue": down["error"], "detail": down["detail"]}]
+    parts = urllib.parse.urlsplit(url)
+    if parts.hostname == "127.0.0.1" and not port_open(parts.port):
+        return [{**base, "issue": f"forward not running on {parts.port}; run `docrev env forward`"}]
+    out = []
+    status, ctype, body, err = fetch(env, url, None, timeout=30)
+    why = err or probe_body_issue(body, ctype, p["expect_root"])
+    if not err and 200 <= status < 300 and not why:
+        out.append({**base, "issue": "auth not enforced: probe answered without a token", "status": status})
+    elif status != 401:
+        out.append({**base, "issue": f"without token: {status or 'no answer'}, expected 401", "status": status,
+                    "detail": why})
+    if not tok:
+        return out
+    status, ctype, body, err = fetch(env, url, tok, timeout=30)
+    why = err or (f"HTTP {status}" if status >= 500 else f"token refused (HTTP {status})" if status in (401, 403)
+                  else probe_body_issue(body, ctype, p["expect_root"]))
+    if why:
+        out.append({**base, "issue": f"probe broken: {why}", "status": status})
+    return out
 
 
 def admitted(route):
@@ -457,10 +514,10 @@ def ready_addresses(svc, ns):
 
 def cmd_env_check(a):
     env = load_env(a.env)
+    tok = token_for(env)
     findings = []
     if env.get("cluster") is False:
-        # No cluster access (prod): reachability of each public entry point is all we can check.
-        tok = token_for(env)
+        # No cluster access (prod): only reachability and probes of the public entry points.
         for ph, e in (env.get("placeholders") or {}).items():
             down = unreachable(e["url"])
             if down:
@@ -470,6 +527,7 @@ def cmd_env_check(a):
             if err or status >= 500:
                 findings.append({"kind": "env", "placeholder": ph, "issue": "entry point unreachable",
                                  "status": status, "detail": err})
+            findings += probe_findings(env, ph, e, tok)
         if not tok:
             findings.append({"kind": "env", "issue": "token not available", "source": env.get("token")})
         print(json.dumps(findings, indent=2))
@@ -521,7 +579,8 @@ def cmd_env_check(a):
             if not ready:
                 findings.append({"kind": "env", "placeholder": ph, "issue": f"service {svc} has no ready endpoints",
                                  **({"route": via} if via else {}), **({"detail": err} if err else {})})
-    if not token_for(env):
+        findings += probe_findings(env, ph, e, tok)
+    if not tok:
         findings.append({"kind": "env", "issue": "token not available", "source": env.get("token")})
     print(json.dumps(findings, indent=2))
 
