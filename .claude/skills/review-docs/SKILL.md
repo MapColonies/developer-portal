@@ -1,16 +1,30 @@
 ---
 name: review-docs
-description: Review developer-portal docs (a PR or specific files) by running the documented flow or examples against a live environment (e.g. OCP dem-dev) and reporting where the docs, the deployment, or the environment disagree. Use for "review docs PR N against <env>", "check these docs hold up against the real services", or "/review-docs".
-argument-hint: "<docs PR number | doc paths> --env <name> [--deploy-pr <owner/repo#N>]"
+description: Review developer-portal docs (a PR or specific files) by running the documented flow or examples against a live environment (prod by default) and the services' source code, and reporting where the docs, the deployment, the code, or the environment disagree. Use for "review docs PR N", "check these docs hold up against the real services", or "/review-docs".
+argument-hint: "<docs PR number | doc paths> [--env <name>, default prod] [--deploy-pr <owner/repo#N>] [--source <owner/repo@ref>]"
 ---
 
 # Review docs against live services
 
 The docs are the spec. The goal is to verify that a reader following them, step by step, gets
-what the docs promise from the real services, and that the docs are well written.
+what the docs promise from the real services, and that the docs are well written. Three
+sources must agree: the **docs**, the **live** deployment, and the services' **code**.
 
 Helper: `python3 .claude/tools/docrev/docrev.py` (`docrev` below). It does the
 mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
+
+## 0. Ask first
+
+At activation, ask in one message (skip what the arguments already answer):
+1. **Environment**: prod (default; readers use prod) or another env. Data that exists only in
+   prod (e.g. a product record) is checked against prod; its absence in dev is not a finding.
+2. **What to compare**: docs ↔ live, docs ↔ code, or both (default both).
+3. **Code**: confirm the repo and ref per service from `docrev sources` (section 2), or take
+   the ones the user names (a branch or PR for docs that run ahead of the deployment).
+4. **Deployment PR**, if the docs belong to one.
+
+During the run, ask instead of choosing whenever docs, live and code disagree and it isn't
+clear which one states the intent.
 
 ## 1. Scope
 
@@ -45,6 +59,7 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
   headers: {x-user-id: <value>}                   # sent on every request; also fills `<x-user-id>` in docs
   read_posts: ['/search/', '/route$']             # POST paths the user confirmed have no side effects
   read_only: true                                 # e.g. prod: docrev refuses writes even with --allow-write
+  cluster: false                                  # e.g. prod: docrev never runs oc (no env discover/forward/pod-*) for this env's namespaces
   hosts: [other.example]                          # our hosts reached only via chained links; `call` sends nothing elsewhere (localhost only via this env's forwards)
   insecure: true                                  # self-signed dev certs
   ca_file: ~/path/chain.pem                       # instead of insecure, when a server omits its intermediate
@@ -61,13 +76,24 @@ mechanical parts; you do the judgment. Run `docrev <cmd> -h` for flags.
   `{RASTER_CATALOG_SERVICE_URL}`); add `aliases` only for different names. Add a path to
   `read_posts` only after the user confirms it is read-only.
 - No config yet: `docrev env discover --namespace <ns> [--release <r>]`, propose a config
-  from it, get the user's confirmation, then write it.
+  from it, get the user's confirmation, then write it. For prod, ask the user for the public
+  URLs and token source instead; its config always has `read_only: true` and `cluster: false`.
+- **Prod is read-only and public-only**: public routes and the reader's token, nothing else.
+  No `--allow-write`, forwards, `pod-read`/`pod-call`, or other cluster access. To localise a
+  prod mismatch, reproduce it on a lower env where those are allowed, and say so in the report.
 - Every run: `docrev env check <env>`. Each item is an **env** finding (unadmitted route and who
-  holds it, service without ready endpoints, missing token). If an entry's route is broken,
+  holds it, service without ready endpoints, missing token; for `cluster: false` envs, an
+  unreachable entry point). If an entry's route is broken,
   use `access: forward` for this run (tell the user) and `docrev env forward <env>`.
 - Token missing: ask the user; tell them which env var the config expects. Never write a
   token into a file in the repo or echo it into the report.
 - Stop forwards at the end: `docrev env stop <env>`.
+- **Code**: `docrev sources --chart <helm chart dir>` (or `--image NAME:VERSION`) maps each
+  deployed component to its GitHub repo and release tag. Show the mapping and get it confirmed;
+  name-guessed repos come back `confirmed: false`. Confirmed mappings go in
+  `~/.claude/review-envs/sources.yaml` (`<component>: <owner/repo>`); then `--fetch`
+  shallow-clones them into `.claude/review-runs/src/`. Use the version that runs in the
+  reviewed env (prod's chart values, not the PR head), unless the user names another ref.
 
 ## 3. Classify each doc
 
@@ -160,6 +186,19 @@ For each step/example, check against the doc:
 - Async steps ("wait for the callback"): poll a status endpoint if the doc gives one;
   otherwise mark the step unverified.
 
+### Against the code
+
+For each claim the docs make (endpoints, parameters and defaults, fields and enums, link
+types, error formats, limits), find where the code defines it: route/handler tables, OpenAPI
+or schema files, profile/mapping files, config defaults, validation. Read, don't run.
+- Docs and code disagree, live agrees with code: doc finding.
+- Docs and live agree, code disagrees (e.g. the code at the deployed tag changed it): the
+  deployed version isn't the reviewed ref; report it, don't guess which is right.
+- Live differs from both: deployment finding (config or version drift); give the version
+  running and the ref read.
+- A claim with no code behind it (a field nothing writes, a parameter nothing reads) is a
+  finding even if live happens to return something.
+
 Open `saved` response files when the summary isn't enough; don't dump them into the chat.
 
 ## 6. Report
@@ -171,6 +210,7 @@ Each finding has: **kind**, location, one-line statement, evidence (request as r
 |---|---|---|
 | doc | docs wrong/unclear/broken vs the real service | docs PR inline comment |
 | deployment | service/chart behaviour contradicts the docs (the spec) | deployment PR (if given), else report |
+| code | the service's code contradicts the docs or what runs live | report (and the service repo, if the user asks) |
 | env | this environment only (route conflict, pod down, token) | report only |
 | unverified | couldn't run (write declined, blocked upstream) | report only |
 

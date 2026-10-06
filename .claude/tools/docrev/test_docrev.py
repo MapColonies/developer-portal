@@ -705,3 +705,67 @@ class PlaceholderNotationTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ProdAndSourcesTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        (self.tmp / "prod.yaml").write_text("name: prod\nnamespace: prod-ns\ncluster: false\nread_only: true\n"
+                                           "placeholders:\n  X_URL: {url: 'https://x.example/api', access: forward,"
+                                           " forward: {service: s, port: 1, local_port: 9}}\n")
+        (self.tmp / "dev.yaml").write_text("name: dev\nnamespace: dev-ns\n")
+        self.envs = unittest.mock.patch.object(docrev, "ENVS_DIR", self.tmp)
+        self.envs.start()
+
+    def tearDown(self):
+        self.envs.stop()
+
+    def test_oc_refused_on_no_cluster_namespace(self):
+        with unittest.mock.patch.object(docrev.subprocess, "run") as run, self.assertRaises(SystemExit):
+            docrev.oc("get", "routes", "-n", "prod-ns")
+        run.assert_not_called()
+
+    def test_oc_allowed_elsewhere(self):
+        done = subprocess.CompletedProcess([], 0, "{}", "")
+        with unittest.mock.patch.object(docrev.subprocess, "run", return_value=done) as run:
+            docrev.oc("get", "routes", "-n", "dev-ns")
+        run.assert_called_once()
+
+    def test_no_forward_rewrite_and_no_forward_cmd(self):
+        env = docrev.load_env("prod")
+        self.assertEqual(docrev.resolve_url(env, "<X_URL>/a"), "https://x.example/api/a")
+        with self.assertRaises(SystemExit):
+            docrev.cmd_env_forward(argparse.Namespace(env="prod", only=None))
+
+    def test_env_check_uses_http_not_oc(self):
+        with unittest.mock.patch.object(docrev, "http_status", return_value=(None, "URLError: nope")), \
+                unittest.mock.patch.object(docrev, "oc") as oc, redirect_stdout(io.StringIO()) as out:
+            docrev.cmd_env_check(argparse.Namespace(env="prod"))
+        oc.assert_not_called()
+        issues = [f["issue"] for f in json.loads(out.getvalue())]
+        self.assertIn("entry point unreachable", issues)
+
+    def test_chart_components(self):
+        d = self.tmp / "chart"
+        d.mkdir()
+        (d / "Chart.yaml").write_text("name: c\ndependencies:\n  - {name: pycsw, version: 7.0.3}\n")
+        (d / "values.yaml").write_text("a:\n  image: {repository: common/pycsw, tag: v7.0.3}\n"
+                                       "b:\n  - image: {repository: geoserver-api, tag: v1.4.0}\n")
+        self.assertEqual(docrev.chart_components(d), [("geoserver-api", "1.4.0"), ("pycsw", "7.0.3")])
+
+    def test_find_source_prefers_known_mapping(self):
+        seen = []
+
+        def ok(*args):
+            seen.append(args[0])
+            return args[0] == "repos/Org/geoserver-polygon-parts/git/ref/tags/v3.3.1"
+        with unittest.mock.patch.object(docrev, "gh_ok", side_effect=ok):
+            r = docrev.find_source("pp-geoserver", "3.3.1", "Org", {"pp-geoserver": "Org/geoserver-polygon-parts"})
+        self.assertEqual((r["repo"], r["ref"], r["confirmed"]), ("Org/geoserver-polygon-parts", "v3.3.1", True))
+        self.assertFalse(any(a == "repos/Org/pp-geoserver" for a in seen))
+
+    def test_find_source_guess_is_unconfirmed(self):
+        with unittest.mock.patch.object(docrev, "gh_ok", side_effect=lambda a: a in ("repos/Org/pycsw",
+                                                                                     "repos/Org/pycsw/git/ref/tags/v7.0.3")):
+            r = docrev.find_source("pycsw", "v7.0.3", "Org", {})
+        self.assertEqual((r["repo"], r["ref"], r["confirmed"]), ("Org/pycsw", "v7.0.3", False))

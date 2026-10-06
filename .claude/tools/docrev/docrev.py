@@ -313,8 +313,24 @@ def classify(req, env=None):
 
 
 
+def no_cluster_namespaces():
+    """Namespaces of envs marked `cluster: false` (e.g. prod): docrev never runs oc against them."""
+    out = set()
+    for f in ENVS_DIR.glob("*.yaml") if ENVS_DIR.exists() else []:
+        try:
+            env = yaml.safe_load(f.read_text()) or {}
+        except yaml.YAMLError:
+            continue
+        if env.get("cluster") is False:
+            out |= {env.get("namespace")} | {e.get("namespace") for e in (env.get("placeholders") or {}).values()}
+    return out - {None}
+
+
 def oc(*args, retries=8):
     """oc with retries: some clusters intermittently answer 401 for a valid session."""
+    if "-n" in args and args[args.index("-n") + 1] in no_cluster_namespaces():
+        sys.exit(json.dumps({"error": f"namespace {args[args.index('-n') + 1]} belongs to a cluster: false env; "
+                                      "use public routes only"}))
     out = None
     for _ in range(retries):
         out = subprocess.run(["oc", *args], capture_output=True, text=True)
@@ -372,9 +388,37 @@ def ns_of(env, e):
     return e.get("namespace") or env["namespace"]
 
 
+def http_status(env, url, tok):
+    """Status of a plain GET (any HTTP answer means reachable), or the network error."""
+    tsrc = env.get("token") or {}
+    if tok and (tsrc.get("param") or not tsrc.get("header")):
+        url += ("&" if "?" in url else "?") + f"{tsrc.get('param', 'token')}={urllib.parse.quote(tok)}"
+    ctx = ssl._create_unverified_context() if env.get("insecure") else \
+        ssl.create_default_context(cafile=os.path.expanduser(env["ca_file"])) if env.get("ca_file") else None
+    try:
+        return urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, {})),
+                                      timeout=30, context=ctx).status, None
+    except urllib.error.HTTPError as e:
+        return e.code, None
+    except Exception as e:
+        return None, f"{type(e).__name__}: {redact(str(e), tok)}"
+
+
 def cmd_env_check(a):
     env = load_env(a.env)
     findings = []
+    if env.get("cluster") is False:
+        # No cluster access (prod): reachability of each public entry point is all we can check.
+        tok = token_for(env)
+        for ph, e in (env.get("placeholders") or {}).items():
+            status, err = http_status(env, e["url"], tok)
+            if err or status >= 500:
+                findings.append({"kind": "env", "placeholder": ph, "issue": "entry point unreachable",
+                                 "status": status, "detail": err})
+        if not tok:
+            findings.append({"kind": "env", "issue": "token not available", "source": env.get("token")})
+        print(json.dumps(findings, indent=2))
+        return
     who = oc("whoami")
     if who.returncode:
         print(json.dumps([{"kind": "env", "issue": "not logged in to cluster", "detail": who.stderr.strip()}]))
@@ -419,6 +463,8 @@ def port_open(p):
 
 def cmd_env_forward(a):
     env = load_env(a.env)
+    if env.get("cluster") is False:
+        sys.exit(json.dumps({"error": f"{a.env} is cluster: false; forwards are not allowed"}))
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     pidfile = RUNS_DIR / f"{a.env}.forwards.json"
     pids = json.loads(pidfile.read_text()) if pidfile.exists() else {}
@@ -480,7 +526,7 @@ def resolve_url(env, url, forward=True):
     url = PLACEHOLDER_RE.sub(lambda m: names.get(norm_ph(m.group(0)), m.group(0)), url)
     for e in (env.get("placeholders") or {}).values():
         f = e.get("forward")
-        if forward and f and e.get("access") == "forward" and url.startswith(e["url"].rstrip("/")):
+        if forward and f and e.get("access") == "forward" and env.get("cluster") is not False and url.startswith(e["url"].rstrip("/")):
             url = f"http://127.0.0.1:{f['local_port']}{f.get('path', '')}" + url[len(e["url"].rstrip("/")):]
     return url
 
@@ -1280,6 +1326,75 @@ def cmd_profile_diff(a):
     print(json.dumps(out, indent=1, ensure_ascii=False))
 
 
+SOURCES_FILE = ENVS_DIR / "sources.yaml"
+
+
+def chart_components(chart_dir):
+    """(name, version) of a chart's dependencies and of every image repository/tag in its values."""
+    chart_dir = Path(chart_dir)
+    meta = yaml.safe_load((chart_dir / "Chart.yaml").read_text()) or {}
+    out = [(d["name"], str(d.get("version", ""))) for d in meta.get("dependencies") or []]
+
+    def walk(node):
+        if isinstance(node, dict):
+            if isinstance(node.get("repository"), str) and node.get("tag") is not None:
+                out.append((node["repository"].rsplit("/", 1)[-1], str(node["tag"])))
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+    values = chart_dir / "values.yaml"
+    if values.exists():
+        walk(yaml.safe_load(values.read_text()))
+    return sorted({(n, v.lstrip("v")) for n, v in out})
+
+
+def repo_org():
+    url = subprocess.run(["git", "-C", str(REPO), "remote", "get-url", "origin"], capture_output=True, text=True).stdout
+    m = re.search(r"github\.com[:/]([^/]+)/", url)
+    return m.group(1) if m else None
+
+
+def gh_ok(*args):
+    return subprocess.run(["gh", "api", *args], capture_output=True, text=True).returncode == 0
+
+
+def find_source(name, version, org, known):
+    """Repo and ref holding the code of a deployed component. A mapping in sources.yaml wins;
+    otherwise candidates come from the name, and the user confirms before they are used."""
+    version = version.lstrip("v")
+    repo = known.get(name)
+    candidates = [repo] if repo else [f"{org}/{name}"]
+    if not repo and not gh_ok(f"repos/{candidates[0]}"):
+        found = subprocess.run(["gh", "search", "repos", name, "--owner", org, "--json", "fullName", "--limit", "5"],
+                               capture_output=True, text=True).stdout
+        candidates = [r["fullName"] for r in json.loads(found or "[]")]
+    for cand in candidates:
+        for ref in (f"v{version}", version, f"{name}-v{version}"):
+            if version and gh_ok(f"repos/{cand}/git/ref/tags/{ref}"):
+                return {"component": name, "version": version, "repo": cand, "ref": ref, "confirmed": bool(repo)}
+    return {"component": name, "version": version, "repo": None, "ref": None, "candidates": candidates,
+            "confirmed": False}
+
+
+def cmd_sources(a):
+    known = (yaml.safe_load(SOURCES_FILE.read_text()) or {}) if SOURCES_FILE.exists() else {}
+    org = a.org or repo_org()
+    comps = chart_components(a.chart) if a.chart else []
+    comps += [tuple(i.rsplit(":", 1)) if ":" in i else (i, "") for i in a.image or []]
+    out = [find_source(n, v, org, known) for n, v in comps]
+    if a.fetch:
+        for r in out:
+            if r["repo"] and r["confirmed"]:
+                dest = RUNS_DIR / "src" / f"{r['repo'].replace('/', '__')}@{r['ref']}"
+                if not dest.exists():
+                    subprocess.run(["git", "clone", "-q", "--depth", "1", "--branch", r["ref"],
+                                    f"https://github.com/{r['repo']}.git", str(dest)], check=False)
+                r["path"] = str(dest) if dest.exists() else None
+    print(json.dumps(out, indent=2))
+
+
 HTTP_METHODS = ("get", "put", "post", "delete", "options", "head", "patch")
 
 
@@ -1438,6 +1553,11 @@ def main():
     g.add_argument("--pr", help="owner/repo#N")
     g.add_argument("--diff", help="unified diff file")
     p.add_argument("--max-keys", type=int, default=60)
+    p = sub.add_parser("sources", help="GitHub repo and tag holding the code of each deployed component")
+    p.add_argument("--chart", help="helm chart dir: its dependencies and values images")
+    p.add_argument("--image", action="append", help="NAME:VERSION of one component (repeatable)")
+    p.add_argument("--org", help="GitHub owner to search (default: this repo's)")
+    p.add_argument("--fetch", action="store_true", help="shallow-clone confirmed repos into review-runs/src/")
     p = sub.add_parser("inventory", help="live deployments/routes/services/configmaps")
     p.add_argument("--namespace", required=True)
     p.add_argument("--release")
@@ -1466,7 +1586,8 @@ def main():
     else:
         {"call": cmd_call, "shape": cmd_shape, "shape-diff": cmd_shape_diff, "deploy-diff": cmd_deploy_diff,
          "inventory": cmd_inventory, "pod-read": cmd_pod_read, "pod-call": cmd_pod_call, "links": cmd_links,
-         "refs": cmd_refs, "placeholders": cmd_placeholders, "profile-diff": cmd_profile_diff, "openapi": cmd_openapi}[a.cmd](a)
+         "refs": cmd_refs, "placeholders": cmd_placeholders, "profile-diff": cmd_profile_diff, "openapi": cmd_openapi,
+         "sources": cmd_sources}[a.cmd](a)
 
 
 if __name__ == "__main__":
