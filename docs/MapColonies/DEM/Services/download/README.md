@@ -30,7 +30,7 @@ Filter should be based on fields in the [DEM profile](/docs/MapColonies/DEM/Serv
 Request example:
 
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<token>' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -119,7 +119,7 @@ We want to extract the value of the `links` tag with the `scheme=Download` attri
 
 Now we can make a request for the material:
 ```bash
-curl --location '<DOWNLOAD_SERVICE_URL>/path/to/file.ext?token=<token>'
+curl --location '<DOWNLOAD_SERVICE_URL>/path/to/file.ext'
 ```
 
 :::note
