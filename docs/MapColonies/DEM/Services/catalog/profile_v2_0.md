@@ -30,7 +30,7 @@ tags:
 | | mc:description | text | the product description |
 | | mc:footprint | geojson | geographical delineation of the product / model trace |
 | | ows:BoundingBox | bbox | two points that represent the record extent |
-| 🆕 | mc:srsId | text | reference system ID (EPSG), <br/> ex: 4326 / 3857 |
+| 🆕 | mc:srsId | text | reference system ID (EPSG): WGS 84 (4326) or a WGS 84 UTM zone, <br/> ex: 4326 / 32636 |
 | ✏️ | mc:srsName | text | name of reference system <br/> renamed from v1 `mc:SRSName` |
 | | mc:dataType | enum | **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
 | | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |

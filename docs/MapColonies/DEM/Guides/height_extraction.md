@@ -934,14 +934,33 @@ This produces a `GetCoverage` request like:
 curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)'
 ```
 
+#### Coverages in UTM
+
+Coverages are stored in `EPSG:4326` or in a WGS 84 UTM zone (for example `EPSG:32636`). A UTM coverage has different axis labels, in meters:
+```xml
+<gml:Envelope srsName="http://www.opengis.net/def/crs/EPSG/0/32636" axisLabels="E N" uomLabels="m m" srsDimension="2">
+```
+
+Use those labels in `subset=`; `Lat` / `Long` fail with `Invalid axis label provided`:
+```bash
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subset=E(690000,700000)&subset=N(3580000,3590000)'
+```
+
+To subset a UTM coverage with latitude and longitude, add `subsettingCRS=EPSG:4326`. The output is then reprojected to `EPSG:4326`, which changes the data (see the warning [above](#get-coverage)):
+```bash
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subsettingCRS=EPSG:4326&subset=Lat(32.35,32.40)&subset=Long(35.13,35.20)'
+```
+
 ### Convert to other CRS
 
 In some situations we will have data in a geographical area in a different CRS than we expect for our calculations. In this case we can ask the service to convert the output to the wanted CRS.
 
-Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:3857`:
+Supported output CRSs are `EPSG:4326` and the WGS 84 UTM zones. `EPSG:3857` isn't supported.
+
+Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:32636`:
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:3857'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:32636'
 ```
 
 ### Scale image size (pixels)
