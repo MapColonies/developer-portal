@@ -418,7 +418,7 @@ def unreachable(url, timeout=3):
     return None
 
 
-def fetch(env, url, tok, limit=MAX_BODY, timeout=10):
+def fetch(env, url, tok, limit=MAX_BODY, timeout=10, headers=None):
     """A plain GET: (status, content type, body, network error); any HTTP answer is a response."""
     tsrc = env.get("token") or {}
     if tok and (tsrc.get("param") or not tsrc.get("header")):
@@ -426,9 +426,9 @@ def fetch(env, url, tok, limit=MAX_BODY, timeout=10):
     ctx = ssl._create_unverified_context() if env.get("insecure") else \
         ssl.create_default_context(cafile=os.path.expanduser(env["ca_file"])) if env.get("ca_file") else None
     try:
-        resp = urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, {})),
-                                      timeout=timeout, context=ctx)
-        return resp.status, resp.headers.get("Content-Type"), resp.read(limit), None
+        with urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, dict(headers or {}))),
+                                    timeout=timeout, context=ctx) as resp:
+            return resp.status, resp.headers.get("Content-Type"), resp.read(limit), None
     except urllib.error.HTTPError as e:
         return e.code, e.headers.get("Content-Type"), e.read(limit), None
     except Exception as e:
@@ -440,11 +440,15 @@ def http_status(env, url, tok):
     return status, err
 
 
+def is_html(text, ctype):
+    return "text/html" in (ctype or "").lower() or bool(re.match(r"<!doctype html|<html", text, re.I))
+
+
 def probe_body_issue(body, ctype, expect):
     """Why a probe answer is not the expected document (None when it is). XML roots compare by
     local name, so `Capabilities` matches `csw30:Capabilities`; for JSON `expect` is a top-level key."""
     text = body.decode("utf-8", "replace").lstrip("﻿ \t\r\n")
-    if "text/html" in (ctype or "").lower() or re.match(r"<!doctype html|<html", text, re.I):
+    if is_html(text, ctype):
         return "HTML page"
     if text.startswith(("{", "[")):
         try:
@@ -458,6 +462,22 @@ def probe_body_issue(body, ctype, expect):
     return None if root == expect.split(":")[-1] else f"root {root}, expected {expect}"
 
 
+PROBE_TYPES = {
+    "tiff": lambda b: b[:4] in (b"II*\0", b"MM\0*", b"II+\0", b"MM\0+"),  # classic and BigTIFF
+    "json": lambda b: b.lstrip(b"\xef\xbb\xbf \t\r\n")[:1] in (b"{", b"["),
+}
+
+
+def probe_type_issue(body, ctype, expect):
+    """Like probe_body_issue, for a body checked only by its first bytes. The magic decides:
+    servers label COGs `application/octet-stream` too, so the content type is only reported."""
+    if is_html(body.decode("utf-8", "replace").lstrip("﻿ \t\r\n"), ctype):
+        return "HTML page"
+    if PROBE_TYPES[expect](body):
+        return None
+    return f"not {expect} (content type {ctype}, starts with {body[:8]!r})"
+
+
 def probe_findings(env, ph, e, tok):
     """Run the entry's `probe` without and with the token: an anonymous caller must get 401 and
     the token holder the expected document. A plain 200 from a catch-all page passes `env check`
@@ -465,17 +485,28 @@ def probe_findings(env, ph, e, tok):
     p = e.get("probe")
     if not p:
         return []
+    base = {"kind": "env", "placeholder": ph, "probe": p.get("path")}
+    if ("expect_root" in p) == ("expect_type" in p) or "expect_type" in p and p["expect_type"] not in PROBE_TYPES:
+        return [{**base, "issue": f"probe needs one of expect_root or expect_type ({', '.join(PROBE_TYPES)})"}]
     url = resolve_url(env, e["url"].rstrip("/") + p["path"])
-    base = {"kind": "env", "placeholder": ph, "probe": p["path"]}
     down = unreachable(url)
     if down:
         return [{**base, "issue": down["error"], "detail": down["detail"]}]
     parts = urllib.parse.urlsplit(url)
     if parts.hostname == "127.0.0.1" and not port_open(parts.port):
         return [{**base, "issue": f"forward not running on {parts.port}; run `docrev env forward`"}]
+    if "expect_type" in p:
+        # Only the first bytes: a download probe may point at a multi-GB COG. 206 or a 200 that ignored Range.
+        get = lambda t: fetch(env, url, t, limit=1024, timeout=30, headers={"Range": "bytes=0-1023"})
+        check = lambda status, ctype, body: probe_type_issue(body, ctype, p["expect_type"]) or \
+            (None if 200 <= status < 300 else f"HTTP {status}")
+    else:
+        get = lambda t: fetch(env, url, t, timeout=30)
+        check = lambda status, ctype, body: probe_body_issue(body, ctype, p["expect_root"]) or \
+            (None if 200 <= status < 300 else f"HTTP {status}")
     out = []
-    status, ctype, body, err = fetch(env, url, None, timeout=30)
-    why = err or probe_body_issue(body, ctype, p["expect_root"])
+    status, ctype, body, err = get(None)
+    why = err or check(status, ctype, body)
     if not err and 200 <= status < 300 and not why:
         out.append({**base, "issue": "auth not enforced: probe answered without a token", "status": status})
     elif status != 401:
@@ -483,9 +514,9 @@ def probe_findings(env, ph, e, tok):
                     "detail": why})
     if not tok:
         return out
-    status, ctype, body, err = fetch(env, url, tok, timeout=30)
+    status, ctype, body, err = get(tok)
     why = err or (f"HTTP {status}" if status >= 500 else f"token refused (HTTP {status})" if status in (401, 403)
-                  else probe_body_issue(body, ctype, p["expect_root"]))
+                  else check(status, ctype, body))
     if why:
         out.append({**base, "issue": f"probe broken: {why}", "status": status})
     return out

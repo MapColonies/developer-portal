@@ -79,8 +79,11 @@ clear which one states the intent.
   `read_posts` only after the user confirms it is read-only. A `probe` is a GET of `url` + `path`
   (path and query); `expect_root` is the XML root's local name (`Capabilities` matches
   `csw30:Capabilities` and `wcs:Capabilities`; WFS uses `WFS_Capabilities`) or, for JSON, a
-  top-level key. Like `read_posts`, add a probe only after the user confirms it is a read-only
-  request; prefer the path the docs and catalog records use for that service.
+  top-level key. For a download or tile, use `expect_type: tiff | json` instead: only the first
+  1 KB is requested (`Range`), and the magic bytes decide (the content type is only reported).
+  Like `read_posts`, add a probe only after the user confirms it is a read-only request; prefer
+  the path the docs and catalog records use for that service (for a download, an object a
+  current record links to).
 - No config yet: `docrev env discover --namespace <ns> [--release <r>]`, propose a config
   from it, get the user's confirmation, then write it. For prod, ask the user for the public
   URLs and token source instead; its config always has `read_only: true` and `cluster: false`.

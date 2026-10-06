@@ -1044,3 +1044,53 @@ class ProbeTest(unittest.TestCase):
             docrev.cmd_env_check(argparse.Namespace(env="prod"))
         oc.assert_not_called()
         self.assertIn("probe broken: HTML page", [f["issue"] for f in json.loads(out.getvalue())])
+
+    def typed(self, expect_type, authed, anon=DENIED):
+        entry = {"url": "https://h/api", "probe": {"path": "/f", "expect_type": expect_type}}
+        return self.run_probe(anon=anon, authed=authed, entry=entry)[0]
+
+    def test_tiff_magic_decides_not_content_type(self):
+        for magic in (b"II*\0", b"MM\0*", b"II+\0", b"MM\0+"):
+            for ctype in ("image/tiff", "application/octet-stream"):
+                self.assertEqual(self.typed("tiff", (206, ctype, magic + b"\0" * 8, None)), [])
+        issues = self.typed("tiff", (200, "image/tiff", b"\x89PNG\r\n\x1a\n", None))
+        self.assertEqual(len(issues), 1)
+        self.assertIn("not tiff (content type image/tiff", issues[0])
+
+    def test_typed_probe_flags_html_errors_and_anonymous_access(self):
+        self.assertEqual(self.typed("tiff", (200, "text/html", b"<html></html>", None)), ["probe broken: HTML page"])
+        self.assertEqual(self.typed("tiff", (404, "application/xml", b"II*\0", None)), ["probe broken: HTTP 404"])
+        self.assertEqual(self.typed("tiff", (500, "text/html", b"", None)), ["probe broken: HTTP 500"])
+        tif = (206, "image/tiff", b"II*\0", None)
+        self.assertEqual(self.typed("tiff", tif, anon=tif), ["auth not enforced: probe answered without a token"])
+        self.assertEqual(self.typed("tiff", tif, anon=(500, "text/html", b"<html/>", None)),
+                         ["without token: 500, expected 401"])
+
+    def test_json_type_accepts_a_truncated_prefix(self):
+        self.assertEqual(self.typed("json", (206, "application/json", b'\n {"tilejson": "2.1.0", "na', None)), [])
+        self.assertEqual(self.typed("json", (200, "text/plain", b"ok", None))[0][:22], "probe broken: not json")
+
+    def test_probe_config_needs_one_expectation(self):
+        for probe in ({"path": "/f"}, {"path": "/f", "expect_root": "a", "expect_type": "tiff"},
+                      {"path": "/f", "expect_type": "png"}):
+            issues, calls = self.run_probe(entry={"url": "https://h", "probe": probe})
+            self.assertEqual((len(issues), calls), (1, []))
+            self.assertIn("expect_root or expect_type", issues[0])
+
+    def test_typed_probe_reads_only_a_range(self):
+        resp = unittest.mock.MagicMock(status=200, headers={"Content-Type": "image/tiff"})
+        resp.__enter__.return_value = resp
+        resp.read.return_value = b"II*\0"
+        sent = []
+
+        def urlopen(req, **kw):
+            sent.append(req)
+            return resp
+        entry = {"url": "https://h/api", "probe": {"path": "/big.tif", "expect_type": "tiff"}}
+        with unittest.mock.patch("urllib.request.urlopen", side_effect=urlopen):
+            issues = docrev.probe_findings(self.ENV, "DL", entry, "T")
+        self.assertEqual(issues, [{"kind": "env", "placeholder": "DL", "probe": "/big.tif",
+                                   "issue": "auth not enforced: probe answered without a token", "status": 200}])
+        self.assertEqual([r.get_header("Range") for r in sent], ["bytes=0-1023"] * 2)
+        resp.read.assert_called_with(1024)
+        resp.__exit__.assert_called()
