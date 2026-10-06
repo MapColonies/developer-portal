@@ -50,3 +50,10 @@ When making any request, you need to add a special **header** or **query paramet
 ```curl
 curl --location --request <http_method> '<SERVICE_URL>' --header 'x-api-key: <token>'
 ```
+
+## Errors
+
+| **Status** | **Cause** |
+| ----------- | ----------- |
+| 401 | The request has no token |
+| 403 | The token is invalid or expired |
