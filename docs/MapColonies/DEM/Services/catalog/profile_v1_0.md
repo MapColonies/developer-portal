@@ -37,6 +37,7 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | | mc:sensors | text | list of sensors used as a source for the product <br/> comma separated list |
 | 🗑️ | mc:layerPolygonParts | geojson | polygons of the discrete parts (versions) and the list of layers in the best converted to Geojson |
 | | mc:footprint | geojson | geographical delineation of the product / model trace |
+| | ows:BoundingBox | bbox | two points that represent the record extent |
 | 🗑️ | mc:heightRangeFrom | double | **minimum** height range in Meters (not greater than "heightRangeTo") <br /> valid: **-500 to 9000** |
 | 🗑️ | mc:heightRangeTo | double | **maximum** height range in Meters (not less than "heightRangeFrom") <br /> valid: **-500 to 9000** |
 | 🗑️ | mc:SRS | int | reference System ID (EPSG), <br /> ex: 4326 / 3857 |
@@ -53,5 +54,6 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | 🗑️ | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | ✏️ | mc:insertDate | date | the date when item was added to catalog <br/> renamed in v2 to `mc:insertDateUTC` |
 | | mc:keywords | text | list of key words relevant for product |
+| | mc:links | text | Available links for different services available for the current product |
 | | mc:updateDateUTC | date | date the record got and update in catalog <br/> supported format: **yyyy-mm-ddThh:mm:ssZ** |
 | | mc:type | enum | type of the catalog <br /> **Valid values**:  RECORD_RASTER / RECORD_3D / RECORD_DEM <br /> default: ***RECORD_DEM***|
