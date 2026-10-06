@@ -74,7 +74,7 @@ We recommend you don't use the following `query parameters` when making requests
 - `scaleSize`
 - `scaleFactor`
 - `scaleAxes`
-- `outputCRS`
+- `outputCRS`, except to reproject between `EPSG:4326` and a UTM zone
 - `interpolation`
 
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.

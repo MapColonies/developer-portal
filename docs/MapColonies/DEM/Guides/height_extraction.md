@@ -878,7 +878,7 @@ We recommend you don't use the following `query parameters` when making requests
 - `scaleSize`
 - `scaleFactor`
 - `scaleAxes`
-- `outputCRS`
+- `outputCRS`, except to reproject between `EPSG:4326` and a UTM zone
 - `interpolation`
 
 These parameters require additional calculations on the server-side which means that the original data is changed on-the-fly resulting in new data with different attributes such as `resolution` or `accuracy`.
@@ -946,7 +946,7 @@ Use those labels in `subset=`; `Lat` / `Long` fail with `Invalid axis label prov
 curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subset=E(690000,700000)&subset=N(3580000,3590000)'
 ```
 
-To subset a UTM coverage with latitude and longitude, add `subsettingCRS=EPSG:4326`. The output is then reprojected to `EPSG:4326`, which changes the data (see the warning [above](#get-coverage)):
+To subset a UTM coverage with latitude and longitude, add `subsettingCRS=EPSG:4326`. The output is then reprojected to `EPSG:4326`:
 ```bash
 curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subsettingCRS=EPSG:4326&subset=Lat(32.35,32.40)&subset=Long(35.13,35.20)'
 ```
@@ -954,8 +954,6 @@ curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version
 ### Convert to other CRS
 
 In some situations we will have data in a geographical area in a different CRS than we expect for our calculations. In this case we can ask the service to convert the output to the wanted CRS.
-
-Supported output CRSs are `EPSG:4326` and the WGS 84 UTM zones. `EPSG:3857` isn't supported.
 
 Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:32636`:
 
