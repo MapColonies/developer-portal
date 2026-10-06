@@ -2,6 +2,7 @@ import argparse
 import gzip
 import io
 import json
+import os
 import struct
 import subprocess
 import sys
@@ -706,6 +707,22 @@ class PlaceholderNotationTest(unittest.TestCase):
             (7, "{entityId}", "<ENTITY_ID>"),
             (10, "{WCS_URL}", "[WCS_URL]")])
 
+
+
+class RunsDirTest(unittest.TestCase):
+    def runs_dir(self, env):
+        out = subprocess.run([sys.executable, "-c", "import docrev; print(docrev.RUNS_DIR)"],
+                             cwd=Path(__file__).parent, env=env, capture_output=True, text=True, check=True)
+        return out.stdout.strip()
+
+    def test_default_is_in_repo(self):
+        env = {k: v for k, v in os.environ.items() if k != "DOCREV_RUNS_DIR"}
+        self.assertTrue(self.runs_dir(env).endswith("/.claude/review-runs"))
+
+    def test_env_override(self):
+        with tempfile.TemporaryDirectory() as d:
+            env = dict(os.environ, DOCREV_RUNS_DIR=d)
+            self.assertEqual(self.runs_dir(env), d)
 
 if __name__ == "__main__":
     unittest.main()

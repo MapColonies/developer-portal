@@ -34,7 +34,10 @@ clear which one states the intent.
   `git show docrev-pr-<N>:<path>` into `.claude/review-runs/pr-<N>/` (or a detached worktree of
   the head, so `links`/`refs` see the whole site; they check the checkout the given docs live
   in, wherever docrev itself runs from). Pass `--run pr-<N>` to `call`/`pod-call`
-  (or set `DOCREV_RUN`) so saved responses land in that run's dir.
+  (or set `DOCREV_RUN`) so saved responses land in that run's dir. Name a run after what it
+  reviews (`pr-<N>`, `spec-<page id>`). Runs live under `.claude/review-runs/` (gitignored);
+  set `DOCREV_RUNS_DIR` to put runs, forwards state and `--fetch` clones elsewhere, e.g. when
+  the checkout must stay untouched.
 - Deleted or renamed docs: on the head, `docrev refs <old path> --ref <base>` lists what still
   points at the old URL, id or file name (docs, `sidebars.js`, `src/`, site config). Review a
   `sidebars.js` diff too: every id it adds must exist.
@@ -116,8 +119,12 @@ clear which one states the intent.
   `candidates` to ask about. For one run, `--repo NAME=owner/repo` sets a mapping and
   `--accept NAME` confirms a guess. Confirmed mappings go in
   `~/.claude/review-envs/sources.yaml` (`<component>: <owner/repo>`); then `--fetch`
-  shallow-clones them into `.claude/review-runs/src/`. Use the version that runs in the
+  shallow-clones them into `<runs dir>/src/`. Use the version that runs in the
   reviewed env (prod's chart values, not the PR head), unless the user names another ref.
+  An entry with no version (subchart not vendored, no tag in values) needs one of: the
+  running image tag from the cluster (`oc get deploy -o jsonpath` on its image, where `oc` is
+  allowed), `helm dependency build` in a scratch copy of the chart, or a version the user
+  names. Ask which; don't fall back to the default branch.
 
 ## 3. Classify each doc
 

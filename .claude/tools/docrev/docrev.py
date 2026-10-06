@@ -33,7 +33,7 @@ import yaml
 REPO = Path(__file__).resolve().parents[3]
 # Env configs hold internal hostnames and must stay out of this public repo.
 ENVS_DIR = Path.home() / ".claude" / "review-envs"
-RUNS_DIR = REPO / ".claude" / "review-runs"
+RUNS_DIR = Path(os.path.expanduser(os.environ["DOCREV_RUNS_DIR"])) if os.environ.get("DOCREV_RUNS_DIR") else REPO / ".claude" / "review-runs"
 
 # Docs use several styles: {X_URL}, {entityId}, {TileRow}, <X_URL>, <X-URL>, <geocoding_url>, <x-api-key>, [COORD1_X].
 # Lowercase angle forms need a `-`/`_` so plain XML elements (`<name>`) don't count. Braces take
