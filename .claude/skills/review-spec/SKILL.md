@@ -28,8 +28,8 @@ At activation, ask in one message (skip what the arguments already answer):
    version under review. Requirements for later stages are listed as out of scope, not missing.
    By default only client-facing services are in scope (what the portal documents); ingestion,
    catalog population and other internal workflows are out of scope unless the user includes
-   them. So are services outside the reviewed product version (e.g. a service shared by v1
-   and v2 when reviewing v2's new stack).
+   them. Client-facing services shared across product versions (e.g. one serving both v1 and
+   v2) are in scope.
 3. **Targets**: which of deployment, code and docs to check (default all), the env (prod
    default), the code repos and refs (`docrev sources`, as in review-docs), and the docs
    (paths or a portal PR).
@@ -114,7 +114,8 @@ average them.
 Things the implementation has that the spec doesn't mention (extra fields, extra formats,
 extra endpoints) are listed separately as "not in spec", for information. They're findings
 only when they contradict a stated restriction, or when the spec has an empty or unnamed row
-that might be them (then ask).
+that might be them (then ask). A spec row nobody can interpret goes to the follow-ups as a
+question for the page owner (the PO), not a finding.
 
 ## 4. Report
 
