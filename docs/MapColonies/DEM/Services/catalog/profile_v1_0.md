@@ -49,7 +49,7 @@ New version [v2](/docs/MapColonies/DEM/Services/catalog/dem-catalog-profile-v2) 
 | 🗑️ | mc:geographicArea | text | geographic area cities |
 | 🗑️ | mc:undulationModel | enum |  **Valid Values**: <br/> MSL EGM96 / MSL EGM2008 / MSL DMA10 / ILUM |
 | | mc:dataType | enum |  **Valid Values**: <br/> FLOAT64 / FLOAT32 / FLOAT16 / INT64 / INT32 / INT16 / INT8 |
-| | mc:noDataValue | enum |  **Valid Values**: <br/> -32768 / -326767 / -999 |
+| | mc:noDataValue | enum |  **Valid Values**: <br/> -32768 / -999 |
 | 🗑️ | mc:productBBox | text | the bounding box of the product minX,minY,maxX,maxY |
 | ✏️ | mc:insertDate | date | the date when item was added to catalog <br/> renamed in v2 to `mc:insertDateUTC` |
 | | mc:keywords | text | list of key words relevant for product |
