@@ -13,7 +13,7 @@ tags:
 # Replication Service 📦
 
 :::info
-Click [here](/docs/MapColonies/vector/Services/replication/api) for the OpenAPI
+Click [here](/docs/MapColonies/vector/services/replication/api) for the OpenAPI
 :::
 
 ## Purpose
