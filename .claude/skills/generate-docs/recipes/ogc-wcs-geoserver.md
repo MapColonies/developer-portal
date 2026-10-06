@@ -11,6 +11,7 @@ Reader flow: GetCapabilities → pick coverage → DescribeCoverage (take `srsNa
 Gotchas:
 - Coverage ids are prefixed with the workspace (`<ws>__<name>`); the prefix is optional in requests. Verify the naming rule the docs claim against real ids.
 - Every `xlink:href` in capabilities is built from `PROXY_BASE_URL`; check those hosts resolve to a working route, since clients like QGIS, GDAL and OWSLib follow them.
+- Coverages can be in different CRSs (e.g. EPSG:4326 and a UTM zone), and `axisLabels` follow the CRS (`Lat Long` vs `E N`). Check one coverage per CRS family the service holds; in the docs, explain the general flow (read `srsName` / `axisLabels` from DescribeCoverage, use them in `subset=`, or `subsettingCRS`) and name the supported families with one example, not every coverage.
 - Output size limit errors are `ows:ExceptionReport` with HTTP 500; the limit is per-environment config.
 
 Docs: the OGC WCS protocol page, and the capabilities/coverage steps of a guide that extracts
