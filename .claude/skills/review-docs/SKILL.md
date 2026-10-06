@@ -83,9 +83,9 @@ clear which one states the intent.
   No `--allow-write`, forwards, `pod-read`/`pod-call`, or other cluster access. To localise a
   prod mismatch, reproduce it on a lower env where those are allowed, and say so in the report.
 - Every run: `docrev env check <env>`. Each item is an **env** finding (unadmitted route and who
-  holds it, service without ready endpoints, missing token; for `cluster: false` envs, an
-  unreachable entry point). If an entry's route is broken,
-  use `access: forward` for this run (tell the user) and `docrev env forward <env>`.
+  holds it, no ready endpoints behind the route that actually serves each URL or behind the
+  forward service, missing token; for `cluster: false` envs, an unreachable entry point). If an
+  entry's route is broken, use `access: forward` for this run (tell the user) and `docrev env forward <env>`.
 - **Network down**: `env check` or `call` reporting `network unreachable (VPN?)` / `(DNS)` is
   this machine, not the env. Stop and ask the user to reconnect; don't wait out timeouts or
   retry in a loop. If live access can't be restored, continue against the code only, mark
@@ -95,10 +95,13 @@ clear which one states the intent.
 - Stop forwards at the end: `docrev env stop <env>`.
 - **Code**: `docrev sources --chart <helm chart dir>` (or `--image NAME:VERSION`) maps each
   deployed component to its GitHub repo and release tag. `kind: image` entries carry the code
-  version that runs (an image tag in values overrides the chart's version); `kind: chart` is the
-  packaging version. Show the mapping and get it confirmed; name-guessed repos come back
-  `confirmed: false`, unmatched ones with `candidates` to ask about. For one run, `--repo
-  NAME=owner/repo` sets a mapping and `--accept NAME` confirms a guess. Confirmed mappings go in
+  version that runs (an image tag in values overrides the chart's version; an image without one
+  gets the owning subchart's template default, explained in `note`, which needs the subchart
+  vendored by `helm dependency build`); `kind: chart` is the packaging version. `declared_in`
+  lists the values key paths (e.g. `values.yaml:geoserver-wcs.image`). Show the mapping and get
+  it confirmed; name-guessed repos come back `confirmed: false`, unmatched ones with
+  `candidates` to ask about. For one run, `--repo NAME=owner/repo` sets a mapping and
+  `--accept NAME` confirms a guess. Confirmed mappings go in
   `~/.claude/review-envs/sources.yaml` (`<component>: <owner/repo>`); then `--fetch`
   shallow-clones them into `.claude/review-runs/src/`. Use the version that runs in the
   reviewed env (prod's chart values, not the PR head), unless the user names another ref.
@@ -106,7 +109,8 @@ clear which one states the intent.
 ## 3. Classify each doc
 
 `docrev extract <doc> --no-content` returns headings (with `step` numbers), tabs, and blocks
-(`request`, `example-response`, `diagram`, ...) with line numbers.
+with line numbers, each classified by its `role` (`request`, `request-body`, `example-response`,
+`endpoint`, `template`, `diagram`, else the code language, e.g. `xml`, or `code`).
 
 - **Flow**: numbered steps where later steps use output of earlier ones (`kind_hint: flow` is
   a hint, confirm by reading). Review the structure as well as the requests:
@@ -126,8 +130,10 @@ Run requests in document order with `docrev call <env> --doc <file> --block <lin
 label may also sit on the line above the fence), and
 XML/JSON bodies whose endpoint is named in the prose just above (`endpoint_from_prose: true`;
 check it picked the right one). A `request-body` block has no endpoint nearby: build the curl
-yourself and pipe it: `echo "curl ..." | docrev call <env>`. A path-only request (`/route?...`)
-needs `--base <VALHALLA_URL>`. A `template` block (e.g. `curl --request <http_method>`) is
+yourself and pipe it: `echo "curl ..." | docrev call <env>`; a long body can sit in a file
+(`-d @body.xml`, or `--data-binary @body.xml` to keep newlines, as curl does), and is
+classified by its root element (`GetRecords` reads, `Transaction` writes). A path-only request
+(`/route?...`) needs `--base <VALHALLA_URL>`. A `template` block (e.g. `curl --request <http_method>`) is
 syntax, not a request to run.
 
 - **Chaining (flows)**: fill each step's inputs from earlier responses, the way a reader

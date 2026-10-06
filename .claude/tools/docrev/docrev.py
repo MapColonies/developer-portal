@@ -8,6 +8,7 @@ any XML/JSON to its structure so two sources can be compared.
 """
 import argparse
 import base64
+import io
 import json
 import os
 import re
@@ -18,6 +19,7 @@ import ssl
 import struct
 import subprocess
 import sys
+import tarfile
 import textwrap
 import time
 import urllib.error
@@ -52,8 +54,9 @@ MAX_BODY = 5 * 1024 * 1024
 
 
 
-def parse_curl(text):
-    """Parse a curl command (possibly multi-line) into method/url/headers/body."""
+def parse_curl(text, data_files=False):
+    """Parse a curl command (possibly multi-line) into method/url/headers/body. With data_files,
+    `-d @file` reads the body from the file as curl does (not for doc blocks: their files aren't here)."""
     joined = re.sub(r"\\\r?\n", " ", text.strip())
     try:
         argv = shlex.split(joined)
@@ -71,6 +74,13 @@ def parse_curl(text):
             req["headers"][k.strip()] = v.strip()
         elif a in ("-d", "--data", "--data-raw", "--data-binary"):
             req["body"] = next(it, None)
+            if data_files and a != "--data-raw" and (req["body"] or "").startswith("@"):
+                try:
+                    body = Path(os.path.expanduser(req["body"][1:])).read_text()
+                except OSError as e:
+                    return {"error": f"cannot read {a} {req['body']}: {e.strerror}"}
+                # curl strips newlines from `-d @file` and keeps them for `--data-binary @file`.
+                req["body"] = body if a == "--data-binary" else re.sub(r"[\r\n]", "", body)
         elif a in ("-o", "--output", "-u", "--user", "-w", "--write-out"):
             next(it, None)
         elif not a.startswith("-") and req["url"] is None:
@@ -302,6 +312,9 @@ def classify(req, env=None):
     url, body = req.get("url") or "", req.get("body") or ""
     if method in ("GET", "HEAD", "OPTIONS"):
         return "read"
+    if method == "POST" and body.lstrip().startswith("<"):
+        # The root element is the operation; a Transaction may mention read ops in its records.
+        return "read" if READ_OPS.fullmatch(xml_root(body) or "") else "write"
     if method == "POST" and (READ_OPS.search(body[:2000]) or READ_OPS.search(url)):
         return "read"
     # JSON query APIs (routing, geocoding) take reads as POST; the env config lists them
@@ -421,6 +434,27 @@ def http_status(env, url, tok):
         return None, f"{type(e).__name__}: {redact(str(e), tok)}"
 
 
+def admitted(route):
+    cond = (route.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
+    return cond[0].get("status") == "True"
+
+
+def serving_route(url, routes):
+    """The admitted route the router sends `url` to: same host, longest path prefix."""
+    parts = urllib.parse.urlsplit(url)
+    cands = [r for r in routes if admitted(r) and r["spec"]["host"] == parts.hostname
+             and (parts.path or "/").startswith(r["spec"].get("path") or "")]
+    return max(cands, key=lambda r: len(r["spec"].get("path") or ""), default=None)
+
+
+def ready_addresses(svc, ns):
+    out = oc("get", "endpoints", svc, "-n", ns, "-o", "json")
+    if out.returncode:
+        return None, (out.stderr or out.stdout).strip()[:300]
+    ep = json.loads(out.stdout or "{}")
+    return sum(len(s.get("addresses") or []) for s in ep.get("subsets") or []), None
+
+
 def cmd_env_check(a):
     env = load_env(a.env)
     findings = []
@@ -459,24 +493,34 @@ def cmd_env_check(a):
             routes_by_ns[ns] = None if err else {r["metadata"]["name"]: r for r in items}
         routes = routes_by_ns[ns] or {}
         r = routes.get(e.get("route")) if e.get("route") else None
+        svcs = {}
         if routes_by_ns[ns] is None:
             pass  # already reported as unlistable
         elif e.get("route") and not r:
             findings.append({"kind": "env", "placeholder": ph, "issue": f"route {e['route']} missing in {ns}"})
-        elif r:
+        elif r and not admitted(r):
             cond = (r.get("status", {}).get("ingress") or [{}])[0].get("conditions") or [{}]
-            if cond[0].get("status") != "True":
-                claimers = [n for n, o in routes.items() if n != e["route"]
-                            and o["spec"]["host"] == r["spec"]["host"] and o["spec"].get("path") == r["spec"].get("path")]
-                findings.append({"kind": "env", "placeholder": ph,
-                                 "issue": f"route {e['route']} not admitted ({cond[0].get('reason')})",
-                                 "claimed_by": claimers})
-        svc = (e.get("forward") or {}).get("service")
-        if svc:
-            ep = json.loads(oc("get", "endpoints", svc, "-n", ns, "-o", "json").stdout or "{}")
-            ready = sum(len(s.get("addresses") or []) for s in ep.get("subsets") or [])
+            claimers = [n for n, o in routes.items() if n != e["route"]
+                        and o["spec"]["host"] == r["spec"]["host"] and o["spec"].get("path") == r["spec"].get("path")]
+            findings.append({"kind": "env", "placeholder": ph,
+                             "issue": f"route {e['route']} not admitted ({cond[0].get('reason')})",
+                             "claimed_by": claimers})
+        if routes_by_ns[ns] is not None:
+            # The route that actually answers the URL (possibly a claimer, not the configured one).
+            target = serving_route(e["url"], routes.values())
+            if target:
+                spec = target["spec"]
+                for b in [spec["to"], *(spec.get("alternateBackends") or [])]:
+                    svcs[b["name"]] = target["metadata"]["name"]
+            elif not any(f.get("placeholder") == ph for f in findings):
+                findings.append({"kind": "env", "placeholder": ph, "issue": f"no admitted route in {ns} serves {e['url']}"})
+        if (e.get("forward") or {}).get("service"):
+            svcs.setdefault(e["forward"]["service"], None)
+        for svc, via in svcs.items():
+            ready, err = ready_addresses(svc, ns)
             if not ready:
-                findings.append({"kind": "env", "placeholder": ph, "issue": f"service {svc} has no ready endpoints"})
+                findings.append({"kind": "env", "placeholder": ph, "issue": f"service {svc} has no ready endpoints",
+                                 **({"route": via} if via else {}), **({"detail": err} if err else {})})
     if not token_for(env):
         findings.append({"kind": "env", "issue": "token not available", "source": env.get("token")})
     print(json.dumps(findings, indent=2))
@@ -748,7 +792,7 @@ def cmd_call(a):
     elif a.request:
         req = json.loads(Path(a.request).read_text())
     else:
-        req = parse_curl(sys.stdin.read())
+        req = parse_curl(sys.stdin.read(), data_files=True)
     if not req or req.get("error"):
         sys.exit(json.dumps({"error": "could not parse request", "detail": req}))
     # Literal substitutions carry values chained from earlier responses (or illustrative
@@ -1006,19 +1050,6 @@ def config_keys(text, suffix):
     return quoted or {m.group(1) for m in map(PLAIN_KEY_RE.match, text.splitlines()) if m}
 
 
-def counterpart(path, base_paths):
-    """The base file a new file most likely replaces: same name, in the same top-level dir (or
-    sharing two path parts), longest shared path suffix. None rather than a file of another chart."""
-    name, top = Path(path).name, Path(path).parts[0]
-
-    def shared(b):
-        x, y = Path(path).parts[::-1], Path(b).parts[::-1]
-        return next((i for i, (u, v) in enumerate(zip(x, y)) if u != v), min(len(x), len(y)))
-    same = [b for b in base_paths if Path(b).name == name and b != path
-            and (Path(b).parts[0] == top or shared(b) >= 2)]
-    return max(same, key=lambda b: (Path(b).parts[0] == top, shared(b))) if same else None
-
-
 def gh_json(*args):
     out = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
     return json.loads(out.stdout) if out.returncode == 0 and out.stdout.strip() else None
@@ -1032,22 +1063,23 @@ def gh_raw(repo, path, ref):
 
 def pr_file_facts(repo, num, max_keys):
     """Per file of a PR: a file moved unchanged (`same_as` a base file) and, for config/mapping
-    files, which keys were added/removed against the base version or the file it replaces."""
+    files, which keys were added/removed against the same file in the base (or the one it was
+    renamed/copied from). A new file isn't diffed: a `same_as` copy is identical, and a look-alike
+    from another chart (e.g. the previous version's values) only yields noise."""
     pr = gh_json(f"repos/{repo}/pulls/{num}")
     if not pr:
         return {}
     base, head = pr["base"]["sha"], pr["head"]["sha"]
     tree = gh_json(f"repos/{repo}/git/trees/{base}?recursive=1") or {}
     blobs = {t["sha"]: t["path"] for t in tree.get("tree", []) if t["type"] == "blob"}
-    base_paths = list(blobs.values())
     facts = {}
     for f in gh_json("--paginate", f"repos/{repo}/pulls/{num}/files") or []:
         path, info = f["filename"], {}
         if f["status"] == "added" and f.get("sha") in blobs:
             info["same_as"] = blobs[f["sha"]]
         if Path(path).suffix in CONFIG_SUFFIXES and f["status"] != "removed":
-            old = f.get("previous_filename") if f["status"] == "renamed" else \
-                path if f["status"] == "modified" else info.get("same_as") or counterpart(path, base_paths)
+            old = f.get("previous_filename") if f["status"] in ("renamed", "copied") else \
+                path if f["status"] == "modified" else None
             new_text, old_text = gh_raw(repo, path, head), old and gh_raw(repo, old, base)
             if new_text is not None and old_text is not None:
                 nk, ok = config_keys(new_text, Path(path).suffix), config_keys(old_text, Path(old).suffix)
@@ -1178,7 +1210,7 @@ def pod_exec_error(stderr):
 def cmd_pod_call(a):
     """Send one read request from inside a workload's pod to a local port, bypassing
     routes/proxies/auth, to localise which hop of a chain misbehaves."""
-    req = parse_curl(sys.stdin.read())
+    req = parse_curl(sys.stdin.read(), data_files=True)
     if not req or req.get("error"):
         sys.exit(json.dumps({"error": "could not parse request", "detail": req}))
     if classify(req) == "write":
@@ -1400,12 +1432,15 @@ def table_fields(text):
     fields = []
     for t in tables:
         rows = [(n, cells) for n, cells in t[1:] if not all(re.fullmatch(r":?-{2,}:?", c) or not c for c in cells)]
-        clean = lambda c: re.sub(r"[`*]", "", c).strip()
+        clean = lambda c: re.sub(r"[`*]", "", re.sub(r"!?\[([^\]]*)\]\([^)]*\)", r"\1", c)).strip()
         width = max((len(c) for _, c in rows), default=0)
-        score = lambda i: (sum(1 for _, c in rows if i < len(c) and FIELD_RE.match(clean(c[i]))),
-                           sum(1 for _, c in rows if i < len(c) and ":" in clean(c[i])))
+
+        def score(i):
+            hits = [n for n in (clean(c[i]) for _, c in rows if i < len(c)) if FIELD_RE.match(n)]
+            # Type columns (`text`, `enum`) look like names too; namespaced cells (`mc:id`) mark the name column.
+            return sum(2 if ":" in n else 1 for n in hits), len(hits)
         col = max(range(width), key=score, default=None)
-        if col is None or score(col)[0] * 2 < len(rows):
+        if col is None or score(col)[1] * 2 < len(rows):
             continue
         for n, cells in rows:
             name = clean(cells[col]) if col < len(cells) else ""
@@ -1461,34 +1496,93 @@ SOURCES_FILE = ENVS_DIR / "sources.yaml"
 IMAGE_KEY_RE = re.compile(r"^(.*?)(repository|Repository)$")
 
 
+def chart_files(chart_dir):
+    """Chart.yaml and template texts of a chart and every subchart vendored under it (dirs or the
+    .tgz files `helm dependency build` leaves, nested), by path as if unpacked in place."""
+    files = {}
+
+    def keep(rel):
+        return rel == "Chart.yaml" or rel.endswith("/Chart.yaml") or rel.startswith("templates/") or "/templates/" in rel
+
+    def add_tgz(data, prefix):
+        with tarfile.open(fileobj=io.BytesIO(data)) as t:
+            for m in t.getmembers():
+                rel = m.name.partition("/")[2]
+                if m.isfile() and rel.endswith(".tgz"):
+                    add_tgz(t.extractfile(m).read(), prefix + rel[:-len(".tgz")] + "/")
+                elif m.isfile() and keep(rel):
+                    files[prefix + rel] = t.extractfile(m).read().decode("utf-8", "replace")
+    for f in chart_dir.rglob("*"):
+        rel = f.relative_to(chart_dir).as_posix()
+        if f.is_file() and f.suffix == ".tgz" and "charts/" in rel:
+            add_tgz(f.read_bytes(), rel[:-len(".tgz")] + "/")
+        elif f.is_file() and keep(rel):
+            files[rel] = f.read_text(errors="replace")
+    return files
+
+
+def chart_node(files, prefix=""):
+    """{meta, templates, deps}: deps maps each dependency's values key (alias or name) to its
+    vendored subchart node, or None when it isn't vendored."""
+    meta = yaml.safe_load(files.get(prefix + "Chart.yaml") or "") or {}
+    subs = {}
+    for p in sorted(files):
+        rest = p[len(prefix + "charts/"):] if p.startswith(prefix + "charts/") else ""
+        if rest.count("/") == 1 and rest.endswith("/Chart.yaml"):
+            sub = chart_node(files, prefix + "charts/" + rest[:-len("Chart.yaml")])
+            subs.setdefault(sub["meta"].get("name"), sub)
+    return {"meta": meta, "templates": "\n".join(v for k, v in files.items() if k.startswith(prefix + "templates/")),
+            "deps": {d.get("alias") or d["name"]: subs.get(d["name"]) for d in meta.get("dependencies") or []}}
+
+
+def default_tag(chart, path):
+    """(version, note) for an image whose values set no tag: the chart's appVersion when its
+    templates say so (`default (printf "v%s" .Chart.AppVersion) .Values.image.tag`), else None."""
+    if chart is None:
+        return None, "no tag in values, and the subchart isn't vendored (helm dependency build) to read its default"
+    pat = r"default\s[^\n]*\.Chart\.AppVersion[^\n]*\.Values\.%s\b" % re.escape(".".join(path))
+    if chart["meta"].get("appVersion") and re.search(pat, chart["templates"]):
+        return str(chart["meta"]["appVersion"]), f"no tag in values; {chart['meta'].get('name')} defaults it to its appVersion"
+    return None, "no tag in values, and no appVersion default for it in the chart's templates"
+
+
 def chart_components(chart_dir):
     """Components of a chart: its dependencies (kind `chart`, packaging versions) and every image
     in its values files (kind `image`; `repository`/`tag` and `<x>Repository`/`<x>Tag` pairs, or
-    `image: name:tag`). The image tag is the code version actually running."""
+    `image: name:tag`). The image tag is the code version actually running; without one, the
+    owning (sub)chart's template default. `declared_in` names the values key path."""
     chart_dir = Path(chart_dir)
-    meta = yaml.safe_load((chart_dir / "Chart.yaml").read_text()) or {}
-    out = {(d["name"], str(d.get("version", "")).lstrip("v"), "chart"): "Chart.yaml"
-           for d in meta.get("dependencies") or []}
+    top = chart_node(chart_files(chart_dir))
+    out = {}
 
-    def walk(node, src):
+    def add(name, version, kind, where, note=None):
+        out.setdefault((name, str(version or "").lstrip("v"), kind, note), []).append(where)
+    for d in top["meta"].get("dependencies") or []:
+        add(d["name"], d.get("version", ""), "chart", "Chart.yaml:" + (d.get("alias") or d["name"]))
+
+    def walk(node, keys, chart, rel, src):
+        # `rel` is the key path inside `chart`'s own values; a dependency's key switches charts.
         if isinstance(node, dict):
             for k, v in node.items():
                 m = IMAGE_KEY_RE.match(k) if isinstance(v, str) else None
                 if m:
-                    tag = node.get(m.group(1) + ("Tag" if m.group(1) else "tag"))
-                    if tag is not None:
-                        out[(v.rsplit("/", 1)[-1], str(tag).lstrip("v"), "image")] = src
+                    tag_key = m.group(1) + ("Tag" if m.group(1) else "tag")
+                    tag, note = (node[tag_key], None) if node.get(tag_key) is not None else default_tag(chart, rel + [tag_key])
+                    add(v.rsplit("/", 1)[-1], tag, "image", f"{src}:{'.'.join(keys)}", note)
                 elif k == "image" and isinstance(v, str) and ":" in v.rsplit("/", 1)[-1]:
                     name, tag = v.rsplit("/", 1)[-1].rsplit(":", 1)
-                    out[(name, tag.lstrip("v"), "image")] = src
-                walk(v, src)
+                    add(name, tag, "image", f"{src}:{'.'.join(keys + [k])}")
+                if chart and not rel and k in chart["deps"]:
+                    walk(v, keys + [k], chart["deps"][k], [], src)
+                else:
+                    walk(v, keys + [k], chart, rel + [k], src)
         elif isinstance(node, list):
             for v in node:
-                walk(v, src)
+                walk(v, keys, chart, rel, src)
     for f in sorted(chart_dir.glob("*values*.y*ml")):
-        walk(yaml.safe_load(f.read_text()), f.name)
-    return [{"component": n, "version": v, "kind": k, "declared_in": src}
-            for (n, v, k), src in sorted(out.items(), key=lambda i: (i[0][2] != "image", i[0]))]
+        walk(yaml.safe_load(f.read_text()), [], top, [], f.name)
+    return [{"component": n, "version": v, "kind": k, "declared_in": src, **({"note": note} if note else {})}
+            for (n, v, k, note), src in sorted(out.items(), key=lambda i: (i[0][2] != "image", i[0][:3]))]
 
 
 def repo_org():
@@ -1533,8 +1627,9 @@ def cmd_sources(a):
             if r["repo"] and r["confirmed"]:
                 dest = RUNS_DIR / "src" / f"{r['repo'].replace('/', '__')}@{r['ref']}"
                 if not dest.exists():
+                    # stdout carries the JSON result; git's own output goes to stderr.
                     subprocess.run(["git", "clone", "-q", "--depth", "1", "--branch", r["ref"],
-                                    f"https://github.com/{r['repo']}.git", str(dest)], check=False)
+                                    f"https://github.com/{r['repo']}.git", str(dest)], check=False, stdout=sys.stderr)
                 r["path"] = str(dest) if dest.exists() else None
     print(json.dumps(out, indent=2))
 

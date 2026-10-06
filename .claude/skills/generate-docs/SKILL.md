@@ -40,8 +40,10 @@ and the intent isn't clear.
 
 - `docrev deploy-diff --pr <owner/repo#N>`: new/modified files, added image/tag/route/
   dependency keys with line numbers. For config/mapping files it adds `same_as` (a file moved
-  unchanged, e.g. a copied profile) and `key_diff` (keys added/removed against the base version
-  or the file it replaces). Read the diff itself for those files: they usually carry the intent.
+  unchanged, e.g. a copied profile) and `key_diff` (keys added/removed against the same file in
+  the base, or the file it was renamed from; new files get none, so diff a new chart against the
+  one it replaces yourself if that matters). Read the diff itself for those files: they usually
+  carry the intent.
 - `docrev inventory --namespace <ns> --release <r>`: what is actually running (images, ready
   replicas), exposed (routes, admission), and configured (configmaps) for the release.
 - Code: `docrev sources --chart <chart dir>` maps each component to its repo and tag (use the

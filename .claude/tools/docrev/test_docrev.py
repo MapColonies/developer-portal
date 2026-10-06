@@ -840,10 +840,119 @@ class ReachAndDeployFactsTest(unittest.TestCase):
                          {"pycsw:Id", "pycsw:X"})
         self.assertEqual(docrev.config_keys("[server]\nurl = http://a\nhome: /x\n", ".cfg"), {"url", "home"})
 
-    def test_counterpart(self):
-        base = ["dem/charts/serving/values.yaml", "app/charts/extractable/values.yaml", "values.yaml",
-                "dem/charts/serving/config/mappings.py"]
-        self.assertEqual(docrev.counterpart("dem/charts/serving-v2/values.yaml", base), "dem/charts/serving/values.yaml")
-        self.assertEqual(docrev.counterpart("dem/charts/serving-v2/config/mappings.py", base),
-                         "dem/charts/serving/config/mappings.py")
-        self.assertIsNone(docrev.counterpart("raster/x/global.yaml", base))
+    def test_key_diff_only_against_same_path(self):
+        files = [{"filename": "dem/charts/serving-v2/values.yaml", "status": "added", "sha": "n1"},
+                 {"filename": "dem/charts/serving/values.yaml", "status": "modified", "sha": "n2"}]
+        api = {"repos/o/r/pulls/1": {"base": {"sha": "B"}, "head": {"sha": "H"}},
+               "repos/o/r/git/trees/B?recursive=1": {"tree": [{"type": "blob", "sha": "o2", "path": "dem/charts/serving/values.yaml"}]}}
+        raw = {("dem/charts/serving-v2/values.yaml", "H"): "x: 1\n", ("dem/charts/serving/values.yaml", "H"): "a: 1\nb: 2\n",
+               ("dem/charts/serving/values.yaml", "B"): "a: 1\n"}
+        with unittest.mock.patch.object(docrev, "gh_json", side_effect=lambda *a: files if a[0] == "--paginate" else api[a[0]]), \
+                unittest.mock.patch.object(docrev, "gh_raw", side_effect=lambda repo, path, ref: raw.get((path, ref))):
+            facts = docrev.pr_file_facts("o/r", "1", 10)
+        self.assertEqual(facts, {"dem/charts/serving/values.yaml": {"key_diff": {
+            "against": "dem/charts/serving/values.yaml", "added": ["b"], "removed": []}}})
+
+
+class TrialFixesTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def test_env_check_reads_endpoints_of_the_route_target(self):
+        env = {"namespace": "ns", "token": {}, "placeholders": {
+            "A_URL": {"url": "https://h/api/a/v1", "route": "a-route"},
+            "B_URL": {"url": "https://h/api/b", "route": "b-route"}}}
+        route = lambda name, path, svc, ok: {"metadata": {"name": name}, "spec": {"host": "h", "path": path, "to": {"name": svc}},
+                                              "status": {"ingress": [{"conditions": [{"status": "True" if ok else "False"}]}]}}
+        routes = [route("a-route", "/api/a/v1", "a-nginx", True), route("catch-all", "/", "portal", True),
+                  route("b-route", "/api/b", "b-nginx", False), route("b-old", "/api/b", "b-old-nginx", True)]
+        ready = {"a-nginx": {"subsets": [{"notReadyAddresses": [{"ip": "1"}]}]}, "portal": {"subsets": [{"addresses": [{"ip": "2"}]}]},
+                 "b-old-nginx": {"subsets": [{"addresses": [{"ip": "3"}]}]}}
+
+        def oc(*args):
+            if args[:2] == ("get", "routes"):
+                return subprocess.CompletedProcess([], 0, json.dumps({"items": routes}), "")
+            if args[:2] == ("get", "endpoints"):
+                return subprocess.CompletedProcess([], 0, json.dumps(ready[args[2]]), "")
+            return subprocess.CompletedProcess([], 0, "me", "")
+        with unittest.mock.patch.object(docrev, "load_env", return_value=env), \
+                unittest.mock.patch.object(docrev, "token_for", return_value="T"), \
+                unittest.mock.patch.object(docrev, "oc", side_effect=oc), redirect_stdout(io.StringIO()) as out:
+            docrev.cmd_env_check(argparse.Namespace(env="e"))
+        got = [(f["placeholder"], f["issue"], f.get("route")) for f in json.loads(out.getvalue())]
+        self.assertEqual(got, [("A_URL", "service a-nginx has no ready endpoints", "a-route"),
+                               ("B_URL", "route b-route not admitted (None)", None)])
+
+    def test_profile_name_column_with_link_cells(self):
+        text = ("| Name | Type |\n|---|---|\n| mc:id | text |\n| [mc:productType](#productType) | enum |\n"
+                "| mc:footprint | geojson |\n")
+        self.assertEqual([f["name"] for f in docrev.table_fields(text)], ["mc:id", "mc:productType", "mc:footprint"])
+
+    def test_curl_data_from_file_classified_by_content(self):
+        (self.tmp / "q.xml").write_text('<?xml version="1.0"?>\n<!-- query -->\n<csw:GetRecords\n service="CSW"/>\n')
+        (self.tmp / "t.xml").write_text("<csw:Transaction><csw:Insert>?request=GetCapabilities</csw:Insert></csw:Transaction>")
+        q = docrev.parse_curl(f"curl -X POST 'http://x/csw?request=GetRecords' -d @{self.tmp}/q.xml", data_files=True)
+        self.assertEqual(q["body"], '<?xml version="1.0"?><!-- query --><csw:GetRecords service="CSW"/>')
+        self.assertEqual(docrev.classify(q), "read")
+        b = docrev.parse_curl(f"curl --data-binary @{self.tmp}/q.xml http://x/csw", data_files=True)
+        self.assertIn("\n service", b["body"])
+        t = docrev.parse_curl(f"curl 'http://x/csw?request=GetCapabilities' -d @{self.tmp}/t.xml", data_files=True)
+        self.assertEqual(docrev.classify(t), "write")
+        self.assertEqual(docrev.parse_curl("curl http://x -d @q.xml")["body"], "@q.xml")
+        self.assertIn("error", docrev.parse_curl(f"curl http://x -d @{self.tmp}/none.xml", data_files=True))
+
+    def test_untagged_images_take_the_owning_chart_default(self):
+        import tarfile
+        d = self.tmp / "chart"
+        (d / "charts" / "plain").mkdir(parents=True)
+        (d / "Chart.yaml").write_text("name: top\nappVersion: 9.9.9\ndependencies:\n"
+                                      "  - {name: pycsw, alias: pycsw-a, version: 7.0.3}\n  - {name: pycsw, alias: pycsw-b, version: 7.0.3}\n"
+                                      "  - {name: plain, version: 1.0.0}\n  - {name: absent, version: 2.0.0}\n")
+        (d / "charts" / "plain" / "Chart.yaml").write_text("name: plain\nappVersion: 1.0.0\n")
+        files = {"pycsw/Chart.yaml": "name: pycsw\nappVersion: 7.0.3\n",
+                 "pycsw/templates/_helpers.tpl": '{{- default (printf "v%s" .Chart.AppVersion) .Values.image.tag }}\n'}
+        with tarfile.open(d / "charts" / "pycsw-7.0.3.tgz", "w:gz") as t:
+            for name, text in files.items():
+                info = tarfile.TarInfo(name)
+                info.size = len(text.encode())
+                t.addfile(info, io.BytesIO(text.encode()))
+        (d / "values.yaml").write_text("pycsw-a: {image: {repository: common/pycsw}}\npycsw-b: {image: {repository: common/pycsw}}\n"
+                                       "plain: {image: {repository: common/plain}}\nabsent: {image: {repository: common/absent}}\n"
+                                       "gs-a: {image: {repository: geoserver-os, tag: v1}}\ngs-b: {image: {repository: geoserver-os, tag: v1}}\n")
+        got = {c["component"]: c for c in docrev.chart_components(d) if c["kind"] == "image"}
+        self.assertEqual((got["pycsw"]["version"], got["pycsw"]["declared_in"]), ("7.0.3", ["values.yaml:pycsw-a.image", "values.yaml:pycsw-b.image"]))
+        self.assertIn("appVersion", got["pycsw"]["note"])
+        self.assertEqual((got["plain"]["version"], got["absent"]["version"]), ("", ""))
+        self.assertIn("isn't vendored", got["absent"]["note"])
+        self.assertEqual(got["geoserver-os"]["declared_in"], ["values.yaml:gs-a.image", "values.yaml:gs-b.image"])
+
+    def test_fetch_keeps_git_output_off_stdout(self):
+        comp = {"component": "c", "version": "1", "repo": "o/c", "ref": "v1", "confirmed": True}
+        with unittest.mock.patch.object(docrev, "find_source", return_value=comp), \
+                unittest.mock.patch.object(docrev, "RUNS_DIR", self.tmp), \
+                unittest.mock.patch.object(docrev.subprocess, "run") as run, redirect_stdout(io.StringIO()) as out:
+            docrev.cmd_sources(argparse.Namespace(repo=None, org="o", chart=None, image=["c:1"], accept=None, fetch=True))
+        self.assertIs(run.call_args.kwargs["stdout"], sys.stderr)
+        json.loads(out.getvalue())
+
+    def test_guide_blocks_carry_a_role(self):
+        path = self.tmp / "g.md"
+        path.write_text(textwrap.dedent("""\
+            ## Capabilities (Step 2)
+            ```bash
+            curl --location '<WCS_SERVICE_URL>/wcs?request=GetCapabilities'
+            ```
+            <details>
+            <summary>Response</summary>
+
+            ```xml
+            <wcs:Capabilities/>
+            ```
+            </details>
+
+            For example, given a coverage with the following extent:
+            ```xml
+            <gml:Envelope srsName="EPSG:4326"/>
+            ```
+            """))
+        self.assertEqual([b["role"] for b in docrev.extract(path)["blocks"]], ["request", "example-response", "xml"])
