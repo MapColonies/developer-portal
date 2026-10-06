@@ -14,6 +14,10 @@ from pathlib import Path
 
 import docrev
 
+# Requests in tests go to fake hosts with urlopen mocked; the network probe would reject them.
+REAL_UNREACHABLE = docrev.unreachable
+docrev.unreachable = lambda url, timeout=3: None
+
 DOC = textwrap.dedent('''\
     ---
     title: Sample Flow
@@ -738,7 +742,8 @@ class ProdAndSourcesTest(unittest.TestCase):
             docrev.cmd_env_forward(argparse.Namespace(env="prod", only=None))
 
     def test_env_check_uses_http_not_oc(self):
-        with unittest.mock.patch.object(docrev, "http_status", return_value=(None, "URLError: nope")), \
+        with unittest.mock.patch.object(docrev, "unreachable", return_value=None), \
+                unittest.mock.patch.object(docrev, "http_status", return_value=(None, "URLError: nope")), \
                 unittest.mock.patch.object(docrev, "oc") as oc, redirect_stdout(io.StringIO()) as out:
             docrev.cmd_env_check(argparse.Namespace(env="prod"))
         oc.assert_not_called()
@@ -751,7 +756,19 @@ class ProdAndSourcesTest(unittest.TestCase):
         (d / "Chart.yaml").write_text("name: c\ndependencies:\n  - {name: pycsw, version: 7.0.3}\n")
         (d / "values.yaml").write_text("a:\n  image: {repository: common/pycsw, tag: v7.0.3}\n"
                                        "b:\n  - image: {repository: geoserver-api, tag: v1.4.0}\n")
-        self.assertEqual(docrev.chart_components(d), [("geoserver-api", "1.4.0"), ("pycsw", "7.0.3")])
+        got = [(c["component"], c["version"], c["kind"]) for c in docrev.chart_components(d)]
+        self.assertEqual(got, [("geoserver-api", "1.4.0", "image"), ("pycsw", "7.0.3", "image"),
+                               ("pycsw", "7.0.3", "chart")])
+
+    def test_chart_components_prefixed_pairs_and_image_strings(self):
+        d = self.tmp / "chart2"
+        d.mkdir()
+        (d / "Chart.yaml").write_text("name: c\n")
+        (d / "values.yaml").write_text("gs:\n  image: {geoserverRepository: vector/geoserver-os, geoserverTag: v1.0.0,"
+                                       " sidecarRepository: side-car, sidecarTag: 2.1.3}\n"
+                                       "x:\n  image: registry/app/opa:0.9\n")
+        got = [(c["component"], c["version"]) for c in docrev.chart_components(d)]
+        self.assertEqual(got, [("geoserver-os", "1.0.0"), ("opa", "0.9"), ("side-car", "2.1.3")])
 
     def test_find_source_prefers_known_mapping(self):
         seen = []
@@ -800,3 +817,33 @@ class TokenAndSiteTest(unittest.TestCase):
             self.assertIn("/docs/a/page", docrev.all_routes())
         finally:
             docrev.SITE, docrev.DOCS_DIR = old
+
+
+class ReachAndDeployFactsTest(unittest.TestCase):
+    def test_unreachable_dns(self):
+        with unittest.mock.patch.object(docrev.socket, "getaddrinfo", side_effect=docrev.socket.gaierror):
+            self.assertEqual(REAL_UNREACHABLE("https://x.example/a")["error"], "network unreachable (DNS)")
+
+    def test_unreachable_tcp(self):
+        with unittest.mock.patch.object(docrev.socket, "getaddrinfo", return_value=[]), \
+                unittest.mock.patch.object(docrev.socket, "create_connection", side_effect=OSError):
+            self.assertEqual(REAL_UNREACHABLE("https://x.example/a")["error"], "network unreachable (VPN?)")
+
+    def test_localhost_is_not_probed(self):
+        with unittest.mock.patch.object(docrev.socket, "getaddrinfo") as g:
+            self.assertIsNone(REAL_UNREACHABLE("http://127.0.0.1:18081/x"))
+        g.assert_not_called()
+
+    def test_config_keys(self):
+        self.assertEqual(docrev.config_keys("a:\n  b: 1\nc: [ {d: 2} ]\n", ".yaml"), {"a", "a.b", "c", "c.d"})
+        self.assertEqual(docrev.config_keys("M = {\n  'pycsw:Id': 'id',\n  \"pycsw:X\": 'x'}\n", ".py"),
+                         {"pycsw:Id", "pycsw:X"})
+        self.assertEqual(docrev.config_keys("[server]\nurl = http://a\nhome: /x\n", ".cfg"), {"url", "home"})
+
+    def test_counterpart(self):
+        base = ["dem/charts/serving/values.yaml", "app/charts/extractable/values.yaml", "values.yaml",
+                "dem/charts/serving/config/mappings.py"]
+        self.assertEqual(docrev.counterpart("dem/charts/serving-v2/values.yaml", base), "dem/charts/serving/values.yaml")
+        self.assertEqual(docrev.counterpart("dem/charts/serving-v2/config/mappings.py", base),
+                         "dem/charts/serving/config/mappings.py")
+        self.assertIsNone(docrev.counterpart("raster/x/global.yaml", base))

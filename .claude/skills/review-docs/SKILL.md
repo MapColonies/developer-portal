@@ -86,12 +86,19 @@ clear which one states the intent.
   holds it, service without ready endpoints, missing token; for `cluster: false` envs, an
   unreachable entry point). If an entry's route is broken,
   use `access: forward` for this run (tell the user) and `docrev env forward <env>`.
+- **Network down**: `env check` or `call` reporting `network unreachable (VPN?)` / `(DNS)` is
+  this machine, not the env. Stop and ask the user to reconnect; don't wait out timeouts or
+  retry in a loop. If live access can't be restored, continue against the code only, mark
+  every live check unverified, and say so at the top of the report.
 - Token missing: ask the user; tell them which env var the config expects. Never write a
   token into a file in the repo or echo it into the report.
 - Stop forwards at the end: `docrev env stop <env>`.
 - **Code**: `docrev sources --chart <helm chart dir>` (or `--image NAME:VERSION`) maps each
-  deployed component to its GitHub repo and release tag. Show the mapping and get it confirmed;
-  name-guessed repos come back `confirmed: false`. Confirmed mappings go in
+  deployed component to its GitHub repo and release tag. `kind: image` entries carry the code
+  version that runs (an image tag in values overrides the chart's version); `kind: chart` is the
+  packaging version. Show the mapping and get it confirmed; name-guessed repos come back
+  `confirmed: false`, unmatched ones with `candidates` to ask about. For one run, `--repo
+  NAME=owner/repo` sets a mapping and `--accept NAME` confirms a guess. Confirmed mappings go in
   `~/.claude/review-envs/sources.yaml` (`<component>: <owner/repo>`); then `--fetch`
   shallow-clones them into `.claude/review-runs/src/`. Use the version that runs in the
   reviewed env (prod's chart values, not the PR head), unless the user names another ref.
@@ -168,7 +175,8 @@ For each step/example, check against the doc:
 - Reference pages (catalog profiles, enums) vs fields actually returned/queryable:
   `docrev profile-diff <doc> --response <saved record> [--previous <previous version doc>]`
   lists documented-but-not-returned, returned-but-undocumented and case mismatches, and with
-  `--previous` checks the 🆕/✏️/🗑️ markers. A field missing from one record may just be empty
+  `--previous` checks the 🆕/✏️/🗑️ markers (the site convention: a marker column with a legend;
+  a page that marks changes only in prose is a doc finding). A field missing from one record may just be empty
   there; check another before calling it a finding. Try filtering on newly documented fields.
 - Placeholders: `docrev placeholders <docs...>`. Site notation is `<UPPER_SNAKE>` (the token is
   `<token>`), `[UPPER_SNAKE]` inside XML (where `<NAME>` reads as an element), and `{...}` only

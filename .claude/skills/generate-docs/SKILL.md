@@ -39,14 +39,21 @@ and the intent isn't clear.
 ## 1. What changed
 
 - `docrev deploy-diff --pr <owner/repo#N>`: new/modified files, added image/tag/route/
-  dependency keys with line numbers. Read the diff itself for config files it lists
-  (profiles, mappings, service config): those usually carry the intent.
+  dependency keys with line numbers. For config/mapping files it adds `same_as` (a file moved
+  unchanged, e.g. a copied profile) and `key_diff` (keys added/removed against the base version
+  or the file it replaces). Read the diff itself for those files: they usually carry the intent.
 - `docrev inventory --namespace <ns> --release <r>`: what is actually running (images, ready
   replicas), exposed (routes, admission), and configured (configmaps) for the release.
-- Code: `docrev sources --chart <chart dir>` maps each component to its repo and tag; for a
+- Code: `docrev sources --chart <chart dir>` maps each component to its repo and tag (use the
+  `kind: image` versions; see `review-docs` section 2 for confirming); for a
   code ref, diff it against the version currently deployed/documented
   (`gh api repos/<owner/repo>/compare/<deployed tag>...<ref>`, then read the files that
   matter). Code-only runs start here.
+- Data the docs show but no deployed code produces (catalog records, their link schemes and
+  values) comes from a writer outside the deployment PR, e.g. an ingestion service. Ask which
+  repo writes it; until then, take it from live records and say so.
+- Live access lost mid-run (`network unreachable`): ask the user to reconnect; if they can't,
+  continue code-only as in section 0 and mark the live checks unverified.
 - Build a list of **changed capabilities**, each tied to evidence: a new service or API
   version, new/removed fields, new endpoints or operations, new link types, changed auth,
   changed limits. Ignore pure infra changes (resources, replicas, probes) unless they alter
@@ -128,8 +135,9 @@ In a new worktree/branch off the default branch (don't touch the user's working 
   replaced by placeholders. Where live output contradicts intent (a deployment finding),
   write the example from the intent and leave an HTML comment in the page naming the
   finding so reviewers see it.
-- Reference tables (fields, enums, parameters) come from the declaration; mark changes vs the
-  previous version the way existing pages do.
+- Reference tables (fields, enums, parameters) come from the declaration. Mark changes vs the
+  previous version with the site's marker column: 🆕 new, ✏️ changed or renamed (say from
+  what), 🗑️ removed in the next version (on the old page), plus a legend above the table.
 - Keep prose short: step purpose, what to take from the response for the next step, gotchas
   found during discovery.
 

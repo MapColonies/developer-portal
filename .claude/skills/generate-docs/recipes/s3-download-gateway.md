@@ -13,4 +13,4 @@ Gotchas:
 - Directory paths return 404 when listing is disabled, which is expected.
 - Check the no-token response: it should be 401/403, and a 500 is a deployment finding.
 
-Docs: `docs/MapColonies/DEM/Services/download/README.md`.
+Docs: a download page per domain: catalog record → `Download` link → GET.

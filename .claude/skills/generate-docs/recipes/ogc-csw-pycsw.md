@@ -21,4 +21,5 @@ Gotchas:
 - Polygon filters must be GML3 (`gml:exterior` / `gml:LinearRing` / `gml:posList`); GML2 `outerBoundaryIs`/`coordinates` is rejected with `Missing gml:posList`.
 - Errors come back as `ows:ExceptionReport` with HTTP 200.
 
-Docs: `docs/MapColonies/*/Services/catalog/profile_v*.md`, Step 1 of the DEM/3D guides.
+Docs: a catalog profile (reference table) page per domain and version, and the catalog-search
+step that opens each domain's guides.

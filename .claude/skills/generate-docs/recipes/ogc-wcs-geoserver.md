@@ -13,4 +13,5 @@ Gotchas:
 - Every `xlink:href` in capabilities is built from `PROXY_BASE_URL`; check those hosts resolve to a working route, since clients like QGIS, GDAL and OWSLib follow them.
 - Output size limit errors are `ows:ExceptionReport` with HTTP 500; the limit is per-environment config.
 
-Docs: `docs/ogc/protocols/ogc-wcs.md`, Steps 2–3 of the DEM height extraction guide.
+Docs: the OGC WCS protocol page, and the capabilities/coverage steps of a guide that extracts
+data from a coverage.

@@ -388,6 +388,23 @@ def ns_of(env, e):
     return e.get("namespace") or env["namespace"]
 
 
+def unreachable(url, timeout=3):
+    """A fast DNS + TCP probe, so a VPN outage reads as one instead of a long timeout."""
+    parts = urllib.parse.urlsplit(url)
+    host, port = parts.hostname, parts.port or (443 if parts.scheme == "https" else 80)
+    if not host or host in ("127.0.0.1", "localhost"):
+        return None
+    try:
+        socket.getaddrinfo(host, port)
+    except socket.gaierror:
+        return {"error": "network unreachable (DNS)", "detail": f"{host} does not resolve (VPN or DNS down, or the host is not deployed)"}
+    try:
+        socket.create_connection((host, port), timeout=timeout).close()
+    except OSError:
+        return {"error": "network unreachable (VPN?)", "detail": f"no TCP connection to {host}:{port} within {timeout}s"}
+    return None
+
+
 def http_status(env, url, tok):
     """Status of a plain GET (any HTTP answer means reachable), or the network error."""
     tsrc = env.get("token") or {}
@@ -397,7 +414,7 @@ def http_status(env, url, tok):
         ssl.create_default_context(cafile=os.path.expanduser(env["ca_file"])) if env.get("ca_file") else None
     try:
         return urllib.request.urlopen(urllib.request.Request(url, headers=apply_auth(env, tok, {})),
-                                      timeout=30, context=ctx).status, None
+                                      timeout=10, context=ctx).status, None
     except urllib.error.HTTPError as e:
         return e.code, None
     except Exception as e:
@@ -411,6 +428,10 @@ def cmd_env_check(a):
         # No cluster access (prod): reachability of each public entry point is all we can check.
         tok = token_for(env)
         for ph, e in (env.get("placeholders") or {}).items():
+            down = unreachable(e["url"])
+            if down:
+                findings.append({"kind": "env", "placeholder": ph, "issue": down["error"], "detail": down["detail"]})
+                continue
             status, err = http_status(env, e["url"], tok)
             if err or status >= 500:
                 findings.append({"kind": "env", "placeholder": ph, "issue": "entry point unreachable",
@@ -418,6 +439,11 @@ def cmd_env_check(a):
         if not tok:
             findings.append({"kind": "env", "issue": "token not available", "source": env.get("token")})
         print(json.dumps(findings, indent=2))
+        return
+    server = subprocess.run(["oc", "whoami", "--show-server"], capture_output=True, text=True).stdout.strip()
+    down = unreachable(server) if server else None
+    if down:
+        print(json.dumps([{"kind": "env", "issue": down["error"], "detail": f"cluster API: {down['detail']}"}]))
         return
     who = oc("whoami")
     if who.returncode:
@@ -765,6 +791,10 @@ def cmd_call(a):
         [p for v in headers.values() for p in PLACEHOLDER_RE.findall(v)]
     if leftover:
         sys.exit(json.dumps({"error": "unfilled placeholders", "placeholders": leftover}))
+    down = unreachable(url)
+    if down:
+        print(json.dumps({**down, "url": redact(url, tok)}))
+        return
     method = "HEAD" if a.head else req["method"]
     if a.range:
         headers["Range"] = f"bytes=0-{a.range - 1}"
@@ -946,6 +976,89 @@ def cmd_shape_diff(a):
 DEPLOY_KEYS = re.compile(r"^\s*-?\s*(repository|tag|image|imageTag|version|host|path|name|url|alias)\s*:\s*(.+?)\s*$")
 
 
+CONFIG_SUFFIXES = (".py", ".yaml", ".yml", ".json", ".cfg", ".ini", ".toml", ".conf")
+QUOTED_KEY_RE = re.compile(r"""['"]([^'"\n]+)['"]\s*:""")
+PLAIN_KEY_RE = re.compile(r"^\s*([A-Za-z_][\w.-]*)\s*[:=]")
+
+
+def config_keys(text, suffix):
+    """Keys a config/mapping file declares: dotted paths for YAML/JSON, quoted dict keys
+    (e.g. pycsw mappings) or `key = value` names otherwise."""
+    if suffix in (".yaml", ".yml", ".json"):
+        try:
+            docs = list(yaml.safe_load_all(text))
+        except yaml.YAMLError:
+            docs = []
+        keys = set()
+
+        def walk(n, pre):
+            if isinstance(n, dict):
+                for k, v in n.items():
+                    keys.add(pre + str(k))
+                    walk(v, pre + str(k) + ".")
+            elif isinstance(n, list):
+                for v in n:
+                    walk(v, pre)
+        for d in docs:
+            walk(d, "")
+        return keys
+    quoted = set(QUOTED_KEY_RE.findall(text))
+    return quoted or {m.group(1) for m in map(PLAIN_KEY_RE.match, text.splitlines()) if m}
+
+
+def counterpart(path, base_paths):
+    """The base file a new file most likely replaces: same name, in the same top-level dir (or
+    sharing two path parts), longest shared path suffix. None rather than a file of another chart."""
+    name, top = Path(path).name, Path(path).parts[0]
+
+    def shared(b):
+        x, y = Path(path).parts[::-1], Path(b).parts[::-1]
+        return next((i for i, (u, v) in enumerate(zip(x, y)) if u != v), min(len(x), len(y)))
+    same = [b for b in base_paths if Path(b).name == name and b != path
+            and (Path(b).parts[0] == top or shared(b) >= 2)]
+    return max(same, key=lambda b: (Path(b).parts[0] == top, shared(b))) if same else None
+
+
+def gh_json(*args):
+    out = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
+    return json.loads(out.stdout) if out.returncode == 0 and out.stdout.strip() else None
+
+
+def gh_raw(repo, path, ref):
+    out = subprocess.run(["gh", "api", "-H", "Accept: application/vnd.github.raw",
+                          f"repos/{repo}/contents/{urllib.parse.quote(path)}?ref={ref}"], capture_output=True, text=True)
+    return out.stdout if out.returncode == 0 else None
+
+
+def pr_file_facts(repo, num, max_keys):
+    """Per file of a PR: a file moved unchanged (`same_as` a base file) and, for config/mapping
+    files, which keys were added/removed against the base version or the file it replaces."""
+    pr = gh_json(f"repos/{repo}/pulls/{num}")
+    if not pr:
+        return {}
+    base, head = pr["base"]["sha"], pr["head"]["sha"]
+    tree = gh_json(f"repos/{repo}/git/trees/{base}?recursive=1") or {}
+    blobs = {t["sha"]: t["path"] for t in tree.get("tree", []) if t["type"] == "blob"}
+    base_paths = list(blobs.values())
+    facts = {}
+    for f in gh_json("--paginate", f"repos/{repo}/pulls/{num}/files") or []:
+        path, info = f["filename"], {}
+        if f["status"] == "added" and f.get("sha") in blobs:
+            info["same_as"] = blobs[f["sha"]]
+        if Path(path).suffix in CONFIG_SUFFIXES and f["status"] != "removed":
+            old = f.get("previous_filename") if f["status"] == "renamed" else \
+                path if f["status"] == "modified" else info.get("same_as") or counterpart(path, base_paths)
+            new_text, old_text = gh_raw(repo, path, head), old and gh_raw(repo, old, base)
+            if new_text is not None and old_text is not None:
+                nk, ok = config_keys(new_text, Path(path).suffix), config_keys(old_text, Path(old).suffix)
+                if nk != ok:
+                    info["key_diff"] = {"against": old, "added": sorted(nk - ok)[:max_keys],
+                                        "removed": sorted(ok - nk)[:max_keys]}
+        if info:
+            facts[path] = info
+    return facts
+
+
 def cmd_deploy_diff(a):
     """Summarize a deployment PR/diff: new files, and added image/route/dependency keys."""
     if a.pr:
@@ -976,6 +1089,9 @@ def cmd_deploy_diff(a):
             line += 1
     for f in files.values():
         f["added_keys"] = f["added_keys"][: a.max_keys]
+    if a.pr:
+        for path, info in pr_file_facts(repo, num, a.max_keys).items():
+            files.setdefault(path, {}).update(info)
     print(json.dumps(files, indent=1))
 
 
@@ -1342,25 +1458,37 @@ def cmd_profile_diff(a):
 SOURCES_FILE = ENVS_DIR / "sources.yaml"
 
 
+IMAGE_KEY_RE = re.compile(r"^(.*?)(repository|Repository)$")
+
+
 def chart_components(chart_dir):
-    """(name, version) of a chart's dependencies and of every image repository/tag in its values."""
+    """Components of a chart: its dependencies (kind `chart`, packaging versions) and every image
+    in its values files (kind `image`; `repository`/`tag` and `<x>Repository`/`<x>Tag` pairs, or
+    `image: name:tag`). The image tag is the code version actually running."""
     chart_dir = Path(chart_dir)
     meta = yaml.safe_load((chart_dir / "Chart.yaml").read_text()) or {}
-    out = [(d["name"], str(d.get("version", ""))) for d in meta.get("dependencies") or []]
+    out = {(d["name"], str(d.get("version", "")).lstrip("v"), "chart"): "Chart.yaml"
+           for d in meta.get("dependencies") or []}
 
-    def walk(node):
+    def walk(node, src):
         if isinstance(node, dict):
-            if isinstance(node.get("repository"), str) and node.get("tag") is not None:
-                out.append((node["repository"].rsplit("/", 1)[-1], str(node["tag"])))
-            for v in node.values():
-                walk(v)
+            for k, v in node.items():
+                m = IMAGE_KEY_RE.match(k) if isinstance(v, str) else None
+                if m:
+                    tag = node.get(m.group(1) + ("Tag" if m.group(1) else "tag"))
+                    if tag is not None:
+                        out[(v.rsplit("/", 1)[-1], str(tag).lstrip("v"), "image")] = src
+                elif k == "image" and isinstance(v, str) and ":" in v.rsplit("/", 1)[-1]:
+                    name, tag = v.rsplit("/", 1)[-1].rsplit(":", 1)
+                    out[(name, tag.lstrip("v"), "image")] = src
+                walk(v, src)
         elif isinstance(node, list):
             for v in node:
-                walk(v)
-    values = chart_dir / "values.yaml"
-    if values.exists():
-        walk(yaml.safe_load(values.read_text()))
-    return sorted({(n, v.lstrip("v")) for n, v in out})
+                walk(v, src)
+    for f in sorted(chart_dir.glob("*values*.y*ml")):
+        walk(yaml.safe_load(f.read_text()), f.name)
+    return [{"component": n, "version": v, "kind": k, "declared_in": src}
+            for (n, v, k), src in sorted(out.items(), key=lambda i: (i[0][2] != "image", i[0]))]
 
 
 def repo_org():
@@ -1373,7 +1501,7 @@ def gh_ok(*args):
     return subprocess.run(["gh", "api", *args], capture_output=True, text=True).returncode == 0
 
 
-def find_source(name, version, org, known):
+def find_source(name, version, org, known, accept=()):
     """Repo and ref holding the code of a deployed component. A mapping in sources.yaml wins;
     otherwise candidates come from the name, and the user confirms before they are used."""
     version = version.lstrip("v")
@@ -1386,17 +1514,20 @@ def find_source(name, version, org, known):
     for cand in candidates:
         for ref in (f"v{version}", version, f"{name}-v{version}"):
             if version and gh_ok(f"repos/{cand}/git/ref/tags/{ref}"):
-                return {"component": name, "version": version, "repo": cand, "ref": ref, "confirmed": bool(repo)}
+                return {"component": name, "version": version, "repo": cand, "ref": ref,
+                        "confirmed": bool(repo) or name in accept}
     return {"component": name, "version": version, "repo": None, "ref": None, "candidates": candidates,
             "confirmed": False}
 
 
 def cmd_sources(a):
     known = (yaml.safe_load(SOURCES_FILE.read_text()) or {}) if SOURCES_FILE.exists() else {}
+    known.update(dict(r.split("=", 1) for r in a.repo or []))
     org = a.org or repo_org()
     comps = chart_components(a.chart) if a.chart else []
-    comps += [tuple(i.rsplit(":", 1)) if ":" in i else (i, "") for i in a.image or []]
-    out = [find_source(n, v, org, known) for n, v in comps]
+    comps += [{"component": n, "version": v, "kind": "image", "declared_in": "--image"}
+              for n, v in (i.rsplit(":", 1) if ":" in i else (i, "") for i in a.image or [])]
+    out = [{**c, **find_source(c["component"], c["version"], org, known, a.accept or ())} for c in comps]
     if a.fetch:
         for r in out:
             if r["repo"] and r["confirmed"]:
@@ -1590,6 +1721,8 @@ def main():
     p.add_argument("--chart", help="helm chart dir: its dependencies and values images")
     p.add_argument("--image", action="append", help="NAME:VERSION of one component (repeatable)")
     p.add_argument("--org", help="GitHub owner to search (default: this repo's)")
+    p.add_argument("--repo", action="append", metavar="NAME=OWNER/REPO", help="mapping for this run (overrides sources.yaml)")
+    p.add_argument("--accept", action="append", metavar="NAME", help="treat a guessed repo as confirmed for this run")
     p.add_argument("--fetch", action="store_true", help="shallow-clone confirmed repos into review-runs/src/")
     p = sub.add_parser("inventory", help="live deployments/routes/services/configmaps")
     p.add_argument("--namespace", required=True)

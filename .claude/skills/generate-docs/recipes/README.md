@@ -15,5 +15,6 @@ Self-description: <where the service describes itself>
 Declared intent lives in: <config/code files, in the chart or the image>
 Reader flow: <typical steps and what each step hands to the next>
 Gotchas: <verified pitfalls>
-Docs: <existing pages that use it, as templates>
+Docs: <kinds of page that use it (protocol page, guide step, reference table); find the current
+      pages with grep, since paths change and a page may exist only in an open PR>
 ```
