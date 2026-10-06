@@ -144,8 +144,11 @@ syntax, not a request to run.
   the user the exact request and run with `--allow-write` only after they say yes, per request.
   For downloads/large files use `--range 1024` (or `--head`) instead of fetching the file.
   To check a "no token needed" claim, re-run with `--no-auth`. `call` adds the env's token when
-  the request lacks one and reports `token_added: true`: if the page never tells the reader to
-  send a token and the service needs one (re-run with `--no-auth` to confirm), that is a doc finding.
+  the request lacks one and reports `token_added: true`. Example requests (curl, URLs) leave the
+  token out by convention; the page states once, with a link to the Authentication page, that
+  every request needs one. Only a page with no such note is a doc finding (re-run with
+  `--no-auth` to confirm the service needs it). A token in a request example is a doc finding
+  too. Client code (Cesium, viewer URLs) keeps `<token>`, since copied code must work.
   `access: forward` also reroutes a `--sub` to the public URL; add `--no-forward` to test the public route.
 - **Success** is not just HTTP 200: an `ows:ExceptionReport` (OGC services often return it
   with 200), an empty result where the doc implies results, or a missing link the next step
