@@ -951,6 +951,15 @@ To subset a UTM coverage with latitude and longitude, add `subsettingCRS=EPSG:43
 curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subsettingCRS=EPSG:4326&subset=Lat(32.35,32.40)&subset=Long(35.13,35.20)'
 ```
 
+### Get a single point
+
+To get the height at one point, give each axis a single value instead of a range. The response is a 1x1 pixel GeoTIFF holding the height of the pixel that contains the point:
+```bash
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.4005)&subset=Long(35.2005)'
+```
+
+Use the coverage's axis labels, as in [Get by BBOX](#get-by-bbox) (`E` / `N` for a UTM coverage).
+
 ### Convert to other CRS
 
 In some situations we will have data in a geographical area in a different CRS than we expect for our calculations. In this case we can ask the service to convert the output to the wanted CRS.
