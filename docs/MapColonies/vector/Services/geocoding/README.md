@@ -371,9 +371,8 @@ You can convert `WGS84` coordinates to two grids, the `MapColonies Control Grid`
     <summary>Conversion example 👇</summary>
 
 ```curl title="Request"
-curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 ```json title="Response"
@@ -531,9 +530,8 @@ Users that won't comply are at risk of being blocked from using Geocoding API se
 #### Exact Tile Search
 
 ```curl title="Tile Search Request"
-curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
@@ -583,9 +581,8 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&disable_fuzziness
 #### Tile search by MGRS tile
 
 ```curl title="Tile Search Request"
-curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/tiles?mgrs=33TTG9574836243' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -640,9 +637,8 @@ curl --location '<geocoding_url>/search/control/tiles?mgrs=33TTG9574836243' \
 `disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
 
 ```curl title="Sub-Tile Search Request"
-curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disable_fuzziness=true' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&sub_tile=65&disable_fuzziness=true' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -697,9 +693,8 @@ curl --location '<geocoding_url>/search/control/tiles?tile=RIT&sub_tile=65&disab
 #### Simple Route search
 
 ```curl title="Route Search Request"
-curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -751,9 +746,8 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade' \
 `disable_fuzziness` query parameter is set to `true`. This is just for example purpose. You may remove it.
 
 ```curl title="Route Search Request"
-curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&disable_fuzziness=true&control_point=111' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade&disable_fuzziness=true&control_point=111' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -806,9 +800,8 @@ curl --location '<geocoding_url>/search/control/routes?command_name=olimpiade&di
 `limit` query parameter is set to `1`. This is just for example purpose. You may remove it.
 
 ```curl title="Item Search Request"
-curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/control/items?command_name=1234&limit=1' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -867,9 +860,8 @@ curl --location '<geocoding_url>/search/control/items?command_name=1234&limit=1'
 #### Simple Query example
 
 ```curl title="Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=school' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=school' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -955,9 +947,8 @@ curl --location '<geocoding_url>/search/location/query?query=school' \
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
 ```curl title="Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=filter' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=filter' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -1020,9 +1011,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
     used `geo_context`: `{"bbox": [2.34509596673945, 48.87896264245859, 2.3502230438252525, 48.881502327359925]}`
 
 ```curl title="Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=bias' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=bias' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 :::note
@@ -1108,9 +1098,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&geo_context=
 #### Query example (port search) only from "google" as the data source
 
 ```curl title="Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=port&source=google' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=port&source=google' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -1186,18 +1175,16 @@ curl --location '<geocoding_url>/search/location/query?query=port&source=google'
 :::tip
 You may see the available sources by sending this request: <br/>
 ```curl
-curl --location '<geocoding_url>/search/location/sources' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/sources' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 :::
 
 #### Query example (school search) only in "france" region
 
 ```curl title="Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=school&region=france' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=school&region=france' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -1282,9 +1269,8 @@ curl --location '<geocoding_url>/search/location/query?query=school&region=franc
 :::tip
 You may see the available regions by sending this request: <br/>
 ```curl
-curl --location '<geocoding_url>/search/location/regions' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/regions' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 :::
 
@@ -1292,9 +1278,8 @@ curl --location '<geocoding_url>/search/location/regions' \
 #### `WGS84` to MapColonies `Control Grid` Tile example
 
 ```curl title="Request"
-curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -1341,9 +1326,8 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 #### `WGS84` to US Army `MGRS` example
 
 ```curl title="Request"
-curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=MGRS' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=MGRS' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
 <summary>Response 👇</summary>
@@ -1388,9 +1372,8 @@ curl --location '<geocoding_url>/lookup/coordinates?lat=52.57326537485767&lon=12
 Convert a MGRS string to its geometry in GeoJSON.
 
 ```curl title="Request"
-curl --location '<geocoding_url>/search/MGRS/tiles?tile=33UUU6099626777' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/MGRS/tiles?tile=33UUU6099626777' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 

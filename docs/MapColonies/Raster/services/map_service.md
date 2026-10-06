@@ -36,7 +36,7 @@ SERVICE=WMTS
 
 ### WMTS layer consumption example
 
-`<MAP_SERVER-RASTER_URL>/wmts/{Layer}/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
+`<MAP_SERVER_RASTER_URL>/wmts/{Layer}/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png`
 
 **\{Layer\}** - the name of the layer (ex. ***Ortho_25cm***)
 
@@ -58,7 +58,7 @@ See `<TileMatrixSetLink>` element for supported Grid names.
 **\{TileRow\}** - define the row (Y)
 
 Final request example:
-`<MAP_SERVER-RASTER_URL>/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png`
+`<MAP_SERVER_RASTER_URL>/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png`
 Will bring a requested tile image
 
 :::danger

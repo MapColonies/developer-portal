@@ -125,7 +125,7 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 #### 'One To Many' request:
 
 ```json
-<VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804}],"targets":[{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
+<VALHALLA_BASE_URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804}],"targets":[{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
 ```
 
 <details>
@@ -188,7 +188,7 @@ See the [HTTP return codes](./turn-by-turn/api-reference.md#http-status-codes-an
 #### 'Many To Many' request:
 
 ```json
-<VALHALLA BASE URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"targets":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
+<VALHALLA_BASE_URL>/sources_to_targets?json={"sources":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"targets":[{"lon":-73.995323,"lat":40.738804},{"lon":-73.978844,"lat":40.767673},{"lon":-73.948112,"lat":40.742577},{"lon":-73.979706,"lat":40.729568}],"costing":"auto","units":"mi"}`
 ```
 
 <details>

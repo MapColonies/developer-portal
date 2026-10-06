@@ -48,5 +48,5 @@ When making any request, you need to add a special **header** or **query paramet
 ## Using the token as a header
 
 ```curl
-curl --location --request <http_method> '<SERVICE_URL>' --header 'x-api-key: <token>'
+curl --location --request <HTTP_METHOD> '<SERVICE_URL>' --header 'x-api-key: <token>'
 ```

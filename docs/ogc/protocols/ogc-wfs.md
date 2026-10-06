@@ -49,7 +49,7 @@ The GetCapabilities operation is a GET request to a WFS server for a list of the
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetCapabilities
 ```
 
@@ -68,7 +68,7 @@ The following GET request will return a list of all feature types, sorted by nam
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=DescribeFeatureType
 ```
 
@@ -77,7 +77,7 @@ The following GET request will list information about a specific feature type na
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=DescribeFeatureType&
     typeNames=namespace:featuretype&
     outputFormat=application/json
@@ -105,7 +105,7 @@ The following GET request will get at most the top N features of feature type na
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
     outputFormat=application/json&
@@ -119,7 +119,7 @@ The retrieved features will be encoded in `EPSG:4326` as well as requested by th
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
     bbox=51.607317,5.106151,51.629884,5.228022,urn:ogc:def:crs:EPSG::4326&
@@ -131,7 +131,7 @@ The following GET request will retrieve a specific feature by provided featureId
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
     featureId=FID

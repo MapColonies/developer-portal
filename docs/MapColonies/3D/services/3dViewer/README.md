@@ -21,6 +21,11 @@ flowchart LR
 ```
 
 ## Quering 3D CSW catalog service (STEP ☝🏼)
+
+:::info
+Every request needs a token, see [Authentication](/docs/MapColonies/authentication).
+:::
+
 Query **3D CSW catalog** service to find an item(s) according to the desired filter.
 
 A good example of a filter request:
@@ -28,7 +33,7 @@ A good example of a filter request:
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
+'<3D_CATALOG_SERVICE_URL>/csw'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -56,10 +61,6 @@ body (XML):
 ``` bash 
  <3D_CATALOG_SERVICE_URL>
  ```
- - Replace `<token>` with with the token you have.
-``` bash 
- <token>
- ```
 
 Of course, you can also send a regular request with no filter. 
 
@@ -68,7 +69,7 @@ A good example is:
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
+'<3D_CATALOG_SERVICE_URL>/csw'
 
 body (XML):
 <csw:GetRecords 
@@ -197,14 +198,14 @@ Use the following request template:
 GET Request
 
 url:
-<CATALOG-VIEWER-URL>?<QUERY-PARAMS>
+<CATALOG_VIEWER_URL>?<QUERY_PARAMS>
 ```
  - Replace `<3D_CATALOG_SERVICE_URL>` with 3D CSW catalog URL.
 ``` bash 
  <3D_CATALOG_SERVICE_URL>
  ```
 
- In `<QUERY-PARAMS>`, you need to add there params:
+ In `<QUERY_PARAMS>`, you need to add there params:
  ### 1. model_ids -<font color="red"> mandatory</font>
 
  ID's of the desired models obtained from the CSW response.
