@@ -1083,7 +1083,20 @@ def cmd_pod_call(a):
                       "saved": str(saved), "summary": summarize(body, r["content_type"], req["url"])}, indent=2))
 
 
-DOCS_DIR = REPO / "docs"
+# The docs site being checked; set per run by use_site(), since the docs can come from
+# another checkout or worktree (e.g. a PR head) than this tool.
+SITE = REPO
+DOCS_DIR = SITE / "docs"
+
+
+def use_site(paths):
+    """Point SITE/DOCS_DIR at the checkout holding `paths` (or the cwd)."""
+    global SITE, DOCS_DIR
+    for start in [*map(Path, paths), Path.cwd()]:
+        for d in [start.resolve(), *start.resolve().parents]:
+            if (d / "docusaurus.config.ts").is_file() and (d / "docs").is_dir():
+                SITE, DOCS_DIR = d, d / "docs"
+                return
 NUM_PREFIX_RE = re.compile(r"^\d+\s*[-_.]+\s*")
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+\"[^\"]*\")?\s*\)|\b(?:href|src|to)=[\"']([^\"']+)[\"']")
 
@@ -1121,7 +1134,7 @@ def all_routes():
     for f in sorted(DOCS_DIR.rglob("*.md*")):
         if f.suffix in (".md", ".mdx"):
             routes[doc_route(f.relative_to(DOCS_DIR), f.read_text())["url"]] = f
-    cfg = REPO / "docusaurus.config.ts"
+    cfg = SITE / "docusaurus.config.ts"
     if cfg.exists():
         for r in re.findall(r"route:\s*['\"]([^'\"]+)['\"]", cfg.read_text()):
             routes[r.rstrip("/")] = None
@@ -1184,11 +1197,11 @@ def check_link(doc, target, routes):
         dest = doc
     elif path.startswith("/") and path.endswith((".md", ".mdx")):
         # Docusaurus resolves an absolute file link against the docs dir, then the site dir.
-        dest = next((f for f in (DOCS_DIR / path.lstrip("/"), REPO / path.lstrip("/")) if f.is_file()), None)
+        dest = next((f for f in (DOCS_DIR / path.lstrip("/"), SITE / path.lstrip("/")) if f.is_file()), None)
         if not dest:
             return {"issue": "file not found"}
     elif path.startswith("/"):
-        if (REPO / "static" / path.lstrip("/")).exists():
+        if (SITE / "static" / path.lstrip("/")).exists():
             return None
         dest = page_at(path, routes)
         if isinstance(dest, dict):
@@ -1208,7 +1221,7 @@ def check_link(doc, target, routes):
         if isinstance(dest, dict):
             return dest
     if anchor and dest is not None and anchor not in doc_anchors(dest):
-        return {"issue": f"no anchor #{anchor} in {Path(dest).relative_to(REPO)}"}
+        return {"issue": f"no anchor #{anchor} in {Path(dest).relative_to(SITE)}"}
     return None
 
 
@@ -1231,24 +1244,24 @@ def cmd_refs(a):
     docs/, sidebars, src/ and the site config."""
     rel = Path(a.path).relative_to("docs")
     if a.ref:
-        text = subprocess.run(["git", "-C", str(REPO), "show", f"{a.ref}:{a.path}"], capture_output=True,
+        text = subprocess.run(["git", "-C", str(SITE), "show", f"{a.ref}:{a.path}"], capture_output=True,
                               text=True, check=True).stdout
     else:
-        text = (REPO / a.path).read_text()
+        text = (SITE / a.path).read_text()
     r = doc_route(rel, text)
     needles = sorted({r["url"], r["url"][len("/docs"):], r["id"], rel.with_suffix("").as_posix(), rel.name}, key=len,
                      reverse=True)
     pat = re.compile(r"(?<![\w-])(?:%s)(?![\w-])" % "|".join(map(re.escape, needles)))
-    files = [*DOCS_DIR.rglob("*.md*"), *(REPO / "src").rglob("*.*"), REPO / "sidebars.js", REPO / "sidebars.ts",
-             REPO / "docusaurus.config.ts"]
+    files = [*DOCS_DIR.rglob("*.md*"), *(SITE / "src").rglob("*.*"), SITE / "sidebars.js", SITE / "sidebars.ts",
+             SITE / "docusaurus.config.ts"]
     hits = []
     for f in files:
-        if not f.is_file() or f.resolve() == (REPO / a.path).resolve() or f.suffix not in (".md", ".mdx", ".js", ".ts", ".tsx", ".jsx", ".json"):
+        if not f.is_file() or f.resolve() == (SITE / a.path).resolve() or f.suffix not in (".md", ".mdx", ".js", ".ts", ".tsx", ".jsx", ".json"):
             continue
         for n, l in enumerate(f.read_text(errors="replace").splitlines(), 1):
             m = pat.search(l)
             if m:
-                hits.append({"file": str(f.relative_to(REPO)), "line": n, "match": m.group(0)})
+                hits.append({"file": str(f.relative_to(SITE)), "line": n, "match": m.group(0)})
     print(json.dumps({**r, "references": hits}, indent=2))
 
 
@@ -1491,8 +1504,28 @@ def placeholder_issues(text):
     return out
 
 
+REQUEST_LINE_RE = re.compile(r"""^\s*(?:curl\b|--header\b|-H\s|['"]?(?:https?://|<[A-Z0-9_]+>|\{[A-Z0-9_]+\}|\[[A-Z0-9_]+\]))""")
+TOKEN_IN_REQUEST_RE = re.compile(r"[?&]token=|x-api-key\s*:", re.I)
+
+
+def token_issues(text):
+    """Request examples (curl, URLs, header lines) that send the token. Pages state the
+    requirement once instead; client code (e.g. a JS snippet) is not matched."""
+    out, fence = [], None
+    for n, l in enumerate(text.splitlines(), 1):
+        f = re.match(r"^\s*(`{3,})\s*(\w*)", l)
+        if f and (fence is None or (f.group(1).startswith(fence) and not f.group(2))):
+            fence = f.group(1) if fence is None else None
+            continue
+        if fence is not None and REQUEST_LINE_RE.match(l) and TOKEN_IN_REQUEST_RE.search(l):
+            out.append({"line": n, "issue": "token in a request example", "text": l.strip()[:160]})
+    return out
+
+
 def cmd_placeholders(a):
-    out = [{"file": d, **i} for d in a.docs for i in placeholder_issues(Path(d).read_text())]
+    out = [{"file": d, **i} for d in a.docs
+           for i in sorted(placeholder_issues(Path(d).read_text()) + token_issues(Path(d).read_text()),
+                           key=lambda i: i["line"])]
     print(json.dumps(out, indent=1))
 
 
@@ -1535,7 +1568,7 @@ def main():
     p.add_argument("--ignore", help="regex of paths to ignore")
     p = sub.add_parser("links", help="broken internal links/anchors in docs")
     p.add_argument("docs", nargs="+")
-    p = sub.add_parser("placeholders", help="placeholders that break the site notation (<NAME>, [NAME] in XML)")
+    p = sub.add_parser("placeholders", help="placeholders that break the site notation (<NAME>, [NAME] in XML) and tokens in request examples")
     p.add_argument("docs", nargs="+")
     p = sub.add_parser("refs", help="references to a doc (deleted/renamed) across docs, sidebars, src")
     p.add_argument("path", help="docs/... path")
@@ -1580,6 +1613,9 @@ def main():
             for b in doc["blocks"]:
                 b.pop("content", None)
         print(json.dumps(doc, indent=2))
+    elif a.cmd in ("links", "refs", "placeholders"):
+        use_site(getattr(a, "docs", None) or [])
+        {"links": cmd_links, "refs": cmd_refs, "placeholders": cmd_placeholders}[a.cmd](a)
     elif a.cmd == "env":
         {"discover": cmd_env_discover, "check": cmd_env_check,
          "forward": cmd_env_forward, "stop": cmd_env_stop}[a.ecmd](a)

@@ -32,7 +32,8 @@ clear which one states the intent.
   `docs/**/*.md(x)` and `static/openapi/**`. Read files from the PR head without switching the
   user's branch: `git fetch origin pull/<N>/head:docrev-pr-<N>` then
   `git show docrev-pr-<N>:<path>` into `.claude/review-runs/pr-<N>/` (or a detached worktree of
-  the head, so `links`/`refs` see the whole site). Pass `--run pr-<N>` to `call`/`pod-call`
+  the head, so `links`/`refs` see the whole site; they check the checkout the given docs live
+  in, wherever docrev itself runs from). Pass `--run pr-<N>` to `call`/`pod-call`
   (or set `DOCREV_RUN`) so saved responses land in that run's dir.
 - Deleted or renamed docs: on the head, `docrev refs <old path> --ref <base>` lists what still
   points at the old URL, id or file name (docs, `sidebars.js`, `src/`, site config). Review a
@@ -172,7 +173,9 @@ For each step/example, check against the doc:
 - Placeholders: `docrev placeholders <docs...>`. Site notation is `<UPPER_SNAKE>` (the token is
   `<token>`), `[UPPER_SNAKE]` inside XML (where `<NAME>` reads as an element), and `{...}` only
   for URL template variables the reader keeps (`{TileMatrix}`, `{z}`). Each reported placeholder
-  is a doc finding; put changes for pages the PR doesn't touch in the report, not inline.
+  is a doc finding; put changes for pages the PR doesn't touch in the report, not inline. It also
+  reports `token in a request example`; skip the Authentication page and client URLs (e.g. a
+  viewer's `token=` parameter), which show the token on purpose.
 - Writing: typos, wrong API names in client snippets, inconsistent names across pages,
   empty table cells. Links: `docrev links <docs...>` resolves internal URLs, relative files,
   static assets and anchors (the site builds with `onBrokenLinks: warn`, so nothing else catches them).

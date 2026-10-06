@@ -615,7 +615,7 @@ class SiteTest(unittest.TestCase):
         sub.mkdir()
         (sub / "README.md").write_text("---\nslug: info\n---\n[ok](../guide.md) [ok](../my-guide#notes) [bad](../../my-guide)\n")
         (self.repo / "sidebars.js").write_text("items: ['A/old-page']\n")
-        self.patches = [unittest.mock.patch.object(docrev, "REPO", self.repo),
+        self.patches = [unittest.mock.patch.object(docrev, "SITE", self.repo),
                         unittest.mock.patch.object(docrev, "DOCS_DIR", self.repo / "docs")]
         for p in self.patches:
             p.start()
@@ -769,3 +769,34 @@ class ProdAndSourcesTest(unittest.TestCase):
                                                                                      "repos/Org/pycsw/git/ref/tags/v7.0.3")):
             r = docrev.find_source("pycsw", "v7.0.3", "Org", {})
         self.assertEqual((r["repo"], r["ref"], r["confirmed"]), ("Org/pycsw", "v7.0.3", False))
+
+
+class TokenAndSiteTest(unittest.TestCase):
+    def test_token_in_request_examples(self):
+        text = textwrap.dedent('''\
+            Every request needs a token.
+            ```bash
+            curl '<X_URL>/csw?token=<token>' \\
+            --header 'x-api-key: <token>'
+            <X_URL>/wcs?request=GetCapabilities&token=<token>
+            ```
+            ```javascript
+            new Cesium.Resource({url: '<X_URL>', queryParameters: {token: '<token>'}});
+            const layer = L.tileLayer(url + '?token=<token>');
+            ```
+            ''')
+        self.assertEqual([i["line"] for i in docrev.token_issues(text)], [3, 4, 5])
+
+    def test_use_site_follows_the_docs_checkout(self):
+        site = Path(tempfile.mkdtemp())
+        (site / "docs" / "a").mkdir(parents=True)
+        (site / "docusaurus.config.ts").write_text("")
+        doc = site / "docs" / "a" / "page.md"
+        doc.write_text("# Page\n")
+        old = (docrev.SITE, docrev.DOCS_DIR)
+        try:
+            docrev.use_site([str(doc)])
+            self.assertEqual((docrev.SITE, docrev.DOCS_DIR), (site.resolve(), site.resolve() / "docs"))
+            self.assertIn("/docs/a/page", docrev.all_routes())
+        finally:
+            docrev.SITE, docrev.DOCS_DIR = old
