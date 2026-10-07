@@ -1725,23 +1725,129 @@ def cmd_sources(a):
 
 
 HTTP_METHODS = ("get", "put", "post", "delete", "options", "head", "patch")
+# Prose and samples differ between any two specs; examples are checked against enums separately.
+OPENAPI_NOISE = {"description", "summary", "title", "example", "examples", "externalDocs"}
+# Maps whose keys are names (a property called `description` is not prose).
+OPENAPI_NAME_MAPS = {"properties", "patternProperties", "content", "responses", "headers"}
+
+
+def openapi_deref(spec, node):
+    """Follow local `$ref`s; returns the target and the refs followed."""
+    refs = []
+    while isinstance(node, dict) and "$ref" in node and node["$ref"] not in refs:
+        refs.append(node["$ref"])
+        target = spec
+        for part in node["$ref"].lstrip("#/").split("/"):
+            target = (target or {}).get(part.replace("~1", "/").replace("~0", "~"))
+        node = target or {}
+    return node, refs
+
+
+def json_path(path, key):
+    if isinstance(key, int):
+        return f"{path}[{key}]"
+    return f"{path}.{key}" if re.fullmatch(r"[A-Za-z_][\w-]*", key) else f"{path}['{key}']"
+
+
+def brief(node):
+    if not isinstance(node, dict):
+        return node
+    if "$ref" in node:
+        return node["$ref"]
+    if "schema" in node:
+        return brief(node["schema"])
+    if "type" in node:
+        return node["type"] + (f"/{node['format']}" if node.get("format") else "")
+    if "content" in node:
+        return sorted(node["content"])
+    return sorted(k for k in node if k not in OPENAPI_NOISE)
+
+
+def openapi_diff(da, db, a, b, path, out, via=(), names=False):
+    """Differences between two OpenAPI subtrees (`a` in spec `da`, `b` in `db`), refs resolved,
+    each with the JSON path it sits at and the refs followed to reach it."""
+    a, ra = openapi_deref(da, a)
+    b, rb = openapi_deref(db, b)
+    if any(r in via for r in ra + rb):
+        return  # recursive schema: this component is already being compared higher up
+    via = tuple(dict.fromkeys(via + tuple(ra) + tuple(rb)))
+    extra = {"via": list(via)} if via else {}
+    if isinstance(a, dict) and isinstance(b, dict):
+        for k in sorted(set(a) | set(b), key=str):
+            if not names and (k in OPENAPI_NOISE or str(k).startswith("x-")):
+                continue
+            p = json_path(path, str(k))
+            if k not in b or k not in a:
+                out.append({"path": p, "doc": brief(a[k]) if k in a else None,
+                            "live": brief(b[k]) if k in b else None, **extra})
+            elif k in ("enum", "required") and isinstance(a[k], list) and isinstance(b[k], list):
+                if set(map(str, a[k])) != set(map(str, b[k])):
+                    out.append({"path": p, "only_in_doc": [v for v in a[k] if v not in b[k]],
+                                "only_in_live": [v for v in b[k] if v not in a[k]], **extra})
+            else:
+                openapi_diff(da, db, a[k], b[k], p, out, via, not names and k in OPENAPI_NAME_MAPS)
+    elif isinstance(a, list) and isinstance(b, list):
+        for i in range(max(len(a), len(b))):
+            if i >= len(a) or i >= len(b):
+                out.append({"path": json_path(path, i), "doc": brief(a[i]) if i < len(a) else None,
+                            "live": brief(b[i]) if i < len(b) else None, **extra})
+            else:
+                openapi_diff(da, db, a[i], b[i], json_path(path, i), out, via)
+    elif a != b:
+        out.append({"path": path, "doc": brief(a), "live": brief(b), **extra})
+
+
+def example_enum_issues(spec):
+    """Example values in request/response media types that their schema's enum doesn't allow."""
+    out = []
+
+    def walk(v, s, path, depth=0):
+        s, _ = openapi_deref(spec, s)
+        if not isinstance(s, dict) or depth > 30:
+            return
+        if "enum" in s and v not in s["enum"]:
+            out.append({"path": path, "value": v, "enum": s["enum"]})
+        for sub in s.get("allOf") or []:
+            walk(v, sub, path, depth + 1)
+        alts = [openapi_deref(spec, x)[0] for x in s.get("oneOf") or s.get("anyOf") or []]
+        if alts and all(isinstance(x, dict) and "enum" in x for x in alts):
+            allowed = [e for x in alts for e in x["enum"]]
+            if v not in allowed:
+                out.append({"path": path, "value": v, "enum": allowed})
+        elif len(alts) == 1:
+            walk(v, alts[0], path, depth + 1)
+        if isinstance(v, dict):
+            props = s.get("properties") or {}
+            for k, x in v.items():
+                sub = props.get(k, s.get("additionalProperties"))
+                if isinstance(sub, dict):
+                    walk(x, sub, json_path(path, str(k)), depth + 1)
+        elif isinstance(v, list) and isinstance(s.get("items"), dict):
+            for i, x in enumerate(v):
+                walk(x, s["items"], json_path(path, i), depth + 1)
+
+    for upath, item in (spec.get("paths") or {}).items():
+        for m, op in item.items():
+            if m not in HTTP_METHODS or not isinstance(op, dict):
+                continue
+            base = json_path(json_path("$.paths", upath), m)
+            bodies = [(json_path(base, "requestBody"), op.get("requestBody"))]
+            bodies += [(json_path(json_path(base, "responses"), str(c)), r) for c, r in (op.get("responses") or {}).items()]
+            for p, node in bodies:
+                for ct, media in ((openapi_deref(spec, node)[0] or {}).get("content") or {}).items():
+                    if isinstance(media, dict) and "example" in media and "schema" in media:
+                        walk(media["example"], media["schema"], json_path(json_path(p, "content"), ct) + ".example")
+    return out
 
 
 def openapi_ops(spec):
-    def deref(p):
-        if isinstance(p, dict) and "$ref" in p:
-            node = spec
-            for part in p["$ref"].lstrip("#/").split("/"):
-                node = (node or {}).get(part)
-            return node or {}
-        return p
     ops = []
     for path, item in (spec.get("paths") or {}).items():
-        shared = [deref(p) for p in item.get("parameters") or []]
+        shared = [openapi_deref(spec, p)[0] for p in item.get("parameters") or []]
         for m, op in item.items():
             if m not in HTTP_METHODS:
                 continue
-            params = shared + [deref(p) for p in op.get("parameters") or []]
+            params = shared + [openapi_deref(spec, p)[0] for p in op.get("parameters") or []]
             ops.append({"method": m.upper(), "path": path, "operationId": op.get("operationId"),
                         "params": [p["name"] + ("*" if p.get("required") else "") for p in params if p.get("name")],
                         "body": "requestBody" in op,
@@ -1755,17 +1861,26 @@ def cmd_openapi(a):
     spec = yaml.safe_load(Path(a.spec).read_text())
     ops = openapi_ops(spec)
     out = {"title": (spec.get("info") or {}).get("title"), "version": (spec.get("info") or {}).get("version"),
-           "servers": [s.get("url") for s in spec.get("servers") or []], "operations": ops}
+           "servers": [s.get("url") for s in spec.get("servers") or []], "operations": ops,
+           "example_issues": example_enum_issues(spec)}
     if a.live:
         live = yaml.safe_load(load_source(a.live))
         lops = openapi_ops(live)
         key = lambda o: (o["method"], o["path"])
         mine, theirs = {key(o): o for o in ops}, {key(o): o for o in lops}
+        schema_diff = []
+        for m, p in sorted(mine.keys() & theirs.keys()):
+            dop, lop = spec["paths"][p][m.lower()], live["paths"][p][m.lower()]
+            base = json_path(json_path("$.paths", p), m.lower())
+            for part in ("requestBody", "responses"):
+                openapi_diff(spec, live, dop.get(part), lop.get(part), json_path(base, part), schema_diff)
         out = {"version": [out["version"], (live.get("info") or {}).get("version")],
                "only_in_doc": sorted(f"{m} {p}" for m, p in mine.keys() - theirs.keys()),
                "only_in_live": sorted(f"{m} {p}" for m, p in theirs.keys() - mine.keys()),
                "param_diff": [{"op": f"{k[0]} {k[1]}", "doc": mine[k]["params"], "live": theirs[k]["params"]}
-                              for k in mine.keys() & theirs.keys() if mine[k]["params"] != theirs[k]["params"]]}
+                              for k in mine.keys() & theirs.keys() if mine[k]["params"] != theirs[k]["params"]],
+               "schema_diff": schema_diff,
+               "example_issues": {"doc": out["example_issues"], "live": example_enum_issues(live)}}
     print(json.dumps(out, indent=1))
 
 

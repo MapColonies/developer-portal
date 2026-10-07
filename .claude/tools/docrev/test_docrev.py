@@ -682,6 +682,46 @@ class SiteTest(unittest.TestCase):
         r = self.run_cmd(docrev.cmd_openapi, spec=str(self.repo / "spec.yaml"), live=str(self.repo / "live.json"))
         self.assertEqual((r["version"], r["only_in_doc"], r["param_diff"][0]["live"]), (["1", "2"], ["DELETE /items/{id}"], ["id*"]))
 
+    def test_openapi_schema_diff(self):
+        def spec(codes, kinds, content, responses, example_kind):
+            return {"info": {"version": "1"}, "paths": {"/p": {"post": {
+                "requestBody": {"content": content},
+                "responses": {"200": {"description": "OK", "content": {"application/json": {
+                    "schema": {"$ref": "#/components/schemas/res"}, "example": {"kind": example_kind}}}},
+                              **responses}}}},
+                "components": {"schemas": {
+                    "res": {"type": "object", "properties": {"kind": {"oneOf": [{"$ref": "#/components/schemas/kind"}]},
+                                                             "child": {"$ref": "#/components/schemas/res"},
+                                                             **({"description": {"type": "string"}} if example_kind == "A" else {})}},
+                    "kind": {"type": "string", "enum": kinds},
+                    "err": {"properties": {"code": {"type": "string", "enum": codes}}}}}}
+        err = {"500": {"description": "Error", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/err"}}}}}
+        doc = spec(["GENERAL_SERVER_ERROR", "LOW"], ["A", "B"],
+                   {"application/json": {"schema": {"type": "object"}}, "application/octet-stream": {"schema": {"type": "string", "format": "binary"}}},
+                   err, "MESH")
+        live = spec(["GENERAL_ERROR", "LOW", "INVALID"], ["A", "C"], {"application/json": {"schema": {"type": "array"}}},
+                    {**err, "400": {"description": "Bad", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/err"}}}}}, "A")
+        (self.repo / "spec.yaml").write_text(json.dumps(doc))
+        (self.repo / "live.json").write_text(json.dumps(live))
+        r = self.run_cmd(docrev.cmd_openapi, spec=str(self.repo / "spec.yaml"), live=str(self.repo / "live.json"))
+        base = "$.paths['/p'].post"
+        by_path = {d["path"]: d for d in r["schema_diff"]}
+        self.assertEqual(by_path[f"{base}.requestBody.content['application/octet-stream']"], {
+            "path": f"{base}.requestBody.content['application/octet-stream']", "doc": "string/binary", "live": None})
+        self.assertEqual((by_path[f"{base}.requestBody.content['application/json'].schema.type"]["doc"],
+                          by_path[f"{base}.requestBody.content['application/json'].schema.type"]["live"]), ("object", "array"))
+        self.assertEqual(by_path[f"{base}.responses['400']"]["live"], ["application/json"])
+        codes = by_path[f"{base}.responses['500'].content['application/json'].schema.properties.code.enum"]
+        self.assertEqual((codes["only_in_doc"], codes["only_in_live"], codes["via"]),
+                         (["GENERAL_SERVER_ERROR"], ["GENERAL_ERROR", "INVALID"], ["#/components/schemas/err"]))
+        kind = by_path[f"{base}.responses['200'].content['application/json'].schema.properties.kind.oneOf[0].enum"]
+        self.assertEqual((kind["only_in_doc"], kind["only_in_live"]), (["B"], ["C"]))
+        self.assertEqual(by_path[f"{base}.responses['200'].content['application/json'].schema.properties.description"]["live"], "string")
+        self.assertEqual(len(r["schema_diff"]), 6)
+        self.assertEqual(r["example_issues"]["doc"], [{"path": f"{base}.responses['200'].content['application/json'].example.kind",
+                                                       "value": "MESH", "enum": ["A", "B"]}])
+        self.assertEqual(r["example_issues"]["live"], [])
+
 
 class PlaceholderNotationTest(unittest.TestCase):
     def test_site_notation(self):

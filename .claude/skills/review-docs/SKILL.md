@@ -47,8 +47,11 @@ clear which one states the intent.
   with what the live service returns in the flows that touch them.
 - OpenAPI specs (`static/openapi/**`, rendered by redocusaurus): `docrev openapi <spec>` lists
   the operations; fetch the spec the service serves (often `/openapi.json` or `/api-docs`) and
-  `docrev openapi <spec> --live <saved>` to diff paths, params and version; call the read
-  operations. A spec the service no longer matches is a doc finding.
+  `docrev openapi <spec> --live <saved>` to diff paths, params, version and, per operation,
+  request bodies and responses (content types, status codes, schemas and enums, `$ref`s
+  resolved; `schema_diff`, each with its JSON path). `example_issues` lists example values
+  their schema's enum doesn't allow. Call the read operations. A spec the service no longer matches
+  is a doc finding.
 
 ## 2. Environment
 
@@ -109,7 +112,11 @@ clear which one states the intent.
 - Token missing: ask the user; tell them which env var the config expects. Never write a
   token into a file in the repo or echo it into the report.
 - Stop forwards at the end: `docrev env stop <env>`.
-- **Code**: `docrev sources --chart <helm chart dir>` (or `--image NAME:VERSION`) maps each
+- **Code**: first find the chart that deploys each service. For a shared or non-obvious one,
+  search every chart in the deployment repo (`git grep -n <image or service name> -- '*.yaml'`)
+  and, on envs where `oc` is allowed, `oc get deploy -A | grep <name>`; a service shared by
+  product versions often lives in the older version's chart. Then
+  `docrev sources --chart <helm chart dir>` (or `--image NAME:VERSION`) maps each
   deployed component to its GitHub repo and release tag. `kind: image` entries carry the code
   version that runs (an image tag in values overrides the chart's version; an image without one
   gets the owning subchart's template default, explained in `note`, which needs the subchart

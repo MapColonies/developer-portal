@@ -66,7 +66,9 @@ product owner after the page was written (e.g. a supported CRS, a default) wins 
   requirements that are vague ("efficiently", "clear messages") but mark them `judgment`.
 - Merge rows that state the same requirement in different sections (a functional row and an
   API row on the same default): one requirement, all source row ids listed. Counts in the
-  report are per requirement, not per source row.
+  report are per requirement, not per source row. When the source rows give different stages,
+  list every source stage and take the earliest unless the user says otherwise; also raise the
+  disagreement as a question with both quotes, as for `spec conflict`.
 - Note the wording strength: "shall" / "only" / "allowed" may be a restriction the service must
   enforce or a recommendation to clients. When the page doesn't say, it's a question for the
   user, not a `differs`.
@@ -80,9 +82,17 @@ product owner after the page was written (e.g. a supported CRS, a default) wins 
 For each requirement in scope, collect evidence from each target the user chose:
 - **Deployment**: `docrev call` against the env (read-only). Save responses under the run.
   Data-dependent checks (a field's values, a CRS) use the records that exist; say which.
+  A client-facing service in scope with no entry point in the docs or the env config, or
+  scaled to 0 / not ready: record an env finding, mark its live checks unverified, and don't
+  guess a prod URL. Ask the user for the URL; once they give it, offer to add the placeholder
+  and a probe to the env config (written only after they confirm).
 - **Code**: find where the code or chart implements it (routes, config defaults, profile
   mappings, DB schema, chart values). Read, don't run. Use `docrev sources --fetch` for the
   repos at the running versions (review-docs section 2 covers entries with no version).
+  Before `docrev sources --chart`, find where each shared or non-obvious service is deployed:
+  `git grep` its image or service name across all charts in the deployment repo and, on envs
+  where `oc` is allowed, `oc get deploy -A | grep <name>`. A service shared by product
+  versions often lives in the older version's chart.
   Some settings live in no repo: a GeoServer data dir on a volume (default interpolation,
   output formats, CRS list, units, size limits), a database, a bucket policy. Read them with
   `docrev pod-read` where the env allows cluster access and the user approves; otherwise live
@@ -99,6 +109,7 @@ in a repo, or a docs `path:line`.
 | Verdict | Meaning |
 |---|---|
 | met | every checked target agrees with the spec |
+| met (live unverified) | code and docs agree with the spec; the deployment couldn't be checked (say why). Counted apart from `met` |
 | partial | met for part of the requirement or on some targets only (say which part is missing) |
 | differs | a target contradicts the spec (say which, and what it does instead) |
 | missing | nothing implements it (no route, no config, no field) |
