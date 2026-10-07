@@ -46,9 +46,19 @@ When using the API to **display** the heights, we require you to provide the `pr
 :::warning
 **- You may request values for up to 250 points at once. In case you have more than that, you should divide it into bulks.**
 **- Coordinates order is not preserved.**<br/>
-**- You will need an API token as part of the service authentication. &nbsp;**<br/>
+**- You will need an API token as part of the service [authentication](/docs/MapColonies/authentication). &nbsp;**<br/>
 **- When getting a time-out in a result of request, please try same API call again.**
 :::
+
+### Request
+
+Send the positions as JSON in a `POST` request:
+
+```bash
+curl --location --request POST '<ELEVATION_SERVICE_URL>/points' \
+--header 'Content-Type: application/json' \
+--data '{"positions": [{"longitude": 35.2005, "latitude": 32.4005}], "productType": "MIXED"}'
+```
 
 ### API parameters (payload) explanation
 The structure (JSON schema) is as follows:
@@ -98,8 +108,31 @@ The structure (JSON schema) is as follows:
 
 In the response, each point will have the `productId` field as a reference to the product it was returned from.
 
+A point that no product covers is returned with `"height": null` and no `productId`.
+
+`products` lists every product the service can return heights from, not only the ones used by the points in this response.
+
 Each product has the following information:
-* `productType` - the [type](#product-types) of the material
+* `productType` - the product type from the product's catalog record (for example `DTM`)
 * `resolutionMeter` - precision on the horizontal plane, see [confidence level](#confidence-level)
 * `absoluteAccuracyLEP90` - precision on the `z` axis, see [confidence level](#confidence-level)
 * `updateDate` - date when the product was updated
+
+## Errors
+
+Errors are returned as JSON with a `message`, an `errorCode` and the HTTP `status`:
+
+```json
+{"message": "Too many points", "errorCode": "TOO_MANY_POINTS_ERROR", "status": 400}
+```
+
+| **Status** | **errorCode** | **Cause** |
+| ----------- | ----------- | ----------- |
+| 400 | `EMPTY_POSITIONS_ARRAY` | `positions` is empty |
+| 400 | `TOO_MANY_POINTS_ERROR` | more than 250 positions |
+| 400 | `POINTS_DENSITY_TOO_LOW_ERROR` | the positions fall in too many terrain tiles to sample in one request; send them in smaller groups of nearby points |
+| 400 | `MISSING_REQUIRED_PROPERTY` | a required property (`positions`, `longitude`, `latitude`) is missing |
+| 400 | `INVALID_REQUEST` | any other invalid value, for example an unknown `productType` |
+| 500 | `GENERAL_ERROR` | a server error |
+
+A request without a token gets `401`, and one with an invalid token gets `403` (see [authentication](/docs/MapColonies/authentication)).

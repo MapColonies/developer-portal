@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: dem-heights
   description: map-colonies service for extracting elevations from DTM/DSM geotiffs
-  version: 2.0.0
+  version: 3.0.4
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -25,11 +25,7 @@ paths:
                   longitude: 35.21339666666667
                 - latitude: 32.80775333333333
                   longitude: 35.22673
-              productType: 'MIXED'
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
+              productType: MIXED
       responses:
         '200':
           description: OK
@@ -42,26 +38,32 @@ paths:
                   - latitude: 32.80775333333333
                     longitude: 35.21339666666667
                     height: 221.09576574778345
-                    productId: 'first_Product'
+                    productId: first_Product
                   - latitude: 32.80775333333333
                     longitude: 35.22673
                     height: 141.7940749310484
-                    productId: 'first_Product'
+                    productId: second_Product
                 products:
-                    first_Product:
-                      productType: 'QUANTIZED_MESH_DTM_BEST'
-                      updateDate: '2023-05-08T17:44:01.000Z'
-                      resolutionMeter: 30
-                      absoluteAccuracyLEP90: 9e-7
-                    second_Product:
-                      productType: 'QUANTIZED_MESH_DTM_BEST'
-                      updateDate: '2023-05-08T17:44:01.000Z'
-                      resolutionMeter: 100
-                      absoluteAccuracyLEP90: 9e-7
-            application/octet-stream:
+                  first_Product:
+                    productType: DTM
+                    updateDate: '2023-05-08T17:44:01.000Z'
+                    resolutionMeter: 30
+                    absoluteAccuracyLEP90: 9.e-7
+                  second_Product:
+                    productType: DTM
+                    updateDate: '2023-05-08T17:44:01.000Z'
+                    resolutionMeter: 100
+                    absoluteAccuracyLEP90: 9.e-7
+        '400':
+          description: Invalid request
+          content:
+            application/json:
               schema:
-                type: string
-                format: binary
+                $ref: '#/components/schemas/error'
+        '401':
+          description: No token
+        '403':
+          description: Invalid or expired token
         '500':
           description: Service Error
           content:
@@ -78,6 +80,8 @@ components:
       properties:
         message:
           type: string
+        status:
+          type: integer
         errorCode:
           oneOf:
             - $ref: '#/components/schemas/errorCodesEnum'
@@ -156,5 +160,9 @@ components:
     errorCodesEnum:
       type: string
       enum:
+        - EMPTY_POSITIONS_ARRAY
+        - TOO_MANY_POINTS_ERROR
         - POINTS_DENSITY_TOO_LOW_ERROR
-        - GENERAL_SERVER_ERROR
+        - MISSING_REQUIRED_PROPERTY
+        - INVALID_REQUEST
+        - GENERAL_ERROR
