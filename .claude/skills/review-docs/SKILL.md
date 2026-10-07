@@ -243,6 +243,9 @@ or schema files, profile/mapping files, config defaults, validation. Read, don't
   deployed version isn't the reviewed ref; report it, don't guess which is right.
 - Live differs from both: deployment finding (config or version drift); give the version
   running and the ref read.
+- Error responses: list every status and error code the code can return (error classes,
+  error-code enums, validation middleware) and compare with the docs and any OpenAPI spec,
+  including the service's own spec, which often lists fewer than the code returns.
 - A claim with no code behind it (a field nothing writes, a parameter nothing reads) is a
   finding even if live happens to return something.
 
