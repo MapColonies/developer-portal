@@ -35,7 +35,8 @@ A WCS server responding to a **GetCapabilities** request returns metadata about 
 <WCS_SERVICE_URL>/wcs?
 service=WCS&
 version=1.0.0&
-request=GetCapabilities
+request=GetCapabilities&
+token=<TOKEN>
 ```
 
 <details>
@@ -146,7 +147,8 @@ request=GetCapabilities
 <WCS_SERVICE_URL>/wcs?
 service=WCS&
 version=2.0.1&
-request=GetCapabilities
+request=GetCapabilities&
+token=<TOKEN>
 ```
 
 <details>
@@ -461,7 +463,8 @@ The purpose of the **DescribeCoverage** request is to get additional information
 SERVICE=WCS&
 VERSION=1.0.0&
 REQUEST=DescribeCoverage&
-COVERAGE=srtm30-DTM
+COVERAGE=srtm30-DTM&
+token=<TOKEN>
 ```
 
 <details>
@@ -547,7 +550,7 @@ COVERAGE=srtm30-DTM
 ### Version 2.0.1
 
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<TOKEN>'
 ```
 
 <details>
@@ -652,7 +655,8 @@ format=image/tiff;application=geotiff&
 crs=EPSG%3A4326&
 bbox=35.13102,32.35306,35.37051,32.49437&
 width=1000&
-height=1000
+height=1000&
+token=<TOKEN>
 ```
 
 ### Version 2.0.1
@@ -664,7 +668,8 @@ version=2.0.1&
 coverageId=srtm30-DTM&
 format=image/tiff;application=geotiff&
 subset=Lat(32.35306,32.49437)&
-subset=Long(35.13102,35.37051)
+subset=Long(35.13102,35.37051)&
+token=<TOKEN>
 ```
 
 With this request we have successfully fetched data/image for **srtm30-DTM** coverage for **EPSG:4326** projection and for defined **BBOX**! :tada:

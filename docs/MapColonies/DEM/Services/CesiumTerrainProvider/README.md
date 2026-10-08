@@ -93,7 +93,7 @@ Dependency Inclusion (Cesium.js): It is imperative that the `Cesium.js` library 
 The `Cesium.Viewer` class is to be instantiated. This class functions as the primary entry point for the display of the interactive three-dimensional globe and for the management of its various constituent components.
 
 ```js
-const MAPCOLONIES_TOKEN = '<token>'; // Replace with your token, see the Authentication page.
+const MAPCOLONIES_TOKEN = '<TOKEN>'; // Replace with your token, see the Authentication page.
 
 // The Cesium Viewer is to be initialized with the designated container element.
 const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -178,7 +178,7 @@ Refer to the example below for cesium query / header mapcolonies' token configur
 <body>
     <div id="cesiumContainer"></div>
     <script>
-        const MAPCOLONIES_TOKEN = '<token>'; // Replace with your token, see the Authentication page.
+        const MAPCOLONIES_TOKEN = '<TOKEN>'; // Replace with your token, see the Authentication page.
 
         // The Cesium Viewer is to be initialized.
         const viewer = new Cesium.Viewer('cesiumContainer', {

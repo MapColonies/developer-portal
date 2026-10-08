@@ -61,7 +61,7 @@ Filter should be based on fields in the [DEM profile](/docs/MapColonies/DEM/Serv
 When we want to get all of the records in the catalog we can make the following query:
 
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -141,7 +141,7 @@ Usually you make this kind of request when you know there's a specific product t
 
 When you have these values in hand you can make a `POST` request to `<DEM_CATALOG_SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -228,7 +228,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
 <TabItem value="ProductTypeFilter" label="Product Type">
 Fetch all products with productType DTM.
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -309,7 +309,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
 Fetch all products with productType DTM that intersect a given BBOX.<br/>
 Corners are in **latitude longitude** order for `EPSG:4326`.
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -343,7 +343,7 @@ A polygon must contain **at least 4 points**, where the first and last point are
 Coordinates go in a single space-separated `gml:posList`, in **latitude longitude** order for `EPSG:4326`. The GML2 form (`gml:outerBoundaryIs` / `gml:coordinates`) is not supported.
 :::
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -378,7 +378,7 @@ curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
 Fetch all products with productType DTM that intersect with a given Point.<br/>
 `gml:pos` is in **latitude longitude** order for `EPSG:4326`.
 ```bash
-curl --location '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --data '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="1" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
     <csw:Query typeNames="mc:MCDEMRecord">
@@ -414,7 +414,7 @@ Notice the attributes `startPosition` and `maxRecords`, both of them help us to 
 In case we are fetching the full profile without any filters our next request should look like this:
 
 ```bash
-curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw' \
+curl --location --request POST '<DEM_CATALOG_SERVICE_URL>/csw?token=<TOKEN>' \
 --header 'Content-Type: application/xml' \
 --data-raw '<?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords outputFormat="application/xml" outputSchema="http://schema.mapcolonies.com/dem" resultType="results" service="CSW" version="2.0.2" startPosition="2" maxRecords="1" xmlns:mc="http://schema.mapcolonies.com/dem" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:ogc="http://www.opengis.net/ogc">
@@ -456,7 +456,7 @@ Read more about this request [here](/docs/ogc/protocols/ogc-wcs#getcapabilities)
 :::
 
 ```bash
-<WCS_SERVICE_URL>/wcs?request=GetCapabilities
+<WCS_SERVICE_URL>/wcs?request=GetCapabilities&token=<TOKEN>
 ```
 
 <details>
@@ -783,7 +783,7 @@ The WCS service accepts the `coverageId` with or without the internal workspace 
 Let's select the product `srtm30`, this means our ID will be `srtm30-DTM` and our request will be:
 
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=DescribeCoverage&version=2.0.1&coverageId=srtm30-DTM&token=<TOKEN>'
 ```
 
 <details>
@@ -910,7 +910,7 @@ Most coverages will be larger than the limit so we suggest you [directly downloa
 Here we request the whole coverage in the `geotiff` format.
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&token=<TOKEN>'
 ```
 
 ### Get by BBOX
@@ -931,7 +931,7 @@ For example, given a coverage with the following extent:
 
 This produces a `GetCoverage` request like:
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.35306,32.49437)&subset=Long(35.13102,35.37051)&token=<TOKEN>'
 ```
 
 #### Coverages in UTM
@@ -943,19 +943,19 @@ Coverages are stored in `EPSG:4326` or in a WGS 84 UTM zone (for example `EPSG:3
 
 Use those labels in `subset=`; `Lat` / `Long` fail with `Invalid axis label provided`:
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subset=E(690000,700000)&subset=N(3580000,3590000)'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subset=E(690000,700000)&subset=N(3580000,3590000)&token=<TOKEN>'
 ```
 
 To subset a UTM coverage with latitude and longitude, add `subsettingCRS=EPSG:4326`. The output is then reprojected to `EPSG:4326`:
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subsettingCRS=EPSG:4326&subset=Lat(32.35,32.40)&subset=Long(35.13,35.20)'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=mimad-DTM&format=image/tiff;application=geotiff&subsettingCRS=EPSG:4326&subset=Lat(32.35,32.40)&subset=Long(35.13,35.20)&token=<TOKEN>'
 ```
 
 ### Get a single point
 
 To get the height at one point, give each axis a single value instead of a range. The response is a 1x1 pixel GeoTIFF holding the height of the pixel that contains the point:
 ```bash
-curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.4005)&subset=Long(35.2005)'
+curl --location --request GET '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&subset=Lat(32.4005)&subset=Long(35.2005)&token=<TOKEN>'
 ```
 
 Use the coverage's axis labels, as in [Get by BBOX](#get-by-bbox) (`E` / `N` for a UTM coverage).
@@ -967,7 +967,7 @@ In some situations we will have data in a geographical area in a different CRS t
 Here we are making a request to a coverage in `EPSG:4326` and requesting it in `EPSG:32636`:
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:32636'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&outputCRS=EPSG:32636&token=<TOKEN>'
 ```
 
 ### Scale image size (pixels)
@@ -976,19 +976,19 @@ curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverag
 <TabItem value="scaleSize" label="Scale Size">
 Set the output image to be a fixed amount of pixels.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleSize=i(256),j(256)'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleSize=i(256),j(256)&token=<TOKEN>'
 ```
 </TabItem>
 <TabItem value="scaleFactor" label="Scale Factor">
 Set the output image size to be a certain factor from its original size.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleFactor=0.1'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleFactor=0.1&token=<TOKEN>'
 ```
 </TabItem>
 <TabItem value="scaleAxes" label="Scale Axes">
 Set the output image size to be a certain factor from its original size for each axis.
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&scaleAxes=i(0.1),j(0.2)&token=<TOKEN>'
 ```
 </TabItem>
 </Tabs>
@@ -1003,5 +1003,5 @@ The default method is `nearest-neighbor`. Set `interpolation` explicitly if you 
 :::
 
 ```bash
-curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor'
+curl --location '<WCS_SERVICE_URL>/wcs?request=GetCoverage&version=2.0.1&coverageId=srtm30-DTM&format=image/tiff;application=geotiff&interpolation=http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor&token=<TOKEN>'
 ```

@@ -65,7 +65,7 @@ To get unique product when you already have the ***productType*** and ***product
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -103,7 +103,7 @@ You can enquire all 3d products by `productType`, use maxRecords and startPositi
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -222,7 +222,7 @@ viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
   url: new Cesium.Resource({
     url: "<TERRAIN_URL>",
     queryParameters: {
-      "token": "<token>",
+      "token": "<TOKEN>",
     },
   }),
 });
@@ -234,7 +234,7 @@ const tileset = viewer.scene.primitives.add(
     url: new Cesium.Resource({
       url: "<MODEL_URL>",
       queryParameters: {
-        "token": "<token>",
+        "token": "<TOKEN>",
       },
     }),
   })
@@ -250,7 +250,7 @@ viewer.terrainProvider = await Cesium.CesiumTerrainProvider.fromUrl(
   new Cesium.Resource({
     url: "<TERRAIN_URL>",
     queryParameters: {
-      "token": "<token>",
+      "token": "<TOKEN>",
     },
   })
 );
@@ -261,7 +261,7 @@ const tileset = await Cesium.Cesium3DTileset.fromUrl(
   new Cesium.Resource({
     url: "<MODEL_URL>",
     queryParameters: {
-      "token": "<token>",
+      "token": "<TOKEN>",
     },
   })
 );
@@ -275,4 +275,4 @@ Replace `<MODEL_URL>` with the URL link that you got from **Step 2**.
 
 Replace `<TERRAIN_URL>` with the URL link that you got from **Step 2.1 (optional)**.
 
-Replace `<token>` with the token you have.
+Replace `<TOKEN>` with the token you have.
