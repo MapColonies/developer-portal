@@ -12,7 +12,7 @@ tags:
 # Geocoding 📍
 
 :::info
-Click [here](/docs/MapColonies/vector/Services/geocoding/api) for the OpenAPI
+Click [here](/docs/MapColonies/vector/services/geocoding/api) for the OpenAPI
 :::
 
 :::tip

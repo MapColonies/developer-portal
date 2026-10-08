@@ -43,7 +43,7 @@ SERVICE=WMTS
 **\{TileMatrixSet\}** - define the grid name of the layer,
 
 :::tip
-**How to get Grid name?** Grid name (`TileMatrixSet`) can be reached by **GetCapabilities** response [Raster - Get Started / Step 4](/docs/MapColonies/Raster/Guides/raster-getting-started#get-layer-capabilities-step-4)
+**How to get Grid name?** Grid name (`TileMatrixSet`) can be reached by **GetCapabilities** response [Raster - Get Started / Step 4](/docs/MapColonies/Raster/Guides/raster-getting-started#step-4)
 <figure>
     <img src={require("/img/map_proxy_getcap_ortho_example.png").default} style={{"display":"block","marginLeft":"auto","marginRight":"auto","width":"100%"}} />
 </figure>
