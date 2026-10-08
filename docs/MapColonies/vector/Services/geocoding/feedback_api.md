@@ -33,9 +33,9 @@ Once a user gets a response from `Geocoding`, the requesting system will send th
 ## Example
 
 ```curl title="Geocoding's Query Search Request"
-curl --location '<geocoding_url>/search/location/query?query=school' \
---header 'x-api-key: <x-api-key>' \
---header 'x-user-id: <x-user-id>'
+curl --location '<GEOCODING_URL>/search/location/query?query=school' \
+--header 'x-api-key: <TOKEN>' \
+--header 'x-user-id: <X_USER_ID>'
 ```
 
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -134,8 +134,8 @@ Lets think of the current response as the actual response in this case:<br/>
 Then our request to the `feedback API` would look like this: <br/>
 
 ```curl title="Geocoding's Feedback Api Request"
-curl --location --request POST '<feedback_api_url>/feedback' \
---header 'x-api-key: <x-api-key>' \
+curl --location --request POST '<FEEDBACK_API_URL>/feedback' \
+--header 'x-api-key: <TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "request_id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c",

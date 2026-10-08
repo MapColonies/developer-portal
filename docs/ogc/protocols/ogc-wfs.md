@@ -49,8 +49,9 @@ The GetCapabilities operation is a GET request to a WFS server for a list of the
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
-    request=GetCapabilities
+    version=<WFS_SERVICE_VERSION>&
+    request=GetCapabilities&
+    token=<TOKEN>
 ```
 
 ## DescribeFeatureType
@@ -68,8 +69,9 @@ The following GET request will return a list of all feature types, sorted by nam
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
-    request=DescribeFeatureType
+    version=<WFS_SERVICE_VERSION>&
+    request=DescribeFeatureType&
+    token=<TOKEN>
 ```
 
 The following GET request will list information about a specific feature type named `namespace:featuretype`, the response will be formatted in `application/json` format
@@ -77,10 +79,11 @@ The following GET request will list information about a specific feature type na
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=DescribeFeatureType&
     typeNames=namespace:featuretype&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 ## GetFeature
@@ -105,12 +108,13 @@ The following GET request will get at most the top N features of feature type na
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
     outputFormat=application/json&
     count=N&
-    sortBy=attributeA
+    sortBy=attributeA&
+    token=<TOKEN>
 ```
 
 The following GET request will search for all the features contained or partially contained by the specified bounding box in the specified coordinate reference system (`EPSG:4326`).
@@ -119,11 +123,12 @@ The retrieved features will be encoded in `EPSG:4326` as well as requested by th
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
     bbox=51.607317,5.106151,51.629884,5.228022,urn:ogc:def:crs:EPSG::4326&
-    srsName=urn:ogc:def:crs:EPSG::4326
+    srsName=urn:ogc:def:crs:EPSG::4326&
+    token=<TOKEN>
 ```
 
 The following GET request will retrieve a specific feature by provided featureId FID
@@ -131,8 +136,9 @@ The following GET request will retrieve a specific feature by provided featureId
 ```
 <WFS_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=namespace:featuretype&
-    featureId=FID
+    featureId=FID&
+    token=<TOKEN>
 ```

@@ -81,10 +81,11 @@ For convenience we'll add outputFormat parameter as `application/json` to each o
 ```
 <VECTOR_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=DescribeFeatureType&
     typeName=buildings&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>
@@ -208,11 +209,12 @@ due to `enitityId` containing '{' and '}' at the beginning and the end of the st
 ```
 <VECTOR_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=buildings&
-    featureId={entityId}&
-    outputFormat=application/json
+    featureId=<ENTITY_ID>&
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 <details>
   <summary>Response</summary>
@@ -308,12 +310,13 @@ the default sort is in **ascending** order, to specify order append +A or +D to 
 ```
 <VECTOR_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=buildings&
     count=2&
     sortBy=relative_feature_height+D&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>
@@ -444,13 +447,14 @@ For simplicity we'll limit the result to only __2__ features with the `count` pa
 ```
 <VECTOR_QUERY_SERVICE_URL>/wfs?
     service=wfs&
-    version={WFS_SERVICE_VERSION}&
+    version=<WFS_SERVICE_VERSION>&
     request=GetFeature&
     typeNames=buildings&
     bbox=31.995,34.718,32.046,34.787,urn:ogc:def:crs:EPSG::4326&
     srsName=urn:ogc:def:crs:EPSG::4326&
     count=2&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>

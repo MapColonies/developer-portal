@@ -62,7 +62,7 @@ To fetch a specific layer you need the following values:
 
 Both can be coppied from our catalog app.
 
-When you have these values in hand you can make a `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
+When you have these values in hand you can make a `POST` request to `<RASTER_CATALOG_SERVICE_URL>/csw` with the following body (replace `productId` and `productType` with real values):
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1" startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster" >
@@ -89,7 +89,7 @@ When you have these values in hand you can make a `POST` request to `<RASTER-CAT
 </TabItem>
 <TabItem value="fetchAll" label="Fetch All Layers (Pagination)">
 
-You can enquire all raster products with the following `POST` request to `<RASTER-CATALOG-SERVICE_URL>/csw` (use `maxRecords` and `startPosition` for pagination):
+You can enquire all raster products with the following `POST` request to `<RASTER_CATALOG_SERVICE_URL>/csw` (use `maxRecords` and `startPosition` for pagination):
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <csw:GetRecords xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" service="CSW" maxRecords="1" startPosition="1" outputSchema="http://schema.mapcolonies.com/raster" version="2.0.2" xmlns:mc="http://schema.mapcolonies.com/raster">
@@ -130,11 +130,11 @@ You will get an XML Response with product **metadata**:
                 <mc:ingestionDate>2022-02-13T13:04:23Z</mc:ingestionDate>
                 <mc:insertDate>2022-02-13T13:04:41Z</mc:insertDate>
                 <mc:mimeType>image/jpeg</mc:mimeType>
-                <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities'</mc:links>
-                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wms'</mc:links>
-                <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
-                <mc:links scheme="WMTS_KVP" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'</mc:links>
-                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'<YOUR_MAPPROXY_URL>/wmts'</mc:links>
+                <mc:links scheme="WMS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'[YOUR_MAPPROXY_URL]/service?REQUEST=GetCapabilities'</mc:links>
+                <mc:links scheme="WMS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'[YOUR_MAPPROXY_URL]/wms'</mc:links>
+                <mc:links scheme="WMTS" name="ORTHOPHOTO_MOSAIC_BASE" description="">'[YOUR_MAPPROXY_URL]/wmts/1.0.0/WMTSCapabilities.xml'</mc:links>
+                <mc:links scheme="WMTS_KVP" name="ORTHOPHOTO_MOSAIC_BASE" description="">'[YOUR_MAPPROXY_URL]/service?REQUEST=GetCapabilities&SERVICE=WMTS'</mc:links>
+                <mc:links scheme="WMTS_BASE" name="ORTHOPHOTO_MOSAIC_BASE" description="">'[YOUR_MAPPROXY_URL]/wmts'</mc:links>
                 <mc:maxResolutionMeter>0.1</mc:maxResolutionMeter>
                 <mc:producerName>PRODUCER</mc:producerName>
                 <mc:productBBox>-180,-90,180,90</mc:productBBox>
@@ -202,13 +202,13 @@ Each layer has it's own links, so make sure to filter for your wanted layer
 
 ```xml title="Example links for a layer"
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '[RASTER_SERVING_SERVICE_URL]/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '[RASTER_SERVING_SERVICE_URL]/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 <mc:links scheme="WMTS_BASE" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts'
+  '[RASTER_SERVING_SERVICE_URL]/wmts'
 </mc:links>
 ```
 
@@ -221,7 +221,7 @@ Now we need to fetch raster's `MapServer` specified layer metadata by sending a 
 
 ```xml title="Link for WMTS in RESTfull Format"
 <mc:links scheme="WMTS" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/wmts/1.0.0/WMTSCapabilities.xml'
+  '[RASTER_SERVING_SERVICE_URL]/wmts/1.0.0/WMTSCapabilities.xml'
 </mc:links>
 ```
 
@@ -229,7 +229,7 @@ Now we need to fetch raster's `MapServer` specified layer metadata by sending a 
 
 ```xml title="Link for WMTS in KVP Format"
 <mc:links scheme="WMTS_KVP" name="[desired_layer_identifier]" description="">
-  '<RASTER-SERVING-SERVICE_URL>/service?REQUEST=GetCapabilities&SERVICE=WMTS'
+  '[RASTER_SERVING_SERVICE_URL]/service?REQUEST=GetCapabilities&SERVICE=WMTS'
 </mc:links>
 ```
 
@@ -347,8 +347,8 @@ map.addLayer(catalogLayer);
 
     const map = L.map("map", { crs: L.CRS.EPSG4326 }).setView([0, 0], 0);
                                                                       //in case of queryParameter authentication:
-    const layer = L.tileLayer(parsedUrl + '?token=${TOKEN}',{         // received RASTER auth token
-      id : '<desired_layer_identifier>',                              // from Step_3
+    const layer = L.tileLayer(parsedUrl + '?token=<TOKEN>',{         // received RASTER auth token
+      id : '<DESIRED_LAYER_IDENTIFIER>',                              // from Step_3
       bounds
     })
 

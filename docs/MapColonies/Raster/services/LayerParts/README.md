@@ -108,7 +108,8 @@ To list all the available feature types use the `GetCapabilities` operation and 
 <LAYER_PARTS_QUERY_SERVICE_URL>/wfs?
     service=wfs&
     version=2.0.0&
-    request=GetCapabilities
+    request=GetCapabilities&
+    token=<TOKEN>
 ```
 
 <details>
@@ -156,7 +157,8 @@ For convenience we'll add `outputFormat` parameter as `application/json` to each
     version=2.0.0&
     request=DescribeFeatureType&
     typeName=ORTHOPHOTO_BEST-OrthophotoBest&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>
@@ -348,7 +350,8 @@ Now that we hold the structure of the `ORTHOPHOTO_BEST-OrthophotoBest` FeatureTy
     request=GetFeature&
     count=2&
     typeName=ORTHOPHOTO_BEST-OrthophotoBest&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>
@@ -634,7 +637,7 @@ let's get only part of the feature, using `count` to mention the amount for pagi
 
 We'll invoke a POST GetFeature request
 ```
-<LAYER_PARTS_QUERY_SERVICE_URL>/wfs
+<LAYER_PARTS_QUERY_SERVICE_URL>/wfs?token=<TOKEN>
 ```
 with the following body:
 
@@ -758,7 +761,8 @@ with the following body:
     request=GetFeature&
     typeNames=ORTHOPHOTO_BEST-OrthophotoBest&
     sortBy=productVersion&
-    outputFormat=application/json
+    outputFormat=application/json&
+    token=<TOKEN>
 ```
 
 <details>
@@ -1826,7 +1830,8 @@ Here’s an example of GET request:
     version=2.0.0&
     request=GetFeature&
     typeNames=ORTHOPHOTO_BEST-OrthophotoBest&
-    resultType=hits
+    resultType=hits&
+    token=<TOKEN>
 ```
 
 <details>
