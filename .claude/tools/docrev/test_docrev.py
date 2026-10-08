@@ -741,6 +741,8 @@ class PlaceholderNotationTest(unittest.TestCase):
         got = [(i["line"], i["placeholder"], i["use"]) for i in docrev.placeholder_issues(doc)]
         self.assertEqual(got, [
             (1, "{WCS_URL}", "<WCS_URL>"),
+            (1, "<token>", "<TOKEN>"),
+            (3, "<token>", "<TOKEN>"),
             (5, "<SRS>", "[SRS]"),
             (7, "<x-api-key>", "<X_API_KEY>"),
             (7, "[LAYER]", "<LAYER>"),
@@ -846,20 +848,28 @@ class ProdAndSourcesTest(unittest.TestCase):
 
 
 class TokenAndSiteTest(unittest.TestCase):
-    def test_token_in_request_examples(self):
+    def test_request_examples_carry_the_token(self):
         text = textwrap.dedent('''\
             Every request needs a token.
             ```bash
-            curl '<X_URL>/csw?token=<token>' \\
-            --header 'x-api-key: <token>'
-            <X_URL>/wcs?request=GetCapabilities&token=<token>
+            curl '<X_URL>/csw?token=<TOKEN>' \\
+            --data-raw '<csw:GetRecords/>'
+            curl --location '<X_URL>/search' \\
+            --header 'x-api-key: <TOKEN>'
+            <X_URL>/wfs?
+                request=GetCapabilities&
+                token=<TOKEN>
+            curl '<X_URL>/csw'
+            <X_URL>/wcs?request=GetCapabilities
+
+            <X_URL>
+              '[X_URL]/wmts'
             ```
             ```javascript
-            new Cesium.Resource({url: '<X_URL>', queryParameters: {token: '<token>'}});
-            const layer = L.tileLayer(url + '?token=<token>');
+            const layer = L.tileLayer(url + '/tiles');
             ```
             ''')
-        self.assertEqual([i["line"] for i in docrev.token_issues(text)], [3, 4, 5])
+        self.assertEqual([i["line"] for i in docrev.token_issues(text)], [10, 11])
 
     def test_use_site_follows_the_docs_checkout(self):
         site = Path(tempfile.mkdtemp())

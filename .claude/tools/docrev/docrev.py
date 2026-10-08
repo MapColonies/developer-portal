@@ -94,7 +94,7 @@ def as_url(line):
     t = line.strip().strip("`'\"")
     bare = PLACEHOLDER_RE.sub("X", t)
     # `|` and `…` only appear in syntax templates (`osm_ids=[N|W|R]<value>,…`), not requests.
-    if not URL_START_RE.match(t) or t.startswith(("<token>", "[")) or re.search(r"[\s|…]", bare):
+    if not URL_START_RE.match(t) or t.lower().startswith("<token>") or t.startswith("[") or re.search(r"[\s|…]", bare):
         return None
     return t
 
@@ -1010,12 +1010,12 @@ def redact_bytes(b, tok):
     if not tok:
         return b
     for t in (tok, urllib.parse.quote(tok)):
-        b = b.replace(t.encode(), b"<token>")
+        b = b.replace(t.encode(), b"<TOKEN>")
     return b
 
 
 def redact(s, tok):
-    return s.replace(tok, "<token>").replace(urllib.parse.quote(tok), "<token>") if tok else s
+    return s.replace(tok, "<TOKEN>").replace(urllib.parse.quote(tok), "<TOKEN>") if tok else s
 
 
 
@@ -1884,19 +1884,17 @@ def cmd_openapi(a):
     print(json.dumps(out, indent=1))
 
 
-# Site convention: `<UPPER_SNAKE>` placeholders (`<token>` kept as is); `[UPPER_SNAKE]` inside XML,
+# Site convention: `<UPPER_SNAKE>` placeholders (the token is `<TOKEN>`); `[UPPER_SNAKE]` inside XML,
 # where `<NAME>` would read as an element; `{...}` only for URL template variables the reader keeps.
 URL_TEMPLATE_VARS = {"{TileMatrixSet}", "{TileMatrix}", "{TileCol}", "{TileRow}", "{Style}", "{Layer}", "{Time}",
                      "{x}", "{y}", "{z}", "{s}", "{r}", "{reverseX}", "{reverseY}", "{reverseZ}", "{version}"}
-GOOD_ANGLE_RE = re.compile(r"<(?:[A-Z0-9]+(?:_[A-Z0-9]+)*|token)>")
+GOOD_ANGLE_RE = re.compile(r"<[A-Z0-9]+(?:_[A-Z0-9]+)*>")
 # Where XML starts in a block (an `<?xml` line, a namespaced/closing tag or a tag with attributes).
 XML_START_RE = re.compile(r"<\?xml|</?[A-Za-z][\w.-]*:[\w.-]+|</[A-Za-z][\w.-]*>|<[A-Za-z][\w.-]*\s+[\w:.-]+=")
 
 
 def upper_snake(p):
     name = p.strip("{}<>[]")
-    if name.lower() == "token":
-        return "token"
     return re.sub(r"[-\s]+", "_", re.sub(r"([a-z])([A-Z])", r"\1_\2", name)).upper()
 
 
@@ -1929,27 +1927,46 @@ def placeholder_issues(text):
                     continue  # an element, not a placeholder
                 if p.startswith("{") and p in URL_TEMPLATE_VARS:
                     continue
-                good = f"[{want}]" if in_xml and want != "token" else f"<{want}>"
+                good = f"[{want}]" if in_xml else f"<{want}>"
                 if p != good:
                     out.append({"line": n, "placeholder": p, "use": good})
     return out
 
 
-REQUEST_LINE_RE = re.compile(r"""^\s*(?:curl\b|--header\b|-H\s|['"]?(?:https?://|<[A-Z0-9_]+>|\{[A-Z0-9_]+\}|\[[A-Z0-9_]+\]))""")
-TOKEN_IN_REQUEST_RE = re.compile(r"[?&]token=|x-api-key\s*:", re.I)
+# A request starts at a curl line or a line that opens with a service URL placeholder; its header,
+# KVP and continuation lines follow until a blank line. A bare `<SERVICE_URL>` is not a request,
+# and `[SERVICE_URL]` lines are links inside an XML response.
+REQUEST_START_RE = re.compile(r"""^\s*(?:curl\b|['"`]?(?:<[A-Z0-9_]+>|\{[A-Z0-9_]+\})/)""")
+TOKEN_IN_REQUEST_RE = re.compile(r"[?&]token=|x-api-key\s*:|\btoken=", re.I)
 
 
 def token_issues(text):
-    """Request examples (curl, URLs, header lines) that send the token. Pages state the
-    requirement once instead; client code (e.g. a JS snippet) is not matched."""
-    out, fence = [], None
+    """Request examples (curl, service URLs) that don't send the token as `token=<TOKEN>` or an
+    `x-api-key: <TOKEN>` header. Client code (e.g. a JS snippet) is not matched."""
+    out, fence, req = [], None, None
+
+    def close():
+        if req and not TOKEN_IN_REQUEST_RE.search(req[1]):
+            out.append({"line": req[0], "issue": "request example without the token", "text": req[2]})
+
     for n, l in enumerate(text.splitlines(), 1):
         f = re.match(r"^\s*(`{3,})\s*(\w*)", l)
         if f and (fence is None or (f.group(1).startswith(fence) and not f.group(2))):
             fence = f.group(1) if fence is None else None
+            close()
+            req = None
             continue
-        if fence is not None and REQUEST_LINE_RE.match(l) and TOKEN_IN_REQUEST_RE.search(l):
-            out.append({"line": n, "issue": "token in a request example", "text": l.strip()[:160]})
+        if fence is None:
+            continue
+        if REQUEST_START_RE.match(l):
+            close()
+            req = [n, l, l.strip()[:160]]
+        elif not l.strip():
+            close()
+            req = None
+        elif req:
+            req[1] += "\n" + l
+    close()
     return out
 
 

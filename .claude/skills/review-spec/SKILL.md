@@ -101,7 +101,7 @@ For each requirement in scope, collect evidence from each target the user chose:
   section). A requirement the docs should mention but don't is a docs gap only if readers need
   it (a capability or default they would use); internal requirements needn't be documented.
 
-Evidence is a request with `<token>` redacted plus the status and key detail, a `path:line`
+Evidence is a request with `<TOKEN>` redacted plus the status and key detail, a `path:line`
 in a repo, or a docs `path:line`.
 
 ## 3. Verdict per requirement

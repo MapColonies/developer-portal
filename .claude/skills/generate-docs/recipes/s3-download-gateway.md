@@ -6,7 +6,7 @@ Self-description: none; object paths come from catalog links (e.g. `scheme="Down
 
 Declared intent lives in: chart values (`route.path`, bucket, `authorization.opa`, directory listing flag).
 
-Reader flow: catalog record → `Download` link → `GET <link>?token=...`.
+Reader flow: catalog record → `Download` link → `GET <link>?token=<TOKEN>`.
 
 Gotchas:
 - Verify with `call --range 1024` rather than downloading whole files.

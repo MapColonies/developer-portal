@@ -185,11 +185,11 @@ syntax, not a request to run.
   the user the exact request and run with `--allow-write` only after they say yes, per request.
   For downloads/large files use `--range 1024` (or `--head`) instead of fetching the file.
   To check a "no token needed" claim, re-run with `--no-auth`. `call` adds the env's token when
-  the request lacks one and reports `token_added: true`. Example requests (curl, URLs) leave the
-  token out by convention; the page states once, with a link to the Authentication page, that
-  every request needs one. Only a page with no such note is a doc finding (re-run with
-  `--no-auth` to confirm the service needs it). A token in a request example is a doc finding
-  too. Client code (Cesium, viewer URLs) keeps `<token>`, since copied code must work.
+  the request lacks one and reports `token_added: true`. Example requests (curl, URLs) carry
+  the token by convention, as `token=<TOKEN>` or an `x-api-key: <TOKEN>` header, whichever
+  the service accepts; `token_added: true` on a doc request is a doc finding (re-run with
+  `--no-auth` to confirm the service needs it). Client code (Cesium, viewer URLs) uses
+  `<TOKEN>` too.
   `access: forward` also reroutes a `--sub` to the public URL; add `--no-forward` to test the public route.
 - **Success** is not just HTTP 200: an `ows:ExceptionReport` (OGC services often return it
   with 200), an empty result where the doc implies results, or a missing link the next step
@@ -212,11 +212,11 @@ For each step/example, check against the doc:
   a page that marks changes only in prose is a doc finding). A field missing from one record may just be empty
   there; check another before calling it a finding. Try filtering on newly documented fields.
 - Placeholders: `docrev placeholders <docs...>`. Site notation is `<UPPER_SNAKE>` (the token is
-  `<token>`), `[UPPER_SNAKE]` inside XML (where `<NAME>` reads as an element), and `{...}` only
+  `<TOKEN>`), `[UPPER_SNAKE]` inside XML (where `<NAME>` reads as an element), and `{...}` only
   for URL template variables the reader keeps (`{TileMatrix}`, `{z}`). Each reported placeholder
   is a doc finding; put changes for pages the PR doesn't touch in the report, not inline. It also
-  reports `token in a request example`; skip the Authentication page and client URLs (e.g. a
-  viewer's `token=` parameter), which show the token on purpose.
+  reports `request example without the token`; skip requests to third-party hosts and
+  services the docs say need no token.
 - Writing: typos, wrong API names in client snippets, inconsistent names across pages,
   empty table cells. Links: `docrev links <docs...>` resolves internal URLs, relative files,
   static assets and anchors (the site builds with `onBrokenLinks: warn`, so nothing else catches them).
@@ -254,7 +254,7 @@ Open `saved` response files when the summary isn't enough; don't dump them into 
 ## 6. Report
 
 Each finding has: **kind**, location, one-line statement, evidence (request as run with
-`<token>` redacted, status, key response detail).
+`<TOKEN>` redacted, status, key response detail).
 
 | Kind | Meaning | Goes to |
 |---|---|---|
