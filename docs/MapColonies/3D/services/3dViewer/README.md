@@ -33,7 +33,7 @@ A good example of a filter request:
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <?xml version="1.0" encoding="UTF-8"?>
@@ -61,6 +61,10 @@ body (XML):
 ``` bash 
  <3D_CATALOG_SERVICE_URL>
  ```
+ - Replace `<TOKEN>` with the token you have.
+``` bash 
+ <TOKEN>
+ ```
 
 Of course, you can also send a regular request with no filter. 
 
@@ -69,7 +73,7 @@ A good example is:
 POST Request
 
 url:
-'<3D_CATALOG_SERVICE_URL>/csw'
+'<3D_CATALOG_SERVICE_URL>/csw?token=<TOKEN>'
 
 body (XML):
 <csw:GetRecords 

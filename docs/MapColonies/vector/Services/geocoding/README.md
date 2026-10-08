@@ -372,6 +372,7 @@ You can convert `WGS84` coordinates to two grids, the `MapColonies Control Grid`
 
 ```curl title="Request"
 curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -531,6 +532,7 @@ Users that won't comply are at risk of being blocked from using Geocoding API se
 
 ```curl title="Tile Search Request"
 curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&disable_fuzziness=true' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -582,6 +584,7 @@ curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&disable_fuzziness
 
 ```curl title="Tile Search Request"
 curl --location '<GEOCODING_URL>/search/control/tiles?mgrs=33TTG9574836243' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -638,6 +641,7 @@ curl --location '<GEOCODING_URL>/search/control/tiles?mgrs=33TTG9574836243' \
 
 ```curl title="Sub-Tile Search Request"
 curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&sub_tile=65&disable_fuzziness=true' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -694,6 +698,7 @@ curl --location '<GEOCODING_URL>/search/control/tiles?tile=RIT&sub_tile=65&disab
 
 ```curl title="Route Search Request"
 curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -747,6 +752,7 @@ curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade' \
 
 ```curl title="Route Search Request"
 curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade&disable_fuzziness=true&control_point=111' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -801,6 +807,7 @@ curl --location '<GEOCODING_URL>/search/control/routes?command_name=olimpiade&di
 
 ```curl title="Item Search Request"
 curl --location '<GEOCODING_URL>/search/control/items?command_name=1234&limit=1' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -861,6 +868,7 @@ curl --location '<GEOCODING_URL>/search/control/items?command_name=1234&limit=1'
 
 ```curl title="Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=school' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -948,6 +956,7 @@ curl --location '<GEOCODING_URL>/search/location/query?query=school' \
 
 ```curl title="Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=filter' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -1012,6 +1021,7 @@ curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=
 
 ```curl title="Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=%7B%22bbox%22%3A%20%5B2.34509596673945%2C%2048.87896264245859%2C%202.3502230438252525%2C%2048.881502327359925%5D%7D&geo_context_mode=bias' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -1099,6 +1109,7 @@ curl --location '<GEOCODING_URL>/search/location/query?query=school&geo_context=
 
 ```curl title="Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=port&source=google' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -1176,6 +1187,7 @@ curl --location '<GEOCODING_URL>/search/location/query?query=port&source=google'
 You may see the available sources by sending this request: <br/>
 ```curl
 curl --location '<GEOCODING_URL>/search/location/sources' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 :::
@@ -1184,6 +1196,7 @@ curl --location '<GEOCODING_URL>/search/location/sources' \
 
 ```curl title="Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=school&region=france' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -1270,6 +1283,7 @@ curl --location '<GEOCODING_URL>/search/location/query?query=school&region=franc
 You may see the available regions by sending this request: <br/>
 ```curl
 curl --location '<GEOCODING_URL>/search/location/regions' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 :::
@@ -1279,6 +1293,7 @@ curl --location '<GEOCODING_URL>/search/location/regions' \
 
 ```curl title="Request"
 curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=control' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -1327,6 +1342,7 @@ curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12
 
 ```curl title="Request"
 curl --location '<GEOCODING_URL>/lookup/coordinates?lat=52.57326537485767&lon=12.948781146422107&target_grid=MGRS' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 <details style={{"background-color": "#f6f8fa", border: "var(--ifm-alert-border-width) solid var(--ifm-alert-border-color)", "border-left-width": "var(--ifm-alert-border-left-width)", color: "black"}}> 
@@ -1373,6 +1389,7 @@ Convert a MGRS string to its geometry in GeoJSON.
 
 ```curl title="Request"
 curl --location '<GEOCODING_URL>/search/MGRS/tiles?tile=33UUU6099626777' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 

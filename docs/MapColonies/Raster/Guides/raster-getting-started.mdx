@@ -347,7 +347,7 @@ map.addLayer(catalogLayer);
 
     const map = L.map("map", { crs: L.CRS.EPSG4326 }).setView([0, 0], 0);
                                                                       //in case of queryParameter authentication:
-    const layer = L.tileLayer(parsedUrl + '?token=<token>',{         // received RASTER auth token
+    const layer = L.tileLayer(parsedUrl + '?token=<TOKEN>',{         // received RASTER auth token
       id : '<DESIRED_LAYER_IDENTIFIER>',                              // from Step_3
       bounds
     })

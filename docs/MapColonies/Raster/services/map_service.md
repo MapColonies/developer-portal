@@ -58,7 +58,7 @@ See `<TileMatrixSetLink>` element for supported Grid names.
 **\{TileRow\}** - define the row (Y)
 
 Final request example:
-`<MAP_SERVER_RASTER_URL>/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png`
+`<MAP_SERVER_RASTER_URL>/wmts/bluemarble-1.0-OrthophotoHistory/newGrids/2/0/2.png?token=<TOKEN>`
 Will bring a requested tile image
 
 :::danger

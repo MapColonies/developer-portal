@@ -34,6 +34,7 @@ Once a user gets a response from `Geocoding`, the requesting system will send th
 
 ```curl title="Geocoding's Query Search Request"
 curl --location '<GEOCODING_URL>/search/location/query?query=school' \
+--header 'x-api-key: <TOKEN>' \
 --header 'x-user-id: <X_USER_ID>'
 ```
 
@@ -134,6 +135,7 @@ Then our request to the `feedback API` would look like this: <br/>
 
 ```curl title="Geocoding's Feedback Api Request"
 curl --location --request POST '<FEEDBACK_API_URL>/feedback' \
+--header 'x-api-key: <TOKEN>' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "request_id": "4ac9cb81-8d6c-425d-b808-0c868bbaa97c",
