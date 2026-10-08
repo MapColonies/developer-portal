@@ -56,6 +56,7 @@ Send the positions as JSON in a `POST` request:
 
 ```bash
 curl --location --request POST '<ELEVATION_SERVICE_URL>/points' \
+--header 'x-api-key: <TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{"positions": [{"longitude": 35.2005, "latitude": 32.4005}], "productType": "MIXED"}'
 ```
