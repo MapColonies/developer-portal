@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: dem-heights
   description: map-colonies service for extracting elevations from DTM/DSM geotiffs
-  version: 3.0.4
+  version: 3.1.0
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -80,11 +80,10 @@ components:
       properties:
         message:
           type: string
+        errorCode:
+          $ref: '#/components/schemas/errorCodesEnum'
         status:
           type: integer
-        errorCode:
-          oneOf:
-            - $ref: '#/components/schemas/errorCodesEnum'
     pointsReq:
       type: object
       required:
@@ -105,7 +104,7 @@ components:
                 type: number
                 format: double
         productType:
-          oneOf:
+          allOf:
             - $ref: '#/components/schemas/productTypeEnum'
           default: MIXED
     pointsRes:
@@ -115,6 +114,7 @@ components:
       properties:
         data:
           type: array
+          minItems: 1
           items:
             type: object
             required:
@@ -140,14 +140,15 @@ components:
             type: object
             properties:
               productType:
-                oneOf:
-                  - $ref: '#/components/schemas/productTypeEnum'
+                $ref: '#/components/schemas/productTypeEnum'
               resolutionMeter:
                 type: number
                 format: double
+                minimum: 0
               absoluteAccuracyLEP90:
                 type: number
                 format: double
+                minimum: 0
               updateDate:
                 type: string
                 format: date-time
@@ -162,7 +163,6 @@ components:
       enum:
         - EMPTY_POSITIONS_ARRAY
         - TOO_MANY_POINTS_ERROR
-        - POINTS_DENSITY_TOO_LOW_ERROR
+        - GENERAL_ERROR
         - MISSING_REQUIRED_PROPERTY
         - INVALID_REQUEST
-        - GENERAL_ERROR
