@@ -2,7 +2,7 @@
 id: dem-elevation-service
 slug: elevation
 title: Elevation ⛰️
-description: Service to return geographic coordinate [lat, lon] elevation 
+description: Returns the elevation at geographic positions [lon, lat]
 tags:
   - dem
   - API
@@ -18,43 +18,51 @@ Click [here](/docs/MapColonies/dem/services/elevation/api) for the OpenAPI
 :::
 
 ## Purpose
-Allows users to request elevation(height) information at a given location(s)/position(s) in [lon,lat] format with/without extra data eg. resolution, DTM/DSM, etc.
+The Elevation service returns the elevation (height) at one or more geographic positions, given in `[longitude, latitude]` format, together with metadata about the source product, such as its type (DTM/DSM) and resolution.
 
 ## Terminology
 
 ### Product types
 
-Elevation info might be returned from following material types:
-1. DTM - terrain materials.
-2. DSM - surface materials.
-3. MIXED - according to most detailed (best resolution) materials.
+Elevation values can be taken from the following product types:
+1. DTM - Digital Terrain Model (bare-earth terrain).
+2. DSM - Digital Surface Model (terrain including surface features such as buildings and vegetation).
+3. MIXED - the most detailed (highest-resolution) product available at each position, regardless of type.
 
 ### Confidence level
 
-Calculated for each product and is represented by two values:
-* `resolutionMeter` - precision on the horizontal plane (may be interpolated), meaning that for every `resolutionMeter` meters there is a value in the mesh
-* `absoluteAccuracyLEP90` - each height measurement has a 90% chance to have a deviation of at most `x` meters from the given value (between `height` - `absoluteAccuracyLEP90` and `height` + `absoluteAccuracyLEP90`)
+Each product carries two values that describe its accuracy:
+* `resolutionMeter` - horizontal precision (values may be interpolated): the product contains a height value every `resolutionMeter` meters.
+* `absoluteAccuracyLEP90` - vertical accuracy: each height has a 90% probability of deviating by at most `absoluteAccuracyLEP90` meters from the true value, i.e. the true height lies between `height - absoluteAccuracyLEP90` and `height + absoluteAccuracyLEP90`.
 
-It is extremely important to provide all of the information about the product which the height was extracted from for each point you query.
+For every queried point, it is essential to retain the full metadata of the product from which its height was taken.
 
 :::info
-When using the API to **display** the heights, we require you to provide the `productType`, `resolutionMeter` and `absoluteAccuracyLEP90` values as well.
+When **displaying** heights obtained from this API, you must also display the `productType`, `resolutionMeter` and `absoluteAccuracyLEP90` values.
 :::
 
 ## Usage
 
 :::warning
-**- You may request values for up to 250 points at once. In case you have more than that, you should divide it into bulks.**
-**- Coordinates order is not preserved.**<br/>
-**- You will need an API token as part of the service authentication. &nbsp;**<br/>
-**- When getting a time-out in a result of request, please try same API call again.**
+**- A single request may contain up to 250 positions. Larger sets must be split into multiple requests.**<br/>
+**- An API token is required; see [authentication](/docs/MapColonies/authentication).**
 :::
 
-### API parameters (payload) explanation
-The structure (JSON schema) is as follows:
+### Request
 
+Send the positions as JSON in a `POST` request:
 
-```json title="JSON Schema of Request"
+```bash
+curl --location --request POST '<ELEVATION_SERVICE_URL>/points' \
+--header 'x-api-key: <TOKEN>' \
+--header 'Content-Type: application/json' \
+--data '{"positions": [{"longitude": 35.2005, "latitude": 32.4005}], "productType": "MIXED"}'
+```
+
+### Request body
+The request body has the following structure:
+
+```json title="Request body"
 {
   "positions": [
     {
@@ -66,16 +74,16 @@ The structure (JSON schema) is as follows:
 }
 ```
 #### 🔴 positions (required)
-**Array** of geographical coordinates <br/>
-Limited up to **250** coordinates
+**Array** of geographic positions, each with `longitude` and `latitude`.<br/>
+Up to **250** positions per request.
 
-#### 🟡 productType (optional, MIXED is default)
-**String** one of <i>DTM | DSM | MIXED</i>
+#### 🟡 productType (optional, default `MIXED`)
+**String**, one of <i>DTM | DSM | MIXED</i>.
 
-### API response explanation
-The structure (JSON schema) is as follows:
+### Response body
+The response body has the following structure:
 
-```json title="JSON Schema of Response"
+```json title="Response body"
 {
   "data": [
     {
@@ -96,10 +104,34 @@ The structure (JSON schema) is as follows:
 }
 ```
 
-In the response, each point will have the `productId` field as a reference to the product it was returned from.
+The points in `data` are returned in the same order as the positions in the request.
 
-Each product has the following information:
-* `productType` - the [type](#product-types) of the material
-* `resolutionMeter` - precision on the horizontal plane, see [confidence level](#confidence-level)
-* `absoluteAccuracyLEP90` - precision on the `z` axis, see [confidence level](#confidence-level)
-* `updateDate` - date when the product was updated
+Each point includes a `productId` field that references the product in `products` from which its height was taken.
+
+If no height is available for a point (for example, when the point lies outside every product), it is returned with `"height": null` and without a `productId`.
+
+`products` lists every product the service can return heights from, not only those referenced by the points in the response.
+
+Each product contains the following fields:
+* `productType` - the product type, as recorded in the product's catalog record (for example, `DTM`).
+* `resolutionMeter` - horizontal precision; see [confidence level](#confidence-level).
+* `absoluteAccuracyLEP90` - vertical accuracy; see [confidence level](#confidence-level).
+* `updateDate` - the date the product was last updated.
+
+## Errors
+
+Errors are returned as JSON containing a `message`, an `errorCode` and the HTTP `status`:
+
+```json
+{"message": "Too many points", "errorCode": "TOO_MANY_POINTS_ERROR", "status": 400}
+```
+
+| **Status** | **errorCode** | **Cause** |
+| ----------- | ----------- | ----------- |
+| 400 | `EMPTY_POSITIONS_ARRAY` | `positions` is empty. |
+| 400 | `TOO_MANY_POINTS_ERROR` | `positions` contains more than 250 positions. |
+| 400 | `MISSING_REQUIRED_PROPERTY` | A required property (`positions`, `longitude` or `latitude`) is missing. |
+| 400 | `INVALID_REQUEST` | Any other invalid value, for example an unknown `productType`. |
+| 500 | `GENERAL_ERROR` | An internal server error. |
+
+A request without a token is rejected with `401`, and a request with an invalid or expired token is rejected with `403` (see [authentication](/docs/MapColonies/authentication)).
