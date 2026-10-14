@@ -30,10 +30,10 @@ For further information, see: [Authentication](/docs/MapColonies/authentication)
 The get request should be like:
 
 ```curl
-<3D_MODEL_SERVING_SERVICE_URL>/[PATH_TO_FILE_TILESET_JSON]
+<3D_MODEL_SERVING_SERVICE_URL>/<PATH_TO_FILE_TILESET_JSON>
 ```
 
-`[PATH_TO_FILE_TILESET_JSON]` - the full path to the wanted file.
+`<PATH_TO_FILE_TILESET_JSON>` - the full path to the wanted file.
 
 An example:
 

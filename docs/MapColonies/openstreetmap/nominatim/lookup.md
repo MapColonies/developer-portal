@@ -22,7 +22,7 @@ multiple OSM objects like node, way or relation.
 The lookup API has the following format:
 
 ```
-  <VECTOR-NOMINATIM-SERVICE_URL>/lookup?osm_ids=[N|W|R]<value>,…,…,&<params>
+  <VECTOR_NOMINATIM_SERVICE_URL>/lookup?osm_ids=[N|W|R]<value>,…,…,&<params>
 ```
 
 `osm_ids` is mandatory and must contain a comma-separated list of OSM ids each

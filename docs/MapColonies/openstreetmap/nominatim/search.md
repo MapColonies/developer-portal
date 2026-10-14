@@ -24,7 +24,7 @@ This can be used to narrow down the kind of objects to be returned.
 The search API has the following format:
 
 ```
-   <VECTOR-NOMINATIM-SERVICE_URL>/search?<params>
+   <VECTOR_NOMINATIM_SERVICE_URL>/search?<params>
 ```
 
 The search term may be specified with two different sets of parameters:
@@ -183,7 +183,7 @@ This overrides the specified machine readable format. (Default: 0)
   <searchresults timestamp="Mon, 23 Jan 23 11:14:56 +0000"
     attribution="Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright"
     querystring="נוה שאנן 20 ירושלים" exclude_place_ids="135102101"
-    more_url="<VECTOR-NOMINATIM-SERVICE_URL>/search/?q=%D7%A0%D7%95%D7%94+%D7%A9%D7%90%D7%A0%D7%9F+20+%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%99%D7%9D&addressdetails=1&polygon_geojson=1&exclude_place_ids=135102101&format=xml&accept-language=en-GB%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8">
+    more_url="[VECTOR_NOMINATIM_SERVICE_URL]/search/?q=%D7%A0%D7%95%D7%94+%D7%A9%D7%90%D7%A0%D7%9F+20+%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%99%D7%9D&addressdetails=1&polygon_geojson=1&exclude_place_ids=135102101&format=xml&accept-language=en-GB%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8">
     <place place_id="135102101" osm_type="way" osm_id="117395912" place_rank="26" address_rank="26"
       boundingbox="31.7701362,31.7728728,35.2005205,35.2011552" geojson="{" type":" LineString"," coordinates":[[35.2005205,31.7728728],[35.2006515,31.7727207],[35.2008554,31.7724425],[35.2008817,31.7722532],[35.2009251,31.7719408],[35.2010378,31.7709603],[35.2010813,31.77059],[35.2011075,31.7703674],[35.2011369,31.7702248],[35.2011552,31.7701362]]}" lat="31.7719408"
       lon="35.2009251"
@@ -262,7 +262,7 @@ This overrides the specified machine readable format. (Default: 0)
         "class": "shop",
         "type": "bakery",
         "importance": 0.40001,
-        "icon": "<VECTOR-NOMINATIM-SERVICE_URL>/ui/mapicons/shopping_bakery.p.20.png",
+        "icon": "<VECTOR_NOMINATIM_SERVICE_URL>/ui/mapicons/shopping_bakery.p.20.png",
         "address": {
             "shop": "Harishonim bakery",
             "road": "Eliyahu Nawi",

@@ -37,7 +37,7 @@ example, in dense city areas it may belong to a completely different street.
 The main format of the reverse API is
 
 ```
-<VECTOR-NOMINATIM-SERVICE_URL>/reverse?lat=<value>&lon=<value>&<params>
+<VECTOR_NOMINATIM_SERVICE_URL>/reverse?lat=<value>&lon=<value>&<params>
 ```
 
 where `lat` and `lon` are latitude and longitude of a coordinate in WGS84
