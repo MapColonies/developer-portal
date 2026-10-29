@@ -6,6 +6,7 @@ import { chatUrl, ChatRequestError, streamChat } from './api';
 import { linkCitationMarkers } from './citations';
 import { errorFromHttp, errorFromStreamEvent, outcomeNote } from './errors';
 import { buildAllowedOrigins, isSiteRelative, resolveLink, type LinkContext } from './links';
+import { createLocation, createPath } from 'history';
 import { createSseParser, parseChatEvent } from './sse';
 import type { ChatEvent, Source } from './types';
 
@@ -15,6 +16,13 @@ const SOURCE: Source = { id: 1, title: 'Elevation', section: 'Usage > Query', ur
 const SOURCE_2: Source = { id: 2, title: 'API', url: 'https://mapcolonies.github.io/developer-portal/docs/api', kind: 'openapi' };
 
 describe('createSseParser', () => {
+  it('dispatches an event whose final blank line is a lone CR once the stream ends', () => {
+    const parser = createSseParser();
+    assert.deepEqual(parser.push('event: done\ndata: {}\r\r'), []);
+    assert.deepEqual(parser.end(), [{ event: 'done', data: '{}' }]);
+    assert.deepEqual(parser.end(), []);
+  });
+
   it('parses events and ignores comment pings', () => {
     const parser = createSseParser();
     const out = parser.push(': ping\n\nevent: text\ndata: {"delta":"hi"}\n\n');
@@ -141,6 +149,49 @@ describe('link allow-list', () => {
     }
     assert.equal(resolveLink('/developer-portal//evil.example/x', context)?.internalPath, '/evil.example/x');
     assert.equal(resolveLink('http://localhost:3000//evil.example/x', { ...context, baseUrl: '/' })?.internalPath, '/evil.example/x');
+  });
+
+  it('rejects paths that become unsafe once percent-decoded (history runs decodeURI on <Link to>)', () => {
+    const origin = 'http://localhost:3000';
+    for (const ctx of [{ ...context, baseUrl: '/' }, context]) {
+      for (const href of [
+        '/%5Cevil.example/x',
+        '/%5c%5cevil.example/x',
+        '/%09/evil.example/x',
+        '/%0a/evil.example/x',
+        '/%00evil.example',
+        '/%255Cevil.example/x', // double-encoded
+        '/docs/%5C..%5Cevil.example',
+        `${origin}/%5Cevil.example/d`,
+        '/developer-portal/%5Cevil.example/x',
+        '/%C2%80/evil.example/x',
+      ]) {
+        assert.equal(resolveLink(href, ctx), null, `${ctx.baseUrl} ${href}`);
+      }
+    }
+  });
+
+  it('keeps every allowed link on the origin after the rendering <Link> decodes it', () => {
+    const origin = 'http://localhost:3000';
+    const hrefs = ['/docs/x', '/docs/a%20b', '/docs/x?q=%5C#%5C', '/developer-portal//evil.example/x', '/docs/%E2%9C%93', '/docs/x%2Fy', `${origin}//evil.example/x`];
+    for (const baseUrl of ['/', '/developer-portal/']) {
+      for (const href of hrefs) {
+        const link = resolveLink(href, { ...context, baseUrl });
+        assert.ok(link, `${baseUrl} ${href}`);
+        if (link.internalPath === undefined) {
+          continue;
+        }
+        // what Docusaurus <Link> + react-router do: prefix the baseUrl, createLocation (decodeURI), createPath
+        const rendered = createPath(createLocation(`${baseUrl}${link.internalPath.slice(1)}`));
+        assert.equal(new URL(rendered, origin).origin, origin, `${baseUrl} ${href} -> ${rendered}`);
+      }
+    }
+  });
+
+  it('renders files that are not routes as plain links', () => {
+    assert.deepEqual(resolveLink('/developer-portal/openapi/dem/elevation-openapi.yaml', context), { href: '/developer-portal/openapi/dem/elevation-openapi.yaml' });
+    assert.deepEqual(resolveLink('/azimuth-corpus.json', context), { href: '/developer-portal/azimuth-corpus.json' });
+    assert.equal(resolveLink('/docs/v1.2/x', context)?.internalPath, '/docs/v1.2/x');
   });
 
   it('offers client-side routing only for pages of the running site under the base URL', () => {
@@ -348,6 +399,15 @@ describe('streamChat', () => {
     assert.deepEqual(
       events.map((e) => e.type),
       ['text', 'error']
+    );
+  });
+
+  it('delivers a terminal event whose closing blank line is a lone CR at the end of the stream', async () => {
+    const donePayload = JSON.stringify({ conversationId: 'c', messageId: 'm', outcome: 'answered', citations: [] });
+    const events = await collect(sseFetch([`event: done\ndata: ${donePayload}\r\r`]));
+    assert.deepEqual(
+      events.map((e) => e.type),
+      ['done']
     );
   });
 

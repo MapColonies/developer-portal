@@ -67,6 +67,10 @@ export function useAzimuthChat(endpoint: string): AzimuthChat {
       };
 
       const onEvent = (event: ChatEvent): void => {
+        if (abort.signal.aborted) {
+          // Stop or New chat already happened; a chunk read just before it must not touch the conversation
+          return;
+        }
         switch (event.type) {
           case 'sources':
             conversationId.current = event.conversationId;

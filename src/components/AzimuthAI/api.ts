@@ -1,5 +1,5 @@
 import { errorFromHttp, INTERRUPTED_ERROR, NETWORK_ERROR, type ChatErrorInfo } from './errors';
-import { createSseParser, parseChatEvent } from './sse';
+import { createSseParser, parseChatEvent, type SseMessage } from './sse';
 import type { ChatEvent, ChatRequest } from './types';
 
 /** A failed chat request, carrying the friendly message to show. Aborts are NOT wrapped: they surface as the AbortError. */
@@ -66,8 +66,8 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
 
   const parser = createSseParser();
   let terminal = false;
-  const dispatch = (chunk: string): void => {
-    for (const message of parser.push(chunk)) {
+  const dispatchMessages = (messages: SseMessage[]): void => {
+    for (const message of messages) {
       const event = parseChatEvent(message);
       if (event === null || terminal) {
         continue;
@@ -76,6 +76,7 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
       onEvent(event);
     }
   };
+  const dispatch = (chunk: string): void => dispatchMessages(parser.push(chunk));
 
   try {
     if (response.body === null) {
@@ -97,6 +98,7 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
       }
       dispatch(decoder.decode());
     }
+    dispatchMessages(parser.end());
   } catch (error) {
     if (signal?.aborted) {
       throw error;

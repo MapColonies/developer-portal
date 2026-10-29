@@ -4,6 +4,38 @@
 // eslint-disable-next-line no-control-regex
 const UNSAFE_CHARS = /[\u0000- \u007f-\u009f\\]/;
 
+/**
+ * Characters that must not survive percent-decoding of a path. Docusaurus <Link> hands the path to history, which runs
+ * decodeURI on it, so "%5C" and "%09" turn into a backslash and a tab, which browsers read as "/" and strip, turning
+ * "/%5Cevil.example" into the off-origin "//evil.example". A space is fine here (it is encoded again by the browser).
+ */
+// eslint-disable-next-line no-control-regex
+const UNSAFE_DECODED = /[\u0000-\u001f\u007f-\u009f\\]/;
+
+/** Static files served next to the pages (OpenAPI specs, the Corpus, images): not routes, so never client-side links. */
+const STATIC_FILE = /\.(?:ya?ml|json|pdf|zip|gz|tgz|txt|csv|xml|png|jpe?g|gif|svg|webp|ico|map|js|css|woff2?)$/i;
+
+/** True when the path, however many times it is percent-decoded, stays an ordinary path. */
+function isSafeAfterDecoding(path: string): boolean {
+  let current = path;
+  for (let i = 0; i < 4; i += 1) {
+    if (UNSAFE_DECODED.test(current) || current.startsWith('//')) {
+      return false;
+    }
+    let decoded: string;
+    try {
+      decoded = decodeURI(current);
+    } catch {
+      return false;
+    }
+    if (decoded === current) {
+      return true;
+    }
+    current = decoded;
+  }
+  return false;
+}
+
 /** `/docs/x` yes; `//evil.example` (protocol-relative), `/\evil.example`, `docs/x` and `#x` no. */
 export function isSiteRelative(href: string): boolean {
   return href.startsWith('/') && !href.startsWith('//') && !UNSAFE_CHARS.test(href);
@@ -40,7 +72,7 @@ export interface ResolvedLink {
   /** safe to put in an `href` */
   href: string;
   /**
-   * Set when the target is a page of the running site: the path without the baseUrl (plus search and hash), for
+   * Set when the target is a page of the running site (not a static file such as an OpenAPI spec): the path without the baseUrl (plus search and hash), for
    * Docusaurus <Link to>, which adds the baseUrl back and keeps client-side routing. It always starts with exactly
    * one "/", so <Link> can never mistake it for a protocol-relative URL.
    */
@@ -80,6 +112,15 @@ export function resolveLink(href: string | undefined, context: LinkContext): Res
   } else if (pathname === base.slice(0, -1)) {
     rest = '';
   }
-  const internalPath = `/${rest.replace(/^\/+/, '')}${url.search}${url.hash}`;
-  return { href: `${base}${internalPath.slice(1)}`, internalPath };
+  const path = `/${rest.replace(/^\/+/, '')}`;
+  if (!isSafeAfterDecoding(path)) {
+    return null;
+  }
+  const internalPath = `${path}${url.search}${url.hash}`;
+  const resolvedHref = `${base}${internalPath.slice(1)}`;
+  if (STATIC_FILE.test(path)) {
+    // a file, not a page of the single-page app: a client-side route would show its 404 page
+    return { href: resolvedHref };
+  }
+  return { href: resolvedHref, internalPath };
 }

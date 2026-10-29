@@ -9,6 +9,8 @@ export interface SseMessage {
 export interface SseParser {
   /** Feed the next decoded chunk (any size, split anywhere); returns the events completed by it. */
   push: (chunk: string) => SseMessage[];
+  /** Call when the stream has ended: a held-back trailing CR is a line end after all. Returns the events it completes. */
+  end: () => SseMessage[];
 }
 
 const LINE_END = /\r\n|\n|\r/;
@@ -50,7 +52,27 @@ export function createSseParser(): SseParser {
     // `id` and `retry` are not used by the engine
   };
 
+  const drain = (out: SseMessage[], final: boolean): void => {
+    for (;;) {
+      const match = LINE_END.exec(buffer);
+      if (!match) {
+        break;
+      }
+      // a trailing lone CR may be the first half of a CRLF; wait for the next chunk to know (unless the stream ended)
+      if (!final && match[0] === '\r' && match.index + 1 === buffer.length) {
+        break;
+      }
+      handleLine(buffer.slice(0, match.index), out);
+      buffer = buffer.slice(match.index + match[0].length);
+    }
+  };
+
   return {
+    end(): SseMessage[] {
+      const out: SseMessage[] = [];
+      drain(out, true);
+      return out;
+    },
     push(chunk: string): SseMessage[] {
       buffer += chunk;
       if (!started && buffer.length > 0) {
@@ -60,18 +82,7 @@ export function createSseParser(): SseParser {
         }
       }
       const out: SseMessage[] = [];
-      for (;;) {
-        const match = LINE_END.exec(buffer);
-        if (!match) {
-          break;
-        }
-        // a trailing lone CR may be the first half of a CRLF; wait for the next chunk to know
-        if (match[0] === '\r' && match.index + 1 === buffer.length) {
-          break;
-        }
-        handleLine(buffer.slice(0, match.index), out);
-        buffer = buffer.slice(match.index + match[0].length);
-      }
+      drain(out, false);
       return out;
     },
   };
