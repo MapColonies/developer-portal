@@ -35,6 +35,12 @@ const config: Config = {
       playground: process.env.PLAYGROUND_URL,
       puzzle: process.env.PUZZLE_URL,
     },
+    // The AzimuthAI chat widget stays off unless the build sets AZIMUTH_ENABLED=true
+    // (only the GitHub Pages deploy may; PR previews and the Dockerfile never do).
+    azimuth: {
+      enabled: process.env.AZIMUTH_ENABLED === 'true',
+      endpoint: process.env.AZIMUTH_ENDPOINT ?? '',
+    },
   },
   presets: [
     [

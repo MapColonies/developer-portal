@@ -3,9 +3,7 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "resolveJsonModule": true,
-    "module": "Node16",
-    "moduleResolution": "Node16"
+    "resolveJsonModule": true
   },
   // `npm run build` writes bundled JS into build/, which is not ours to type-check
   "exclude": ["node_modules", "build"]

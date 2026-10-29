@@ -18,5 +18,10 @@ export type CustomFields = {
         playground: string,
         puzzle: string
     },
+    azimuth: {
+        enabled: boolean,
+        // base URL of the AzimuthAI engine, without a trailing path (e.g. https://host)
+        endpoint: string,
+    },
 };
   

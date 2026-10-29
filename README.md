@@ -61,4 +61,24 @@ Inlined `data:` images (base64 icons in the symbology tables) are reduced to the
 
 Known gaps: content that only exists in the browser is not in the server-rendered HTML, so Mermaid diagrams and the Special Phrases data grid are absent.
 
-Run the plugin's tests with `npm test`.
+Run the plugin's and the widget's unit tests with `npm test`.
+
+### AzimuthAI chat widget
+
+The portal can show a "MapColonies AzimuthAI" chat widget (launcher button plus chat panel, `src/components/AzimuthAI/`, mounted from `src/theme/Root.js`). It is **off unless the build opts in**:
+
+| Variable | Meaning |
+|---|---|
+| `AZIMUTH_ENABLED` | `true` turns the widget on. Anything else, or unset, leaves it out of the build entirely. |
+| `AZIMUTH_ENDPOINT` | Base URL of the AzimuthAI engine, e.g. `https://azimuth.example`; the widget POSTs to `${AZIMUTH_ENDPOINT}/v1/chat` (SSE). The widget also stays off when this is empty. |
+
+Only the GitHub Pages deploy (`.github/workflows/deploy.yaml`, currently `AZIMUTH_ENABLED: 'false'`) may enable it. PR previews and the Dockerfile/Helm copy never set it, so it stays off there.
+
+To try it locally against an engine on port 8080:
+
+```
+$ AZIMUTH_ENABLED=true AZIMUTH_ENDPOINT=http://localhost:8080 npm start -- --port 3000
+```
+
+The engine must allow the portal's origin in its CORS configuration. The widget renders the answer as Markdown without raw HTML, only links to the portal's own origin (everything else is shown as plain text), and lists the cited pages under each finished answer.
+

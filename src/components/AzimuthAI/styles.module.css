@@ -1,0 +1,414 @@
+/* Everything here is built from Infima/Docusaurus variables, so light and dark mode follow the site. */
+
+.root {
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.9375rem;
+  line-height: var(--ifm-line-height-base);
+  color: var(--ifm-font-color-base);
+  /* the UI chrome and its English labels are always left-to-right; each message sets its own dir="auto" */
+  direction: ltr;
+  text-align: start;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- launcher ---------- */
+
+.launcher {
+  position: fixed;
+  inset-inline-end: 16px;
+  bottom: 16px;
+  z-index: 300;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  font: inherit;
+  font-weight: var(--ifm-font-weight-semibold);
+  cursor: pointer;
+  box-shadow: var(--ifm-global-shadow-md);
+  transition: background var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.launcher:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.launcher:focus-visible,
+.headerButton:focus-visible,
+.send:focus-visible,
+.input:focus-visible,
+.log:focus-visible {
+  outline: 3px solid var(--ifm-color-primary-lightest);
+  outline-offset: 2px;
+}
+
+.icon {
+  flex: none;
+}
+
+/* ---------- panel ---------- */
+
+.panel {
+  position: fixed;
+  inset-inline-end: 16px;
+  bottom: 72px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, calc(100vw - 32px));
+  /* leave room for the launcher below and the navbar above */
+  height: min(640px, calc(100vh - 140px));
+  height: min(640px, calc(100dvh - 140px));
+  overflow: hidden;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-color-emphasis-100);
+}
+
+.title {
+  flex: 1;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.headerButton {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: var(--ifm-global-radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.headerButton:hover:not(:disabled) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.headerButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fallback {
+  padding: 1rem;
+}
+
+/* ---------- conversation ---------- */
+
+.log {
+  flex: 1;
+  min-height: 0;
+  padding: 0.75rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.intro {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.user {
+  max-width: 85%;
+  margin: 0 0 0.75rem;
+  margin-inline-start: auto;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.assistant {
+  margin: 0 0 1rem;
+  overflow-wrap: anywhere;
+}
+
+.waiting,
+.note,
+.error {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.waiting,
+.note {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.875rem;
+}
+
+.note {
+  padding-inline-start: 0.6rem;
+  border-inline-start: 3px solid var(--ifm-color-emphasis-400);
+}
+
+.error {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-danger-contrast-background);
+  color: var(--ifm-color-danger-contrast-foreground);
+  border: 1px solid var(--ifm-color-danger);
+}
+
+.dots::after {
+  content: '...';
+  display: inline-block;
+  width: 1.2em;
+  text-align: start;
+  animation: dots 1.2s steps(4, end) infinite;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+@keyframes dots {
+  from {
+    width: 0;
+  }
+  to {
+    width: 1.2em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots::after {
+    animation: none;
+  }
+}
+
+/* ---------- rendered Markdown ---------- */
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown p,
+.markdown ul,
+.markdown ol,
+.markdown blockquote {
+  margin: 0 0 0.75rem;
+}
+
+.markdown ul,
+.markdown ol {
+  padding-inline-start: 1.5rem;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.markdown blockquote {
+  padding-inline-start: 0.75rem;
+  border-inline-start: 3px solid var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-800);
+}
+
+.markdown code {
+  font-size: var(--ifm-code-font-size);
+  padding: 0.1rem 0.3rem;
+  border-radius: var(--ifm-code-border-radius);
+  background: var(--ifm-code-background);
+}
+
+.markdown a {
+  text-decoration: underline;
+}
+
+.code {
+  margin: 0 0 0.75rem;
+  direction: ltr;
+  text-align: left;
+}
+
+.code > div {
+  margin-bottom: 0;
+  font-size: 0.8125rem;
+}
+
+.markdown .code code {
+  padding: 0;
+  background: none;
+}
+
+.tableWrap {
+  margin: 0 0 0.75rem;
+  overflow-x: auto;
+}
+
+.tableWrap table {
+  display: table;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.citationMarker {
+  padding: 0 0.1em;
+  font-size: 0.8em;
+  font-weight: var(--ifm-font-weight-semibold);
+  text-decoration: none;
+  vertical-align: super;
+}
+
+/* ---------- citations ---------- */
+
+.citations {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+  font-size: 0.8125rem;
+}
+
+.citationsTitle {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.citationList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.citationId {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.citationSection {
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* ---------- composer ---------- */
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  max-height: 8rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  color: inherit;
+  font: inherit;
+  resize: none;
+}
+
+.send {
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  font: inherit;
+  font-weight: var(--ifm-font-weight-semibold);
+  cursor: pointer;
+}
+
+.send:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.send:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stop {
+  background: var(--ifm-color-danger);
+}
+
+.stop:hover:not(:disabled) {
+  background: var(--ifm-color-danger-dark);
+}
+
+/* the primary colour is light in dark mode: use dark text on it for contrast */
+:global([data-theme='dark']) .user,
+:global([data-theme='dark']) .send,
+:global([data-theme='dark']) .launcher {
+  color: #101418;
+}
+
+:global([data-theme='dark']) .stop {
+  color: var(--ifm-color-white);
+}
+
+@media (max-width: 480px) {
+  .launcherLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .launcher {
+    padding: 0.75rem;
+  }
+
+  .panel {
+    inset-inline-end: 8px;
+    bottom: 68px;
+    width: calc(100vw - 16px);
+  }
+}
+
+@media print {
+  .root {
+    display: none;
+  }
+}

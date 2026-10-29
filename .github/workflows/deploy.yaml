@@ -21,6 +21,8 @@ env:
   YAHALOM_APPLICATION_URL: https://placeholder.com
   PLAYGROUND_URL: https://sandcastle.cesium.com/
   BASE_URL: '/developer-portal/'
+  # AzimuthAI widget: off until the engine is live (MAPCO-12504 switches it on and sets AZIMUTH_ENDPOINT)
+  AZIMUTH_ENABLED: 'false'
 
 jobs:
   deploy:
