@@ -88,6 +88,7 @@ function AssistantBubble({ message, siteUrl, baseUrl }: { message: AssistantMess
   const note = message.status === 'done' && message.outcome ? outcomeNote(message.outcome) : undefined;
   return (
     <div className={styles.assistant}>
+      {message.notice ? <p className={styles.note}>{message.notice}</p> : null}
       {message.status === 'waiting' ? (
         <p className={styles.waiting}>
           Searching the documentation<span className={styles.dots} aria-hidden="true" />

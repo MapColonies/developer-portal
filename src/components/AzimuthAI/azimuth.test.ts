@@ -2,7 +2,7 @@
 // the fetch/stream plumbing (with a fake fetch). The React components are checked in a browser.
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { chatUrl, ChatRequestError, streamChat } from './api';
+import { chatUrl, ChatRequestError, streamChat, streamChatRecovering } from './api';
 import { linkCitationMarkers } from './citations';
 import { errorFromHttp, errorFromStreamEvent, outcomeNote } from './errors';
 import { buildAllowedOrigins, isSiteRelative, resolveLink, type LinkContext } from './links';
@@ -452,5 +452,76 @@ describe('streamChat', () => {
     });
     await assert.rejects(run, (e: unknown) => !(e instanceof ChatRequestError) && (e as Error).name === 'AbortError');
     assert.equal(events.length, 1);
+  });
+});
+
+describe('streamChatRecovering', () => {
+  const encoder = new TextEncoder();
+  const notFound = (): Response =>
+    new Response(JSON.stringify({ code: 'conversation_not_found', message: 'x' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+  const stream = (): Response =>
+    new Response(
+      encoder.encode(
+        sse('sources', { conversationId: 'c2', messageId: 'm', sources: [] }) +
+          sse('done', { conversationId: 'c2', messageId: 'm', citations: [], outcome: 'answered' })
+      ),
+      { status: 200 }
+    );
+
+  it('retries once without the conversation id when the engine does not know it', async () => {
+    const bodies: unknown[] = [];
+    const fetchImpl: typeof fetch = async (_url, init) => {
+      bodies.push(JSON.parse(String(init?.body)));
+      return bodies.length === 1 ? notFound() : stream();
+    };
+    const events: ChatEvent[] = [];
+    let expired = 0;
+    await streamChatRecovering({ endpoint: 'http://engine.test', message: 'hi', conversationId: 'old', fetchImpl }, (e) => events.push(e), () => (expired += 1));
+    assert.deepEqual(bodies, [{ message: 'hi', conversationId: 'old' }, { message: 'hi' }]);
+    assert.equal(expired, 1);
+    assert.deepEqual(
+      events.map((e) => e.type),
+      ['sources', 'done']
+    );
+  });
+
+  it('does not retry more than once', async () => {
+    let calls = 0;
+    const fetchImpl: typeof fetch = async () => {
+      calls += 1;
+      return notFound();
+    };
+    await assert.rejects(
+      streamChatRecovering({ endpoint: 'http://engine.test', message: 'hi', conversationId: 'old', fetchImpl }, () => undefined, () => undefined),
+      (e: unknown) => e instanceof ChatRequestError && e.info.kind === 'conversation_expired'
+    );
+    assert.equal(calls, 2);
+  });
+
+  it('does not retry a request that carried no conversation id, nor other errors', async () => {
+    let calls = 0;
+    const fetchImpl: typeof fetch = async () => {
+      calls += 1;
+      return notFound();
+    };
+    await assert.rejects(streamChatRecovering({ endpoint: 'http://engine.test', message: 'hi', fetchImpl }, () => undefined, () => assert.fail('no retry')));
+    assert.equal(calls, 1);
+    const busy: typeof fetch = async () => new Response(JSON.stringify({ code: 'rate_limited' }), { status: 429 });
+    await assert.rejects(
+      streamChatRecovering({ endpoint: 'http://engine.test', message: 'hi', conversationId: 'old', fetchImpl: busy }, () => undefined, () => assert.fail('no retry')),
+      (e: unknown) => e instanceof ChatRequestError && e.info.kind === 'busy'
+    );
+  });
+
+  it('does not retry after the caller aborted', async () => {
+    const controller = new AbortController();
+    const fetchImpl: typeof fetch = async () => {
+      controller.abort();
+      return notFound();
+    };
+    await assert.rejects(
+      streamChatRecovering({ endpoint: 'http://engine.test', message: 'hi', conversationId: 'old', fetchImpl, signal: controller.signal }, () => undefined, () => assert.fail('no retry')),
+      (e: unknown) => e instanceof ChatRequestError
+    );
   });
 });

@@ -110,3 +110,22 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
     throw new ChatRequestError(INTERRUPTED_ERROR);
   }
 }
+
+/**
+ * `streamChat`, plus the one recovery the contract asks for: when the engine no longer knows the conversation id
+ * (404 `conversation_not_found`, raised before the stream starts, so nothing has been delivered yet), `onExpired`
+ * is called and the question is sent once more without the id, which starts a new conversation. A second failure,
+ * of any kind, is reported as usual.
+ */
+export async function streamChatRecovering(options: StreamChatOptions, onEvent: (event: ChatEvent) => void, onExpired: () => void): Promise<void> {
+  try {
+    await streamChat(options, onEvent);
+  } catch (error) {
+    const expired = error instanceof ChatRequestError && error.info.kind === 'conversation_expired';
+    if (!expired || !options.conversationId || options.signal?.aborted) {
+      throw error;
+    }
+    onExpired();
+    await streamChat({ ...options, conversationId: undefined }, onEvent);
+  }
+}

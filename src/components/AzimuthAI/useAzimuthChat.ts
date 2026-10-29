@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChatRequestError, streamChat } from './api';
-import { errorFromStreamEvent, type ChatErrorInfo } from './errors';
+import { ChatRequestError, streamChatRecovering } from './api';
+import { CONVERSATION_EXPIRED_NOTICE, errorFromStreamEvent, type ChatErrorInfo } from './errors';
 import type { ChatEvent, Outcome, Source } from './types';
 
 export type AssistantStatus = 'waiting' | 'streaming' | 'done' | 'stopped' | 'error';
@@ -18,6 +18,8 @@ export type ChatMessage =
       citations: Source[];
       outcome?: Outcome;
       error?: ChatErrorInfo;
+      /** short remark about how the question was handled, shown above the answer (e.g. the conversation had expired) */
+      notice?: string;
     };
 
 type AssistantMessage = Extract<ChatMessage, { role: 'assistant' }>;
@@ -91,7 +93,12 @@ export function useAzimuthChat(endpoint: string): AzimuthChat {
         }
       };
 
-      streamChat({ endpoint, message: text, conversationId: conversationId.current, signal: abort.signal }, onEvent)
+      const onExpired = (): void => {
+        conversationId.current = undefined;
+        update((m) => ({ ...m, notice: CONVERSATION_EXPIRED_NOTICE }));
+      };
+
+      streamChatRecovering({ endpoint, message: text, conversationId: conversationId.current, signal: abort.signal }, onEvent, onExpired)
         .catch((error: unknown) => {
           if (abort.signal.aborted) {
             update((m) => (isInFlight(m) ? { ...m, status: 'stopped' } : m));

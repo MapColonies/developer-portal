@@ -60,6 +60,9 @@ export function errorFromStreamEvent(code: string): ChatErrorInfo {
   }
 }
 
+/** Shown with the answer when the engine had forgotten the conversation and the question was sent again as a new one. */
+export const CONVERSATION_EXPIRED_NOTICE = 'This conversation expired; starting a new one';
+
 /** The request never produced an HTTP response (offline, DNS, CORS, engine down). */
 export const NETWORK_ERROR: ChatErrorInfo = { kind: 'unavailable', message: UNAVAILABLE };
 
