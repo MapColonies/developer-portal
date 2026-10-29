@@ -5,6 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type { Config, ReportingSeverity } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type { PresetEntry } from 'redocusaurus';
+import azimuthCorpus from './plugins/azimuth-corpus';
 
 const config: Config = {
   title: 'MapColonies Developer Portal',
@@ -196,6 +197,7 @@ const config: Config = {
     },
     plugins: [
       [require.resolve('docusaurus-lunr-search'), {}],
+      azimuthCorpus,
     ],
 } satisfies Preset.ThemeConfig;
 
