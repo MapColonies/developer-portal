@@ -1,6 +1,5 @@
 import * as cheerio from 'cheerio';
-import type { CheerioAPI, Element } from 'cheerio';
-import type { AnyNode } from 'domhandler';
+import type { AnyNode, CheerioAPI, Element } from 'cheerio';
 import { stripBaseUrl } from './paths';
 import type { CorpusBlock, CorpusSection } from './types';
 
@@ -15,6 +14,12 @@ import type { CorpusBlock, CorpusSection } from './types';
 export interface ExtractOptions {
   baseUrl: string;
   siteUrl: string;
+  /**
+   * The page's title (front matter or first H1, as the docs plugin resolved it). Docusaurus renders the first
+   * content `# heading` inside the article `<header>`; when its text differs from this title it is kept as a
+   * level-1 heading so it is not lost.
+   */
+  title?: string;
 }
 
 /** The flat stream the walker produces; `buildSections` folds it into sections. */
@@ -51,16 +56,22 @@ function buildSections(items: Item[]): CorpusSection[] {
   const sections: CorpusSection[] = [];
   const stack: { level: number; text: string }[] = [];
   let current: CorpusSection = { headingPath: [], blocks: [] };
+  let currentLevel = 0;
 
-  const close = () => {
-    if (current.blocks.length > 0) {
+  /**
+   * A section without blocks is kept (headingPath and anchor only) unless it is the text-before-the-first-heading
+   * placeholder, or `nested`: its heading is then the parent of the next section and already in that section's headingPath.
+   */
+  const close = (nested = false) => {
+    if (current.blocks.length > 0 || (current.headingPath.length > 0 && !nested)) {
       sections.push(current);
     }
   };
 
   for (const item of items) {
     if (item.kind === 'heading') {
-      close();
+      close(item.level > currentLevel);
+      currentLevel = item.level;
       while (stack.length > 0 && stack[stack.length - 1]!.level >= item.level) {
         stack.pop();
       }
@@ -150,7 +161,8 @@ function renderBlock(el: Element, ctx: Ctx): Item[] {
   }
 
   switch (tag) {
-    case 'header': // the page title; it is stored as the page's `title`
+    case 'header':
+      return renderHeader(el, ctx);
     case 'nav':
       return [];
     case 'pre':
@@ -172,6 +184,23 @@ function renderBlock(el: Element, ctx: Ctx): Item[] {
       // p, div, figure, section, ...: a plain container, its children carry the content
       return renderFlow(el.children, ctx);
   }
+}
+
+/**
+ * The article `<header>` holds the page's first content H1. When it merely repeats the page title it is dropped (the
+ * title is stored as `title`); otherwise it is a real heading (a disambiguating title, or an outline heading such as
+ * `# General`) and is kept as a level-1 heading.
+ */
+function renderHeader(el: Element, ctx: Ctx): Item[] {
+  const { $ } = ctx;
+  const title = ctx.options.title === undefined ? undefined : normalizeSpace(ctx.options.title);
+  return $(el)
+    .find('h1')
+    .get()
+    .flatMap((h1) => {
+      const text = normalizeSpace(inlineToMarkdown(h1.children, ctx, { plain: true }));
+      return text && text !== title ? [{ kind: 'heading' as const, level: 1, text, id: $(h1).attr('id') }] : [];
+    });
 }
 
 function renderTabs(container: Element, ctx: Ctx): Item[] {
@@ -206,7 +235,7 @@ function codeItem(pre: Element, language: string | null, title: string | undefin
   const { $ } = ctx;
   const lines = $(pre).find('.token-line');
   const code = lines.length > 0 ? lines.map((_, line) => $(line).text()).get().join('\n') : $(pre).text();
-  const item: Item = { kind: 'code', language, code: code.replace(/​/g, ''), tabs: ctx.tabs };
+  const item: Item = { kind: 'code', language, code: code.replace(/\u200B/g, ''), tabs: ctx.tabs };
   if (title) {
     item.title = title;
   }
@@ -360,7 +389,7 @@ function inlineToMarkdown(nodes: readonly AnyNode[], ctx: Ctx, mode: InlineMode 
   let out = '';
   for (const node of nodes) {
     if (node.type === 'text') {
-      out += node.data.replace(/​/g, '').replace(/\s+/g, ' ');
+      out += node.data.replace(/\u200B/g, '').replace(/\s+/g, ' ');
     } else if (node.type === 'tag') {
       out += inlineElement(node, ctx, mode);
     }
@@ -402,7 +431,11 @@ function inlineElement(el: Element, ctx: Ctx, mode: InlineMode): string {
     case 'img': {
       const alt = normalizeSpace($(el).attr('alt') ?? '');
       const src = $(el).attr('src');
-      return mode.plain || !alt || !src ? '' : `![${alt}](${stripBaseUrl(src, ctx.options.baseUrl, ctx.options.siteUrl)})`;
+      if (mode.plain || !alt || !src) {
+        return '';
+      }
+      // Inlined `data:` images (base64 icons) are payload, not text: keep only the alt text.
+      return src.startsWith('data:') ? alt : `![${alt}](${stripBaseUrl(src, ctx.options.baseUrl, ctx.options.siteUrl)})`;
     }
     case 'ul':
     case 'ol':
@@ -440,5 +473,5 @@ function codeSpan(text: string): string {
 }
 
 function normalizeSpace(text: string): string {
-  return text.replace(/​/g, '').replace(/\s+/g, ' ').trim();
+  return text.replace(/\u200B/g, '').replace(/\s+/g, ' ').trim();
 }

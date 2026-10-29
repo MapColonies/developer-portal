@@ -6,7 +6,7 @@ import { extractSections } from './html';
 import { normalizePath, stripBaseUrl } from './paths';
 import type { CorpusPage } from './types';
 
-const options = { baseUrl: '/developer-portal/', siteUrl: 'https://mapcolonies.github.io' };
+const options = { baseUrl: '/developer-portal/', siteUrl: 'https://mapcolonies.github.io', title: 'Title' };
 
 const article = (inner: string) => `<html><body><article><div class="theme-doc-markdown markdown"><header><h1>Title</h1></header>${inner}</div></article></body></html>`;
 
@@ -33,6 +33,31 @@ describe('extractSections', () => {
       { headingPath: ['A', 'A1'], anchor: 'a1', blocks: [{ type: 'text', text: 'In A1' }] },
       { headingPath: ['B'], anchor: 'b', blocks: [{ type: 'text', text: 'In B' }] },
     ]);
+  });
+
+  it('keeps a first content H1 that differs from the page title as the outermost heading', () => {
+    const html = `<html><body><article><div class="theme-doc-markdown markdown"><header><h1 id="general">General</h1></header><p>Intro</p><h2 id="a">A</h2><p>In A</p><h1 id="d">Domain</h1><p>In D</p></div></article></body></html>`;
+    assert.deepEqual(extractSections(html, options), [
+      { headingPath: ['General'], anchor: 'general', blocks: [{ type: 'text', text: 'Intro' }] },
+      { headingPath: ['General', 'A'], anchor: 'a', blocks: [{ type: 'text', text: 'In A' }] },
+      { headingPath: ['Domain'], anchor: 'd', blocks: [{ type: 'text', text: 'In D' }] },
+    ]);
+  });
+
+  it('keeps headings without content, except parents that are already in the next headingPath', () => {
+    const html = article('<h2 id="p">Parent</h2><h3 id="c">Child</h3><p>text</p><h3 id="e">Types of things</h3><h3 id="n">Next</h3><p>more</p><h2 id="last">Only diagram</h2>');
+    assert.deepEqual(extractSections(html, options), [
+      { headingPath: ['Parent', 'Child'], anchor: 'c', blocks: [{ type: 'text', text: 'text' }] },
+      { headingPath: ['Parent', 'Types of things'], anchor: 'e', blocks: [] },
+      { headingPath: ['Parent', 'Next'], anchor: 'n', blocks: [{ type: 'text', text: 'more' }] },
+      { headingPath: ['Only diagram'], anchor: 'last', blocks: [] },
+    ]);
+  });
+
+  it('reduces inlined data: images to their alt text and keeps normal images', () => {
+    const html = article('<table><tr><th>Icon</th></tr><tr><td><img alt="Artwork-14.svg" src="data:image/png;base64,iVBORw0KGgo="></td></tr></table><p><img alt="Diagram" src="/developer-portal/img/d.png"></p>');
+    const [section] = extractSections(html, options)!;
+    assert.deepEqual(section!.blocks, [{ type: 'text', text: '| Icon |\n| --- |\n| Artwork-14.svg |\n\n![Diagram](/img/d.png)' }]);
   });
 
   it('keeps every tab panel, hidden ones included, labelled by the tab', () => {

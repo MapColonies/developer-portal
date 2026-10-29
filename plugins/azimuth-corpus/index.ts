@@ -29,7 +29,7 @@ interface DocsContentLike {
  * Writes `azimuth-corpus.json` (contract v1, see ./types.ts) into the build output, so GitHub Pages serves it at
  * `<site url><baseUrl>azimuth-corpus.json`. Used by the AzimuthAI chatbot instead of Docusaurus's lunr index.
  */
-export default function azimuthCorpusPlugin(context: LoadContext): Plugin {
+export default function azimuthCorpusPlugin(_context: LoadContext): Plugin {
   return {
     name: 'azimuth-corpus',
 
@@ -37,8 +37,10 @@ export default function azimuthCorpusPlugin(context: LoadContext): Plugin {
       const { outDir, baseUrl, siteDir, siteConfig, plugins } = props;
       const options = { baseUrl, siteUrl: siteConfig.url };
 
-      const docsPlugin = plugins.find((plugin) => plugin.name === DOCS_PLUGIN_NAME);
-      const docs = ((docsPlugin?.content as DocsContentLike | undefined)?.loadedVersions ?? []).flatMap((version) => version.docs);
+      const docs = plugins
+        .filter((plugin) => plugin.name === DOCS_PLUGIN_NAME)
+        .flatMap((plugin) => (plugin.content as DocsContentLike | undefined)?.loadedVersions ?? [])
+        .flatMap((version) => version.docs);
       if (docs.length === 0) {
         throw new Error('[azimuth-corpus] the docs plugin loaded no documents');
       }
@@ -53,7 +55,7 @@ export default function azimuthCorpusPlugin(context: LoadContext): Plugin {
         if (!fs.existsSync(htmlFile)) {
           throw new Error(`[azimuth-corpus] no built HTML for ${doc.permalink} (expected ${htmlFile})`);
         }
-        const sections = extractSections(fs.readFileSync(htmlFile, 'utf8'), options);
+        const sections = extractSections(fs.readFileSync(htmlFile, 'utf8'), { ...options, title: doc.title });
         if (sections === null) {
           throw new Error(`[azimuth-corpus] ${htmlFile} has no "article .theme-doc-markdown", did the theme markup change?`);
         }

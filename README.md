@@ -57,6 +57,8 @@ The plugin parses the server-rendered HTML of every doc page (all tab panels are
 - `sections[]`: `{ headingPath, anchor?, blocks[] }` in document order. A block is either `{ type: 'text', text, tabs? }` (Markdown) or `{ type: 'code', language, code, title?, tabs? }` (original line breaks, `language` is `null` when the fence has none). `tabs` lists the labels of the enclosing tab panels, outermost first.
 - `openapi[]`: `{ id, title, path, specFile, spec }`, sorted by `id`, with the full parsed document in `spec`.
 
+Inlined `data:` images (base64 icons in the symbology tables) are reduced to their alt text. A first content `# heading` that differs from the page title is kept as the outermost `headingPath` entry. A section whose heading has no content of its own is kept with an empty `blocks` array.
+
 Known gaps: content that only exists in the browser is not in the server-rendered HTML, so Mermaid diagrams and the Special Phrases data grid are absent.
 
 Run the plugin's tests with `npm test`.

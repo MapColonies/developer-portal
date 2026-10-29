@@ -27,10 +27,14 @@ export interface CorpusPage {
 }
 
 export interface CorpusSection {
-  /** Heading texts leading to this section, outermost first. The page title is not repeated. */
+  /**
+   * Heading texts leading to this section, outermost first. The page title is not repeated; a first content H1 that
+   * differs from the title (e.g. `# General`, or a longer descriptive title) is the outermost entry.
+   */
   headingPath: string[];
   /** Id of the section's heading, for deep links. */
   anchor?: string;
+  /** May be empty: a heading with no content of its own (e.g. followed directly by a sibling heading, or only a diagram). */
   blocks: CorpusBlock[];
 }
 
