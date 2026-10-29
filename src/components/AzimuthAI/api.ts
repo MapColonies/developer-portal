@@ -1,4 +1,4 @@
-import { errorFromHttp, INTERRUPTED_ERROR, NETWORK_ERROR, type ChatErrorInfo } from './errors';
+import { errorFromHttp, INTERRUPTED_ERROR, NETWORK_ERROR, parseRetryAfter, type ChatErrorInfo } from './errors';
 import { createSseParser, parseChatEvent, type SseMessage } from './sse';
 import type { ChatEvent, ChatRequest } from './types';
 
@@ -61,7 +61,7 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
   }
 
   if (!response.ok) {
-    throw new ChatRequestError(errorFromHttp(response.status, await readErrorCode(response)));
+    throw new ChatRequestError(errorFromHttp(response.status, await readErrorCode(response), parseRetryAfter(response.headers.get('Retry-After'))));
   }
 
   const parser = createSseParser();

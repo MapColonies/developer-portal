@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { chatUrl, ChatRequestError, streamChat, streamChatRecovering } from './api';
 import { linkCitationMarkers } from './citations';
-import { errorFromHttp, errorFromStreamEvent, outcomeNote } from './errors';
+import { errorFromHttp, errorFromStreamEvent, formatWait, outcomeNote, parseRetryAfter } from './errors';
+import { lengthHint, QUESTION_SOFT_LIMIT } from './limits';
 import { buildAllowedOrigins, isSiteRelative, resolveLink, type LinkContext } from './links';
 import { createLocation, createPath } from 'history';
 import { createSseParser, parseChatEvent } from './sse';
@@ -283,6 +284,26 @@ describe('error messages', () => {
     assert.equal(expired.resetConversation, true);
   });
 
+  it('says how long to wait when the engine sends Retry-After', () => {
+    assert.equal(errorFromHttp(429, 'rate_limited', 120).message, 'AzimuthAI is busy, try again in about 2 minutes.');
+    assert.equal(errorFromHttp(429, 'rate_limited', 20).message, 'AzimuthAI is busy, try again in about 1 minute.');
+    assert.equal(errorFromHttp(429, 'rate_limited', 61).message, 'AzimuthAI is busy, try again in about 2 minutes.');
+    assert.equal(errorFromHttp(429, 'rate_limited').message, 'AzimuthAI is busy, try again in a minute.');
+    assert.equal(errorFromHttp(429, undefined, 30).kind, 'busy');
+    const budget = errorFromHttp(429, 'budget_exhausted', 5 * 3600);
+    assert.equal(budget.kind, 'budget');
+    assert.equal(budget.message, 'AzimuthAI has reached its daily limit. Please try again in about 5 hours.');
+    assert.equal(errorFromHttp(429, 'budget_exhausted').message, 'AzimuthAI has reached its daily limit. Please try again tomorrow.');
+    assert.match(errorFromHttp(429, 'budget_exhausted', 90 * 3600).message, /tomorrow/);
+  });
+
+  it('tells a busy engine from an exhausted budget and from a too long question', () => {
+    const kinds = [errorFromHttp(429, 'rate_limited', 60), errorFromHttp(429, 'budget_exhausted', 60), errorFromHttp(413, 'question_too_long')].map((e) => e.kind);
+    assert.deepEqual(kinds, ['busy', 'budget', 'too_long']);
+    assert.match(errorFromHttp(413, 'question_too_long').message, /too long.*shorten/);
+    assert.equal(errorFromHttp(413).kind, 'too_long');
+  });
+
   it('maps stream error events', () => {
     assert.equal(errorFromStreamEvent('llm_unavailable').kind, 'unavailable');
     assert.equal(errorFromStreamEvent('budget_exhausted').kind, 'budget');
@@ -295,6 +316,47 @@ describe('error messages', () => {
     for (const outcome of ['not_covered', 'refused', 'handoff'] as const) {
       assert.ok(outcomeNote(outcome));
     }
+  });
+});
+
+describe('Retry-After', () => {
+  it('reads delta-seconds and HTTP dates', () => {
+    assert.equal(parseRetryAfter('90'), 90);
+    assert.equal(parseRetryAfter(' 7 '), 7);
+    const now = Date.parse('2026-10-29T12:00:00Z');
+    assert.equal(parseRetryAfter('Thu, 29 Oct 2026 12:05:00 GMT', now), 300);
+    assert.equal(parseRetryAfter('Thu, 29 Oct 2026 11:00:00 GMT', now), undefined);
+  });
+
+  it('ignores a missing, zero or unreadable value', () => {
+    for (const value of [null, undefined, '', '0', '-5', 'soon', '1.5']) {
+      assert.equal(parseRetryAfter(value), undefined, String(value));
+    }
+  });
+
+  it('formats a wait in minutes, then hours', () => {
+    assert.equal(formatWait(1), 'about 1 minute');
+    assert.equal(formatWait(3540), 'about 59 minutes');
+    assert.equal(formatWait(3599), 'about 1 hour');
+    assert.equal(formatWait(3600), 'about 1 hour');
+    assert.equal(formatWait(10 * 3600), 'about 10 hours');
+    assert.equal(formatWait(undefined), undefined);
+    assert.equal(formatWait(0), undefined);
+  });
+});
+
+describe('lengthHint', () => {
+  it('stays quiet for short questions', () => {
+    assert.equal(lengthHint(''), undefined);
+    assert.equal(lengthHint('x'.repeat(QUESTION_SOFT_LIMIT * 0.8 - 1)), undefined);
+  });
+
+  it('shows a counter near the limit and a warning past it', () => {
+    assert.deepEqual(lengthHint('x'.repeat(1700)), { counter: '1,700 / 2,000' });
+    assert.deepEqual(lengthHint('x'.repeat(2000)), { counter: '2,000 / 2,000' });
+    const over = lengthHint('x'.repeat(2001));
+    assert.equal(over?.counter, '2,001 / 2,000');
+    assert.match(over?.warning ?? '', /may be rejected/);
   });
 });
 
@@ -375,6 +437,14 @@ describe('streamChat', () => {
   it('reports a pre-stream HTTP error with its friendly message', async () => {
     const fetchImpl: typeof fetch = async () => new Response(JSON.stringify({ code: 'rate_limited', message: 'x' }), { status: 429, headers: { 'Content-Type': 'application/json' } });
     await assert.rejects(collect(fetchImpl), (error: unknown) => error instanceof ChatRequestError && error.info.kind === 'busy');
+  });
+
+  it('passes the Retry-After header on to the friendly message', async () => {
+    const fetchImpl: typeof fetch = async () =>
+      new Response(JSON.stringify({ code: 'rate_limited', message: 'x' }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': '180' } });
+    await assert.rejects(collect(fetchImpl), (error: unknown) => error instanceof ChatRequestError && /about 3 minutes/.test(error.info.message));
+    const tooLong: typeof fetch = async () => new Response(JSON.stringify({ code: 'question_too_long', message: 'x' }), { status: 413 });
+    await assert.rejects(collect(tooLong), (error: unknown) => error instanceof ChatRequestError && error.info.kind === 'too_long');
   });
 
   it('treats 503 and a non-JSON proxy error as unavailable', async () => {

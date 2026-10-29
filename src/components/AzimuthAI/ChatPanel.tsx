@@ -3,6 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useColorMode } from '@docusaurus/theme-common';
 import { ColorModeProvider } from '@docusaurus/theme-common/internal';
 import { outcomeNote } from './errors';
+import { lengthHint } from './limits';
 import { resolveLink, buildAllowedOrigins } from './links';
 import Markdown from './Markdown';
 import SiteLink from './SiteLink';
@@ -10,6 +11,7 @@ import { useAzimuthChat, type ChatMessage } from './useAzimuthChat';
 import styles from './styles.module.css';
 
 export const PANEL_TITLE = 'MapColonies AzimuthAI';
+const HINT_ID = 'azimuth-ai-length-hint';
 
 type AssistantMessage = Extract<ChatMessage, { role: 'assistant' }>;
 
@@ -161,6 +163,7 @@ function Panel({ endpoint, open, onClose }: ChatPanelProps): JSX.Element {
     }
   };
 
+  const hint = lengthHint(draft);
   const lastAssistant = [...messages].reverse().find((m): m is AssistantMessage => m.role === 'assistant');
 
   return (
@@ -217,6 +220,7 @@ function Panel({ endpoint, open, onClose }: ChatPanelProps): JSX.Element {
           dir="auto"
           placeholder="Ask a question…"
           aria-label="Your question"
+          aria-describedby={HINT_ID}
         />
         {busy ? (
           <button type="button" className={`${styles.send} ${styles.stop}`} onClick={stop}>
@@ -227,6 +231,15 @@ function Panel({ endpoint, open, onClose }: ChatPanelProps): JSX.Element {
             Send
           </button>
         )}
+        <div id={HINT_ID} className={styles.lengthHint} data-visible={hint ? 'true' : undefined} data-over={hint?.warning ? 'true' : undefined}>
+          {/* a live region that only ever holds the warning, so the counter is not read out on every keystroke */}
+          <span aria-live="polite">{hint?.warning ?? ''}</span>
+          {hint ? (
+            <span className={styles.lengthCounter} aria-hidden="true">
+              {hint.counter}
+            </span>
+          ) : null}
+        </div>
       </form>
     </>
   );

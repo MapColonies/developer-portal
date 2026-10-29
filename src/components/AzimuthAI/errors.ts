@@ -21,13 +21,46 @@ export interface ChatErrorInfo {
 const UNAVAILABLE = 'AzimuthAI is unavailable right now. Please try again later.';
 const INTERNAL = 'Something went wrong while answering. Please try again.';
 
-/** Friendly message for a failure before the stream started (HTTP status plus the JSON error `code`, if any). */
-export function errorFromHttp(status: number, code?: string): ChatErrorInfo {
+/**
+ * Seconds to wait from a `Retry-After` header value: delta-seconds or an HTTP date. Undefined when absent,
+ * unparseable or not in the future.
+ */
+export function parseRetryAfter(value: string | null | undefined, now: number = Date.now()): number | undefined {
+  const text = value?.trim();
+  if (!text) {
+    return undefined;
+  }
+  const seconds = /^\d+$/.test(text) ? Number(text) : (Date.parse(text) - now) / 1000;
+  return Number.isFinite(seconds) && seconds > 0 ? Math.ceil(seconds) : undefined;
+}
+
+/** "about 3 minutes", "about 5 hours"; undefined when there is no usable wait (or it is longer than a day and a half). */
+export function formatWait(seconds: number | undefined): string | undefined {
+  if (seconds === undefined || !Number.isFinite(seconds) || seconds <= 0) {
+    return undefined;
+  }
+  const minutes = Math.max(1, Math.ceil(seconds / 60));
+  if (minutes < 60) {
+    return `about ${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
+  }
+  const hours = Math.round(minutes / 60);
+  return hours <= 36 ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}` : undefined;
+}
+
+/**
+ * Friendly message for a failure before the stream started: the HTTP status, the JSON error `code` if there was one
+ * and the `Retry-After` wait in seconds if the response carried one.
+ */
+export function errorFromHttp(status: number, code?: string, retryAfterSeconds?: number): ChatErrorInfo {
   if (status === 429) {
+    const wait = formatWait(retryAfterSeconds);
     if (code === 'budget_exhausted') {
-      return { kind: 'budget', message: 'AzimuthAI has reached its daily limit. Please try again tomorrow.' };
+      return {
+        kind: 'budget',
+        message: `AzimuthAI has reached its daily limit. Please try again ${wait ? `in ${wait}` : 'tomorrow'}.`,
+      };
     }
-    return { kind: 'busy', message: 'AzimuthAI is busy, try again in a minute.' };
+    return { kind: 'busy', message: `AzimuthAI is busy, try again in ${wait ?? 'a minute'}.` };
   }
   if (status === 503 || status === 502 || status === 504) {
     return { kind: 'unavailable', message: UNAVAILABLE };
@@ -40,7 +73,7 @@ export function errorFromHttp(status: number, code?: string): ChatErrorInfo {
     };
   }
   if (status === 413) {
-    return { kind: 'too_long', message: 'That question is too long. Please shorten it and try again.' };
+    return { kind: 'too_long', message: 'That question is too long. Please shorten it, or split it into smaller questions, and try again.' };
   }
   if (status === 400) {
     return { kind: 'invalid', message: 'AzimuthAI could not read that question. Please rephrase it and try again.' };
