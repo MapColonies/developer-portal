@@ -4,8 +4,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { chatUrl, ChatRequestError, streamChat, streamChatRecovering } from './api';
 import { linkCitationMarkers } from './citations';
-import { errorFromHttp, errorFromStreamEvent, formatWait, outcomeNote, parseRetryAfter } from './errors';
+import { detectDirection, detectMessageDirection, proseOf } from './direction';
+import { errorFromHttp, errorFromStreamEvent, formatWait, noteForMessage, outcomeNote, parseRetryAfter } from './errors';
 import { lengthHint, QUESTION_SOFT_LIMIT } from './limits';
+import { isSuggestedRequestLabel } from './suggested';
 import { buildAllowedOrigins, isSiteRelative, resolveLink, type LinkContext } from './links';
 import { createLocation, createPath } from 'history';
 import { createSseParser, parseChatEvent } from './sse';
@@ -357,6 +359,88 @@ describe('lengthHint', () => {
     const over = lengthHint('x'.repeat(2001));
     assert.equal(over?.counter, '2,001 / 2,000');
     assert.match(over?.warning ?? '', /may be rejected/);
+  });
+});
+
+describe('detectDirection', () => {
+  it('is rtl for Hebrew and other right-to-left scripts, ltr for everything else', () => {
+    assert.equal(detectDirection('איך מקבלים טוקן?'), 'rtl');
+    assert.equal(detectDirection('كيف أحصل على رمز؟'), 'rtl');
+    assert.equal(detectDirection('How do I get a token?'), 'ltr');
+    assert.equal(detectDirection('Как получить токен?'), 'ltr');
+    assert.equal(detectDirection('漢字'), 'ltr');
+  });
+
+  it('decides on the first strong character, ignoring digits, punctuation, spaces and emoji before it', () => {
+    assert.equal(detectDirection('  (1) "שלום" hello'), 'rtl');
+    assert.equal(detectDirection('123 - hello שלום'), 'ltr');
+    assert.equal(detectDirection('🙂 !? 42 שלום'), 'rtl');
+    assert.equal(detectDirection('WMTS לא מחזיר תמונות'), 'ltr');
+    assert.equal(detectDirection('ה-API לא עובד'), 'rtl');
+  });
+
+  it('treats Hebrew with points and presentation forms as rtl, and explicit marks as strong', () => {
+    assert.equal(detectDirection('\u05E9\u05B8\u05C1\u05DC\u05D5\u05B9\u05DD'), 'rtl');
+    assert.equal(detectDirection('\uFB2A'), 'rtl');
+    assert.equal(detectDirection('\u200F123 hello'), 'rtl');
+    assert.equal(detectDirection('\u200E\u05E9'), 'ltr');
+  });
+
+  it('is ltr when there is no strong character', () => {
+    assert.equal(detectDirection(''), 'ltr');
+    assert.equal(detectDirection('123 ... !'), 'ltr');
+    assert.equal(detectDirection('٣٤٥'), 'ltr');
+  });
+});
+
+describe('detectMessageDirection', () => {
+  it('ignores code, links and citation markers that come before the prose', () => {
+    assert.equal(detectMessageDirection('```bash\ncurl https://x.test\n```\nכדי לקבל טוקן'), 'rtl');
+    assert.equal(detectMessageDirection('`GET /layers` מחזיר רשימה'), 'rtl');
+    assert.equal(detectMessageDirection('[1] https://mapcolonies.github.io/developer-portal/docs שלום'), 'rtl');
+    assert.equal(detectMessageDirection('[Elevation API](https://x.test/docs) מתאר זאת'), 'ltr');
+    assert.equal(detectMessageDirection('```bash\ncurl x\n```\nHere is how'), 'ltr');
+  });
+
+  it('keeps a half-streamed answer stable: an open fence hides the code, not the prose before it', () => {
+    assert.equal(detectMessageDirection('שלום\n\n```http\nGET /x HTTP/1.1\nHost: api'), 'rtl');
+    assert.equal(detectMessageDirection('```http\nGET /x'), 'ltr');
+    assert.equal(detectMessageDirection(''), 'ltr');
+  });
+
+  it('does not let tilde or longer fences end early', () => {
+    assert.equal(proseOf('~~~\nא\n```\nב\n~~~\nok').trim(), 'ok');
+    assert.equal(proseOf('````\nא\n```\nב\n````\nok').trim(), 'ok');
+  });
+
+  it('leaves the citation markers and URLs out of the prose', () => {
+    assert.equal(proseOf('see [1] and https://a.test/b, [2]').replace(/\s+/g, ' ').trim(), 'see and');
+  });
+});
+
+describe('Suggested request label', () => {
+  it('recognises the two labels the engine writes', () => {
+    assert.ok(isSuggestedRequestLabel('Suggested request (checked against the Elevation OpenAPI spec)'));
+    assert.ok(isSuggestedRequestLabel('Suggested request (not checked: built from a documented example)'));
+    assert.ok(isSuggestedRequestLabel('  Suggested request (checked against the X OpenAPI spec):  '));
+  });
+
+  it('does not match ordinary prose', () => {
+    assert.ok(!isSuggestedRequestLabel('Suggested request'));
+    assert.ok(!isSuggestedRequestLabel('A Suggested request (see below) is shown'));
+    assert.ok(!isSuggestedRequestLabel('Suggested request (a)\nmore text'));
+  });
+});
+
+describe('outcome notes', () => {
+  it('shows a note only when the message has no text of its own, so the user sees one message', () => {
+    assert.equal(noteForMessage('not_covered', 'Sorry, this is not covered by the docs.'), undefined);
+    assert.equal(noteForMessage('handoff', 'Please contact the team.'), undefined);
+    assert.equal(noteForMessage('refused', 'I can only help with MapColonies.'), undefined);
+    assert.equal(noteForMessage('refused', ''), outcomeNote('refused'));
+    assert.equal(noteForMessage('handoff', '  \n'), outcomeNote('handoff'));
+    assert.equal(noteForMessage('answered', ''), undefined);
+    assert.equal(noteForMessage(undefined, ''), undefined);
   });
 });
 

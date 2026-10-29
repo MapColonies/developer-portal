@@ -118,3 +118,11 @@ export function outcomeNote(outcome: Outcome): string | undefined {
       return undefined;
   }
 }
+
+/**
+ * The one note to show under a finished message. The engine already writes the text of a not_covered, refused or
+ * handoff answer, so the widget's own note is only a fallback for a message that has no text.
+ */
+export function noteForMessage(outcome: Outcome | undefined, text: string): string | undefined {
+  return outcome && text.trim() === '' ? outcomeNote(outcome) : undefined;
+}

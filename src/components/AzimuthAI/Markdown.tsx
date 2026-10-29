@@ -5,6 +5,7 @@ import CodeBlock from '@theme/CodeBlock';
 import { linkCitationMarkers } from './citations';
 import { buildAllowedOrigins, resolveLink, type LinkContext } from './links';
 import SiteLink from './SiteLink';
+import { isSuggestedRequestLabel } from './suggested';
 import type { Source } from './types';
 import styles from './styles.module.css';
 
@@ -21,6 +22,7 @@ interface MarkdownProps {
 const remarkPlugins = [remarkGfm];
 
 const CITATION_TEXT = /^\[\d+\]$/;
+
 
 function textOf(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -56,6 +58,8 @@ export default function Markdown({ text, sources, siteUrl, baseUrl }: MarkdownPr
         const isMarker = CITATION_TEXT.test(textOf(children));
         const props = {
           className: isMarker ? styles.citationMarker : undefined,
+          // "[1]" is one left-to-right unit, whatever the direction of the text around it
+          dir: isMarker ? ('ltr' as const) : undefined,
           'aria-label': isMarker && source ? `Source ${source.id}: ${source.title}` : undefined,
           title: isMarker && source ? source.title : undefined,
         };
@@ -63,6 +67,25 @@ export default function Markdown({ text, sources, siteUrl, baseUrl }: MarkdownPr
           <SiteLink link={link} {...props}>
             {children}
           </SiteLink>
+        );
+      },
+      p({ children }) {
+        if (isSuggestedRequestLabel(textOf(children))) {
+          // an English label, and the request below it is code: left-to-right inside a right-to-left message
+          return (
+            <p dir="ltr" className={styles.suggestedLabel}>
+              {children}
+            </p>
+          );
+        }
+        return <p>{children}</p>;
+      },
+      code({ children }) {
+        // only inline code gets here (fenced code is rendered by `pre`)
+        return (
+          <code dir="ltr" className={styles.inlineCode}>
+            {children}
+          </code>
         );
       },
       img({ alt }) {

@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef, useState, type FormEvent, type K
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useColorMode } from '@docusaurus/theme-common';
 import { ColorModeProvider } from '@docusaurus/theme-common/internal';
-import { outcomeNote } from './errors';
+import { detectDirection, detectMessageDirection } from './direction';
+import { noteForMessage } from './errors';
 import { lengthHint } from './limits';
 import { resolveLink, buildAllowedOrigins } from './links';
 import Markdown from './Markdown';
@@ -87,7 +88,7 @@ function Citations({ message, siteUrl, baseUrl }: { message: AssistantMessage; s
 }
 
 function AssistantBubble({ message, siteUrl, baseUrl }: { message: AssistantMessage; siteUrl: string; baseUrl: string }): JSX.Element {
-  const note = message.status === 'done' && message.outcome ? outcomeNote(message.outcome) : undefined;
+  const note = message.status === 'done' ? noteForMessage(message.outcome, message.text) : undefined;
   return (
     <div className={styles.assistant}>
       {message.notice ? <p className={styles.note}>{message.notice}</p> : null}
@@ -97,7 +98,7 @@ function AssistantBubble({ message, siteUrl, baseUrl }: { message: AssistantMess
         </p>
       ) : null}
       {message.text !== '' ? (
-        <div dir="auto" className={styles.markdown}>
+        <div dir={detectMessageDirection(message.text)} className={styles.markdown}>
           <Markdown text={message.text} sources={message.sources} siteUrl={siteUrl} baseUrl={baseUrl} />
         </div>
       ) : null}
@@ -196,7 +197,7 @@ function Panel({ endpoint, open, onClose }: ChatPanelProps): JSX.Element {
         ) : null}
         {messages.map((message) =>
           message.role === 'user' ? (
-            <div key={message.id} className={styles.user} dir="auto">
+            <div key={message.id} className={styles.user} dir={detectDirection(message.text)}>
               {message.text}
             </div>
           ) : (

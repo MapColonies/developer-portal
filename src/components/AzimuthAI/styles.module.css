@@ -5,7 +5,7 @@
   font-size: 0.9375rem;
   line-height: var(--ifm-line-height-base);
   color: var(--ifm-font-color-base);
-  /* the UI chrome and its English labels are always left-to-right; each message sets its own dir="auto" */
+  /* the UI chrome and its English labels are always left-to-right; each message sets its own direction (see direction.ts) */
   direction: ltr;
   text-align: start;
 }
@@ -143,7 +143,8 @@
 .user {
   max-width: 85%;
   margin: 0 0 0.75rem;
-  margin-inline-start: auto;
+  /* your own messages stay on the right, even when a message is right-to-left */
+  margin-left: auto;
   padding: 0.5rem 0.75rem;
   border-radius: var(--ifm-global-radius);
   background: var(--ifm-color-primary);
@@ -253,6 +254,28 @@
   background: var(--ifm-code-background);
 }
 
+.markdown .inlineCode {
+  unicode-bidi: isolate;
+}
+
+.markdown .suggestedLabel {
+  margin-bottom: 0.25rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: var(--ifm-font-weight-semibold);
+  color: var(--ifm-color-emphasis-800);
+}
+
+.suggestedLabel + .code {
+  padding-inline-start: 0.5rem;
+  border-inline-start: 3px solid var(--ifm-color-primary);
+}
+
+/* the copy button is the point of a Suggested request: keep it visible instead of revealing it on hover (touch has no hover) */
+.suggestedLabel + .code button {
+  opacity: 0.8;
+}
+
 .markdown a {
   text-decoration: underline;
 }
@@ -287,6 +310,7 @@
 }
 
 .citationMarker {
+  unicode-bidi: isolate;
   padding: 0 0.1em;
   font-size: 0.8em;
   font-weight: var(--ifm-font-weight-semibold);
