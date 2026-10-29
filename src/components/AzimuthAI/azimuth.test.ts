@@ -174,6 +174,42 @@ describe('link allow-list', () => {
     }
   });
 
+  it('rejects double-encoded dot segments that would climb out of the baseUrl once decoded', () => {
+    const origin = 'http://localhost:3000';
+    for (const ctx of [{ ...context, baseUrl: '/' }, context]) {
+      for (const href of [
+        '/%252e%252e/x',
+        '/%252E%252E/x',
+        '/%252e%252e/%252e%252e/x',
+        '/docs/%252e%252e/%252e%252e/x',
+        '/docs/%252e/x',
+        '/%252e./x',
+        '/.%252e/x',
+        '/developer-portal/%252e%252e/x',
+        '/%25252e%25252e/x', // triple-encoded
+        `${origin}/%252e%252e/x`,
+        `${origin}/developer-portal/%252e%252e/x`,
+      ]) {
+        assert.equal(resolveLink(href, ctx), null, `${ctx.baseUrl} ${href}`);
+      }
+    }
+  });
+
+  it('resolves single-encoded dot segments in the URL parser, so they never reach the router', () => {
+    for (const ctx of [{ ...context, baseUrl: '/' }, context]) {
+      assert.equal(resolveLink('/%2e%2e/x', ctx)?.internalPath, '/x', ctx.baseUrl);
+      assert.equal(resolveLink('/docs/%2E/x', ctx)?.internalPath, '/docs/x', ctx.baseUrl);
+    }
+  });
+
+  it('still allows dots that are not whole path segments', () => {
+    for (const ctx of [{ ...context, baseUrl: '/' }, context]) {
+      for (const href of ['/docs/v1.2/x', '/docs/a..b/x', '/docs/.hidden/x', '/docs/x.', '/docs/x?next=..#a.b']) {
+        assert.ok(resolveLink(href, ctx), `${ctx.baseUrl} ${href}`);
+      }
+    }
+  });
+
   it('keeps every allowed link on the origin after the rendering <Link> decodes it', () => {
     const origin = 'http://localhost:3000';
     const hrefs = ['/docs/x', '/docs/a%20b', '/docs/x?q=%5C#%5C', '/developer-portal//evil.example/x', '/docs/%E2%9C%93', '/docs/x%2Fy', `${origin}//evil.example/x`];

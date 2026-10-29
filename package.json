@@ -45,6 +45,7 @@
     "@docusaurus/tsconfig": "^3.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/react": "^18.2.29",
+    "history": "4.10.1",
     "jiti": "1.21.6",
     "typescript": "~5.2.2"
   },

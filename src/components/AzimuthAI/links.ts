@@ -15,11 +15,27 @@ const UNSAFE_DECODED = /[\u0000-\u001f\u007f-\u009f\\]/;
 /** Static files served next to the pages (OpenAPI specs, the Corpus, images): not routes, so never client-side links. */
 const STATIC_FILE = /\.(?:ya?ml|json|pdf|zip|gz|tgz|txt|csv|xml|png|jpe?g|gif|svg|webp|ico|map|js|css|woff2?)$/i;
 
-/** True when the path, however many times it is percent-decoded, stays an ordinary path. */
+/** A still-encoded dot ("%2e"), which a later decoding pass would turn into a "." or ".." path segment. */
+const ENCODED_DOT = /%2e/i;
+
+/** True when some path segment is "." or "..", which would climb out of the baseUrl once a router resolves it. */
+function hasDotSegment(path: string): boolean {
+  return path.split('/').some((segment) => segment === '.' || segment === '..');
+}
+
+/**
+ * True when the path, however many times it is percent-decoded, stays an ordinary path: no control or backslash
+ * characters, no leading "//", and no "." or ".." segments. The URL parser already resolves literal and single-encoded
+ * dot segments, but a double-encoded one ("/%252e%252e/x") only turns into "/%2e%2e/x" and then "/../x" after the
+ * decoding that history applies, so a "%2e" left in the path is rejected too.
+ */
 function isSafeAfterDecoding(path: string): boolean {
   let current = path;
   for (let i = 0; i < 4; i += 1) {
     if (UNSAFE_DECODED.test(current) || current.startsWith('//')) {
+      return false;
+    }
+    if (ENCODED_DOT.test(current) || hasDotSegment(current)) {
       return false;
     }
     let decoded: string;
@@ -72,9 +88,9 @@ export interface ResolvedLink {
   /** safe to put in an `href` */
   href: string;
   /**
-   * Set when the target is a page of the running site (not a static file such as an OpenAPI spec): the path without the baseUrl (plus search and hash), for
-   * Docusaurus <Link to>, which adds the baseUrl back and keeps client-side routing. It always starts with exactly
-   * one "/", so <Link> can never mistake it for a protocol-relative URL.
+   * Set when the target is a page of the running site (not a static file such as an OpenAPI spec): the path without
+   * the baseUrl (plus search and hash), for Docusaurus <Link to>, which adds the baseUrl back and keeps client-side
+   * routing. It always starts with exactly one "/", so <Link> can never mistake it for a protocol-relative URL.
    */
   internalPath?: string;
 }
