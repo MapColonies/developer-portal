@@ -106,16 +106,46 @@ describe('link allow-list', () => {
 
   it('allows the portal origin and the page origin', () => {
     assert.equal(resolveLink('https://mapcolonies.github.io/developer-portal/docs/x#y', context)?.href, 'https://mapcolonies.github.io/developer-portal/docs/x#y');
-    assert.equal(resolveLink('http://localhost:3000/docs/x', context)?.href, 'http://localhost:3000/docs/x');
+    assert.equal(resolveLink('http://localhost:3000/docs/x', context)?.href, '/developer-portal/docs/x');
   });
 
   it('allows site-relative links', () => {
     assert.deepEqual(resolveLink('/developer-portal/docs/x?a=1#y', context), { href: '/developer-portal/docs/x?a=1#y', internalPath: '/docs/x?a=1#y' });
-    assert.deepEqual(resolveLink('/other/page', context), { href: '/other/page' });
+  });
+
+  it('treats portal links without the baseUrl, as the Corpus stores them, as pages of the site', () => {
+    assert.deepEqual(resolveLink('/docs/MapColonies/authentication', context), {
+      href: '/developer-portal/docs/MapColonies/authentication',
+      internalPath: '/docs/MapColonies/authentication',
+    });
+    assert.deepEqual(resolveLink('/docs/x', { ...context, baseUrl: '/' }), { href: '/docs/x', internalPath: '/docs/x' });
+    assert.deepEqual(resolveLink('/docs/x#a', { ...context, baseUrl: '/developer-portal' }), { href: '/developer-portal/docs/x#a', internalPath: '/docs/x#a' });
+  });
+
+  it('never produces a protocol-relative internal path from repeated slashes', () => {
+    const rootContext = { ...context, baseUrl: '/' };
+    for (const [href, ctx] of [
+      ['/developer-portal//evil.example/x', context],
+      ['/developer-portal///evil.example/x', context],
+      ['http://localhost:3000/developer-portal//evil.example/x', context],
+      ['/developer-portal/..//evil.example/x', context],
+      ['/docs/..//evil.example/x', context],
+      ['/.//evil.example/x', context],
+      ['http://localhost:3000//evil.example/x', rootContext],
+      ['http://localhost:3000///evil.example/x', rootContext],
+    ] as const) {
+      const link = resolveLink(href, ctx);
+      assert.ok(link, href);
+      assert.ok(link.internalPath !== undefined && /^\/(?![/\\])/.test(link.internalPath), `${href} -> ${link.internalPath}`);
+      assert.ok(!link.href.startsWith('//'), `${href} -> ${link.href}`);
+    }
+    assert.equal(resolveLink('/developer-portal//evil.example/x', context)?.internalPath, '/evil.example/x');
+    assert.equal(resolveLink('http://localhost:3000//evil.example/x', { ...context, baseUrl: '/' })?.internalPath, '/evil.example/x');
   });
 
   it('offers client-side routing only for pages of the running site under the base URL', () => {
     assert.equal(resolveLink('https://mapcolonies.github.io/developer-portal/docs/x', context)?.internalPath, undefined);
+    assert.equal(resolveLink('https://mapcolonies.github.io/developer-portal/docs/x', context)?.href, 'https://mapcolonies.github.io/developer-portal/docs/x');
     assert.equal(resolveLink('http://localhost:3000/developer-portal/docs/x#a', context)?.internalPath, '/docs/x#a');
     assert.equal(resolveLink('http://localhost:3000/developer-portal', context)?.internalPath, '/');
   });
@@ -319,6 +349,28 @@ describe('streamChat', () => {
       events.map((e) => e.type),
       ['text', 'error']
     );
+  });
+
+  it('settles right after the terminal event even if the server keeps the connection open', async () => {
+    let cancelled = false;
+    const fetchImpl: typeof fetch = async () =>
+      new Response(
+        new ReadableStream({
+          start(c) {
+            c.enqueue(encoder.encode(full)); // never closed
+          },
+          cancel() {
+            cancelled = true;
+          },
+        }),
+        { status: 200 }
+      );
+    const events = await Promise.race([
+      collect(fetchImpl),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error('still waiting on the open connection')), 2000)),
+    ]);
+    assert.equal(events[events.length - 1]?.type, 'done');
+    assert.ok(cancelled);
   });
 
   it('rethrows the AbortError, not a ChatRequestError, when the caller aborts', async () => {

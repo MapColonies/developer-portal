@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 // The chat itself (Markdown renderer, syntax highlighting, streaming) is a separate chunk, fetched on first open,
 // so enabling the widget costs the rest of the portal only this small shell.
-const ChatPanel = lazy(() => import('./ChatPanel'));
+const loadChatPanel = () => lazy(() => import('./ChatPanel'));
 
 const PANEL_ID = 'azimuth-ai-panel';
 const TITLE = 'MapColonies AzimuthAI';
@@ -25,6 +25,8 @@ function ChatIcon(): JSX.Element {
 export default function AzimuthAI({ endpoint }: AzimuthAIProps): JSX.Element {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  // React.lazy caches a rejected import for good, so a retry needs a fresh lazy component
+  const [ChatPanel, setChatPanel] = useState(loadChatPanel);
   const launcher = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => {
@@ -57,7 +59,14 @@ export default function AzimuthAI({ endpoint }: AzimuthAIProps): JSX.Element {
             fallback={({ tryAgain }) => (
               <div className={styles.fallback} role="alert">
                 <p>AzimuthAI could not be loaded. Check your connection and try again.</p>
-                <button type="button" className={styles.headerButton} onClick={tryAgain}>
+                <button
+                  type="button"
+                  className={styles.headerButton}
+                  onClick={() => {
+                    setChatPanel(loadChatPanel);
+                    tryAgain();
+                  }}
+                >
                   Retry
                 </button>
                 <button type="button" className={styles.headerButton} onClick={close}>

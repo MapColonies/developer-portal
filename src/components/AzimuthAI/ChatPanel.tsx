@@ -5,6 +5,7 @@ import { ColorModeProvider } from '@docusaurus/theme-common/internal';
 import { outcomeNote } from './errors';
 import { resolveLink, buildAllowedOrigins } from './links';
 import Markdown from './Markdown';
+import SiteLink from './SiteLink';
 import { useAzimuthChat, type ChatMessage } from './useAzimuthChat';
 import styles from './styles.module.css';
 
@@ -73,13 +74,7 @@ function Citations({ message, siteUrl, baseUrl }: { message: AssistantMessage; s
           return (
             <li key={source.id} dir="auto">
               <span className={styles.citationId}>{`[${source.id}] `}</span>
-              {link ? (
-                <a href={link.href} rel="noopener noreferrer">
-                  {source.title}
-                </a>
-              ) : (
-                <span>{source.title}</span>
-              )}
+              {link ? <SiteLink link={link}>{source.title}</SiteLink> : <span>{source.title}</span>}
               {source.section ? <span className={styles.citationSection}>{` · ${source.section}`}</span> : null}
             </li>
           );

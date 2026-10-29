@@ -39,7 +39,11 @@ export interface LinkContext {
 export interface ResolvedLink {
   /** safe to put in an `href` */
   href: string;
-  /** set when the target is a page of the running site: baseUrl-relative path (+ search and hash) for client-side routing */
+  /**
+   * Set when the target is a page of the running site: the path without the baseUrl (plus search and hash), for
+   * Docusaurus <Link to>, which adds the baseUrl back and keeps client-side routing. It always starts with exactly
+   * one "/", so <Link> can never mistake it for a protocol-relative URL.
+   */
   internalPath?: string;
 }
 
@@ -61,10 +65,21 @@ export function resolveLink(href: string | undefined, context: LinkContext): Res
   } catch {
     return null;
   }
-  const resolved: ResolvedLink = { href: isSiteRelative(href) ? href : url.href };
-  const base = context.baseUrl.endsWith('/') ? context.baseUrl : `${context.baseUrl}/`;
-  if (url.origin === context.locationOrigin && (url.pathname.startsWith(base) || url.pathname === base.slice(0, -1))) {
-    resolved.internalPath = `/${url.pathname.slice(base.length)}${url.search}${url.hash}`;
+  if (url.origin !== context.locationOrigin) {
+    // another allowed origin (the production site while previewing elsewhere): a plain link
+    return { href: url.href };
   }
-  return resolved;
+  // A page of the running site. The Corpus stores portal links without the baseUrl ("/docs/x"), the model may also
+  // write them with it ("/developer-portal/docs/x"); both mean the same page. Repeated slashes are collapsed first so
+  // "/developer-portal//evil.example" cannot turn into the protocol-relative "//evil.example".
+  const base = context.baseUrl.endsWith('/') ? context.baseUrl : `${context.baseUrl}/`;
+  const pathname = url.pathname.replace(/\/{2,}/g, '/');
+  let rest = pathname;
+  if (pathname.startsWith(base)) {
+    rest = pathname.slice(base.length);
+  } else if (pathname === base.slice(0, -1)) {
+    rest = '';
+  }
+  const internalPath = `/${rest.replace(/^\/+/, '')}${url.search}${url.hash}`;
+  return { href: `${base}${internalPath.slice(1)}`, internalPath };
 }

@@ -89,6 +89,11 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
           break;
         }
         dispatch(decoder.decode(value, { stream: true }));
+        if (terminal) {
+          // the answer is complete: do not wait for a server or proxy that keeps the connection open
+          await reader.cancel().catch(() => undefined);
+          break;
+        }
       }
       dispatch(decoder.decode());
     }

@@ -69,7 +69,7 @@ The portal can show a "MapColonies AzimuthAI" chat widget (launcher button plus 
 
 | Variable | Meaning |
 |---|---|
-| `AZIMUTH_ENABLED` | `true` turns the widget on. Anything else, or unset, leaves it out of the build entirely. |
+| `AZIMUTH_ENABLED` | `true` turns the widget on. Anything else, or unset, means the widget is not rendered (its code is still part of the bundle). |
 | `AZIMUTH_ENDPOINT` | Base URL of the AzimuthAI engine, e.g. `https://azimuth.example`; the widget POSTs to `${AZIMUTH_ENDPOINT}/v1/chat` (SSE). The widget also stays off when this is empty. |
 
 Only the GitHub Pages deploy (`.github/workflows/deploy.yaml`, currently `AZIMUTH_ENABLED: 'false'`) may enable it. PR previews and the Dockerfile/Helm copy never set it, so it stays off there.

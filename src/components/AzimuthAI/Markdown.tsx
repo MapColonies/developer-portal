@@ -1,10 +1,10 @@
 import React, { isValidElement, useMemo, type ReactNode } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import { linkCitationMarkers } from './citations';
 import { buildAllowedOrigins, resolveLink, type LinkContext } from './links';
+import SiteLink from './SiteLink';
 import type { Source } from './types';
 import styles from './styles.module.css';
 
@@ -59,14 +59,10 @@ export default function Markdown({ text, sources, siteUrl, baseUrl }: MarkdownPr
           'aria-label': isMarker && source ? `Source ${source.id}: ${source.title}` : undefined,
           title: isMarker && source ? source.title : undefined,
         };
-        return link.internalPath !== undefined ? (
-          <Link to={link.internalPath} {...props}>
+        return (
+          <SiteLink link={link} {...props}>
             {children}
-          </Link>
-        ) : (
-          <a href={link.href} rel="noopener noreferrer" {...props}>
-            {children}
-          </a>
+          </SiteLink>
         );
       },
       img({ alt }) {

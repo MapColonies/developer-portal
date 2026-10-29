@@ -27,7 +27,8 @@
 .launcher {
   position: fixed;
   inset-inline-end: 16px;
-  bottom: 16px;
+  /* above Docusaurus's back-to-top button (48px at 1.3rem), which would otherwise sit under the launcher */
+  bottom: 5rem;
   z-index: 300;
   display: inline-flex;
   align-items: center;
@@ -66,14 +67,14 @@
 .panel {
   position: fixed;
   inset-inline-end: 16px;
-  bottom: 72px;
+  bottom: calc(5rem + 56px);
   z-index: 300;
   display: flex;
   flex-direction: column;
   width: min(420px, calc(100vw - 32px));
   /* leave room for the launcher below and the navbar above */
-  height: min(640px, calc(100vh - 140px));
-  height: min(640px, calc(100dvh - 140px));
+  height: min(640px, calc(100vh - 200px));
+  height: min(640px, calc(100dvh - 200px));
   overflow: hidden;
   border: 1px solid var(--ifm-toc-border-color);
   border-radius: var(--ifm-global-radius);
@@ -402,7 +403,7 @@
 
   .panel {
     inset-inline-end: 8px;
-    bottom: 68px;
+    bottom: calc(5rem + 52px);
     width: calc(100vw - 16px);
   }
 }
