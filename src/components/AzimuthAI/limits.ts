@@ -23,6 +23,6 @@ export function lengthHint(text: string, softLimit: number = QUESTION_SOFT_LIMIT
   }
   const counter = `${length.toLocaleString('en-US')} / ${softLimit.toLocaleString('en-US')}`;
   return length > softLimit
-    ? { counter, warning: 'This is a long question and may be rejected. Shorter, focused questions work best.' }
+    ? { counter, warning: 'This is a long question. Shorter, focused questions work best.' }
     : { counter };
 }

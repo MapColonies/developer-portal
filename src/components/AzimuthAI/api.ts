@@ -61,7 +61,9 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
   }
 
   if (!response.ok) {
-    throw new ChatRequestError(errorFromHttp(response.status, await readErrorCode(response), parseRetryAfter(response.headers.get('Retry-After'))));
+    const code = await readErrorCode(response);
+    const retryAfter = parseRetryAfter(response.headers.get('Retry-After'));
+    throw new ChatRequestError(errorFromHttp(response.status, code, retryAfter));
   }
 
   const parser = createSseParser();
@@ -117,7 +119,11 @@ export async function streamChat(options: StreamChatOptions, onEvent: (event: Ch
  * is called and the question is sent once more without the id, which starts a new conversation. A second failure,
  * of any kind, is reported as usual.
  */
-export async function streamChatRecovering(options: StreamChatOptions, onEvent: (event: ChatEvent) => void, onExpired: () => void): Promise<void> {
+export async function streamChatRecovering(
+  options: StreamChatOptions,
+  onEvent: (event: ChatEvent) => void,
+  onExpired: () => void,
+): Promise<void> {
   try {
     await streamChat(options, onEvent);
   } catch (error) {

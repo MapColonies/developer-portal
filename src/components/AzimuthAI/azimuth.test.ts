@@ -358,7 +358,7 @@ describe('lengthHint', () => {
     assert.deepEqual(lengthHint('x'.repeat(2000)), { counter: '2,000 / 2,000' });
     const over = lengthHint('x'.repeat(2001));
     assert.equal(over?.counter, '2,001 / 2,000');
-    assert.match(over?.warning ?? '', /may be rejected/);
+    assert.match(over?.warning ?? '', /long question/);
   });
 });
 
@@ -375,7 +375,10 @@ describe('detectDirection', () => {
     assert.equal(detectDirection('  (1) "שלום" hello'), 'rtl');
     assert.equal(detectDirection('123 - hello שלום'), 'ltr');
     assert.equal(detectDirection('🙂 !? 42 שלום'), 'rtl');
-    assert.equal(detectDirection('WMTS לא מחזיר תמונות'), 'ltr');
+    assert.equal(detectDirection('WMTS לא מחזיר תמונות'), 'rtl');
+    assert.equal(detectDirection('GetCapabilities מחזיר את רשימת השכבות'), 'rtl');
+    assert.equal(detectDirection('Hello שלום'), 'ltr');
+    assert.equal(detectDirection('Use the get_layer_list endpoint, שלום'), 'ltr');
     assert.equal(detectDirection('ה-API לא עובד'), 'rtl');
   });
 
@@ -406,6 +409,10 @@ describe('detectMessageDirection', () => {
     assert.equal(detectMessageDirection('שלום\n\n```http\nGET /x HTTP/1.1\nHost: api'), 'rtl');
     assert.equal(detectMessageDirection('```http\nGET /x'), 'ltr');
     assert.equal(detectMessageDirection(''), 'ltr');
+    assert.equal(detectMessageDirection('**WMTS** הוא שירות אריחים [1]'), 'rtl');
+    assert.equal(detectMessageDirection('> **Note:** הערה חשובה לכולם'), 'rtl');
+    assert.equal(detectMessageDirection('[WMTS](/docs/x) הוא שירות אריחים'), 'rtl');
+    assert.equal(detectMessageDirection('**WMTS** is a tile service, see שירות'), 'ltr');
   });
 
   it('does not let tilde or longer fences end early', () => {

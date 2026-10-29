@@ -1,19 +1,26 @@
 export type TextDirection = 'ltr' | 'rtl';
 
 /** a letter of a right-to-left script (Hebrew, Arabic, Syriac, Thaana, N'Ko, ...) */
-const RTL_LETTER = /^[\p{Script=Hebrew}\p{Script=Arabic}\p{Script=Syriac}\p{Script=Thaana}\p{Script=Nko}\p{Script=Samaritan}\p{Script=Mandaic}]$/u;
+const RTL_LETTER =
+  /^[\p{Script=Hebrew}\p{Script=Arabic}\p{Script=Syriac}\p{Script=Thaana}\p{Script=Nko}\p{Script=Samaritan}\p{Script=Mandaic}]$/u;
 const LETTER = /^\p{L}$/u;
 
 const RLM = '‏';
 const LRM = '‎';
 
+/** a word: a run of letters, marks, digits and underscores that holds at least one letter */
+const WORD = /[\p{L}\p{N}_][\p{L}\p{M}\p{N}_]*/gu;
+
 /**
- * Direction of plain text from its first strong character, as the Unicode bidi algorithm and `dir="auto"` do: the
- * first letter of a right-to-left script gives 'rtl', the first letter of any other script 'ltr' (an explicit
- * LRM/RLM mark counts as strong too). Digits, punctuation and symbols are neutral; text without any strong
+ * Direction of plain text. The first strong character decides, as in the Unicode bidi algorithm and `dir="auto"`:
+ * the first letter of a right-to-left script gives 'rtl', any other letter 'ltr' (an explicit LRM/RLM mark counts as
+ * strong too). One exception: text that opens with a left-to-right word but is mostly right-to-left, such as a
+ * Hebrew sentence that starts with an English identifier ("WMTS לא מחזיר תמונות"), is 'rtl' when strictly more than
+ * half of its words are right-to-left. Digits, punctuation and symbols are neutral; text without any strong
  * character is 'ltr'.
  */
 export function detectDirection(text: string): TextDirection {
+  let first: TextDirection | undefined;
   for (const char of text) {
     if (char === RLM) {
       return 'rtl';
@@ -22,10 +29,26 @@ export function detectDirection(text: string): TextDirection {
       return 'ltr';
     }
     if (LETTER.test(char)) {
-      return RTL_LETTER.test(char) ? 'rtl' : 'ltr';
+      first = RTL_LETTER.test(char) ? 'rtl' : 'ltr';
+      break;
     }
   }
-  return 'ltr';
+  if (first !== 'ltr') {
+    return first ?? 'ltr';
+  }
+  let rtlWords = 0;
+  let words = 0;
+  for (const word of text.match(WORD) ?? []) {
+    const letters = Array.from(word).filter((char) => LETTER.test(char));
+    if (letters.length === 0) {
+      continue;
+    }
+    words += 1;
+    if (letters.some((char) => RTL_LETTER.test(char))) {
+      rtlWords += 1;
+    }
+  }
+  return rtlWords * 2 > words ? 'rtl' : 'ltr';
 }
 
 /**
@@ -56,7 +79,7 @@ export function proseOf(markdown: string): string {
     .replace(/\[\d{1,3}\]/g, ' ');
 }
 
-/** Direction of one chat message written in Markdown (an answer): the first strong character of its prose. */
+/** Direction of one chat message (an answer in Markdown, or a plain question): see detectDirection, on its prose. */
 export function detectMessageDirection(markdown: string): TextDirection {
   return detectDirection(proseOf(markdown));
 }

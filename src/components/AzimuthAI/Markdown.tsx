@@ -23,7 +23,6 @@ const remarkPlugins = [remarkGfm];
 
 const CITATION_TEXT = /^\[\d+\]$/;
 
-
 function textOf(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
     return String(node);

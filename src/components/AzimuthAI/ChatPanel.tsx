@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState, type FormEvent, type K
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useColorMode } from '@docusaurus/theme-common';
 import { ColorModeProvider } from '@docusaurus/theme-common/internal';
-import { detectDirection, detectMessageDirection } from './direction';
+import { detectMessageDirection } from './direction';
 import { noteForMessage } from './errors';
 import { lengthHint } from './limits';
 import { resolveLink, buildAllowedOrigins } from './links';
@@ -197,7 +197,7 @@ function Panel({ endpoint, open, onClose }: ChatPanelProps): JSX.Element {
         ) : null}
         {messages.map((message) =>
           message.role === 'user' ? (
-            <div key={message.id} className={styles.user} dir={detectDirection(message.text)}>
+            <div key={message.id} className={styles.user} dir={detectMessageDirection(message.text)}>
               {message.text}
             </div>
           ) : (
