@@ -19,6 +19,7 @@ env:
   targetPort: 8080
   PLAYGROUND_URL: https://PLAYGROUND_URL.com
   PUZZLE_URL: https://PUZZLE_URL.com
+  PRICING_CONTACT_URL: https://PRICING_CONTACT_URL.com
   CATALOG_APPLICATION_URL: https://CATALOG_APPLICATION_URL.com
   YAHALOM_APPLICATION_URL: https://placeholder.com
 resources:

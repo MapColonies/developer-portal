@@ -16,7 +16,8 @@ export type CustomFields = {
             elevation: string,
         }
         playground: string,
-        puzzle: string
+        puzzle: string,
+        pricingContact?: string
     },
 };
   
