@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import {CustomFields} from '@site/src/customFields';
+import {usePricingTelemetry} from '@site/src/components/Pricing/telemetry';
 
 import styles from './pricing.module.css';
 
-const GETTING_STARTED = '/docs/MapColonies/Raster/Guides/raster-getting-started';
 const ANNUAL_DISCOUNT = 0.2;
 
 type Tier = {
@@ -157,11 +156,14 @@ function LimitsTable({rows}: {rows: string[][]}) {
 
 export default function Pricing(): JSX.Element {
   const [annual, setAnnual] = useState(false);
-  const {mapColoniesBaseURLS} = useDocusaurusContext().siteConfig.customFields as CustomFields;
-  const ctaUrl = mapColoniesBaseURLS.pricingContact || GETTING_STARTED;
+  const track = usePricingTelemetry();
+  const billing = annual ? 'annual' : 'monthly';
 
   return (
     <Layout title="Pricing" description="MapColonies service tiers, prices and limits per domain">
+      <Head>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <header className={styles.hero}>
         <div className="container">
           <span className={styles.eyebrow}>Pricing</span>
@@ -204,7 +206,8 @@ export default function Pricing(): JSX.Element {
                 {t.monthly === null || t.monthly === 0 ? ' ' : annual ? 'billed annually' : 'billed monthly'}
               </p>
               <Link
-                to={ctaUrl}
+                to={t.monthly === 0 ? '/' : `/pricing/contact?tier=${t.name}&billing=${billing}`}
+                onClick={() => track('pricing.cta_click', {'pricing.tier': t.name, 'pricing.cta': t.cta, 'pricing.billing': billing})}
                 className={clsx('button button--block', t.popular ? 'button--primary' : 'button--outline button--primary')}>
                 {t.cta}
               </Link>

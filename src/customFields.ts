@@ -17,7 +17,7 @@ export type CustomFields = {
         }
         playground: string,
         puzzle: string,
-        pricingContact?: string
+        pricingTelemetry?: string
     },
 };
   
