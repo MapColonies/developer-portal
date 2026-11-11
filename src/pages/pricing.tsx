@@ -6,7 +6,7 @@ import Layout from '@theme/Layout';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import {usePricingTelemetry} from '@site/src/components/Pricing/telemetry';
+import {useTelemetry} from '@site/src/components/Telemetry/telemetry';
 
 import styles from './pricing.module.css';
 
@@ -156,7 +156,7 @@ function LimitsTable({rows}: {rows: string[][]}) {
 
 export default function Pricing(): JSX.Element {
   const [annual, setAnnual] = useState(false);
-  const track = usePricingTelemetry();
+  const track = useTelemetry();
   const billing = annual ? 'annual' : 'monthly';
 
   return (

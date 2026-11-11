@@ -19,8 +19,8 @@ env:
   targetPort: 8080
   PLAYGROUND_URL: https://PLAYGROUND_URL.com
   PUZZLE_URL: https://PUZZLE_URL.com
-  # In-cluster OTLP/HTTP traces URL (e.g. http://<collector>.<namespace>:4318/v1/traces); empty disables pricing-page tracking.
-  PRICING_COLLECTOR_URL: ""
+  # In-cluster OTLP/HTTP traces URL (e.g. http://<collector>.<namespace>:4318/v1/traces); empty disables tracking.
+  TELEMETRY_COLLECTOR_URL: ""
   CATALOG_APPLICATION_URL: https://CATALOG_APPLICATION_URL.com
   YAHALOM_APPLICATION_URL: https://placeholder.com
 resources:

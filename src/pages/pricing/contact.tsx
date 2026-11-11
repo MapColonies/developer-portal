@@ -4,7 +4,7 @@ import Link from '@docusaurus/Link';
 import {useLocation} from '@docusaurus/router';
 import Layout from '@theme/Layout';
 
-import {usePricingTelemetry} from '@site/src/components/Pricing/telemetry';
+import {useTelemetry} from '@site/src/components/Telemetry/telemetry';
 
 import styles from './contact.module.css';
 
@@ -22,7 +22,7 @@ const nextSteps = [
 ];
 
 export default function Contact(): JSX.Element {
-  const track = usePricingTelemetry();
+  const track = useTelemetry();
   const params = new URLSearchParams(useLocation().search);
   const requestedTier = TIERS.find((t) => t === params.get('tier')) ?? 'Pro';
   const billing = params.get('billing') === 'annual' ? 'annual' : 'monthly';

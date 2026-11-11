@@ -4,7 +4,7 @@ import {CustomFields} from '@site/src/customFields';
 
 type Attributes = Record<string, string | number | undefined>;
 
-const VISITOR_KEY = 'pricing-visitor';
+const VISITOR_KEY = 'portal-visitor';
 
 function randomHex(bytes: number) {
   return Array.from(crypto.getRandomValues(new Uint8Array(bytes)), (b) => b.toString(16).padStart(2, '0')).join('');
@@ -54,7 +54,7 @@ export function sendEvent(url: string | undefined, name: string, attributes: Att
     resourceSpans: [
       {
         resource: {attributes: toOtlp({'service.name': 'developer-portal'})},
-        scopeSpans: [{scope: {name: 'pricing'}, spans: [span]}],
+        scopeSpans: [{scope: {name: 'developer-portal'}, spans: [span]}],
       },
     ],
   };
@@ -63,7 +63,7 @@ export function sendEvent(url: string | undefined, name: string, attributes: Att
   );
 }
 
-export function usePricingTelemetry() {
+export function useTelemetry() {
   const {mapColoniesBaseURLS} = useDocusaurusContext().siteConfig.customFields as CustomFields;
-  return (name: string, attributes: Attributes) => sendEvent(mapColoniesBaseURLS.pricingTelemetry, name, attributes);
+  return (name: string, attributes: Attributes) => sendEvent(mapColoniesBaseURLS.telemetry, name, attributes);
 }

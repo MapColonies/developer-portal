@@ -33,7 +33,7 @@ const config: Config = {
     mapColoniesBaseURLS: {
       playground: process.env.PLAYGROUND_URL,
       puzzle: process.env.PUZZLE_URL,
-      pricingTelemetry: process.env.PRICING_TELEMETRY_URL,
+      telemetry: process.env.TELEMETRY_URL,
     },
   },
   presets: [
