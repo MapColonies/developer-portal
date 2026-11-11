@@ -7,6 +7,7 @@ metadata:
 data:
   PLAYGROUND_URL: {{ quote .Values.env.PLAYGROUND_URL }}
   PUZZLE_URL: {{ quote .Values.env.PUZZLE_URL }}
+  TELEMETRY_COLLECTOR_URL: {{ quote .Values.env.TELEMETRY_COLLECTOR_URL }}
   CATALOG_APPLICATION_URL: {{ quote .Values.env.CATALOG_APPLICATION_URL }}
   YAHALOM_APPLICATION_URL: {{ quote .Values.env.YAHALOM_APPLICATION_URL }}
   npm_config_cache: /tmp/
