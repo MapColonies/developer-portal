@@ -90,6 +90,8 @@
 }
 
 .markdown table {
+  width: max-content;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid var(--ifm-color-emphasis-300);
