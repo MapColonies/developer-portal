@@ -10,7 +10,7 @@
   --ifm-color-primary-lighter: #248f5a;
   --ifm-color-primary-lightest: #2aa568;
   --portal-soft: #e5f2eb;
-  --portal-accent: #c9821f;
+  --portal-accent: #a15f10;
   --ifm-heading-font-family: Manrope, var(--ifm-font-family-base);
   --ifm-heading-font-weight: 800;
   --ifm-global-radius: 12px;
@@ -127,6 +127,11 @@
 .theme-code-block {
   border: 1px solid var(--ifm-color-emphasis-200);
   box-shadow: none;
+}
+
+/* Prism sets token colors inline, so only !important wins. */
+.theme-code-block .token.string {
+  color: var(--portal-accent) !important;
 }
 
 .alert {
