@@ -75,6 +75,17 @@ export default function DataGridSpecialPhrases() {
           }}
           pageSizeOptions={[15, 50, 100]}
           disableRowSelectionOnClick
+          sx={{
+            border: '1px solid var(--ifm-color-emphasis-300)',
+            borderRadius: 'var(--ifm-global-radius)',
+            color: 'var(--ifm-font-color-base)',
+            '--DataGrid-containerBackground': 'var(--portal-soft)',
+            '& .MuiDataGrid-columnHeaders': {background: 'var(--portal-soft)'},
+            '& .MuiDataGrid-cell, & .MuiDataGrid-columnHeaders, & .MuiDataGrid-footerContainer': {
+              borderColor: 'var(--ifm-color-emphasis-200)',
+            },
+            '& .MuiTablePagination-root, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root': {color: 'inherit'},
+          }}
       />
     </Box>
   );
