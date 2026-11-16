@@ -164,10 +164,10 @@ export default function Pricing(): JSX.Element {
       <Head>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <header className={styles.hero}>
+      <header className="hero-glow">
         <div className="container">
-          <span className={styles.eyebrow}>Pricing</span>
-          <h1 className={styles.heroTitle}>Maps at any scale. Start free.</h1>
+          <span className="eyebrow">Pricing</span>
+          <h1 className="display-title">Maps at any scale. Start free.</h1>
           <p className={styles.heroSubtitle}>
             Raster, Vector, 3D and DEM in one plan. Upgrade when your traffic does.
           </p>
