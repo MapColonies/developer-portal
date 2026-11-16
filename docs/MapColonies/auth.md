@@ -4,6 +4,7 @@ title: Authentication
 slug: authentication
 description: MapColonies API Auth Convention
 sidebar_position: 1
+sidebar_class_name: sidebar-start
 tags:
   - auth
   - API

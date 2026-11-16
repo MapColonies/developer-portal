@@ -2,7 +2,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import LayerStack from '@site/src/components/LayerStack';
 
 import styles from './index.module.css';
 
@@ -15,42 +15,62 @@ const steps = [
   },
 ];
 
+// Decorative graticule labels on the frame, not real coordinates of the drawing.
+const ticks = [
+  {side: 'top', at: '18%', label: '34°45′E'},
+  {side: 'top', at: '48%', label: '34°50′E'},
+  {side: 'top', at: '78%', label: '34°55′E'},
+  {side: 'left', at: '30%', label: '32°05′N'},
+  {side: 'left', at: '72%', label: '32°00′N'},
+];
+
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout title={siteConfig.title} description="MapColonies developer portal">
-      <header className="hero-glow">
-        <div className="container">
-          <span className="eyebrow">Developer portal</span>
-          <h1 className="display-title">Maps, terrain and 3D data for your apps.</h1>
-          <p className={styles.subtitle}>
-            Raster, Vector, 3D and DEM services behind open OGC standards. Pick a domain, get a token and make your
-            first request in minutes.
-          </p>
-          <div className={styles.buttons}>
-            <Link className="button button--primary button--lg" to="/docs/MapColonies/Raster/Guides/raster-getting-started">
-              Get started
-            </Link>
-            <Link className="button button--secondary button--lg" to="/docs/MapColonies/Raster/overview">
-              Browse docs
-            </Link>
-          </div>
-          <p className={styles.standards}>WGS 84 · EPSG:4326 · WMTS · WFS · 3D Tiles</p>
+      <main className="container">
+        <div className={styles.sheet}>
+          {ticks.map((t) => (
+            <span
+              key={t.label}
+              aria-hidden="true"
+              className={t.side === 'top' ? styles.tickTop : styles.tickLeft}
+              style={t.side === 'top' ? {left: t.at} : {top: t.at}}>
+              {t.label}
+            </span>
+          ))}
+          <header className={styles.hero}>
+            <div className={styles.copy}>
+              <h1 className={styles.title}>The world, in layers.</h1>
+              <p>
+                From the ground up: elevation, imagery, features and 3D models, each served on open OGC standards. Get a
+                token and call your first layer in minutes.
+              </p>
+              <div className={styles.buttons}>
+                <Link className="button button--primary button--lg" to="/docs/MapColonies/Raster/Guides/raster-getting-started">
+                  Get started
+                </Link>
+                <Link className={`button button--lg ${styles.outline}`} to="/docs/MapColonies/Raster/overview">
+                  Browse docs
+                </Link>
+              </div>
+              <p className={styles.standards}>Raster · Vector · 3D · DEM · OGC</p>
+            </div>
+            <LayerStack />
+          </header>
+          <section className={styles.route}>
+            <h2>How it works</h2>
+            <ol>
+              {steps.map((s, i) => (
+                <li key={s.title}>
+                  <span className={styles.waypoint}>{i + 1}</span>
+                  <b>{s.to ? <Link to={s.to}>{s.title}</Link> : s.title}</b>
+                  <p>{s.text}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
-      </header>
-      <main>
-        <HomepageFeatures />
-        <section className="container margin-bottom--xl">
-          <h2 className={styles.stepsTitle}>How it works</h2>
-          <ol className={styles.steps} role="list">
-            {steps.map((s) => (
-              <li key={s.title}>
-                <b>{s.to ? <Link to={s.to}>{s.title}</Link> : s.title}</b>
-                <span>{s.text}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
       </main>
     </Layout>
   );
