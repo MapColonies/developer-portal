@@ -105,7 +105,13 @@
 .markdown table th,
 .markdown table td {
   border: 0;
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-right: 1px solid var(--ifm-color-emphasis-300);
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.markdown table th:last-child,
+.markdown table td:last-child {
+  border-right: 0;
 }
 
 .markdown table tr:last-child td {
