@@ -42,7 +42,7 @@ export default function Home(): JSX.Element {
         <HomepageFeatures />
         <section className="container margin-bottom--xl">
           <h2 className={styles.stepsTitle}>How it works</h2>
-          <ol className={styles.steps}>
+          <ol className={styles.steps} role="list">
             {steps.map((s) => (
               <li key={s.title}>
                 <b>{s.to ? <Link to={s.to}>{s.title}</Link> : s.title}</b>

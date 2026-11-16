@@ -43,7 +43,7 @@ export default function HomepageFeatures(): JSX.Element {
         <div className={styles.grid}>
           {FeatureList.map(({title, Svg, description, to}) => (
             <Link key={title} to={to} className={styles.card}>
-              <Svg className={styles.featureSvg} role="img" aria-hidden="true" />
+              <Svg className={styles.featureSvg} aria-hidden="true" />
               <h3>{title}</h3>
               <p>{description}</p>
               <span className={styles.more}>Read the docs →</span>
