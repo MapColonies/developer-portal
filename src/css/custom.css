@@ -37,9 +37,20 @@
 }
 
 .navbar {
-  background: color-mix(in srgb, var(--ifm-background-color) 82%, transparent);
-  backdrop-filter: saturate(160%) blur(10px);
+  background-color: transparent;
   border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Blur sits on a pseudo-element: backdrop-filter on .navbar itself traps the fixed mobile menu inside the navbar's height. */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ifm-navbar-background-color);
+  background: color-mix(in srgb, var(--ifm-navbar-background-color) 82%, transparent);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+  backdrop-filter: saturate(160%) blur(10px);
 }
 
 .footer {
@@ -89,13 +100,10 @@
 }
 
 .markdown table {
-  display: table;
-  width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: var(--ifm-global-radius);
-  overflow: hidden;
 }
 
 .markdown table thead tr {
