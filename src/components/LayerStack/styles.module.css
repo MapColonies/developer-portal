@@ -8,6 +8,8 @@
 .canvas {
   display: block;
   width: 100%;
+  /* Keep in sync with render(): 0.16 top margin + 0.43 layer + 3 × 0.2 gaps, plus room for the buildings' base. */
+  aspect-ratio: 1 / 1.22;
 }
 
 .legend {
@@ -54,7 +56,7 @@
 }
 
 .legend button span {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   line-height: 1.35;
   color: var(--map-muted);
 }

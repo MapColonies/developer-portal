@@ -17,13 +17,13 @@
 .tickLeft {
   position: absolute;
   font-family: var(--ifm-font-family-monospace);
-  font-size: 0.66rem;
-  color: var(--map-muted);
+  font-size: 0.8rem;
+  color: var(--map-ink);
   white-space: nowrap;
 }
 
 .tickTop {
-  top: -18px;
+  top: -26px;
   transform: translateX(-50%);
 }
 
@@ -31,16 +31,16 @@
   content: '';
   position: absolute;
   left: 50%;
-  top: 16px;
+  top: 100%;
   width: 1px;
   height: 6px;
   background: var(--map-ink);
 }
 
 .tickLeft {
-  left: -4px;
-  transform: translateX(-100%) rotate(-90deg);
-  transform-origin: right top;
+  right: calc(100% + 6px);
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .hero {
@@ -155,13 +155,15 @@
   }
 }
 
+@media (max-width: 1199px) {
+  .tickLeft {
+    display: none;
+  }
+}
+
 @media (max-width: 600px) {
   .sheet {
     margin: 1.75rem 0 2rem;
-  }
-
-  .tickLeft {
-    display: none;
   }
 
   .hero,

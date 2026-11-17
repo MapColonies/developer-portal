@@ -247,10 +247,10 @@ function render(cv: HTMLCanvasElement, textures: HTMLCanvasElement[], selected: 
   const s = (W * 0.86) / (2 * T);
   const gap = W * 0.2 * spread;
   const top = W * 0.16;
-  const H = top + T * s + gap * 3 + 14;
+  // CSS fixes the canvas's aspect ratio, sized for the fully spread stack, so drawing never resizes the page.
+  const H = cv.clientHeight || W * 1.22;
   cv.width = W * dpr;
   cv.height = H * dpr;
-  cv.style.height = `${H}px`;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, W, H);
   const cx = W / 2;
