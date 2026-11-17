@@ -6,6 +6,7 @@ on:
     paths:
       - 'docs/**'
       - 'src/**'
+      - 'plugins/**'
       - 'static/**'
       - 'blog/**'
       - 'docusaurus.config.ts'
