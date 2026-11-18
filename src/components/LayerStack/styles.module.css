@@ -1,0 +1,72 @@
+.stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  gap: 12px;
+  align-items: center;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  /* Keep in sync with render(): 0.16 top margin + 0.43 layer + 3 × 0.2 gaps, plus room for the buildings' base. */
+  aspect-ratio: 1 / 1.22;
+}
+
+.legend {
+  display: grid;
+  gap: 4px;
+}
+
+.item {
+  border-left: 3px solid transparent;
+  border-radius: 0 4px 4px 0;
+}
+
+.item[data-active='true'] {
+  border-left-color: var(--map-survey);
+  background: var(--map-paper-2);
+}
+
+.item a {
+  display: inline-block;
+  padding: 0 10px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.legend button {
+  display: grid;
+  gap: 1px;
+  width: 100%;
+  padding: 8px 10px 2px;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.legend button:focus-visible {
+  outline: 2px solid var(--map-survey);
+}
+
+.legend button b {
+  font-size: 1rem;
+}
+
+.legend button span {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--map-muted);
+}
+
+@media (max-width: 600px) {
+  .stack {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .legend {
+    grid-template-columns: 1fr 1fr;
+  }
+}

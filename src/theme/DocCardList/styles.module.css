@@ -1,0 +1,51 @@
+.rows {
+  display: grid;
+  margin-bottom: 2rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--map-rule);
+  color: var(--map-ink);
+  text-decoration: none;
+}
+
+.row:hover {
+  color: var(--map-ink);
+  text-decoration: none;
+}
+
+.row:hover b {
+  text-decoration: underline;
+  text-decoration-color: var(--map-survey);
+  text-underline-offset: 3px;
+}
+
+.row svg {
+  width: 48px;
+  height: 32px;
+}
+
+.text {
+  display: grid;
+  min-width: 0;
+}
+
+.text b {
+  font-size: 1.1rem;
+}
+
+.text span {
+  font-size: 0.9rem;
+  color: var(--map-muted);
+}
+
+.kind {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  color: var(--map-muted);
+}
