@@ -1,26 +1,196 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  textAlign: center;
+.sheet {
   position: relative;
-  overflow: hidden;
-  background-image: url(/img/ccc.png);
-  background-repeat: no-repeat;
-  background-size: cover;
+  margin: 2.5rem 0 3rem;
+  border: 1.5px solid var(--map-ink);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 0.5px solid var(--map-ink);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tickTop,
+.tickLeft {
+  position: absolute;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  color: var(--map-ink);
+  white-space: nowrap;
+}
+
+.tickTop {
+  top: -26px;
+  transform: translateX(-50%);
+}
+
+.tickTop::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 6px;
+  background: var(--map-ink);
+}
+
+.tickLeft {
+  right: calc(100% + 6px);
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 24px;
+  align-items: center;
+  padding: 34px 30px 28px;
+}
+
+.copy {
+  display: grid;
+  gap: 18px;
+}
+
+.copy p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--map-muted);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
 }
 
 .buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.outline {
+  border: 1.5px solid var(--map-ink);
+  color: var(--map-ink);
+  background: transparent;
+}
+
+.outline:hover {
+  color: var(--map-ink);
+  background: var(--map-paper-2);
+}
+
+.copy .standards {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+}
+
+.route {
+  display: grid;
+  gap: 16px;
+  padding: 26px 30px 30px;
+  border-top: 1px solid var(--map-rule);
+}
+
+.route h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.route ol {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.route ol::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  right: 14px;
+  border-top: 2px dashed var(--map-contour);
+}
+
+.route li {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.route li p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--map-muted);
+}
+
+.waypoint {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--map-contour);
+  border-radius: 50%;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--map-contour);
+  background: var(--map-paper);
+}
+
+@media (max-width: 996px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1199px) {
+  .tickLeft {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .sheet {
+    margin: 1.75rem 0 2rem;
+  }
+
+  .hero,
+  .route {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .route ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .route ol::before {
+    top: 14px;
+    bottom: 14px;
+    left: 13px;
+    right: auto;
+    border-top: 0;
+    border-left: 2px dashed var(--map-contour);
+  }
+
+  .route li {
+    grid-template-columns: 28px 1fr;
+    column-gap: 12px;
+  }
+
+  .waypoint {
+    grid-row: span 2;
+  }
 }

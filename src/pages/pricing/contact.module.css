@@ -1,0 +1,110 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 3rem;
+  padding: 3rem 0 4rem;
+}
+
+@media (max-width: 996px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+.back {
+  font-size: 0.9rem;
+}
+
+.title {
+  margin: 1rem 0 0.75rem;
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.stepsTitle {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+}
+
+.steps li {
+  margin-bottom: 0.6rem;
+}
+
+.card {
+  padding: 2rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.form label,
+.domains legend {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form input:not([type='checkbox']),
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 400;
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-color);
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 1px;
+}
+
+.domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.domains legend {
+  margin-bottom: 0.35rem;
+}
+
+.form .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 400;
+}
+
+.success {
+  text-align: center;
+  padding: 2rem 0;
+}
